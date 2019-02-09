@@ -1,12 +1,18 @@
 package es.udc.lbd.asi.restexample.model.service.dto;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
-import es.udc.lbd.asi.restexample.model.domain.UserNoti;
+
 
 public class NormalUserDTO {
 	private Long idUser;
@@ -23,9 +29,23 @@ public class NormalUserDTO {
 	@Enumerated(EnumType.STRING)
 	private UserAuthority authority;
 	
-	@Enumerated(EnumType.STRING)
-	private UserNoti noti;
+	@NotEmpty
+	private String name;
 	
+	@NotEmpty
+	private String surname1;
+	
+	@NotEmpty
+	private String surname2;
+	
+	@NotEmpty
+	private String city;
+
+	private Integer experience;
+	
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	private Date birthday;
 	
 	public NormalUserDTO() {
 	}
@@ -36,6 +56,10 @@ public class NormalUserDTO {
 		this.login = user.getLogin();
 		this.email=user.getEmail();
 		this.authority= UserAuthority.USER;
+		this.name=user.getName();
+		this.surname1=user.getSurname1();
+		this.surname2=user.getSurname2();
+		
 	}
 
 	
@@ -48,13 +72,7 @@ public class NormalUserDTO {
 		this.authority = authority;
 	}
 
-	public UserNoti getNoti() {
-		return noti;
-	}
 
-	public void setNoti(UserNoti noti) {
-		this.noti = noti;
-	}
 
 	public String getEmail() {
 		return email;
@@ -87,11 +105,68 @@ public class NormalUserDTO {
 		this.password = password;
 	}
 
-	@Override
-	public String toString() {
-		return "NormalUserDTO [idUser=" + idUser + ", login=" + login + ", email=" + email + ", password=" + password
-				+ ", authority=" + authority + ", notification=" + noti + "]";
+
+	public String getName() {
+		return name;
 	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getSurname1() {
+		return surname1;
+	}
+
+
+	public void setSurname1(String surname1) {
+		this.surname1 = surname1;
+	}
+
+
+	public String getSurname2() {
+		return surname2;
+	}
+
+
+	public void setSurname2(String surname2) {
+		this.surname2 = surname2;
+	}
+
+
+	public String getCity() {
+		return city;
+	}
+
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+
+	public Integer getExperience() {
+		return experience;
+	}
+
+
+	public void setExperience(Integer experience) {
+		this.experience = experience;
+	}
+
+
+	public Date getBirthday() {
+		return birthday;
+	}
+
+
+	public void setBirthday(Date birthday) {
+		this.birthday = birthday;
+	}
+	
+
+	
 	
 
 }

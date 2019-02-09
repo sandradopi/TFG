@@ -14,7 +14,12 @@ public class AdminUserDTO {
 	@NotEmpty
 	private String password;
 	private String authority;
-	
+	@NotEmpty
+	private String name;
+	@NotEmpty
+	private String surname1;
+	@NotEmpty
+	private String surname2;
 	
 	public AdminUserDTO() {
 	}
@@ -24,6 +29,33 @@ public class AdminUserDTO {
 		this.login = user.getLogin();
 		this.email=user.getEmail();
 		this.authority = user.getAuthority().name();
+		this.name=user.getName();
+		this.surname1=user.getSurname1();
+		this.surname2=user.getSurname2();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname1() {
+		return surname1;
+	}
+
+	public void setSurname1(String surname1) {
+		this.surname1 = surname1;
+	}
+
+	public String getSurname2() {
+		return surname2;
+	}
+
+	public void setSurname2(String surname2) {
+		this.surname2 = surname2;
 	}
 
 	public String getAuthority() {

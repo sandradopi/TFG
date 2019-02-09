@@ -1,7 +1,7 @@
 spring:
   datasource:
     dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
-    url: jdbc:postgresql://localhost:5432/asidb
+    url: jdbc:postgresql://localhost:5432/tfg
     username: asi
     password: asi
   jpa:

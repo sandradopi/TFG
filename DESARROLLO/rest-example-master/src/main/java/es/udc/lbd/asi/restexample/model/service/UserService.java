@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.domain.AdminUser;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
-import es.udc.lbd.asi.restexample.model.domain.UserNoti;
 import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
@@ -54,12 +53,8 @@ public class UserService implements UserServiceInterface{
 		
 	     @Transactional(readOnly = false)
 	     @Override
-		 public void registerUser(String login, String email,String password, UserNoti noti) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect {
+		 public void registerUser(String login, String email,String password, String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect {
 	    
-	    		 Date ahora = new Date();
-	    	     SimpleDateFormat formateador = new SimpleDateFormat("yyyy-MM-dd");
-	    	     String actualDate= formateador.format(ahora);
-	    	     Date data = formateador.parse(actualDate);
 	    	     String emailPattern = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@" +
 	    	    	      "[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
 	    	     
@@ -86,20 +81,35 @@ public class UserService implements UserServiceInterface{
 	    	   
 		        }
 	    	    
-		       
-		       if (password == null){ //password vacio
-		        	  throw new RequiredFieldsException("The password is a required field");
+		        if(name == null){ //Nombre vacio
+		        	  throw new RequiredFieldsException("The name is a required field");
+		         }
+		        
+		        if(surname1 == null){ //Apellido1 vacio
+		        	  throw new RequiredFieldsException("The First surname is a required field");
+		         }
+		        
+		        if(surname2 == null){ //Apellido2 vacio
+		        	  throw new RequiredFieldsException("The Second surname is a required field");
+		         }
+		        
+		        if(city == null){ //Ciudad vacio
+		        	  throw new RequiredFieldsException("The First surname is a required field");
+		         }
+		        
+		       if (birthday == null){ //cumpleaños vacio
+		        	  throw new RequiredFieldsException("The birthday is a required field");
 		        	  
 		        }else if(password.length()<4){ //Password muy corta
 		        	throw new PasswordTooShort("The password is too short, minimum 4 letters please");
 		        }
 
-	    	     registerUser(login,email, password, false, data, noti);
+	    	     registerUser(login,email, password, false, name, surname1, surname2, city,birthday );
 	     }
 	     
 	     @Transactional(readOnly = false)
 	     @Override
-	     public void registerUser(String login,String email,String password, boolean isAdmin, Date data, UserNoti noti) throws UserLoginEmailExistsException, RequiredFieldsException, PasswordTooShort {
+	     public void registerUser(String login,String email,String password, boolean isAdmin,  String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, RequiredFieldsException, PasswordTooShort {
 	       
 	        
 	         String encryptedPassword = passwordEncoder.encode(password);
@@ -110,16 +120,22 @@ public class UserService implements UserServiceInterface{
 	        	 user.setPassword(encryptedPassword);
 	        	 user.setAuthority(UserAuthority.ADMIN);
 		         user.setEmail(email);
-		         user.setData(data);
+		         user.setName(name);
+		         user.setSurname1(surname1);
+		         user.setSurname2(surname2);
+		         
 		         userDAO.save(user);
 	         }else{
 	        	 NormalUser user = new NormalUser();
-	        	 user.setNotification(noti);
 		         user.setLogin(login);
 	        	 user.setPassword(encryptedPassword);
 		         user.setAuthority(UserAuthority.USER);
 		         user.setEmail(email);
-		         user.setData(data);
+		         user.setName(name);
+		         user.setSurname1(surname1);
+		         user.setSurname2(surname2);
+		         user.setBirthday(birthday);
+		         user.setCity(city);
 		         userDAO.save(user);
 		         }
 
@@ -151,22 +167,7 @@ public class UserService implements UserServiceInterface{
 
 	   
 	    
-	    @PreAuthorize("hasAuthority('USER')")
-	    @Transactional(readOnly = false)
-	    @Override
-	    public void update(String login, String noti){
-	    	NormalUser bdUser = userDAO.findByLoginNormal(login);
-	    	if(noti.equals("no")){
-	    		bdUser.setNotification(null);
-	    	}else if(noti.equals("EMAIL")){
-	    		bdUser.setNotification(UserNoti.EMAIL);
-	    	}else if (noti.equals("SMS")){
-	    		bdUser.setNotification(UserNoti.SMS);
-	    	}
-	        userDAO.save(bdUser);
-	        
-	        }
-
+	   
 
 
 		

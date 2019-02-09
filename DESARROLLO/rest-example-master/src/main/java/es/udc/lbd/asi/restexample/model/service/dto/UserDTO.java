@@ -1,5 +1,6 @@
 package es.udc.lbd.asi.restexample.model.service.dto;
 
+import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,7 +15,13 @@ public class UserDTO {
 	private String email;
 	@NotEmpty
 	private String password;
-
+	@NotEmpty
+	private String name;
+	@NotEmpty
+	private String surname1;
+	@NotEmpty
+	private String surname2;
+	
 	
 	
 	public UserDTO() {
@@ -24,6 +31,9 @@ public class UserDTO {
 		this.idUser = user.getIdUser();
 		this.login = user.getLogin();
 		this.email=user.getEmail();
+		this.name=user.getName();
+		this.surname1=user.getSurname1();
+		this.surname2=user.getSurname2();
 	}
 
 	
@@ -59,6 +69,30 @@ public class UserDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname1() {
+		return surname1;
+	}
+
+	public void setSurname1(String surname1) {
+		this.surname1 = surname1;
+	}
+
+	public String getSurname2() {
+		return surname2;
+	}
+
+	public void setSurname2(String surname2) {
+		this.surname2 = surname2;
 	}
 
 

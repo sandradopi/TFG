@@ -37,10 +37,7 @@ public class UserResource {
     	return user;
     }
     
-    @PutMapping("/{login}/{noti}") //Para cambiar el tipo de notificaciones del usuario
-    public void update(@PathVariable String login, @PathVariable String noti) {
-       userService.update(login,noti);
-    }
+   
     
   
     

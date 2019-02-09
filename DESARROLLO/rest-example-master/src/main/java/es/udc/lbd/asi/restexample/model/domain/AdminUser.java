@@ -1,10 +1,9 @@
 package es.udc.lbd.asi.restexample.model.domain;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @PrimaryKeyJoinColumn(name="idUser")
@@ -15,10 +14,13 @@ public class AdminUser extends User_{
 		super();
 	}
 
-	public AdminUser(String login, String email, String password, UserAuthority authority, Date data) {
-		super(login, email, password, authority, data);
-		
+	public AdminUser(Long idUser, @NotEmpty String login, @NotEmpty String password, @NotEmpty String email,
+			@NotEmpty String name, @NotEmpty String surname1, @NotEmpty String surname2, UserAuthority authority) {
+		super(idUser, login, password, email, name, surname1, surname2, authority);
+		// TODO Auto-generated constructor stub
 	}
+
+	
 
 	
 

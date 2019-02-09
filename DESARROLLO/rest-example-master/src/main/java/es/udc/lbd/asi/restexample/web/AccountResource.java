@@ -82,7 +82,7 @@ import es.udc.lbd.asi.restexample.security.JWTConfigurer;
      @PostMapping("/register")
      public void registerAccount(@RequestBody NormalUserDTO account) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect {
 
-    		userService.registerUser(account.getLogin(),account.getEmail(), account.getPassword(), account.getNoti());}
+    		userService.registerUser(account.getLogin(),account.getEmail(), account.getPassword(), account.getName(),account.getSurname1(),account.getSurname2(),account.getCity(),account.getBirthday());}
   
      
  }
