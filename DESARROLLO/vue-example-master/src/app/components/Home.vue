@@ -6,9 +6,6 @@
             </h1>
             <p class="intro">Welcome to our page, bring some popcorn, and let the party begin!</p>
       </div>
-      <div class="ima">
-      	<img class="ima2" src="pelis.jpg">
-      </div>
     </div>
 </template>
 
