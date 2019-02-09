@@ -1,41 +1,69 @@
 <template>
-  <div class="hero-body" >
-      <div class="container has-text-centered">
-            <h1 class="home-intro">
-              Movie World
-            </h1>
-            <p class="intro">Welcome to our page, bring some popcorn, and let the party begin!</p>
-      </div>
-    </div>
+  <div>
+    <b-carousel id="carousel1"
+                style="text-shadow: 1px 1px 2px #333;"
+                controls
+                indicators
+                background="#ababab"
+                :interval="4000"
+                img-width="1024"
+                img-height="480"
+                v-model="slide"
+                @sliding-start="onSlideStart"
+                @sliding-end="onSlideEnd"
+    >
+
+     <b-carousel-slide>
+        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
+             src="portada.jpg">
+      </b-carousel-slide>
+
+     <b-carousel-slide>
+     <h1>Hello world!</h1>
+        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
+             src="portada.jpg">
+      </b-carousel-slide>
+
+      <b-carousel-slide>
+        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
+             src="portada.jpg">
+      </b-carousel-slide>
+
+      <b-carousel-slide>
+        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
+             src="portada.jpg">
+      </b-carousel-slide>
+
+      <b-carousel-slide>
+        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
+             src="portada.jpg">
+             <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          eros felis, tincidunt a tincidunt eget, convallis vel est. Ut pellentesque
+          ut lacus vel interdum.
+        </p>
+      </b-carousel-slide>
+
+    </b-carousel>
+
+  </div>
 </template>
 
 <script>
-export default {}
+import { Carousel, Slide } from 'vue-carousel'
+
+export default {
+   components: {
+    Carousel,
+    Slide
+  }
+}
 </script>
 
 
 <style scoped lang="scss">
-
-.intro{
-	text-align:center;
-}
-.home-intro {
-  font-size: 60px;
-  letter-spacing: 8px;
-  color: red;
-  text-align: center;
-  text-transform: uppercase;
-}
-.ima{
-	width:100%;
-    height:100%;
-
-
-}
-.ima2{
-	width:80%;
-	margin-left:10%;
-	
+.imagen{
+   width:100%;
 }
 
 

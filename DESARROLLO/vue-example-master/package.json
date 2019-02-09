@@ -20,6 +20,7 @@
     "multiselect": "^0.9.12",
     "star-rate-component": "^1.0.4",
     "vue": "^2.5.17",
+    "vue-agile": "^0.3.7",
     "vue-blockui": "^1.1.7",
     "vue-carousel": "^0.16.0-rc2",
     "vue-hot-reload-api": "2.3.0",
