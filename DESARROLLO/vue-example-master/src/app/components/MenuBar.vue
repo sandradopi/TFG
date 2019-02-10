@@ -32,9 +32,7 @@
       <b-nav-item
        v-if="!isLogged">
         {{ loggedUser }} </b-nav-item>
-        <b-nav-item
-          v-if="isLogged"
-          @click="logout()">Logout</b-nav-item>
+
       </b-navbar-nav>
 
 
@@ -74,6 +72,7 @@ export default {
   font-size: 20px;
   text-align: center;
   text-transform: uppercase;
+  
 }
 
 ul.navbar-nav li.nav-item a {

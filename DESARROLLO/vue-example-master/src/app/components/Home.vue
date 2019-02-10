@@ -41,7 +41,7 @@
       <b-carousel-slide caption="¿Cómo formar parte?">
 
         <img slot="img" class="d-block img-fluid w-100" 
-             src="fotball1.jpg">
+             src="fut.jpg">
              <p>
           Simplemente tienes que registrarte, introducir tus datos personales y empezar a disfrutar de nuestra Página Web organizando eventos o formando parte de ellos!
         </p>
@@ -65,8 +65,11 @@ export default {
 
 <style scoped lang="scss">
 
-.texto { 
-  
+.car { 
+  width:87%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top:30px;
  
 }
 
