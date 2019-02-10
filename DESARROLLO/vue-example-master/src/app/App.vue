@@ -14,49 +14,30 @@
 
       <div class="footer-left">
 
-        <h3>Company<span>logo</span></h3>
+        <h3>PLAY<span>2</span>GETHER</h3>
 
         <p class="footer-links">
-          <a href="#">Home</a>
+          <a href="#">Partidos</a>
           ·
-          <a href="#">Blog</a>
+          <a href="#">Sobre Nosotros</a>
+          .
+          <a href="#">Contacto</a>
           ·
-          <a href="#">Pricing</a>
-          ·
-          <a href="#">About</a>
-          ·
-          <a href="#">Faq</a>
-          ·
-          <a href="#">Contact</a>
+          <a href="#">Politica de Privacidad</a>
+           .
+          <a href="#">Licencias</a>
+          
         </p>
 
-        <p class="footer-company-name">Company Name &copy; 2015</p>
+        <p class="footer-company-name">PLAY2GETHER &copy; 2019</p>
       </div>
 
-      <div class="footer-center">
-
-        <div>
-          <i class="fa fa-map-marker"></i>
-          <p><span>21 Revolution Street</span> Paris, France</p>
-        </div>
-
-        <div>
-          <i class="fa fa-phone"></i>
-          <p>+1 555 123456</p>
-        </div>
-
-        <div>
-          <i class="fa fa-envelope"></i>
-         <!-- <p><a href="mailto:sandra.dopico1@udc.es">sandra.dopico1@udc.es</a></p>-->
-        </div>
-
-      </div>
 
       <div class="footer-right">
 
         <p class="footer-company-about">
-          <span>About the company</span>
-          Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+          <span>Redes Sociales</span>
+          Podrás enterarte de las últimas novedades a través de nuestras redes sociales. Síguenos para no perderte nada!
         </p>
 
         <div class="footer-icons">
@@ -148,14 +129,14 @@ export default {
 /* Footer left */
 
 .footer-distributed .footer-left{
-  width: 40%;
+  width: 60%;
 }
 
 /* logo */
 
 .footer-distributed h3{
   color:  #ffffff;
-  font: normal 36px 'Cookie', cursive;
+
   margin: 0;
 }
 
@@ -180,18 +161,12 @@ export default {
   margin: 0;
 }
 
-/* Footer Center */
-
-.footer-distributed .footer-center{
-  width: 35%;
-  margin-top:25px;
-}
-
 
 /* Footer Right */
 
 .footer-distributed .footer-right{
   width: 20%;
+  margin-left:180px;
 }
 
 .footer-distributed .footer-company-about{

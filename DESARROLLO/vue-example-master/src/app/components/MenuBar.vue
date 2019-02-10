@@ -5,7 +5,7 @@
 
     <b-navbar-brand 
       class="hello"
-      to="/">PLAY2GETHER
+      to="/Home">PLAY2GETHER
     </b-navbar-brand>
 
     <b-collapse
@@ -14,12 +14,16 @@
 
       <b-navbar-nav>
         
+      
+      <b-nav-item
+          :to="{ name: 'Partidos' }"
+          exact>Partidos</b-nav-item>
+        
         <b-nav-item
           v-if="!isLogged"
           :to="{ name: 'Login' }"
           exact>Login</b-nav-item>
-      
-        
+
       </b-navbar-nav>
 
       <b-navbar-nav class="ml-auto">
@@ -72,7 +76,7 @@ export default {
   font-size: 20px;
   text-align: center;
   text-transform: uppercase;
-  
+
 }
 
 ul.navbar-nav li.nav-item a {
