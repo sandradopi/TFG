@@ -83,7 +83,9 @@ export default {
    margin-top:5%;
 }
 
-
+.titulo{
+  color:black;
+}
 
 
 </style>

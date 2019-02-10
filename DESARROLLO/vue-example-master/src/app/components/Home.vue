@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="car">
     <b-carousel id="carousel1"
                 style="text-shadow: 1px 1px 2px #333;"
                 controls
@@ -13,37 +13,39 @@
                 @sliding-end="onSlideEnd"
     >
 
-     <b-carousel-slide>
-        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
-             src="portada.jpg">
-      </b-carousel-slide>
 
-     <b-carousel-slide>
-     <h1>Hello world!</h1>
-        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
-             src="portada.jpg">
-      </b-carousel-slide>
-
-      <b-carousel-slide>
-        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
-             src="portada.jpg">
-      </b-carousel-slide>
-
-      <b-carousel-slide>
-        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
-             src="portada.jpg">
-      </b-carousel-slide>
-
-      <b-carousel-slide>
-        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
-             src="portada.jpg">
-             <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          eros felis, tincidunt a tincidunt eget, convallis vel est. Ut pellentesque
-          ut lacus vel interdum.
+     <b-carousel-slide caption="¿Qué es PLAY2GETHER?">
+        <img slot="img" class="d-block img-fluid w-100" 
+             src="padel.png">
+          <p class="texto">
+          Es una plataforma para poner en contacto a jugadores de diferentes deportes para realizar competiciones en las diferentes localizaciones disponibles.
         </p>
       </b-carousel-slide>
 
+    <b-carousel-slide caption="¿Porqué formar parte de este proyecto?">
+        <img slot="img" class="d-block img-fluid w-100" w
+             src="basket1.jpg">
+             <p>
+         Gracias a PLAY2GETHER puedes conocer a personas con los mismos gustos deportivos, aparte de no quedarte con las ganas de jugar algún partido ya que siempre habrá alguien dispuesto a competir contra o contigo.
+        </p>
+      </b-carousel-slide>
+
+      <b-carousel-slide caption="¿Deportes?">
+        <img slot="img" class="d-block img-fluid w-100" w
+             src="tennis1.jpg">
+             <p>
+          Los deportes que engloba nuestra plataforma son: Fútbol, Tennis, Paddel y Baloncesto llegándose a ampliar en un futuro segun las peticiones y gustos de los usuarios.
+        </p>
+      </b-carousel-slide>
+
+      <b-carousel-slide caption="¿Cómo formar parte?">
+
+        <img slot="img" class="d-block img-fluid w-100" 
+             src="fotball1.jpg">
+             <p>
+          Simplemente tienes que registrarte, introducir tus datos personales y empezar a disfrutar de nuestra Página Web organizando eventos o formando parte de ellos!
+        </p>
+      </b-carousel-slide>
     </b-carousel>
 
   </div>
@@ -62,11 +64,10 @@ export default {
 
 
 <style scoped lang="scss">
-.imagen{
-   width:100%;
+
+.texto { 
+  
+ 
 }
-
-
-
 
 </style>
