@@ -19,10 +19,7 @@
           :to="{ name: 'Partidos' }"
           exact>Partidos</b-nav-item>
 
-       <b-nav-item
-          v-if="!isLogged"
-          :to="{ name: 'Login' }"
-          exact>Login</b-nav-item>
+       
      </b-navbar-nav>
       
 <!--
@@ -43,6 +40,10 @@
       </b-navbar-nav>-->
 
       <b-navbar-nav class="ml-auto" >
+      <b-nav-item
+          v-if="!isLogged"
+          :to="{ name: 'Login' }"
+          exact>Login</b-nav-item>
 
         <b-nav-item-dropdown v-if="isLogged || isAdmin" text="Conectado" variant="primary" class="m-2"> 
         <b-dropdown-item disabled> {{loggedUser}}</b-dropdown-item>
@@ -95,7 +96,7 @@ export default {
 }
 
  li.nav-item a {
-  color:black;
+  color:#292c2f;
   font-size:18px;
 
 }
@@ -109,6 +110,10 @@ ul.navbar-nav {
 .navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
   color:white;
 }
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: #17a2b8;}
 
 .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
    color:white;

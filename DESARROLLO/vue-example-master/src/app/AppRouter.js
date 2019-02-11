@@ -1,9 +1,7 @@
 import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
-
-import { Registro } from './entities'
-import { Home, Login, NotFound } from './components'
+import { Home, Login, NotFound,Registro } from './components'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },

@@ -8,9 +8,7 @@
                 :interval="4000"
                 img-width="1024"
                 img-height="480"
-                v-model="slide"
-                @sliding-start="onSlideStart"
-                @sliding-end="onSlideEnd"
+                
     >
 
 
@@ -66,10 +64,10 @@ export default {
 <style scoped lang="scss">
 
 .car { 
-  width:87%;
+  width:65%;
   margin-left: auto;
   margin-right: auto;
-  margin-top:30px;
+  margin-top:50px;
  
 }
 

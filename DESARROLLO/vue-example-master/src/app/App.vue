@@ -18,6 +18,8 @@
         <h3>PLAY<span>2</span>GETHER</h3>
 
         <p class="footer-links">
+          <a href="#">Iniciar Sesión</a>
+          ·
           <a href="#">Partidos</a>
           ·
           <a href="Home">Sobre Nosotros</a>
@@ -118,8 +120,8 @@ export default {
       background-color: #292c2f;
       width: 100%;
       font: bold 16px sans-serif;
-      padding: 55px 50px;
-      margin-top: 60px;
+      padding: 25px 50px;
+      margin-top: 68px;
   }
 
 .footer-distributed .footer-left,
@@ -144,7 +146,7 @@ export default {
 }
 
 .footer-distributed h3 span{
-  color:  #5383d3;
+  color:  #17a2b8;
 }
 
 /*links*/
@@ -185,11 +187,11 @@ export default {
   color:  #ffffff;
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .footer-distributed .footer-icons{
-  margin-top: 25px;
+  margin-top: 15px;
 }
 
 .footer-distributed .footer-icons a{
@@ -206,7 +208,7 @@ export default {
   line-height: 35px;
 
   margin-right: 3px;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
 
 /* If you don't want the footer to be responsive, remove these media queries */
@@ -231,8 +233,6 @@ export default {
   }
 
 }
-
-
 
    
 </style>
