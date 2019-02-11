@@ -1,6 +1,7 @@
 <template>
   
   <div id="app">
+ 
 
   	 <notifications
        :max="3"
@@ -19,7 +20,7 @@
         <p class="footer-links">
           <a href="#">Partidos</a>
           ·
-          <a href="#">Sobre Nosotros</a>
+          <a href="Home">Sobre Nosotros</a>
           .
           <a href="#">Contacto</a>
           ·
@@ -28,7 +29,7 @@
           <a href="#">Licencias</a>
           
         </p>
-
+       
         <p class="footer-company-name">PLAY2GETHER &copy; 2019</p>
       </div>
 
@@ -41,8 +42,10 @@
         </p>
 
         <div class="footer-icons">
+        
 
-          <a href="#"><i class="fab fa-facebook"></i></a>
+
+          <a href="#"> <i class="fab fa-facebook"></i></a>
           <a href="#"><i class="fa fa-twitter"></i></a>
           <a href="#"><i class="fa fa-linkedin"></i></a>
           <a href="#"><i class="fa fa-github"></i></a>
@@ -228,6 +231,7 @@ export default {
   }
 
 }
+
 
 
    
