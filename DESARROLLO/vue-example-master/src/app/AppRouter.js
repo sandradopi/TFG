@@ -2,12 +2,16 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
 import { Home, Login, NotFound,Registro } from './components'
+import { UserDetail, Deportes} from './entities'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },
   { name: 'Registro', path: '/login/createAccount', component: Registro,meta: { public: true }},
   { name: 'Login', path: '/login', component: Login, meta: { public: true, isLoginPage: true }},
-  { path: '*', component: NotFound, meta: { public: true }}
+  { name: 'UserDetail', path: '/users/:id', component: UserDetail,meta: { authority: 'USER' }},
+  { name: 'Deportes', path: '/deportes', component: Deportes,meta: { authority: 'ADMIN' }},
+  { path: '*', component: NotFound, meta: { public: true }},
+
 ]
 
 const router = new VueRouter({

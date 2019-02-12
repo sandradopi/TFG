@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.domain.AdminUser;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
+import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
@@ -37,18 +38,18 @@ public class UserService implements UserServiceInterface{
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  		@PreAuthorize("hasAuthority('USER')")
-		@Override
-		public List<NormalUserDTO> findAll() {
-			 return userDAO.findAll().stream().map(user -> new NormalUserDTO(user)).collect(Collectors.toList());}
-  		
 		
 		@PreAuthorize("hasAuthority('USER')")
 		@Override
-		public NormalUserDTO findById(Long idUser)  {
-	   	 return new NormalUserDTO(userDAO.findById(idUser));
+		public NormalUserDTO findByLogin(String login)  {
+			 NormalUser usuarioDevuelto= userDAO.findByLoginNormal(login);
+		   	 NormalUserDTO userTransformado= new NormalUserDTO(usuarioDevuelto);
+		   	 userTransformado.setBirthday(usuarioDevuelto.getBirthday());
+		   	 userTransformado.setCity(usuarioDevuelto.getCity());
+		   	 userTransformado.setExperience(usuarioDevuelto.getExperience());
+		   	 
+	   	 return userTransformado;
 	   }
-		
 		
 		
 	     @Transactional(readOnly = false)

@@ -8,7 +8,7 @@ import es.udc.lbd.asi.restexample.model.domain.User_;
 
 public interface UserDAO {
     public User_ findByLogin(String Login) ;
-    public NormalUser findByLoginNormal(String Login) ;
+    public NormalUser findByLoginNormal(String Login) ; //usado
     public List <User_> findAll();
     public void save(User_ user);
     public User_ findById(Long idUser) ;

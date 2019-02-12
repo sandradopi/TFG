@@ -13,8 +13,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 
 
 public interface UserServiceInterface {
-    public List<NormalUserDTO> findAll();
-    public NormalUserDTO findById(Long idUser);
+    public NormalUserDTO findByLogin(String login);
     public void registerUser(String login,String email, String password, boolean isAdmin, String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, RequiredFieldsException, PasswordTooShort;
     public void registerUser(String login,String email, String password, String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect;
 

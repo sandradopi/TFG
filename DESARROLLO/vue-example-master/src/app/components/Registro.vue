@@ -4,10 +4,10 @@
     <div class="float-right">
       <b-btn class="button"
         variant="primary"
-        @click="back()"><span>Back</span></b-btn>
+        @click="back()"><span>Atrás</span></b-btn>
       <b-btn class="button1"
         variant="success"
-        @click="save()"><span>Create</span></b-btn>
+        @click="save()"><span>Crear</span></b-btn>
     </div>
 <div>
 

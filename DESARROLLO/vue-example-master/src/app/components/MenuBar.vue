@@ -19,25 +19,12 @@
           :to="{ name: 'Partidos' }"
           exact>Partidos</b-nav-item>
 
-       
+       <b-nav-item
+           v-if="isAdmin"
+          :to="{ name: 'Deportes' }"
+          exact>Deportes</b-nav-item> 
      </b-navbar-nav>
       
-<!--
-        <b-nav-item
-          v-if="isLogged"
-          @click="logout()">Logout</b-nav-item>
-      
-
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item
-         v-if="isLogged && !isAdmin" 
-         :to="{ name: 'UserDetail' , params: { id: WhatLogin, bol:false}}"> esta variable bol es la que controla que aparezca la informacion del usuario y oculte las peliculas vistas y pendientes en UserDetail. Supongamos que fuimos a la lista de usuarios y pulsamos en las peliculas vistas de otro usuario que no es el que esta logueado, al pulsar desde el menu en el perfil de la persona logueada, nos irá gracias a esto, a la información personal de la persona logueada, en vez de mostrar las peliculas vistas, que era en la pantalla en la que estabamos pero de la persona logueada.
-        {{ loggedUser }} </b-nav-item> 
-
-        <b-nav-item
-         v-if="isLogged && isAdmin" >
-        {{ loggedUser }} </b-nav-item>
-      </b-navbar-nav>-->
 
       <b-navbar-nav class="ml-auto" >
       <b-nav-item
@@ -48,7 +35,8 @@
         <b-nav-item-dropdown v-if="isLogged || isAdmin" text="Conectado" variant="primary" class="m-2"> 
         <b-dropdown-item disabled> {{loggedUser}}</b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
-          <b-dropdown-item exact v-if="isLogged && !isAdmin"  :to="{ name: 'UserDetail' , params: { id: WhatLogin, bol:false}} ">Perfil</b-dropdown-item>
+           <b-dropdown-item exact v-if="isLogged && !isAdmin"  :to="{ name: 'UserProfile' , params: { id: WhatLogin}} ">Perfil Público</b-dropdown-item>
+          <b-dropdown-item exact v-if="isLogged && !isAdmin"  :to="{ name: 'UserDetail' , params: { id: WhatLogin}} ">Datos Personales</b-dropdown-item>
           <b-dropdown-divider></b-dropdown-divider>
           <b-dropdown-item exact v-if="isLogged" @click="logout()" :to="{ name: ''}">Cerrar Sesión</b-dropdown-item>
         </b-nav-item-dropdown>
