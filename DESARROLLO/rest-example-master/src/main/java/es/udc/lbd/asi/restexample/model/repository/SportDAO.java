@@ -12,4 +12,5 @@ public interface SportDAO {
 	 public List <Sport> findAll();
 	 public Sport findById(Long idSport) ;
 	 public void deleteById(Long idSport) ;
+	 public Long countLocations(Long idSport);
 }

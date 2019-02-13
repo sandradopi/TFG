@@ -31,5 +31,10 @@ public class SportDAOHibernate extends GenericDAOHibernate implements SportDAO {
 		 getSession().delete(findById(idSport));
 		
 	}
+	@Override
+	public Long countLocations(Long idSport) {
+		 return (Long) getSession().createQuery("select count(*) from Sport as s inner join s.location as l where s.idSport= :idSport").setParameter("idSport", idSport).uniqueResult();
+	}
+	
 
 }

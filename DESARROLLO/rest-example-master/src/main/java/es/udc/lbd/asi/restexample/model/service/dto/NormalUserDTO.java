@@ -1,6 +1,8 @@
 package es.udc.lbd.asi.restexample.model.service.dto;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.EnumType;
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import es.udc.lbd.asi.restexample.model.domain.User_;
+import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 
 
@@ -47,6 +50,9 @@ public class NormalUserDTO {
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 	
+    private Set<Team> juego = new HashSet<Team>();
+	private Set<Team> favoritos = new HashSet<Team>();
+	
 	public NormalUserDTO() {
 	}
 	
@@ -59,6 +65,7 @@ public class NormalUserDTO {
 		this.name=user.getName();
 		this.surname1=user.getSurname1();
 		this.surname2=user.getSurname2();
+		
 		
 	}
 

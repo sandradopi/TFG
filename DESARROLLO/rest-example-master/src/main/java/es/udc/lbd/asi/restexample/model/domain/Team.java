@@ -2,10 +2,14 @@ package es.udc.lbd.asi.restexample.model.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Team {
@@ -19,16 +23,21 @@ public class Team {
 	@NotEmpty
 	private String name;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "idSport")
+    @NotNull
+    private Sport sport;
 	
 	public Team() {
 		
 	}
 
 
-	public Team(Long idTeam, @NotEmpty String name) {
+	public Team(Long idTeam, @NotEmpty String name, @NotNull Sport sport) {
 		super();
 		this.idTeam = idTeam;
 		this.name = name;
+		this.sport=sport;
 	}
 
 
@@ -49,6 +58,16 @@ public class Team {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+
+	public Sport getSport() {
+		return sport;
+	}
+
+
+	public void setSport(Sport sport) {
+		this.sport = sport;
 	}
 	
 	

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 
@@ -16,6 +17,9 @@ public class SportService implements SportServiceInterface{
 
   @Autowired
     private SportDAO sportDAO;
+  @Autowired
+  private LocationDAO locationDAO;
+
 
 @Override
 public List<SportDTO> findAll() {
@@ -31,6 +35,7 @@ public SportDTO findById(Long idSport) {
 @Override
 public SportDTO save(SportDTO sport) {
 	Sport bdSport = new Sport(sport.getType(),null,null);
+	bdSport.setLocation(locationDAO.findById(sport.getLocation().getIdLocation()));
 	sportDAO.save(bdSport);
     return new SportDTO(bdSport);
 }
@@ -38,6 +43,13 @@ public SportDTO save(SportDTO sport) {
 @Override
 public void deleteById(Long idSport) {
 	Sport bdSport = sportDAO.findById(idSport);
+	Long locations=sportDAO.countLocations(idSport);
+	if (locations==1){
+		Long count= locationDAO.countSportsOfaLocation(bdSport.getLocation().getIdLocation());
+		if (count==1){
+			locationDAO.deleteById(bdSport.getLocation().getIdLocation());
+		}
+	}
 	sportDAO.deleteById(idSport);
 	//borrar las localizaciones que solo estaban en ese deporte
 	

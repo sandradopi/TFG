@@ -1,101 +1,78 @@
-package es.udc.lbd.asi.restexample.model.domain;
+package es.udc.lbd.asi.restexample.model.service.dto;
+
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-@Entity
-public class Location {
+import es.udc.lbd.asi.restexample.model.domain.Location;
+import es.udc.lbd.asi.restexample.model.domain.Sport;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="idLocation")
+public class LocationDTO {
+
 	private Long idLocation;
-	
-	@Column(name = "name")
 	@NotEmpty
 	private String name;
-	
-	@Column(name="costPerHour")
 	@NotNull
 	private Long costPerHour;
-	
-	@Column(name="latitud")
 	@NotNull
 	private Double latitud;
-	
-	@Column(name="longitud")
 	@NotNull
 	private Double longitud;
-
 	
-	public Location() {
-		
+	public LocationDTO(Location location) {
+		this.idLocation = location.getIdLocation();
+		this.name=location.getName();
+		this.costPerHour=location.getCostPerHour();
+		this.latitud=location.getLatitud();
+		this.longitud=location.getLongitud();
 	}
 
-
-	public Location(@NotEmpty String name, @NotEmpty Long costPerHour, @NotEmpty Double latitud,
-			@NotEmpty Double longitud) {
-		super();
-		this.name = name;
-		this.costPerHour = costPerHour;
-		this.latitud = latitud;
-		this.longitud = longitud;
+	public LocationDTO() {
 	}
-
 
 	public Long getIdLocation() {
 		return idLocation;
 	}
 
-
 	public void setIdLocation(Long idLocation) {
 		this.idLocation = idLocation;
 	}
-
 
 	public String getName() {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public Long getCostPerHour() {
 		return costPerHour;
 	}
 
-
 	public void setCostPerHour(Long costPerHour) {
 		this.costPerHour = costPerHour;
 	}
-
 
 	public Double getLatitud() {
 		return latitud;
 	}
 
-
 	public void setLatitud(Double latitud) {
 		this.latitud = latitud;
 	}
-
 
 	public Double getLongitud() {
 		return longitud;
 	}
 
-
 	public void setLongitud(Double longitud) {
 		this.longitud = longitud;
 	}
+
+	
+	
 	
 	
 }

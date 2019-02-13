@@ -2,10 +2,14 @@ package es.udc.lbd.asi.restexample.model.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Sport {
@@ -27,9 +31,21 @@ public class Sport {
 	//@NotEmpty
 	private String componenteVisualizacion;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "idLocation")
+    @NotNull
+    private Location location;
 	
 	public Sport() {
 		
+	}
+	
+	public Sport(@NotEmpty String type, String componenteEntrada,
+			 String componenteVisualizacion, @NotNull Location location) {
+		this.type = type;
+		this.componenteEntrada = componenteEntrada;
+		this.componenteVisualizacion = componenteVisualizacion;
+		this.location=location;
 	}
 	
 	public Sport(@NotEmpty String type, String componenteEntrada,
@@ -37,6 +53,15 @@ public class Sport {
 		this.type = type;
 		this.componenteEntrada = componenteEntrada;
 		this.componenteVisualizacion = componenteVisualizacion;
+		this.location=location;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public Long getIdSport() {
