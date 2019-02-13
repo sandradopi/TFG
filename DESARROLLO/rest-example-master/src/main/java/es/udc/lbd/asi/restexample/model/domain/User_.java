@@ -61,10 +61,8 @@ public class User_ {
 	
 	
 
-	public User_(Long idUser, @NotEmpty String login, @NotEmpty String password, @NotEmpty String email,
+	public User_(@NotEmpty String login, @NotEmpty String password, @NotEmpty String email,
 			@NotEmpty String name, @NotEmpty String surname1, @NotEmpty String surname2, UserAuthority authority) {
-		super();
-		this.idUser = idUser;
 		this.login = login;
 		this.password = password;
 		this.email = email;

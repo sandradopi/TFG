@@ -11,7 +11,12 @@ import es.udc.lbd.asi.restexample.repository.util.GenericDAOHibernate;
 @Repository
 public class UserDAOHibernate extends GenericDAOHibernate implements UserDAO {
 
-
+	@Override
+	public void deleteById(Long idUser) {
+		 getSession().delete(findById(idUser));
+		
+	}
+	
 	@Override
 	public User_ findByLogin(String login){
 		return   (User_) getSession().createQuery("from User_ p where p.login = :login").setParameter("login",login).uniqueResult();

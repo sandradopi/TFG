@@ -14,9 +14,9 @@ public class AdminUser extends User_{
 		super();
 	}
 
-	public AdminUser(Long idUser, @NotEmpty String login, @NotEmpty String password, @NotEmpty String email,
+	public AdminUser(@NotEmpty String login, @NotEmpty String password, @NotEmpty String email,
 			@NotEmpty String name, @NotEmpty String surname1, @NotEmpty String surname2, UserAuthority authority) {
-		super(idUser, login, password, email, name, surname1, surname2, authority);
+		super(login, password, email, name, surname1, surname2, authority);
 		// TODO Auto-generated constructor stub
 	}
 

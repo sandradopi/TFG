@@ -4,93 +4,16 @@
       <b-btn        class="button"
                     variant="primary"
                     @click="back()"><span>Atrás</span></b-btn>
-    
   </div>
 
-  <section class="gallery">
-  <div class="container">
-      <div class="column-xs-12 column-md-4">
-        <figure class="img-container">
-          <img src="https://source.unsplash.com/8b1cWDyvT7Y" />
-          <figcaption class="img-content">
-            <h2 class="title">Smart Watch</h2>
-            <h3 class="category">Showcase</h3>
-          </figcaption>
-          <span class="img-content-hover">
-            <h2 class="title">Smart Watch</h2>
-            <h3 class="category">Showcase</h3>
-          </span>
-        </figure>
+<div class= "sport" v-for="sport in sports" :key="sport.idSport">
+    <div class= "tittle">
+    {{ sport.type}}
       </div>
-      <div class="column-xs-12 column-md-4">
-        <figure class="img-container">
-          <img src="https://source.unsplash.com/5VXH4RG88gc" />
-          <figcaption class="img-content">
-            <h2 class="title">Camera Film</h2>
-            <h3 class="category">Showcase</h3>
-          </figcaption>
-          <span class="img-content-hover">
-            <h2 class="title">Camera Film</h2>
-            <h3 class="category">Showcase</h3>
-          </span>
-        </figure>
-      </div>
-      <div class="column-xs-12 column-md-4">
-        <figure class="img-container">
-          <img src="https://source.unsplash.com/XtUd5SiX464">
-          <figcaption class="img-content">
-            <h2 class="title">Coffee</h2>
-            <h3 class="category">Showcase</h3>
-          </figcaption>
-          <span class="img-content-hover">
-            <h2 class="title">Coffee</h2>
-            <h3 class="category">Showcase</h3>
-          </span>
-        </figure>
-      </div>
-      <div class="column-xs-12 column-md-6">
-        <figure class="img-container">
-          <img src="https://source.unsplash.com/JYGnB9gTCls" />
-          <figcaption class="img-content">
-            <h2 class="title">Phone</h2>
-            <h3 class="category">Showcase</h3>
-          </figcaption>
-          <span class="img-content-hover">
-            <h2 class="title">Phone</h2>
-            <h3 class="category">Showcase</h3>
-          </span>
-        </figure>
-      </div>
-      <div class="column-xs-12 column-md-6">
-        <figure class="img-container">
-          <img src="https://source.unsplash.com/-RBuQ2PK_L8" />
-          <figcaption class="img-content">
-            <h2 class="title">Keyboard</h2>
-            <h3 class="category">Showcase</h3>
-          </figcaption>
-          <span class="img-content-hover">
-            <h2 class="title">Keyboard</h2>
-            <h3 class="category">Showcase</h3>
-          </span>
-        </figure>
-      </div>
-      <div class="column-xs-12">
-        <figure class="img-container">
-          <img src="https://source.unsplash.com/P44RIGl9V54" />
-          <figcaption class="img-content">
-            <h2 class="title">Wrist Watch</h2>
-            <h3 class="category">Showcase</h3>
-          </figcaption>
-          <span class="img-content-hover">
-            <h2 class="title">Wrist Watch</h2>
-            <h3 class="category">Showcase</h3>
-          </span>
-        </figure>
-      </div>
-  </div>
-</section>
 
+ 
 
+</div>
 </div>
 
 </template>
@@ -105,6 +28,7 @@ export default {
   components: {},
   data() {
     return {
+      sports:null,
      
 
     }
@@ -119,7 +43,16 @@ export default {
   },
   methods: {
     fetchData() {
-
+      HTTP.get('sports')
+        .then(response => {
+       this.sports = response.data
+       
+     })
+     .catch(err => {
+       this.error = err.message
+     })
+    .finally(() => this.loading = false)
+    }
   
     },
  
@@ -133,12 +66,14 @@ export default {
     _errorHandler(err) {
       this.error = err.response.data.message
     }
-  }
+  
 }
 </script>
 
 <style scoped lang="scss">
-
+.tittle{
+  color:black;
+}
 
 
  .button {
@@ -184,62 +119,6 @@ export default {
   right: 0;
 }
 
-.img-container {
-  margin-top:70px;
-  width: 50%;
-  height: 300px;
-  &:hover .img-content-hover {
-  display: block;
 
-  }
-
-}
-
-img {
-  width: 80%;
-  height: 300px;
-  -o-object-fit: cover;
-  object-fit: cover;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-  -webkit-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  &:hover {
-    -webkit-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-    transform: scale(1.05);
-  }
-}
-
-.img-content-hover {
-  margin-left:20px;
-  position: absolute;
-  white-space: nowrap;
-  background: white;
-  font-weight: 400;
-}
-
-.title {
-  color: black;
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
-.category {
-  font-size: 1.2rem;
-  color: gray;
-}
-
-.img-content {
-  display: none;
-}
-
-.container{
-  margin:0;
-  padding:0;
-  margin-left: 40px;
-}
 
 </style>

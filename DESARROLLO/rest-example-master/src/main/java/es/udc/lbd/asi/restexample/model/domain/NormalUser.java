@@ -33,10 +33,10 @@ public class NormalUser extends User_ {
 		super();
 	}
 
-	public NormalUser(Long idUser, @NotEmpty String login, @NotEmpty String password, @NotEmpty String email,
+	public NormalUser( @NotEmpty String login, @NotEmpty String password, @NotEmpty String email,
 			@NotEmpty String name, @NotEmpty String surname1, @NotEmpty String surname2,
 			UserAuthority authority,String city,Integer experience, Date birthday) {
-		super(idUser, login, password, email, name, surname1, surname2, authority);
+		super(login, password, email, name, surname1, surname2, authority);
 		this.city= city;
 		this.experience=experience;
 		this.birthday=birthday;

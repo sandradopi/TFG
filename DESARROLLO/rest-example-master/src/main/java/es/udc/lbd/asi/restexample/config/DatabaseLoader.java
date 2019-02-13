@@ -14,10 +14,14 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.Transactional;
+
+import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.UserService;
+import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
+import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 
 
 @Configuration
@@ -30,6 +34,9 @@ public class DatabaseLoader {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private SportDAO sportService;
 
     /*
      * Para hacer que la carga de datos sea transacional, hay que cargar el propio
@@ -56,7 +63,11 @@ public class DatabaseLoader {
     userService.registerUser("laura", "guajndos@gmail.com","laura", false,"Laura", "Insua","Regueiro","Bilbao", sdf.parse("2000-12-18"));
     userService.registerUser("sandra","vicfic23@gmail.com","sandra", false,"Sandra","Dopico","Cantarero","A Coruña", sdf.parse("1997-08-20"));
     userService.registerUser("lucas", "sandra111@outlook.com","lucas", false,"Lucas", "Vazquez", "Lorenzo","Madrid", sdf.parse("1995-03-17"));
- 
+    sportService.save(new Sport("Fútbol",null,null));
+    sportService.save(new Sport("Tennis",null,null));
+    sportService.save(new Sport("Baloncesto",null,null));
+    sportService.save(new Sport("Paddel",null,null));
+    
     }
 
     
