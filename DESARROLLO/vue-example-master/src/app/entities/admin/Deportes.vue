@@ -1,10 +1,11 @@
 <template>
 
 <div>
-
- <div class="container" ng-controller="index">
-
-      <div class="box margin-right" id="shopping-list">
+  <div class="information message">
+  <h2>Information</h2>
+  <p>This is an 'information message' div. It helps people get to know the site a little better. </p>
+</div>
+  <div  id="shopping-list">
         <h1>Deportes</h1>
         
    <div class="half margin-right">
@@ -12,7 +13,6 @@
           <multiselect 
             class="multi"
             v-model="sport.locations" 
-            tag-placeholder="Localizaciones"
             :options="this.alllocations"
             :multiple="true"
             :searchable="true" 
@@ -36,14 +36,14 @@
               <td></td>
             </tr>
             <tr >
-              <div class= "sport" v-for="sport in sports" :key="sport.idSport">
+              <button class= "sport" v-for="sport in sports" :key="sport.idSport">
                 <td>{{ sport.type}}</td>
-             </div>             
+             </button>             
             </tr>
           </table>  
-    </div>
 </div>
 </div>
+
 </div>
 </template>
 
@@ -161,48 +161,18 @@ export default {
   color:black;
 }
 
-
- .button {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: #17a2b8;
-  border: none;
-  color: #FFFFFF;
-  text-align: center;
-  font-size: 17px;
-  padding: 5px;
-  width: 80px;
-  transition: all 0.5s;
-  cursor: pointer;
-  margin: 5px;
-  margin-right:87px;
-
+.sport{
+  width: 100%;
+  background: #fff;
+  padding: 0.6em; 
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  border-radius: 5px;
+  border: 0.1px solid #f3f3f3;
+  font-size:1em;
+  color: #3a3a3a;
 }
 
-.button span{
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.button span:after {
-  content: '\00bb';
-  position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
-}
-
-.button:hover span{
-  padding-right: 20px;
-}
-
-.button:hover span:after{
-  opacity: 1;
-  right: 0;
-}
 
 
 $red: #fb887c;
@@ -210,20 +180,18 @@ $green: #AFC7B9;
 $navy: #34495e;
 
 
-.container {
-  width: 500px;
-  height: 100%;
-  font-family: 'Lato', sans-serif;
-  margin:0;
-  margin-left:20px;
-}
 
-.box {
-  width: 70%;
+div#shopping-list{
+  width: 30%;
   background: #f3f3f3;
   padding: 1em;
   border-radius: 3px;
   margin-top:50px;
+  font-family: 'Lato', sans-serif;
+  margin:0;
+  margin-left:120px;
+  margin-top:50px;
+  margin-bottom:50px;
 
 
   
@@ -239,15 +207,13 @@ table {
   width: 100%;
 
   td {
-    padding: 0.75em 0.5em;
-    color:#3a3a3a;
+    
+    color:grey;
     margin-left:auto;
     margin-right:auto;
   }
   
-  tr:nth-child(2n+2){
-    background: darken(#eee, 3%); 
-  }
+  
 }
 
 .searchButton {
@@ -258,7 +224,7 @@ table {
   margin-bottom: 0.25em;
   border-radius: 5px;
   border: 0.1px solid #fff;
-  font-size:1em;
+  font-size:0.9em;
 
 }      
 
@@ -279,6 +245,34 @@ button {
   border-bottom: 4px solid darken($red, 5%);
   
 }
+
+
+div.message {
+  
+  padding: 10px;
+  padding-left: 35px;
+  box-shadow:0 2px 5px rgba(0,0,0,.3);
+  background: #fff;
+  width:40%;
+  float:right;
+  margin-right:150px;
+  
+  
+  -webkit-transition: all .5s ease;
+     -moz-transition: all .5s ease;
+      -ms-transition: all .5s ease;
+       -o-transition: all .5s ease;
+          transition: all .5s ease;
+}
+div.message:hover{
+  box-shadow: 0 15px 20px rgba(10,0,10,.3);
+  -webkit-filter: brightness(110%);
+}
+
+div.message.information{background: $red;}
+
+
+
 
 
 
