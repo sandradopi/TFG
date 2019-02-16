@@ -75,10 +75,22 @@ public class DatabaseLoader {
     locationService.save(location1);
     locationService.save(location2);
     locationService.save(location3);
-    sportService.save(new Sport("Fútbol",null,null,location1));
-    sportService.save(new Sport("Tennis",null,null,location2));
-    sportService.save(new Sport("Baloncesto",null,null,location1));
-    sportService.save(new Sport("Paddel",null,null,location3));
+    
+    Set <Location>locationsFutbol = new <Location> HashSet();
+    Set <Location>locationsTennis = new <Location> HashSet();
+    Set <Location>locationsBaloncesto = new <Location> HashSet();
+    Set <Location>locationsPaddel = new <Location> HashSet();
+    locationsFutbol.add(location1);
+    locationsFutbol.add(location2);
+    locationsTennis.add(location2);
+    locationsTennis.add(location3);
+    locationsBaloncesto.add(location1);
+    locationsPaddel.add(location3);
+    
+    sportService.save(new Sport("Fútbol",null,null,locationsFutbol));
+    sportService.save(new Sport("Tennis",null,null,locationsTennis));
+    sportService.save(new Sport("Baloncesto",null,null,locationsBaloncesto));
+    sportService.save(new Sport("Paddel",null,null,locationsPaddel));
     
     }
 

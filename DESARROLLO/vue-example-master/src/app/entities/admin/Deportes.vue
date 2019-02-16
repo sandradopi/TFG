@@ -1,12 +1,6 @@
 <template>
 
 <div>
-   <div class="float-right">
-      <b-btn        class="button"
-                    variant="primary"
-                    @click="back()"><span>Atrás</span></b-btn>
-  </div>
-
 
  <div class="container" ng-controller="index">
 
@@ -14,11 +8,28 @@
         <h1>Deportes</h1>
         
    <div class="half margin-right">
-         <input type='text'   class="searchButton" placeholder='Nombre del deporte' ng-model="itemName" autofocus required>
+         <input type='text'   class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
+          <multiselect 
+            class="multi"
+            v-model="sport.locations" 
+            tag-placeholder="Localizaciones"
+            :options="this.alllocations"
+            :multiple="true"
+            :searchable="true" 
+            :clear-on-select="false" 
+            :preserve-search="true"
+            :close-on-select="false" 
+            :show-labels="false"
+            track-by="idLocation"
+            placeholder="Localizaciones"
+            :custom-label="nameCustom"
+            >
+      </multiselect>
+      <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </div>
         
         
-        <button id="addItem">Nuevo Deporte</button>
+        <button id="addItem" @click="crear()">Nuevo Deporte</button>
         <div class="list">
           <table >
             <tr class="table-header">
@@ -40,13 +51,16 @@
 import { HTTP } from '../../common/http-common' 
 import auth from '../../common/auth'
 import Vue from 'vue'
+import Multiselect from 'vue-multiselect'
 
 
 export default {
-  components: {},
+  components: {Multiselect},
   data() {
     return {
       sports:null,
+      sport:{},
+      alllocations: [],
      
 
     }
@@ -57,6 +71,7 @@ export default {
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
+    this.getLocations()
     this.fetchData()
   },
   methods: {
@@ -69,22 +84,75 @@ export default {
      .catch(err => {
        this.error = err.message
      })
-    .finally(() => this.loading = false)
-    }
-  
+
     },
- 
+    getLocations() {
+        
+       HTTP.get('locations')
+      .then(response => this.alllocations = response.data)
+      .catch(err => this.error = err.message)
+    },
+  
+    
+    crear(){
+      if(this.checkForm()==true){
+      HTTP.post('sports',this.sport)
+
+           .then(this._successHandler)
+           .catch(this._errorHandler)
+         } else{
+           Vue.notify({
+               text: this.error,
+               type: 'error'})
+         }
+          
+    },
+     nameCustom ({ name }) {
+      return `${name} `
+    },
 
     _successHandler(response) {
+      this.sport.type="";
+      this.sport.locations=null;
       this.fetchData()
+
     },
-    back() {
-      this.$router.go(-1)
+    checkForm () {
+
+      if (!this.sport.type) {
+        this.error="Introduzca un deporte"
+        return false;
+      }
+      
+      for ( var i = 0; i < this.sports.length; i ++){
+        if(this.sports[i].type==this.sport.type){
+          this.error="El deporte "+this.sport.type+ " ya está en su BD"
+          return false;
+        }
+      
+      }
+
+      if (this.sport.type || this.sport.type && this.spot.locations) {
+        return true;
+      }
+
     },
+
+    notification(){
+      if (this.error=="sportDTO.type no puede estar vacío"){
+        this.error="Introduzca un deporte"
+      }
+
+       Vue.notify({
+               text: this.error,
+               type: 'error'})
+    },
+   
     _errorHandler(err) {
       this.error = err.response.data.message
+      this.notification()
     }
-  
+  }
 }
 </script>
 
@@ -172,25 +240,26 @@ table {
 
   td {
     padding: 0.75em 0.5em;
+    color:#3a3a3a;
+    margin-left:auto;
+    margin-right:auto;
   }
   
   tr:nth-child(2n+2){
-    background: darken(#eee, 1%); 
+    background: darken(#eee, 3%); 
   }
 }
 
 .searchButton {
   width: 100%;
-  border: 2px solid #e0e0e0;
   background: #fff;
-  outline: none;
-  padding: 1em;
-  border-radius: 3px;
-  font-weight: 300;
-  font-size: 1em;
+  padding: 0.6em; 
   margin-top: 0.25em;
   margin-bottom: 0.25em;
-  position: relative;
+  border-radius: 5px;
+  border: 0.1px solid #fff;
+  font-size:1em;
+
 }      
 
 

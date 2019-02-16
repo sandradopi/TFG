@@ -1,6 +1,9 @@
 package es.udc.lbd.asi.restexample.model.service.dto;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -14,15 +17,16 @@ public class SportDTO {
 	private String type;
 	private String componenteEntrada;
 	private String componenteVisualizacion;
-	@NotNull
-	private LocationDTO location;
+	private Set<LocationDTO> locations = new HashSet<LocationDTO>();
 	
 	public SportDTO(Sport sport) {
 		this.idSport = sport.getIdSport();
 		this.type = sport.getType();
 		this.componenteEntrada = sport.getComponenteEntrada();
 		this.componenteVisualizacion = sport.getComponenteVisualizacion();
-		this.location = new LocationDTO(sport.getLocation());
+		 for(Location a: sport.getLocations()){
+        	 this.locations.add(new LocationDTO(a));
+         }
 	}
 
 	public SportDTO() {
@@ -60,14 +64,15 @@ public class SportDTO {
 		this.componenteVisualizacion = componenteVisualizacion;
 	}
 
-	public LocationDTO getLocation() {
-		return location;
+	public Set<LocationDTO> getLocations() {
+		return locations;
 	}
 
-	public void setLocation(LocationDTO location) {
-		this.location = location;
+	public void setLocations(Set<LocationDTO> locations) {
+		this.locations = locations;
 	}
 
+	
 	
 	
 	

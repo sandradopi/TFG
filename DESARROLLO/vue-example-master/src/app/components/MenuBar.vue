@@ -15,9 +15,6 @@
 
       <b-navbar-nav>
       
-      <b-nav-item
-          :to="{ name: 'Partidos' }"
-          exact>Partidos</b-nav-item>
 
        <b-nav-item
            v-if="isAdmin"

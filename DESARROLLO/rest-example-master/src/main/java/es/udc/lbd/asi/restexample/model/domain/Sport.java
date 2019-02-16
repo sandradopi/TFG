@@ -1,5 +1,8 @@
 package es.udc.lbd.asi.restexample.model.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -31,21 +36,24 @@ public class Sport {
 	//@NotEmpty
 	private String componenteVisualizacion;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "idLocation")
-    @NotNull
-    private Location location;
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+    		name = "SPORT_LOCATION",
+    		joinColumns = {@JoinColumn(name = "idSport")},
+    		inverseJoinColumns = {@JoinColumn(name = "idLocation")}
+    		)
+    private Set<Location> locations = new HashSet<Location>();
 	
 	public Sport() {
 		
 	}
 	
 	public Sport(@NotEmpty String type, String componenteEntrada,
-			 String componenteVisualizacion, @NotNull Location location) {
+			 String componenteVisualizacion, @NotNull Set<Location> location) {
 		this.type = type;
 		this.componenteEntrada = componenteEntrada;
 		this.componenteVisualizacion = componenteVisualizacion;
-		this.location=location;
+		this.locations=location;
 	}
 	
 	public Sport(@NotEmpty String type, String componenteEntrada,
@@ -53,15 +61,20 @@ public class Sport {
 		this.type = type;
 		this.componenteEntrada = componenteEntrada;
 		this.componenteVisualizacion = componenteVisualizacion;
-		this.location=location;
+
 	}
 
-	public Location getLocation() {
-		return location;
+	public Sport(@NotEmpty String type,  @NotNull Set<Location> location) {
+		this.type = type;
+		this.locations=location;
 	}
 
-	public void setLocation(Location location) {
-		this.location = location;
+	public Set<Location> getLocations() {
+		return locations;
+	}
+
+	public void setLocations(Set<Location> locations) {
+		this.locations = locations;
 	}
 
 	public Long getIdSport() {
