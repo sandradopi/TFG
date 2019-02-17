@@ -1,10 +1,8 @@
 <template>
 
 <div>
-  <div class="information message">
-  <h2>Information</h2>
-  <p>This is an 'information message' div. It helps people get to know the site a little better. </p>
-</div>
+  <DeportesDetail ></DeportesDetail>
+
   <div  id="shopping-list">
         <h1>Deportes</h1>
         
@@ -52,10 +50,11 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+import DeportesDetail from '../../entities/admin/DeportesDetail'
 
 
 export default {
-  components: {Multiselect},
+  components: {Multiselect,DeportesDetail},
   data() {
     return {
       sports:null,
