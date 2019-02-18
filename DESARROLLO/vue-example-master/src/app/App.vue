@@ -6,11 +6,11 @@
   	 <notifications
        :max="3"
        :width="400"
-       position="top center"/>
+       position="top center"></notifications>
 
-    <MenuBar/>
+    <MenuBar></MenuBar>
 
-    <router-view class="content"/>
+    <router-view class="content"></router-view>
     <footer class="footer-distributed">
 
       <div class="footer-left">
