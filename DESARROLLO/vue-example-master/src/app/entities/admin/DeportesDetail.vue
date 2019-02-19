@@ -1,10 +1,11 @@
 <template>
 
-  <div class="information message">
-  <h2>{{this.sport.type}}</h2>
-  <br>
-  <h5>Ubicaciones:</h5>
-  <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
+  <div v-if="bol"class="information message">
+    <button @click="hide"> X </button>             
+    <h2>{{this.sport.type}}</h2>
+    <br>
+    <h5>Ubicaciones:</h5>
+    <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
 </div>
   
 </template>
@@ -20,12 +21,14 @@ export default {
   components: {},
   props:{
     idDeporte:null,
+
     
   },
   data() {
 
     return {
-      sport:{}
+      sport:{},
+      bol:true
      
 
     }
@@ -33,7 +36,6 @@ export default {
   watch: {
     '$route': 'fetchData',
     idDeporte:'fetchData',
-    
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
@@ -41,6 +43,7 @@ export default {
   },
   methods: {
      fetchData() {
+      this.bol=true;
        HTTP.get(`sports/${this.idDeporte}`) 
       .then(response => {
         this.sport = response.data
@@ -49,6 +52,9 @@ export default {
       .catch(err => this.error = err.message)
     
 
+    },
+    hide(){
+      this.bol=false;
     },
    
 
@@ -92,7 +98,22 @@ div.message:hover{
 
 div.message.information{background: #fb887c;}
 
+td {
+    
+    color:grey;
+    margin-left:auto;
+    margin-right:auto;
+  }
 
+  button{
+  width: 10%;
+  float:right;
+  background: #fb887c;
+  border-radius: 5px;
+  border: 0.1px solid #fb887c;
+  font-size:1.8em;
+  color: white;
+}
 
 
 

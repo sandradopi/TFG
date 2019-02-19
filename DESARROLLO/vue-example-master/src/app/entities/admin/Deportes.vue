@@ -59,13 +59,14 @@ export default {
       sports:null,
       sport:{},
       alllocations: [],
-      idDeporte:null
+      idDeporte:null,
      
 
     }
   },
   watch: {
     '$route': 'fetchData',
+
 
 
     
@@ -253,29 +254,6 @@ button {
 }
 
 
-div.message {
-  
-  padding: 10px;
-  padding-left: 35px;
-  box-shadow:0 2px 5px rgba(0,0,0,.3);
-  background: #fff;
-  width:40%;
-  float:right;
-  margin-right:150px;
-  
-  
-  -webkit-transition: all .5s ease;
-     -moz-transition: all .5s ease;
-      -ms-transition: all .5s ease;
-       -o-transition: all .5s ease;
-          transition: all .5s ease;
-}
-div.message:hover{
-  box-shadow: 0 15px 20px rgba(10,0,10,.3);
-  -webkit-filter: brightness(110%);
-}
-
-div.message.information{background: $red;}
 
 
 
