@@ -130,7 +130,6 @@ td {
   border: 0.1px solid #f3f3f3;
   font-size:1em;
   color: grey;
-
 }
 
 
