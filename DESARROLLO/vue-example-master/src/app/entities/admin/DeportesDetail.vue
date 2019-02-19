@@ -1,8 +1,10 @@
 <template>
 
   <div class="information message">
-  <h2>Information</h2>
-  <p>This is an 'information message' div. It helps people get to know the site a little better. </p>
+  <h2>{{this.sport.type}}</h2>
+  <br>
+  <h5>Ubicaciones:</h5>
+  <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
 </div>
   
 </template>
@@ -16,24 +18,37 @@ import Vue from 'vue'
 
 export default {
   components: {},
+  props:{
+    idDeporte:null,
+    
+  },
   data() {
+
     return {
-      
+      sport:{}
      
 
     }
   },
   watch: {
     '$route': 'fetchData',
+    idDeporte:'fetchData',
     
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
-    
+    this.fetchData()
   },
   methods: {
-    fetchData() {
-  
+     fetchData() {
+       HTTP.get(`sports/${this.idDeporte}`) 
+      .then(response => {
+        this.sport = response.data
+      
+      })
+      .catch(err => this.error = err.message)
+    
+
     },
    
 

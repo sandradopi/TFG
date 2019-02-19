@@ -1,11 +1,10 @@
 <template>
 
 <div>
-  <DeportesDetail ></DeportesDetail>
+  <DeportesDetail v-if= "idDeporte!=null" v-bind:idDeporte="this.idDeporte" ></DeportesDetail>
 
   <div  id="shopping-list">
         <h1>Deportes</h1>
-        
    <div class="half margin-right">
          <input type='text'   class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
           <multiselect 
@@ -34,7 +33,7 @@
               <td></td>
             </tr>
             <tr >
-              <button class= "sport" v-for="sport in sports" :key="sport.idSport">
+              <button class= "sport" v-for="sport in sports" :key="sport.idSport" @click="parametro(sport.idSport)">
                 <td>{{ sport.type}}</td>
              </button>             
             </tr>
@@ -60,12 +59,15 @@ export default {
       sports:null,
       sport:{},
       alllocations: [],
+      idDeporte:null
      
 
     }
   },
   watch: {
     '$route': 'fetchData',
+
+
     
   },
  
@@ -90,6 +92,11 @@ export default {
        HTTP.get('locations')
       .then(response => this.alllocations = response.data)
       .catch(err => this.error = err.message)
+    },
+    parametro(idSport){
+      this.idDeporte=idSport;
+
+      
     },
   
     
