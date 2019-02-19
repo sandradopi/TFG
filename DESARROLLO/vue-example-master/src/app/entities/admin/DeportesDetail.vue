@@ -6,6 +6,8 @@
     <br>
     <h5>Ubicaciones:</h5>
     <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
+    <button class="editar"@click="editar()"> Editar</button>  
+    <button class="eliminar"@click="eliminar()"> Eliminar</button> 
 </div>
   
 </template>
@@ -21,6 +23,7 @@ export default {
   components: {},
   props:{
     idDeporte:null,
+    num:0
 
     
   },
@@ -28,14 +31,15 @@ export default {
 
     return {
       sport:{},
-      bol:true
+      bol:true,
+   
      
 
     }
   },
   watch: {
     '$route': 'fetchData',
-    idDeporte:'fetchData',
+     num:'fetchData',
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
@@ -77,7 +81,7 @@ export default {
 div.message {
   
   padding: 10px;
-  padding-left: 35px;
+  padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
   background: #fff;
   width:40%;
@@ -115,10 +119,33 @@ td {
   color: white;
 }
 
+.editar{
+  width: 47%;
+  float:left;
+  background: #fff;
+  padding: 0.6em; 
+  margin-top: 15%;
+  margin-bottom: 0.25em;
+  border-radius: 5px;
+  border: 0.1px solid #f3f3f3;
+  font-size:1em;
+  color: grey;
+
+}
 
 
-
-
+.eliminar{
+   width: 47%;
+   float:right;
+  background: #fff;
+  padding: 0.6em; 
+  margin-top: 15%;
+  margin-bottom: 0.25em;
+  border-radius: 5px;
+  border: 0.1px solid #f3f3f3;
+  font-size:1em;
+  color: grey;
+}
 
 
 </style>
