@@ -1,16 +1,19 @@
 <template>
   
-  <div id="app">
- 
+   <div id="app">
+    <notifications
+      :max="3"
+      :width="400"
+      position="top center">
+      <!-- -->
+    </notifications>
+    <MenuBar>
+      <!-- -->
+    </MenuBar>
+    <router-view class="content">
+      <!-- -->
+    </router-view>
 
-  	 <notifications
-       :max="3"
-       :width="400"
-       position="top center"></notifications>
-
-    <MenuBar></MenuBar>
-
-    <router-view class="content"></router-view>
     <footer class="footer-distributed">
 
       <div class="footer-left">

@@ -2,7 +2,7 @@
   <div>
 <b-navbar
     toggleable="md" variant="info">
-    <b-navbar-toggle target="nav_collapse" />
+    <b-navbar-toggle target="nav_collapse"><b-navbar-toggle target/>
 
     <b-navbar-brand 
       class="hello"
@@ -73,44 +73,6 @@ export default {
 </script>
 <style scoped lang="scss">
 
-.hello{
-  font-size: 20px;
-  text-align: center;
-  text-transform: uppercase;
 
-}
-
- li.nav-item a {
-  color:#292c2f;
-  font-size:18px;
-
-}
-
-ul.navbar-nav {
-  color:white;
-  font-size:18px;
-
-}
-
-.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active{
-  color:white;
-}
-.dropdown-item.active, .dropdown-item:active {
-    color: #fff;
-    text-decoration: none;
-    background-color: #17a2b8;}
-
-.navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
-   color:white;
-}
-
-.imagen{
-   width:10%;
-   margin-left:20px;
-   margin-top:20px;
-}
-.ml-auto{
-   margin-right:60px;
-}
 
 </style>
