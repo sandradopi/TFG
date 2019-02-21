@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.repository.util.GenericDAOHibernate;
 
@@ -29,16 +30,22 @@ public class SportDAOHibernate extends GenericDAOHibernate implements SportDAO {
 	@Override
 	public void deleteById(Long idSport) {
 		 getSession().delete(findById(idSport));
+		 
 		
 	}
 	@Override
 	public Long countLocations(Long idSport) {
-		 return (Long) getSession().createQuery("select count(*) from Sport as s inner join s.location as l where s.idSport= :idSport").setParameter("idSport", idSport).uniqueResult();
+		 return (Long) getSession().createQuery("select count(*) from Sport as s inner join s.locations as l where s.idSport= :idSport").setParameter("idSport", idSport).uniqueResult();
 	}
 
 	@Override
 	public Sport findByType(String type) {
 		 return (Sport) getSession().createQuery("from Sport s where s.type = :type").setParameter("type", type).uniqueResult();
+	}
+
+	@Override
+	public Location uniqueLocation(Long idSport) {
+		return (Location) getSession().createQuery("select l from Sport as s inner join s.locations as l where s.idSport= :idSport").setParameter("idSport", idSport).uniqueResult();
 	}
 	
 

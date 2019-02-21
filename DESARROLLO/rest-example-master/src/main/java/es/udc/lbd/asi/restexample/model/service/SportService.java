@@ -60,18 +60,26 @@ public SportDTO save(SportDTO sport) throws SportExistsException {
     return new SportDTO(bdSport);
 }
 
+@PreAuthorize("hasAuthority('ADMIN')")
+@Transactional(readOnly = false)
 @Override
 public void deleteById(Long idSport) {
-	/*Sport bdSport = sportDAO.findById(idSport);
+	Sport bdSport = sportDAO.findById(idSport);
 	Long locations=sportDAO.countLocations(idSport);
+	
 	if (locations==1){
-		Long count= locationDAO.countSportsOfaLocation(bdSport.getLocation().getIdLocation());
+		
+		Long idlocation = sportDAO.uniqueLocation(idSport).getIdLocation();
+		Long count= locationDAO.countSportsOfaLocation(idlocation);
 		if (count==1){
-			locationDAO.deleteById(bdSport.getLocation().getIdLocation());
+		
+			locationDAO.deleteById(idlocation);
 		}
 	}
-	sportDAO.deleteById(idSport);*/
-	//borrar las localizaciones que solo estaban en ese deporte
+
+	sportDAO.deleteById(idSport);
+	
+	
 	
 }
   

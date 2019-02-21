@@ -1,7 +1,7 @@
 <template>
 
 <div>
-  <DeportesDetail v-if= "idDeporte!=null" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
+  <DeportesDetail @CustomEventInputChanged="reloadPage" v-if= "idDeporte!=null" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
 
   <div  id="shopping-list">
         <h1>Deportes</h1>
@@ -99,6 +99,9 @@ export default {
       this.num=this.num+1;
 
       
+    },
+    reloadPage(){
+      this.fetchData()
     },
   
     

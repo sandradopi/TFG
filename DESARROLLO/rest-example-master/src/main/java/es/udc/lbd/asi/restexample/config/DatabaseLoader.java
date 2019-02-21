@@ -83,7 +83,6 @@ public class DatabaseLoader {
     locationsFutbol.add(location1);
     locationsFutbol.add(location2);
     locationsTennis.add(location2);
-    locationsTennis.add(location3);
     locationsBaloncesto.add(location1);
     locationsPaddel.add(location3);
     

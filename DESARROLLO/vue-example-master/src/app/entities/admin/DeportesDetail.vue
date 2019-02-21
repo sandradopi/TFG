@@ -63,13 +63,20 @@ export default {
    
 
     _successHandler(response) {
-      this.fetchData()
+      this.bol=false;
+      this.$emit('CustomEventInputChanged');
 
     },
 
     _errorHandler(err) {
       this.error = err.response.data.message
       
+    },
+    eliminar(){
+      HTTP.delete(`sports/${this.idDeporte}`)
+        .then(this._successHandler)
+        .catch(this._errorHandler)
+
     }
   }
 }

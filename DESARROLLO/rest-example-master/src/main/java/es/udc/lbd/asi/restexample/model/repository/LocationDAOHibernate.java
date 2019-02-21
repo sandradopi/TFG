@@ -35,7 +35,7 @@ public class LocationDAOHibernate extends GenericDAOHibernate implements Locatio
 	
 	@Override
 	public Long countSportsOfaLocation(Long idLocation) {
-		 return (Long) getSession().createQuery("select count(*) from Sports as s inner join s.location as l where l.idlocation= :idLocation").setParameter("idLocation", idLocation).uniqueResult();
+		 return (Long) getSession().createQuery("select count(*) from Sport as s inner join s.locations as l where l.idLocation= :idLocation").setParameter("idLocation", idLocation).uniqueResult();
 	}
 
 }
