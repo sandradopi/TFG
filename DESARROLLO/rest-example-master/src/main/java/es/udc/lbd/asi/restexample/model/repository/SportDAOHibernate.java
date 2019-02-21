@@ -44,8 +44,8 @@ public class SportDAOHibernate extends GenericDAOHibernate implements SportDAO {
 	}
 
 	@Override
-	public Location uniqueLocation(Long idSport) {
-		return (Location) getSession().createQuery("select l from Sport as s inner join s.locations as l where s.idSport= :idSport").setParameter("idSport", idSport).uniqueResult();
+	public List<Location> findLocationsOfSport(Long idSport) {
+		return (List<Location>) getSession().createQuery("select l from Sport as s inner join s.locations as l where s.idSport= :idSport").setParameter("idSport", idSport).list();
 	}
 	
 

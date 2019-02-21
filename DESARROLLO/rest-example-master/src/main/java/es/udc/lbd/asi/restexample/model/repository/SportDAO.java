@@ -15,6 +15,6 @@ public interface SportDAO {
 	 public Sport findByType(String type) ;
 	 public void deleteById(Long idSport) ;
 	 public Long countLocations(Long idSport);
-	 public Location uniqueLocation(Long idSport);
+	 public List<Location> findLocationsOfSport(Long idSport);
 	 
 }

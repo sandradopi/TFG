@@ -64,20 +64,30 @@ public SportDTO save(SportDTO sport) throws SportExistsException {
 @Transactional(readOnly = false)
 @Override
 public void deleteById(Long idSport) {
+	Boolean bol=false;
 	Sport bdSport = sportDAO.findById(idSport);
-	Long locations=sportDAO.countLocations(idSport);
 	
-	if (locations==1){
-		
-		Long idlocation = sportDAO.uniqueLocation(idSport).getIdLocation();
-		Long count= locationDAO.countSportsOfaLocation(idlocation);
-		if (count==1){
-		
-			locationDAO.deleteById(idlocation);
+	
+		List<Location> loc= sportDAO.findLocationsOfSport(idSport);
+		for(Location a:loc){
+			
+			Long count= locationDAO.countSportsOfaLocation(a.getIdLocation());
+			
+			if (count==1 && bol==false){
+				sportDAO.deleteById(idSport);
+				locationDAO.deleteById(a.getIdLocation());
+				bol= true;
+			}else{
+				if(bol==false && count!=1){
+					sportDAO.deleteById(idSport);
+					bol=true;
+				}else if (bol==true){
+					
+				}
+			}
 		}
-	}
-
-	sportDAO.deleteById(idSport);
+		
+	
 	
 	
 	
