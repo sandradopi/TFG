@@ -49,7 +49,8 @@ export default {
   props:{
     idDeporte:null,
     num:0,
-    nuevo:false
+    nuevo:false,
+    
 
     
   },
@@ -58,7 +59,8 @@ export default {
     return {
       sport:{},
       bol:true,
-      alllocations: []
+      alllocations: [],
+      sports:null
    
      
 
@@ -97,6 +99,15 @@ export default {
 
     },
     guardar(){
+      HTTP.get('sports')
+        .then(response => {
+       this.sports = response.data
+       
+     })
+     .catch(err => {
+       this.error = err.message
+     })
+
       if(this.checkForm()==true){
       HTTP.post('sports',this.sport)
 
