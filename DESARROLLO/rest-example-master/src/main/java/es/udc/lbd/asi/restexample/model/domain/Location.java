@@ -1,10 +1,17 @@
 package es.udc.lbd.asi.restexample.model.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -32,7 +39,12 @@ public class Location {
 	@NotNull
 	private Double longitud;
 
+	@ManyToMany(mappedBy= "locations",fetch = FetchType.LAZY)
+    private Set<Sport> sports = new HashSet<Sport>();
 	
+	
+
+
 	public Location() {
 		
 	}
@@ -97,5 +109,12 @@ public class Location {
 		this.longitud = longitud;
 	}
 	
-	
+	public Set<Sport> getSports() {
+		return sports;
+	}
+
+
+	public void setSports(Set<Sport> sports) {
+		this.sports = sports;
+	}
 }

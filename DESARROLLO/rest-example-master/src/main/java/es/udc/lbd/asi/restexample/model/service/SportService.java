@@ -80,7 +80,7 @@ public void deleteById(Long idSport) {
 			}else{
 				if(bol==false && count!=1){
 					sportDAO.deleteById(idSport);
-					bol=true;
+					bol= true;
 				}else if (bol==true){
 					
 				}

@@ -1,31 +1,10 @@
 <template>
 
 <div>
-  <DeportesDetail @CustomEventInputChanged="reloadPage" v-if= "idDeporte!=null" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
+  <DeportesDetail @CustomEventInputChanged="reloadPage"  v-if= "(idDeporte!=null || nuevo)" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num" v-bind:nuevo="this.nuevo"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
 
   <div  id="shopping-list">
-        <h1>Deportes</h1>
-   <div class="half margin-right">
-         <input type='text'   class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
-          <multiselect 
-            class="multi"
-            v-model="sport.locations" 
-            :options="this.alllocations"
-            :multiple="true"
-            :searchable="true" 
-            :clear-on-select="false" 
-            :preserve-search="true"
-            :close-on-select="false" 
-            :show-labels="false"
-            track-by="idLocation"
-            placeholder="Localizaciones"
-            :custom-label="nameCustom"
-            >
-      </multiselect>
-      <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-        </div>
-        
-        
+        <h1>Deportes</h1>     
         <button id="addItem" @click="crear()">Nuevo Deporte</button>
         <div class="list">
           <table >
@@ -58,22 +37,23 @@ export default {
     return {
       sports:null,
       sport:{},
-      alllocations: [],
       idDeporte:null,
-      num:0
+      num:0,
+      nuevo:false
      
 
     }
   },
   watch: {
     '$route': 'fetchData',
+    nuevo:'fetchData'
 
 
     
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
-    this.getLocations()
+    
     this.fetchData()
   },
   methods: {
@@ -88,39 +68,25 @@ export default {
      })
 
     },
-    getLocations() {
-        
-       HTTP.get('locations')
-      .then(response => this.alllocations = response.data)
-      .catch(err => this.error = err.message)
-    },
+    
     parametro(idSport){
+      this.nuevo=false;
       this.idDeporte=idSport;
       this.num=this.num+1;
 
       
     },
     reloadPage(){
+      this.nuevo=false;
       this.fetchData()
     },
   
     
     crear(){
-      if(this.checkForm()==true){
-      HTTP.post('sports',this.sport)
-
-           .then(this._successHandler)
-           .catch(this._errorHandler)
-         } else{
-           Vue.notify({
-               text: this.error,
-               type: 'error'})
-         }
-          
+      this.nuevo=true;  
+      this.idDeporte=null;        
     },
-     nameCustom ({ name }) {
-      return `${name} `
-    },
+    
 
     _successHandler(response) {
       this.sport.type="";
@@ -128,36 +94,7 @@ export default {
       this.fetchData()
 
     },
-    checkForm () {
-
-      if (!this.sport.type) {
-        this.error="Introduzca un deporte"
-        return false;
-      }
-      
-      for ( var i = 0; i < this.sports.length; i ++){
-        if(this.sports[i].type==this.sport.type){
-          this.error="El deporte "+this.sport.type+ " ya está en su BD"
-          return false;
-        }
-      
-      }
-
-      if (this.sport.type || this.sport.type && this.spot.locations) {
-        return true;
-      }
-
-    },
-
-    notification(){
-      if (this.error=="sportDTO.type no puede estar vacío"){
-        this.error="Introduzca un deporte"
-      }
-
-       Vue.notify({
-               text: this.error,
-               type: 'error'})
-    },
+    
    
     _errorHandler(err) {
       this.error = err.response.data.message

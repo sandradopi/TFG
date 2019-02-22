@@ -1,13 +1,37 @@
 <template>
 
   <div v-if="bol"class="information message">
-    <button @click="hide"> X </button>             
-    <h2>{{this.sport.type}}</h2>
-    <br>
-    <h5>Ubicaciones:</h5>
-    <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
-    <button class="editar"@click="editar()"> Editar</button>  
-    <button class="eliminar"@click="eliminar()"> Eliminar</button> 
+    <button @click="hide"> X </button> 
+    <div v-if="nuevo"class="half margin-right">
+         <input type='text' class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
+          <multiselect 
+            class="multi"
+            v-model="sport.locations" 
+            :options="this.alllocations"
+            :multiple="true"
+            :searchable="true" 
+            :clear-on-select="false" 
+            :preserve-search="true"
+            :close-on-select="false" 
+            :show-labels="false"
+            track-by="idLocation"
+            placeholder="Localizaciones"
+            :custom-label="nameCustom"
+            >
+      </multiselect>
+      <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+       <button class="guardar"@click="guardar()"> Guardar</button>
+        </div>
+
+     
+    <div v-if="!nuevo">          
+      <h2>{{this.sport.type}}</h2>
+      <br>
+      <h5>Ubicaciones:</h5>
+      <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
+      <button class="editar"@click="editar()"> Editar</button>  
+      <button class="eliminar"@click="eliminar()"> Eliminar</button> 
+    </div>
 </div>
   
 </template>
@@ -16,14 +40,16 @@
 import { HTTP } from '../../common/http-common' 
 import auth from '../../common/auth'
 import Vue from 'vue'
+import Multiselect from 'vue-multiselect'
 
 
 
 export default {
-  components: {},
+  components: {Multiselect},
   props:{
     idDeporte:null,
-    num:0
+    num:0,
+    nuevo:false
 
     
   },
@@ -32,6 +58,7 @@ export default {
     return {
       sport:{},
       bol:true,
+      alllocations: []
    
      
 
@@ -40,25 +67,85 @@ export default {
   watch: {
     '$route': 'fetchData',
      num:'fetchData',
+     nuevo:'fetchData',
+
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
+    this.getLocations()
     this.fetchData()
   },
   methods: {
+
      fetchData() {
       this.bol=true;
+      if(this.nuevo!=true){
        HTTP.get(`sports/${this.idDeporte}`) 
       .then(response => {
         this.sport = response.data
       
       })
       .catch(err => this.error = err.message)
-    
+    }else{
+      this.sport={};
+    }
 
     },
     hide(){
       this.bol=false;
+      this.$emit('CustomEventInputChanged');
+
+    },
+    guardar(){
+      if(this.checkForm()==true){
+      HTTP.post('sports',this.sport)
+
+           .then(this._successHandler)
+           .catch(this._errorHandler)
+         } else{
+           Vue.notify({
+               text: this.error,
+               type: 'error'})
+         }
+    },
+     nameCustom ({ name }) {
+      return `${name} `
+    },
+
+    checkForm () {
+
+      if (!this.sport.type) {
+        this.error="Introduzca un deporte"
+        return false;
+      }
+      
+      for ( var i = 0; i < this.sports.length; i ++){
+        if(this.sports[i].type==this.sport.type){
+          this.error="El deporte "+this.sport.type+ " ya está en su BD"
+          return false;
+        }
+      
+      }
+
+      if (this.sport.type || this.sport.type && this.spot.locations) {
+        return true;
+      }
+
+    },
+    notification(){
+      if (this.error=="sportDTO.type no puede estar vacío"){
+        this.error="Introduzca un deporte"
+      }
+
+       Vue.notify({
+               text: this.error,
+               type: 'error'})
+    },
+    getLocations() {
+        
+       HTTP.get('locations')
+      .then(response => this.alllocations = response.data)
+      .catch(err => this.error = err.message)
     },
    
 
@@ -109,6 +196,20 @@ div.message:hover{
 
 div.message.information{background: #fb887c;}
 
+.guardar{
+  width: 100%;
+  float:left;
+  background: #fff;
+  padding: 0.6em; 
+  margin-top: 15%;
+  margin-bottom: 0.25em;
+  border-radius: 5px;
+  border: 0.1px solid #f3f3f3;
+  font-size:1em;
+  color: grey;
+
+}
+
 td {
     
     color:grey;
@@ -152,6 +253,16 @@ td {
   font-size:1em;
   color: grey;
 }
+.searchButton {
+  width: 100%;
+  background: #fff;
+  padding: 0.6em; 
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  border-radius: 5px;
+  border: 0.1px solid #fff;
+  font-size:0.9em;
 
+}      
 
 </style>
