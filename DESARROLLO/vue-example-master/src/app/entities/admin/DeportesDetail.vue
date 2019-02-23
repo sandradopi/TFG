@@ -90,6 +90,14 @@ export default {
       .catch(err => this.error = err.message)
     }else{
       this.sport={};
+      HTTP.get('sports')
+        .then(response => {
+       this.sports = response.data
+       
+     })
+     .catch(err => {
+       this.error = err.message
+     })
     }
 
     },
