@@ -4,6 +4,8 @@
    
     
     <div class="half margin-right">
+      {{this.fallo}}
+      {{this.typeSport}}
     <h2 class="titulo" v-if=" idDeporte==null">Nuevo Deporte</h2>
          <input type='text' class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
           <multiselect 
@@ -22,6 +24,10 @@
             >
       </multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+      <input type='text' class="searchButton" placeholder='Nombre del componente de entrada' v-model="sport.componenteEntrada" autofocus required >
+      <input type='text' class="searchButton" placeholder='Nombre del componente de visualización' v-model="sport.componenteVisualizacion" autofocus required >
+     
+
        <button class="guardar"@click="guardar()"> Guardar</button>
        <button @click="hide"> Cancelar </button> 
         </div>
@@ -51,7 +57,9 @@ export default {
       bol:true,
       alllocations: [],
       sports:null,
-      loc:[]
+      loc:[],
+      typeSport:null,
+      fallo:false
    
      
 
@@ -71,10 +79,14 @@ export default {
 
      fetchData() {
        if (this.idDeporte) {
-
             HTTP.get(`sports/${this.idDeporte}`)
-            .then(response => this.sport = response.data)
+           .then(response => {
+            this.sport = response.data
+            return response
+            })
+           .then(response => {this.typeSport = response.data.type})
             .catch(err => this.error = err.message)
+
         } else {
            this.sport={};
         }
@@ -95,13 +107,28 @@ export default {
 
     },
     guardar(){
-      if(this.idDeporte){
-        HTTP.put(`sports/${this.idDeporte}`,this.sport)
+      this.fallo=false;
+      if(this.idDeporte){//ACTUALIZAR
+        if(this.typeSport!= this.sport.type){//Si cambiamos nombre
+          for ( var i = 0; i < this.sports.length; i ++){
+            if (this.sport.type==this.sports[i].type){//si tiene el nombre de alguno ya existente
+              this.fallo=true;
+            }
+        }
+      }
+      if (this.fallo==false){//si no tiene el mismo nombre
 
+        HTTP.put(`sports/${this.idDeporte}`,this.sport)
            .then(this._successHandler)
            .catch(this._errorHandler)
+         }else{
+        Vue.notify({
+               text: "Este deporte ya está dentro de la BD",
+               type: 'error'})
 
-      }else{
+      }
+
+      }else{//CREAR
       if(this.checkForm()==true){
       HTTP.post('sports',this.sport)
 

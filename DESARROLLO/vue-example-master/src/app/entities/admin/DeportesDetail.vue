@@ -10,9 +10,11 @@
       <h5>Ubicaciones:</h5>
       <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
       <li v-if="this.loc.length==0"> No hay localizaciones aun registradas para este deporte</li>
-
+      <div class="compo">
+        <h2 class="comp">Componente de Entrada: {{this.sport.componenteEntrada}}</h2>
+        <h2 class="comp">Componente de Visualización: {{this.sport.componenteVisualizacion}}</h2>
+     </div>
        <button class="editar" @click="editar()">Editar</button>
-
       <button class="eliminar"@click="eliminar()"> Eliminar</button> 
     </div>
 </div>
@@ -131,7 +133,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.comp{
 
+  font-size:1em;
+}
+
+.compo{
+  margin-top:20px;
+}
 
 div.message {
   

@@ -56,6 +56,8 @@ public SportDTO save(SportDTO sport) throws SportExistsException {
     }
 	
 	bdSport.setLocations(l);
+	bdSport.setComponenteEntrada(sport.getComponenteEntrada());
+	bdSport.setComponenteVisualizacion(sport.getComponenteVisualizacion());
 	sportDAO.save(bdSport);
     return new SportDTO(bdSport);
 }
@@ -66,6 +68,8 @@ public SportDTO save(SportDTO sport) throws SportExistsException {
 public SportDTO update(SportDTO sport){
     Sport bdSport = sportDAO.findById(sport.getIdSport());
     bdSport.setType(sport.getType());
+    bdSport.setComponenteVisualizacion(sport.getComponenteVisualizacion());
+    bdSport.setComponenteEntrada(sport.getComponenteEntrada());
    
     sport.getLocations().forEach(loc -> {
         bdSport.getLocations().add(locationDAO.findById(loc.getIdLocation()));
