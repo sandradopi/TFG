@@ -2,8 +2,9 @@
 
   <div v-if="bol"class="information message">
    
-    <h2 class="titulo">Nuevo Deporte</h2>
+    
     <div class="half margin-right">
+    <h2 class="titulo" v-if=" idDeporte==null">Nuevo Deporte</h2>
          <input type='text' class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
           <multiselect 
             class="multi"
@@ -94,7 +95,13 @@ export default {
 
     },
     guardar(){
-      
+      if(this.idDeporte){
+        HTTP.put(`sports/${this.idDeporte}`,this.sport)
+
+           .then(this._successHandler)
+           .catch(this._errorHandler)
+
+      }else{
       if(this.checkForm()==true){
       HTTP.post('sports',this.sport)
 
@@ -105,6 +112,7 @@ export default {
                text: this.error,
                type: 'error'})
          }
+        } 
     },
      nameCustom ({ name }) {
       return `${name} `
@@ -150,7 +158,7 @@ export default {
 
     _successHandler(response) {
       this.bol=false;
-      this.$emit('CustomEventInputChanged');
+      this.$emit('Cerrar');
 
     },
 
@@ -169,7 +177,6 @@ export default {
 .titulo{
   margin-bottom:30px;
 }
-
 div.message {
   
   padding: 10px;

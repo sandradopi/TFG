@@ -63,6 +63,21 @@ public SportDTO save(SportDTO sport) throws SportExistsException {
 @PreAuthorize("hasAuthority('ADMIN')")
 @Transactional(readOnly = false)
 @Override
+public SportDTO update(SportDTO sport){
+    Sport bdSport = sportDAO.findById(sport.getIdSport());
+    bdSport.setType(sport.getType());
+   
+    sport.getLocations().forEach(loc -> {
+        bdSport.getLocations().add(locationDAO.findById(loc.getIdLocation()));
+    });
+    
+    sportDAO.save(bdSport);
+    return new SportDTO(bdSport);
+    }
+
+@PreAuthorize("hasAuthority('ADMIN')")
+@Transactional(readOnly = false)
+@Override
 public void deleteById(Long idSport) {
 	Boolean bol=false;
 	Sport bdSport = sportDAO.findById(idSport);

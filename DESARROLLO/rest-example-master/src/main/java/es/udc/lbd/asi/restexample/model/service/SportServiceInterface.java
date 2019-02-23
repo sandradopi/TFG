@@ -11,6 +11,7 @@ public interface SportServiceInterface {
 	  public SportDTO findById(Long id);
 	  public SportDTO save(SportDTO sport) throws SportExistsException;
 	  public void deleteById(Long idSport);
+	  public SportDTO update(SportDTO sport);
 
 
 }
