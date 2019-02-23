@@ -1,10 +1,11 @@
 <template>
 
 <div>
-  <DeportesDetail @CustomEventInputChanged="reloadPage"  v-if= "(idDeporte!=null || nuevo)" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num" v-bind:nuevo="this.nuevo"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
+  <DeportesDetail @Cerrar="reloadPage" v-if= "(idDeporte!=null && nuevo==false)" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num" v-bind:nuevo="this.nuevo"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
+  <DeportesForm @Cerrar="reloadPage"  v-if= "(idDeporte==null && nuevo||nuevo)" v-bind:idDeporte="this.idDeporte"></DeportesForm>
 
   <div  id="shopping-list">
-        <h1>Deportes</h1>     
+        <h1>Deportes</h1>        
         <button id="addItem" @click="crear()">Nuevo Deporte</button>
         <div class="list">
           <table >
@@ -29,10 +30,10 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import DeportesDetail from '../../entities/admin/DeportesDetail'
-
+import DeportesForm from '../../entities/admin/DeportesForm'
 
 export default {
-  components: {Multiselect,DeportesDetail},
+  components: {Multiselect,DeportesDetail,DeportesForm },
   data() {
     return {
       sports:null,
@@ -76,11 +77,18 @@ export default {
 
       
     },
-    reloadPage(){
+    reloadPage(bolean){
+      if (bolean){
+
+        this.nuevo=true;
+        this.fetchData()
+
+      }else{
       this.nuevo=false;
-      this.fetchData()
+      this.fetchData();
+    }
     },
-  
+
     
     crear(){
       this.nuevo=true;  
@@ -102,6 +110,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped lang="scss">
@@ -193,13 +202,6 @@ button {
   border-bottom: 4px solid darken($red, 5%);
   
 }
-
-
-
-
-
-
-
 
 
 
