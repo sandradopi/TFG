@@ -7,13 +7,14 @@
         @click="back()"><span>Atrás</span></b-btn>
       <b-btn class="button1"
         variant="success"
-        @click="save()"><span>Crear</span></b-btn>
+        @click="save()"><span>Guardar</span></b-btn>
     </div>
 <div>
 
+
   <div class="formulario">
   <div class ="contenido" align="middle">
-      <h1 class= "titulo" align="left">Crea tu cuenta! </h1>
+      <h1 class= "titulo" align="left">Datos Personales:</h1>
   </div>
   <b-form
       v-if="user"
@@ -109,17 +110,19 @@
       </b-form-group>
 
 
-       <b-form-group
-        label="Ciudad: *"
-        label-for="ciudad">
-        <b-form-input
-          id="city"
-          v-model="user.city"
-          type="text"
-          autocomplete="off"
-          required
-          placeholder="Introduce su ciudad"/>
+        <b-form-group
+          label="Ciudad: *"
+          label-for="City">
+         <multiselect 
+            v-model="user.city" 
+            :options="city" 
+            :searchable="true" 
+            :close-on-select="false" 
+            :show-labels="false" 
+            placeholder="Ciudad de residencia"></multiselect>
+      <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
       </b-form-group>
+   
 </div>
  
     </b-form>
@@ -141,6 +144,7 @@ export default {
     return {
       user: {},
       error: null,
+      city:['A Coruña','Alaba','Albacete', 'Alicante','Almeria','Asturias','Avila','Badajoz','Barcelona','Burgos','Cáceres','Cádiz','Cantabria','Castellón','Ceuta','Ciudad Real','Córdoba','Cuenca','Formentera','Girona','Granada','Guadalajara','Guipuzcoa','Huelva','Huesca','Ibiza','Jaén', 'La Rioja', 'Las Palmas de Gran Canaria','León','Lérida','Lugo','Madrid','Málaga','Mallorca','Menorca','Murcia','Navarra','Orense','Palencia','Pontevedra','Salamanca','Santa Cruz de Tenerife','Segovia', 'Sevilla','Soria','Tarragona','Teruel','Toledo','Valencia','Valladolid','Vizcaya','Zamora','Zaragoza']
     }
 
   },
@@ -150,8 +154,12 @@ export default {
   },
    methods: {
      fetchData() {
+     if(this.$route.params.id != null){
+      this.user=this.$route.params.id;
+     }
       
      },
+
     userLogin() {
       auth.login({
         login: this.user.login,
@@ -220,7 +228,20 @@ export default {
       }
     },
     save() {
+      if(this.$route.params.id != null){
+        if (this.checkForm() == true) {
+              HTTP.put(`users/${this.$route.params.id.idUser}`,this.user)
+              .then(this._successHandler)
+              .catch(this._errorHandler)
 
+          }else{
+              Vue.notify({
+              text: this.errors,
+              type: 'error'})
+         }
+    
+      }else{
+      
        if (this.checkForm() == true) {
     
           return HTTP.post('register', this.user)
@@ -233,7 +254,7 @@ export default {
           type: 'error'})
     
       }
-      
+      }
     },
     notification(){ 
       Vue.notify({
@@ -244,7 +265,7 @@ export default {
       this.$router.go(-1)
     },
     _successHandler(response) {
-      this.$router.replace({ name: 'Partidos'})
+      this.$router.replace({ name: 'UserDetail', params: { id: this.user.login}})
     },
       _errorHandler(err) {
       this.error = err.response.data.message

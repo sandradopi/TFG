@@ -12,7 +12,7 @@
         id="username"
         v-model="username"
         name="username"
-        placeholder="Write your login"
+        placeholder="Escribe tu login"
         type="text"
         class="form-control"
         required>
@@ -23,7 +23,7 @@
         id="password"
         v-model="password"
         type="password"
-         placeholder="Write your password"
+         placeholder="Escribe tu contraseña"
         class="form-control"
         name="password"
         required>

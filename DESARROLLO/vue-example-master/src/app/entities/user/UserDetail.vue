@@ -6,36 +6,27 @@
                     @click="back()"><span>Atrás</span></b-btn>
      <b-btn
                     class="button1"
-                    v-if=" this.control==false"
-                    :to="{ name: 'UserUpdate', params: { id: user.login }}"
+                    :to="{ name: 'UserUpdate', params: { id: this.user}}"
                     @click="Editado()"><span>Editar</span></b-btn> <!--Solo podemos editar las notificaciones del usuario que esta logueado-->
-      <b-btn
-                    class="button"
-                    v-if="this.control==true "
-                    @click="Save()"><span>Guardar</span></b-btn> 
+     
   </div>
 
+  <h1 class="title" :key="user.name"> Hola {{this.user.name}}!</h1>  
   <div class= "datosUsuario">
     
-
-     <h1 class="title" :key="user.name"> Hola {{user.name}}!</h1>  
-
      <h4 class="subtitle">
       </br>
-                  <div class="subdatos" >
+            <div class="subdatos" >
                   <p class="subtitle-tag">Nombre: {{this.user.name}} </p>                  
                   <p class="subtitle-tag">Apellidos: {{this.user.surname1}} {{this.user.surname2}} </p>                 
                   <p class="subtitle-tag">Fecha de nacimiento: {{this.user.birthday}} </p>
                   <p class="subtitle-tag">Ciudad: {{this.user.city}} </p>
                   <p class="subtitle-tag">Login: {{this.user.login}} </p>
                   <p class="subtitle-tag">Email: {{this.user.email}} </p>
-                  <p class="subtitle-tag">Experiencia: {{this.user.experience}}  <star-rating class="star"
-                                                                                              v-model="rating"
-                                                                                               v-bind:star-size="30"
-                                                                                               :read-only="true"
-                                                                                            ></star-rating></p>
+                  <p class="subtitle-tag">Experiencia: {{this.user.experience}}  
+                  <star-rating class="star" v-model="rating" v-bind:star-size="30" :read-only="true"></star-rating></p>
 
-                 </div>
+             </div>
      </h4>    
       
  </div>
@@ -57,7 +48,6 @@ export default {
   data() {
     return {
       user:{},
-      control:false, //Es una variable de control para saber cuando tiene que aparecer el boton de Editar y el de Save
       rating:null,
 
     }
@@ -99,16 +89,6 @@ export default {
       this.control=true;
     },
 
-     Save() {
-
-      this.control=false;
-      HTTP.put(`users/${this.$route.params.id}/${this.user.noti}`)
-      .then(this._successHandler)
-      .catch(err => {
-      this.error = err.message
-         })
-  
-    },
 
     _successHandler(response) {
       this.fetchData()
@@ -126,18 +106,29 @@ export default {
 <style scoped lang="scss">
 
 .datosUsuario{
-    margin-left:70px;
-    padding:3%;
-    width:90%;
+  width: 30%;
+  background: #f3f3f3;
+  padding: 1em;
+  border-radius: 3px;
+  margin-top:50px;
+  font-family: 'Lato', sans-serif;
+  margin:0;
+  margin-left:120px;
+  margin-top:30px;
+  margin-bottom:50px;
+
+
 
   }
   
   .title{
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 50px;
-    font-weight: 700;
+    font-family: 'Lato', sans-serif;
+    margin-left:210px;
+    font-size: 40px;
+    font-weight: 400;
     color: #17a2b8;
+    margin-top:30px;
+    color:#fb887c
   }
 
   .subtitle {

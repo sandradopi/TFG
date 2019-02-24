@@ -4,8 +4,6 @@
    
     
     <div class="half margin-right">
-      {{this.fallo}}
-      {{this.typeSport}}
     <h2 class="titulo" v-if=" idDeporte==null">Nuevo Deporte</h2>
          <input type='text' class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
           <multiselect 

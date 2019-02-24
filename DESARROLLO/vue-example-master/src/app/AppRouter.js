@@ -9,6 +9,7 @@ const routes = [
   { name: 'Registro', path: '/login/createAccount', component: Registro,meta: { public: true }},
   { name: 'Login', path: '/login', component: Login, meta: { public: true, isLoginPage: true }},
   { name: 'UserDetail', path: '/users/:id', component: UserDetail,meta: { authority: 'USER' }},
+  { name: 'UserUpdate', path: '/users/:id/edit', component: Registro,meta: { authority: 'USER' }},
   { name: 'Deportes', path: '/deportes', component: Deportes,meta: { authority: 'ADMIN' }},
   { name: 'DeportesDetail', path: '/deportes/details', component: DeportesDetail,meta: { authority: 'ADMIN' }},
   { name: 'DeportesCreate', path: '/deportes/new', component: DeportesForm,meta: { authority: 'ADMIN' }},
