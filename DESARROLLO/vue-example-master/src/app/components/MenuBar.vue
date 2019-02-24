@@ -10,6 +10,11 @@
                  v-if="isAdmin"
                 :to="{ name: 'Deportes' }"
                 exact>Deportes</b-nav-item> 
+
+            <b-nav-item
+                 v-if="isAdmin"
+                :to="{ name: 'UserList' }"
+                exact>Usuarios</b-nav-item> 
          </b-navbar-nav>
           
 

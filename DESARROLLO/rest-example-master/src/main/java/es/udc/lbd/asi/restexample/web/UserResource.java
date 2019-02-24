@@ -19,7 +19,6 @@ import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
-import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.lbd.asi.restexample.web.exception.InstanceNotFoundExceptionHIB;
 import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
@@ -33,7 +32,10 @@ public class UserResource {
     @Autowired
     private UserService userService;
 
-    
+    @GetMapping
+    public List<NormalUserDTO> findAll() {
+        return userService.findAll();
+    }
     
     @GetMapping("/{login}")
     public NormalUserDTO findOneUserByLogin(@PathVariable String login) throws InstanceNotFoundExceptionHIB{

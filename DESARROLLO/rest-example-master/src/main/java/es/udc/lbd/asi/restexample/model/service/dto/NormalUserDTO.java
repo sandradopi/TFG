@@ -26,7 +26,7 @@ public class NormalUserDTO {
 	@NotEmpty
 	private String email;
 	
-	@NotEmpty
+	
 	private String password;
 	
 	@Enumerated(EnumType.STRING)

@@ -20,47 +20,7 @@
       v-if="user"
       class="app-form"
       @submit="save">
-    <div class="web">
-      <b-form-group
-        label="Login: *"
-        label-for="login">
-        <b-form-input
-          id="login"
-          v-model="user.login"
-          type="text"
-          autocomplete="off"
-          required
-          placeholder="Introduce el login"/>
-      </b-form-group>
-
-      <b-form-group
-        label="Contraseña: *"
-        label-for="contraseña">
-        <b-form-input
-          id="password"
-          v-model="user.password"
-          type="password"
-          autocomplete="off"
-          required
-          placeholder="Introduce la contraseña"/>
-      </b-form-group>
-
-
-
-       <b-form-group
-        label="Email: *"
-        label-for="email">
-        <b-form-input
-          id="email"
-          v-model="user.email"
-          type="email"
-          autocomplete="off"
-          required
-          placeholder="Introduce el email"/>
-      </b-form-group>
-    </div>
-<hr class="linea">
-  <div class="personal">  
+      <div class="personal">  
   <b-form-group
         label="Nombre: *"
         label-for="nombre">
@@ -124,6 +84,46 @@
       </b-form-group>
    
 </div>
+   
+<hr class="linea">
+ <div class="web">
+      <b-form-group
+        label="Login: *"
+        label-for="login" v-if="this.$route.params.id == null">
+        <b-form-input
+          id="login"
+          v-model="user.login"
+          type="text"
+          autocomplete="off"
+          required
+          placeholder="Introduce el login"/>
+      </b-form-group>
+
+      <b-form-group
+        label="Contraseña: *"
+        label-for="contraseña" v-if="this.$route.params.id == null">
+        <b-form-input
+          id="password"
+          v-model="user.password"
+          type="password"
+          autocomplete="off"
+          required
+          placeholder="Introduce la contraseña"/>
+      </b-form-group>
+
+       <b-form-group
+        label="Email: *"
+        label-for="email">
+        <b-form-input
+          id="email"
+          v-model="user.email"
+          type="email"
+          autocomplete="off"
+          required
+          placeholder="Introduce el email"/>
+      </b-form-group>
+    </div>
+  
  
     </b-form>
 
@@ -227,9 +227,53 @@ export default {
         return true;
       }
     },
+    checkForm1 () {
+      
+      if (!this.user.email) {
+        this.errors= "El email es un campo obligatorio "
+        return false;
+      }
+
+      var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+      if (!expr.test(this.user.email)) {
+        this.errors= "The email: "+ this.user.email +" don´t have the good format, review it "
+        return false;
+      } 
+
+      if (!this.user.name) {
+        this.errors= "El nombre es un campo obligatorio "
+        return false;
+      }
+
+      if (!this.user.surname1) {
+        this.errors= "El primer apellido es un campo obligatorio. "
+        return false;
+      }
+
+      if (!this.user.surname2) {
+        this.errors= "El segundo apellido es un campo obligatorio. "
+        return false;
+      }
+      if (!this.user.birthday) {
+        this.errors= "La fecha de nacimiento es un campo obligatorio "
+        return false;
+      }
+
+      if (!this.user.city) {
+        this.errors= "La ciudad es un campo obligatorio "
+        return false;
+      }
+
+
+      
+     
+      if (this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday && this.user.city) {
+        return true;
+      }
+    },
     save() {
       if(this.$route.params.id != null){
-        if (this.checkForm() == true) {
+        if (this.checkForm1() == true) {
               HTTP.put(`users/${this.$route.params.id.idUser}`,this.user)
               .then(this._successHandler)
               .catch(this._errorHandler)
@@ -302,13 +346,13 @@ export default {
 }
 .web{
   width:40%;
-  float:left;
+  float:right;
   margin-left:20px;
 }
 
 .personal{
   width:40%;
-  float:right;
+  float:left;
 }
 
 .float-right{

@@ -18,6 +18,7 @@ public interface UserServiceInterface {
     public void registerUser(String login,String email, String password, boolean isAdmin, String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, RequiredFieldsException, PasswordTooShort;
     public void registerUser(String login,String email, String password, String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect;
     public NormalUserDTO update(NormalUserDTO user) throws UserLoginEmailExistsException;
+	public List<NormalUserDTO> findAll();
 
   
 

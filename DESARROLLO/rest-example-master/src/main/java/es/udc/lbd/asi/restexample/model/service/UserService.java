@@ -2,8 +2,11 @@ package es.udc.lbd.asi.restexample.model.service;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,6 +49,11 @@ public class UserService implements UserServiceInterface{
 		   	 
 	   	 return userTransformado;
 	   }
+
+  		@PreAuthorize("hasAuthority('ADMIN')")
+		@Override
+		public List<NormalUserDTO> findAll() {
+			 return userDAO.findAll().stream().map(user -> new NormalUserDTO(user)).collect(Collectors.toList());}
 		
 		
 	     @Transactional(readOnly = false)
@@ -173,17 +181,12 @@ public class UserService implements UserServiceInterface{
 	    		bdUser.setSurname2(user.getSurname1());
 	    		bdUser.setName(user.getName());
 	    		User_ user1= userDAO.findByEmail(user.getEmail());
-	    		User_ user2= userDAO.findByLogin(user.getLogin());
 	    		if ( user1!= null&& user1.getIdUser()!=user.getIdUser()) {
 		             throw new UserLoginEmailExistsException("The email " +user.getEmail() + " already exists");
 	    		}else{
 	    			bdUser.setEmail(user.getEmail());
 	    		}
-	    		if (user2 != null && user2.getIdUser()!=user.getIdUser()) {
-		             throw new UserLoginEmailExistsException("User login " + user.getLogin() + " already exists");
-		        }else{
-		        	bdUser.setLogin(user.getLogin());
-		        }
+	    		
 			   
 			    
 			    userDAO.save(bdUser);

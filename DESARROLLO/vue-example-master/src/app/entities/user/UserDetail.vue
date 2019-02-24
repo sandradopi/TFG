@@ -134,7 +134,7 @@ export default {
   .subtitle {
       font-size: 15px;
       font-weight: 600;
-      color: #17a2b8;;
+      color: #17a2b8;
       .subtitle-tag1 {
        display: inline;
         }
