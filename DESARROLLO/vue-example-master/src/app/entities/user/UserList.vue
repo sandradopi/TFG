@@ -5,7 +5,7 @@
       {{user.name}} {{user.surname1}} {{user.surname2}}
       <div class="but">
         <b-btn class="button" @click="autoridad(user.idUser)"><span>{{user.authority}}</span></b-btn>
-        <b-btn class="button1" @click="Eliminar()"><span>Eliminar</span></b-btn>
+        <b-btn class="button1" @click="eliminar(user.idUser)"><span>Eliminar</span></b-btn>
       </div>
     </li>
 </ol> 
@@ -57,6 +57,13 @@ export default {
     back() {
       this.$router.go(-1)
     },
+    
+    eliminar(idUser){
+       HTTP.delete(`users/${idUser}`)
+        .then(this._successHandler)
+        .catch(this._errorHandler)
+    },
+
     _errorHandler(err) {
       this.error = err.response.data.message
     },

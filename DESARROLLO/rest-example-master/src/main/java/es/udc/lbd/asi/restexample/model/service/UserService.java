@@ -13,7 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.domain.AdminUser;
+import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
+import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
@@ -206,7 +208,15 @@ public class UserService implements UserServiceInterface{
 		}
 
 		
-		
+		@PreAuthorize("hasAuthority('ADMIN')")
+		@Transactional(readOnly = false)
+		@Override
+		public void deleteById(Long idUser) {
+			User_ bdUser = userDAO.findById(idUser);
+			userDAO.deleteById(idUser);
+			
+						
+		}
 		 
    
 

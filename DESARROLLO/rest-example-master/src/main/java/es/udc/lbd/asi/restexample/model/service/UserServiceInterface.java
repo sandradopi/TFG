@@ -22,6 +22,7 @@ public interface UserServiceInterface {
     public NormalUserDTO update(NormalUserDTO user) throws UserLoginEmailExistsException;
 	public List<UserDTO> findAll();
 	public UserDTO changePermission(Long idUser);
+	public void deleteById(Long idUser);
 
   
 

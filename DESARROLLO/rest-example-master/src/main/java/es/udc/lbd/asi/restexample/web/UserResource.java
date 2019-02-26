@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -57,6 +58,12 @@ public class UserResource {
     @PutMapping("/{idUser}/authority")
     public UserDTO changePermissions(@PathVariable Long idUser){
         return userService.changePermission(idUser);
+    }
+    
+    
+    @DeleteMapping("/{idUser}")
+    public void delete(@PathVariable Long idUser) throws InstanceNotFoundExceptionHIB{
+        userService.deleteById(idUser);
     }
     
     
