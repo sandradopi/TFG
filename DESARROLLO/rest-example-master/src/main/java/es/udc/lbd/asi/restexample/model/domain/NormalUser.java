@@ -24,13 +24,13 @@ import javax.validation.constraints.NotNull;
 public class NormalUser extends User_ {
 	
 	@Column(name="city")
-	@NotEmpty
+
 	private String city;
 
 	@Column(name="experience")
 	private Integer experience;
 	
-	@NotNull
+	
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 	

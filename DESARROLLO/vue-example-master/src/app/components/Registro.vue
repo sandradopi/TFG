@@ -58,7 +58,7 @@
       </b-form-group>
 
        <b-form-group
-        label="Fecha de Nacimiento: *"
+        label="Fecha de Nacimiento: "
         label-for="Data">
         <b-form-input
           id="data"
@@ -71,7 +71,7 @@
 
 
         <b-form-group
-          label="Ciudad: *"
+          label="Ciudad: "
           label-for="City">
          <multiselect 
             v-model="user.city" 
@@ -210,20 +210,12 @@ export default {
         this.errors= "El segundo apellido es un campo obligatorio. "
         return false;
       }
-      if (!this.user.birthday) {
-        this.errors= "La fecha de nacimiento es un campo obligatorio "
-        return false;
-      }
-
-      if (!this.user.city) {
-        this.errors= "La ciudad es un campo obligatorio "
-        return false;
-      }
+      
 
 
       
      
-      if (this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday && this.user.city) {
+      if (this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday && this.user.city||this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday||this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 &&this.user.birthday||this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 && this.user.surname2 ) {
         return true;
       }
     },
@@ -254,20 +246,11 @@ export default {
         this.errors= "El segundo apellido es un campo obligatorio. "
         return false;
       }
-      if (!this.user.birthday) {
-        this.errors= "La fecha de nacimiento es un campo obligatorio "
-        return false;
-      }
-
-      if (!this.user.city) {
-        this.errors= "La ciudad es un campo obligatorio "
-        return false;
-      }
 
 
       
      
-      if (this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday && this.user.city) {
+      if (this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday && this.user.city||this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday||this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.city||this.user.email && this.user.name && this.user.surname1 && this.user.surname2 ) {
         return true;
       }
     },

@@ -52,8 +52,8 @@ public class UserService implements UserServiceInterface{
 
   		@PreAuthorize("hasAuthority('ADMIN')")
 		@Override
-		public List<NormalUserDTO> findAll() {
-			 return userDAO.findAll().stream().map(user -> new NormalUserDTO(user)).collect(Collectors.toList());}
+		public List<UserDTO> findAll() {
+			 return userDAO.findAll().stream().map(user -> new UserDTO(user)).collect(Collectors.toList());}
 		
 		
 	     @Transactional(readOnly = false)
@@ -98,18 +98,16 @@ public class UserService implements UserServiceInterface{
 		        	  throw new RequiredFieldsException("The Second surname is a required field");
 		         }
 		        
-		        if(city == null){ //Ciudad vacio
-		        	  throw new RequiredFieldsException("The First surname is a required field");
-		         }
-		        
-		       if (birthday == null){ //cumpleaños vacio
-		        	  throw new RequiredFieldsException("The birthday is a required field");
-		        	  
+		       
+		      
+		        if(password == null){ //password vacio
+		        	  throw new RequiredFieldsException("The password is a required field");
+		           
 		        }else if(password.length()<4){ //Password muy corta
 		        	throw new PasswordTooShort("The password is too short, minimum 4 letters please");
 		        }
 
-	    	     registerUser(login,email, password, false, name, surname1, surname2, city,birthday );
+	    	     registerUser(login,email, password, false, name, surname1, surname2, city,birthday);
 	     }
 	     
 	     @Transactional(readOnly = false)
@@ -192,6 +190,22 @@ public class UserService implements UserServiceInterface{
 			    userDAO.save(bdUser);
 			    return new NormalUserDTO(bdUser);
 			    }
+
+		@Transactional(readOnly = false)
+		@Override
+		public UserDTO changePermission(Long idUser) {
+			User_ bdUser =  userDAO.findById(idUser);
+			if(bdUser.getAuthority()==UserAuthority.USER){
+				bdUser.setAuthority(UserAuthority.ADMIN);
+			}else{
+				bdUser.setAuthority(UserAuthority.USER);
+			}
+			
+			userDAO.save(bdUser);
+		    return new UserDTO(bdUser);
+		}
+
+		
 		
 		 
    

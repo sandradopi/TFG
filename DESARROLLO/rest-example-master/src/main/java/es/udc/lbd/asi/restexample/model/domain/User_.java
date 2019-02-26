@@ -49,7 +49,6 @@ public class User_ {
 	@NotEmpty
 	private String surname2;
 	
-	
 	@Enumerated(EnumType.STRING)
     private UserAuthority authority;
 	

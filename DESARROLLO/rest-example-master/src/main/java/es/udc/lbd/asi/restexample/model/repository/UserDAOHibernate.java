@@ -40,7 +40,7 @@ public class UserDAOHibernate extends GenericDAOHibernate implements UserDAO {
 	
 	@Override
 	public List<User_> findAll() {
-		return getSession().createQuery("from User_").list();
+		return getSession().createQuery("from User_ p order by p.name").list();
 	}
 	
 	@Override

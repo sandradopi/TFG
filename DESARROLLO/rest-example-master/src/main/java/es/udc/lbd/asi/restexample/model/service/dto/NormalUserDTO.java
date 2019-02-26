@@ -41,12 +41,10 @@ public class NormalUserDTO {
 	@NotEmpty
 	private String surname2;
 	
-	@NotEmpty
 	private String city;
 
 	private Integer experience;
 	
-	@NotNull
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 	

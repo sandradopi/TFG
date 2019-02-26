@@ -19,6 +19,7 @@ import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.lbd.asi.restexample.web.exception.InstanceNotFoundExceptionHIB;
 import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
@@ -33,7 +34,7 @@ public class UserResource {
     private UserService userService;
 
     @GetMapping
-    public List<NormalUserDTO> findAll() {
+    public List<UserDTO> findAll() {
         return userService.findAll();
     }
     
@@ -52,6 +53,12 @@ public class UserResource {
         }
         return userService.update(user);
     }
+    
+    @PutMapping("/{idUser}/authority")
+    public UserDTO changePermissions(@PathVariable Long idUser){
+        return userService.changePermission(idUser);
+    }
+    
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {
         if (errors.hasErrors()) {
