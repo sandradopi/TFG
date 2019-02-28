@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
 import { Home, Login, NotFound,Registro } from './components'
-import { UserDetail,UserList,Deportes,DeportesDetail,DeportesForm} from './entities'
+import { Mapa,UserDetail,UserList,Deportes,DeportesDetail,DeportesForm, Localizaciones} from './entities'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },
@@ -11,6 +11,8 @@ const routes = [
   { name: 'UserDetail', path: '/users/:id', component: UserDetail,meta: { authority: 'USER' }},
   { name: 'UserUpdate', path: '/users/:id/edit', component: Registro,meta: { authority: 'USER' }},
   { name: 'UserList', path: '/users', component: UserList,meta: { authority: 'ADMIN' }},
+  { name: 'Localizaciones', path: '/localizaciones', component: Localizaciones,meta: { authority: 'ADMIN' }},
+  { name: 'Mapa', path: 'localizaciones/mapa', component: Mapa,meta: { authority: 'ADMIN' }},
   { name: 'Deportes', path: '/deportes', component: Deportes,meta: { authority: 'ADMIN' }},
   { name: 'DeportesDetail', path: '/deportes/details', component: DeportesDetail,meta: { authority: 'ADMIN' }},
   { name: 'DeportesCreate', path: '/deportes/new', component: DeportesForm,meta: { authority: 'ADMIN' }},

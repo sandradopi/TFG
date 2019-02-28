@@ -15,12 +15,14 @@
     "@fortawesome/fontawesome-svg-core": "1.2.2",
     "@fortawesome/free-solid-svg-icons": "5.2.0",
     "@fortawesome/vue-fontawesome": "0.1.5",
+    "@types/leaflet": "^1.4.3",
     "axios": "0.18.0",
     "bootstrap-vue": "2.0.0-rc.12",
+    "leaflet": "^1.4.0",
     "multiselect": "^0.9.12",
     "normalize.css": "8.0.1",
     "star-rate-component": "^1.0.4",
-    "vue": "2.6.6",
+    "vue": "^2.6.7",
     "vue-agile": "^0.3.7",
     "vue-blockui": "^1.1.7",
     "vue-carousel": "^0.16.0-rc2",
@@ -33,7 +35,8 @@
     "vue-router": "3.0.2",
     "vue-simple-spinner": "^1.2.8",
     "vue-star-rating": "^1.6.1",
-    "vue2-circle-progress": "^1.2.3"
+    "vue2-circle-progress": "^1.2.3",
+    "vue2-leaflet": "^2.0.0"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "2.5.2",

@@ -13,6 +13,11 @@
 
             <b-nav-item
                  v-if="isAdmin"
+                :to="{ name: 'Localizaciones' }"
+                exact>Localizaciones</b-nav-item> 
+
+            <b-nav-item
+                 v-if="isAdmin"
                 :to="{ name: 'UserList' }"
                 exact>Usuarios</b-nav-item> 
          </b-navbar-nav>
