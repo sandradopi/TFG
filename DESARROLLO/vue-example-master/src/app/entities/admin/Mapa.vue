@@ -48,10 +48,14 @@ export default {
 	        .setContent(campoMod)
 	        .openOn(mymap);
 
-	    this.bol=true;
+	  
+
+	    
 }
 
+
 mymap.on('click', onMapClick);
+//this.rellenarInp(campo[1]);
 
 
     
@@ -61,8 +65,9 @@ mymap.on('click', onMapClick);
     return {
     	locations:null,
     	mymap:null,
-    	bol:false,
-    	location:{}
+    	location:{},
+    	latitud:null,
+    	longitud:null,
 
     }
   },
@@ -89,6 +94,13 @@ mymap.on('click', onMapClick);
         }
 	
     },
+
+    rellenarInp(campo){
+    	var dato=campo.split(',');
+    	this.latitud=dato[0];
+    	var dato2= dato[1].split(')');
+    	this.longitud=dato2[0];
+    },
     
 
     _successHandler(response) {
@@ -108,7 +120,7 @@ mymap.on('click', onMapClick);
 <style scoped lang="scss">
 
 #mymap {
-	margin-left:50px;
+	margin-left:80px;
 	margin-top:30px;
     position: relative;
     padding: 0;
@@ -153,7 +165,7 @@ mymap.on('click', onMapClick);
 }      
 
 .formulario{
-	margin-right:150px;
+	margin-right:110px;
 	float:right;
 	background: #f3f3f3;
 	width:30%;
