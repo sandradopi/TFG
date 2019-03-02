@@ -149,6 +149,7 @@ div#shopping-list{
   margin-left:120px;
   margin-top:50px;
   margin-bottom:50px;
+  border-radius: 6px;
 
 
   

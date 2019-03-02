@@ -17,7 +17,7 @@
              </button>             
             </tr>
           </table> 
-
+          
 
       </div>
 </div>
@@ -30,6 +30,7 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+import Mapa from '../../entities/admin/Mapa'
 
 
 export default {
@@ -114,6 +115,7 @@ div#shopping-list{
   margin-left:120px;
   margin-top:50px;
   margin-bottom:50px;
+  border-radius: 6px;
 
 
   

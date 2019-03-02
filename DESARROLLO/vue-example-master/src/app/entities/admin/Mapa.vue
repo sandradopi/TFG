@@ -1,6 +1,20 @@
 <template>
 <div class="loc">
+<div class="formulario">
+	<h1>Nueva Localización</h1> 
+	<div class="inp">
+		<input type='text' class="searchButton" placeholder='Nombre' v-model="location.name" autofocus required >
+		<input type='text' class="searchButton" placeholder='Latitud' v-model="location.latitud" autofocus required >
+		<input type='text' class="searchButton" placeholder='Longitud' v-model="location.longitud" autofocus required >
+	
+	</div>
+
+<b-btn class="button" variant="link">Añadir</b-btn>
+</div>
 <div id="mymap"></div>
+
+
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
 </div>
   
@@ -24,6 +38,21 @@ export default {
             }).addTo(mymap);
      this.marcadores();
 
+     var popup = L.popup();
+
+	function onMapClick(e) {
+		var campo= e.latlng.toString().split('(');
+		var campoMod= "Coordenadas: (" + campo[1];
+	    popup
+	        .setLatLng(e.latlng)
+	        .setContent(campoMod)
+	        .openOn(mymap);
+
+	    this.bol=true;
+}
+
+mymap.on('click', onMapClick);
+
 
     
  },
@@ -31,7 +60,9 @@ export default {
   data() {
     return {
     	locations:null,
-    	mymap:null
+    	mymap:null,
+    	bol:false,
+    	location:{}
 
     }
   },
@@ -77,14 +108,66 @@ export default {
 <style scoped lang="scss">
 
 #mymap {
+	margin-left:50px;
 	margin-top:30px;
     position: relative;
     padding: 0;
-    width: 600px;
-    height: 600px;
+    width: 700px;
+    height: 500px;
 }
 
 
+.button{
+  margin: 0.25em 0;
+  display: block;
+  outline: none;
+  background: #AFC7A9;
+  border: none;
+  padding: 0.7em;
+  border-radius: 6px;
+  width: 70%;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-bottom: 4px solid darken(#AFC7A9, 5%);
+  margin-left:70px;
+  margin-top:20px;
+  margin-bottom:50px;
 
+  
+}
+
+.searchButton {
+  width: 70%;
+  background: #fff;
+  padding: 0.6em; 
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  border-radius: 5px;
+  border: 0.1px solid grey;
+  font-size:0.9em;
+  margin-left:70px;
+
+ 
+
+}      
+
+.formulario{
+	margin-right:150px;
+	float:right;
+	background: #f3f3f3;
+	width:30%;
+	height:50%;
+	border-radius: 6px;
+	margin-top:50px;
+}
+.inp{
+	 margin-top:50px;
+}
+h1 {
+  color: #3a3a3a;
+  text-align: center;
+  margin: 1em 0;
+}
 
 </style>
