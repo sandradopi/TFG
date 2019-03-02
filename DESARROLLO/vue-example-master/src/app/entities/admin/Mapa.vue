@@ -1,6 +1,9 @@
 <template>
-
-<div id="mapid" ref="mapElement"></div>
+<div>
+<div id="mymap"></div>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+</div>
+  
 
 </template>
 
@@ -13,8 +16,12 @@ import L from 'leaflet'
 
 
 export default {
-	mounted() {
-    var mymap = L.map(this.$refs['mapElement']).setView([51.505, -0.09], 13);
+  mounted() {
+    var mymap = L.map('mymap').setView([36, 116], 4);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(mymap);
+ },
   components: {},
   data() {
     return {
@@ -37,8 +44,7 @@ export default {
   },
   methods: {
     fetchData() {
-    	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={}', {
-    		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',maxZoom: 18,id: 'mapbox.streets',accessToken: ''}).addTo(mymap);
+    	
     
     },
     
@@ -59,7 +65,12 @@ export default {
 
 <style scoped lang="scss">
 
-
+#mymap {
+    position: relative;
+    padding: 0;
+    width: 600px;
+    height: 600px;
+}
 
 
 </style>
