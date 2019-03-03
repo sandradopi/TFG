@@ -10,10 +10,28 @@
                     @click="Editado()"><span>Editar</span></b-btn> <!--Solo podemos editar las notificaciones del usuario que esta logueado-->
      
   </div>
+  
+  <div class="equipo">
+  <h1 class="title1">Mis equipos favoritos</h1>
+  <ol id="lista2">
+    <li class="usuarios" type="disc" v-for=" favorito in this.user.favoritos" :key="user.idUser"> 
+      {{favorito}} 
+    </li>
+</ol> 
 
-  <h1 class="title" :key="user.name"> Hola {{this.user.name}}!</h1>  
+ <div class="equipo1">
+  <h1 class="title1">Mis equipos</h1>
+  <ol id="lista2">
+    <li class="usuarios" type="disc" v-for=" juego in this.user.juego" :key="user.idUser"> 
+      {{juego}} 
+    </li>
+</ol> 
+ </div>
+ </div>
+
+ 
   <div class= "datosUsuario">
-    
+     <h1 class="title"> Datos Personales</h1>  
      <h4 class="subtitle">
       </br>
             <div class="subdatos" >
@@ -30,6 +48,8 @@
      </h4>    
       
  </div>
+
+ 
 
 </div>
 
@@ -110,25 +130,53 @@ export default {
   background: #f3f3f3;
   padding: 1em;
   border-radius: 3px;
-  margin-top:50px;
   font-family: 'Lato', sans-serif;
   margin:0;
   margin-left:120px;
-  margin-top:30px;
+  margin-top:80px;
   margin-bottom:50px;
 
 
 
   }
+
+  .equipo{
+  float:right;
+  padding: 1em;
+  width: 30%;
+  background: #f3f3f3;
+  border-radius: 3px;
+  font-family: 'Lato', sans-serif;
+  margin-right:60px;
+  }
+
+  .equipo1{
+
+    width: 100%;
+    background: #f3f3f3;
+    border-radius: 3px;
+    font-family: 'Lato', sans-serif;
+  }
   
+  .title1{
+   font-family: 'Lato', sans-serif;
+    margin-left:60px;
+    font-size: 30px;
+    font-weight: 200;
+    color: #17a2b8;
+    margin-top:20px;
+    color:#fb887c;
+  
+  }
+
   .title{
     font-family: 'Lato', sans-serif;
-    margin-left:210px;
-    font-size: 40px;
-    font-weight: 400;
+    margin-left:80px;
+    font-size: 30px;
+    font-weight: 200;
     color: #17a2b8;
-    margin-top:30px;
-    color:#fb887c
+    margin-top:20px;
+    color:#fb887c;
   }
 
   .subtitle {
@@ -141,7 +189,7 @@ export default {
     }
 
 .float-right{
-  margin-top:50px;
+
   margin-right:5%;
 }
 
@@ -190,6 +238,66 @@ export default {
    float:right;
    
  }
+ #lista2 {
+    counter-reset: li; 
+    list-style: none; 
+    *list-style: decimal; 
+    font: 15px 'trebuchet MS', 'lucida sans';
+    padding: 0;
+    margin-top: 3%;
+    text-shadow: 0 1px 0 rgba(255,255,255,.5);
+    margin-left:5%;
+    width:35%;
+
+
+}
+
+#lista2 ol {
+    margin: 0 0 0 2em; 
+}
+
+#lista2 li{
+    position: relative;
+    display: block;
+    padding: .9em .9em .6em 2em;
+    margin: .9em 0;
+    background: #ddd;
+    color: #444;
+    text-decoration: none;
+    border-radius: .3em;
+    transition: all .3s ease-out;  
+    height: 70px; 
+    font-size:1.2em;
+
+}
+
+#lista2 li:hover{
+    background: #eee;
+}
+
+#lista2 li:hover:before{
+    transform: rotate(360deg);  
+}
+
+#lista2 li:before{
+    content: counter(li);
+    color:white;
+    counter-increment: li;
+    position: absolute; 
+    left: -1.3em;
+    top: 50%;
+    margin-top: -1.3em;
+    background: #fb887c;
+    height: 2.7em;
+    width: 2.5em;
+    line-height: 2em;
+    border: .3em solid #fff;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 3em;
+    transition: all .3s ease-out;
+}
+
 
 
 </style>

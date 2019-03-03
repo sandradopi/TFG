@@ -4,12 +4,12 @@
 	<h1>Nueva Localización</h1> 
 	<div class="inp">
 		<input type='text' class="searchButton" placeholder='Nombre' v-model="location.name" autofocus required >
-		<input type='text' class="searchButton" placeholder='Latitud' v-model="location.latitud" autofocus required >
-		<input type='text' class="searchButton" placeholder='Longitud' v-model="location.longitud" autofocus required >
+		<input type='text' class="searchButton" placeholder='Latitud' v-model="this.latitud" autofocus required >
+		<input type='text' class="searchButton" placeholder='Longitud' v-model="this.longitud" autofocus required >
 	
 	</div>
 
-<b-btn class="button" variant="link">Añadir</b-btn>
+<b-btn class="button" @click="añadir()" variant="link">Añadir</b-btn>
 </div>
 <div id="mymap"></div>
 
@@ -43,19 +43,23 @@ export default {
 	function onMapClick(e) {
 		var campo= e.latlng.toString().split('(');
 		var campoMod= "Coordenadas: (" + campo[1];
+
+		var dato=campo.toString().split(',');
+    	this.latitud=dato[0];
+    	var dato2= dato[1].split(')');
+    	this.longitud=dato2[0];
+
 	    popup
 	        .setLatLng(e.latlng)
 	        .setContent(campoMod)
 	        .openOn(mymap);
 
-	  
-
-	    
+	 
 }
 
 
 mymap.on('click', onMapClick);
-//this.rellenarInp(campo[1]);
+		
 
 
     
@@ -86,6 +90,15 @@ mymap.on('click', onMapClick);
     
     },
 
+    añadir(){
+    this.location.latitud=this.latitud;
+    this.location.longitud=this.longitud;
+
+    HTTP.post('locations',this.location)
+	.then(this._successHandler)
+    .catch(this._errorHandler)
+    },
+
     marcadores(){
 
 
@@ -95,12 +108,6 @@ mymap.on('click', onMapClick);
 	
     },
 
-    rellenarInp(campo){
-    	var dato=campo.split(',');
-    	this.latitud=dato[0];
-    	var dato2= dato[1].split(')');
-    	this.longitud=dato2[0];
-    },
     
 
     _successHandler(response) {
