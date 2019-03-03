@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import es.udc.lbd.asi.restexample.model.domain.User_;
+import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 
@@ -69,6 +70,26 @@ public class NormalUserDTO {
 
 	
 	
+	public Set<Team> getJuego() {
+		return juego;
+	}
+
+
+	public void setJuego(Set<Team> juego) {
+		this.juego = juego;
+	}
+
+
+	public Set<Team> getFavoritos() {
+		return favoritos;
+	}
+
+
+	public void setFavoritos(Set<Team> favoritos) {
+		this.favoritos = favoritos;
+	}
+
+
 	public UserAuthority getAuthority() {
 		return authority;
 	}

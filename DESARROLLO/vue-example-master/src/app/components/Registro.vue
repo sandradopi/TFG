@@ -82,11 +82,47 @@
             placeholder="Ciudad de residencia"></multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
       </b-form-group>
+
+     
    
 </div>
    
 <hr class="linea">
  <div class="web">
+
+      <b-form-group v-if="this.$route.params.boleano!=null"
+          label="Equipos favorito: "
+          label-for="Equipos Favoritos">
+         <multiselect 
+            class="multi"
+            v-model="user.favorito" 
+            :multiple="true"
+            :options="this.allteams" 
+            :searchable="true" 
+            :close-on-select="false" 
+            :show-labels="false" 
+            placeholder="Equipos favoritos"
+            :custom-label="nameCustom"></multiselect>
+      <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+      </b-form-group>
+
+        <b-form-group v-if="this.$route.params.boleano!=null"
+          label="Equipos donde juego: "
+          label-for="Equipos donde juego">
+         <multiselect 
+            class="multi"
+            v-model="user.juego" 
+            :options="this.allteams" 
+            :multiple="true"
+            :searchable="true" 
+            :close-on-select="false" 
+            :show-labels="false" 
+            placeholder="Equipos donde juego"
+            :custom-label="nameCustom"></multiselect>
+      <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+      </b-form-group>
+
+
       <b-form-group
         label="Login: *"
         label-for="login" v-if="this.$route.params.id == null">
@@ -144,7 +180,8 @@ export default {
     return {
       user: {},
       error: null,
-      city:['A Coruña','Alaba','Albacete', 'Alicante','Almeria','Asturias','Avila','Badajoz','Barcelona','Burgos','Cáceres','Cádiz','Cantabria','Castellón','Ceuta','Ciudad Real','Córdoba','Cuenca','Formentera','Girona','Granada','Guadalajara','Guipuzcoa','Huelva','Huesca','Ibiza','Jaén', 'La Rioja', 'Las Palmas de Gran Canaria','León','Lérida','Lugo','Madrid','Málaga','Mallorca','Menorca','Murcia','Navarra','Orense','Palencia','Pontevedra','Salamanca','Santa Cruz de Tenerife','Segovia', 'Sevilla','Soria','Tarragona','Teruel','Toledo','Valencia','Valladolid','Vizcaya','Zamora','Zaragoza']
+      city:['A Coruña','Alaba','Albacete', 'Alicante','Almeria','Asturias','Avila','Badajoz','Barcelona','Burgos','Cáceres','Cádiz','Cantabria','Castellón','Ceuta','Ciudad Real','Córdoba','Cuenca','Formentera','Girona','Granada','Guadalajara','Guipuzcoa','Huelva','Huesca','Ibiza','Jaén', 'La Rioja', 'Las Palmas de Gran Canaria','León','Lérida','Lugo','Madrid','Málaga','Mallorca','Menorca','Murcia','Navarra','Orense','Palencia','Pontevedra','Salamanca','Santa Cruz de Tenerife','Segovia', 'Sevilla','Soria','Tarragona','Teruel','Toledo','Valencia','Valladolid','Vizcaya','Zamora','Zaragoza'],
+      allteams:[],
     }
 
   },
@@ -169,6 +206,17 @@ export default {
       .catch(this._errorHandler)
       
     },
+    nameCustom ({ name }) {
+      return `${name} `
+    },
+
+    getTeams() {
+        
+       HTTP.get('teams')
+      .then(response => this.allteams = response.data)
+      .catch(err => this.error = err.message)
+    },
+   
      
 
     checkForm () {
@@ -215,7 +263,7 @@ export default {
 
       
      
-      if (this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday && this.user.city||this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday||this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 &&this.user.birthday||this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 && this.user.surname2 ) {
+      if (this.user.login && this.user.password && this.user.email && this.user.name && this.user.surname1 && this.user.surname2) {
         return true;
       }
     },
@@ -250,7 +298,7 @@ export default {
 
       
      
-      if (this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday && this.user.city||this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.birthday||this.user.email && this.user.name && this.user.surname1 && this.user.surname2 && this.user.city||this.user.email && this.user.name && this.user.surname1 && this.user.surname2 ) {
+      if (this.user.email && this.user.name && this.user.surname1 && this.user.surname2 ) {
         return true;
       }
     },

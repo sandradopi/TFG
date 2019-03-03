@@ -180,6 +180,8 @@ public class UserService implements UserServiceInterface{
 	    		bdUser.setSurname1(user.getSurname1());
 	    		bdUser.setSurname2(user.getSurname1());
 	    		bdUser.setName(user.getName());
+	    		bdUser.setFavoritos(user.getFavoritos());
+	    		bdUser.setJuego(user.getJuego());
 	    		User_ user1= userDAO.findByEmail(user.getEmail());
 	    		if ( user1!= null&& user1.getIdUser()!=user.getIdUser()) {
 		             throw new UserLoginEmailExistsException("The email " +user.getEmail() + " already exists");

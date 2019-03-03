@@ -6,22 +6,25 @@
                     @click="back()"><span>Atrás</span></b-btn>
      <b-btn
                     class="button1"
-                    :to="{ name: 'UserUpdate', params: { id: this.user}}"
+                    :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}"
                     @click="Editado()"><span>Editar</span></b-btn> <!--Solo podemos editar las notificaciones del usuario que esta logueado-->
      
   </div>
   
   <div class="equipo">
-  <h1 class="title1">Mis equipos favoritos</h1>
+  <h1 class="title1">Mis equipos favoritos:</h1>
   <ol id="lista2">
+     <h6 class="adv" v-if="this.user.favoritos==null">No tiene guardado ningun equipo en favoritos</h6>
     <li class="usuarios" type="disc" v-for=" favorito in this.user.favoritos" :key="user.idUser"> 
       {{favorito}} 
     </li>
 </ol> 
-
+</br>
+</br>
  <div class="equipo1">
-  <h1 class="title1">Mis equipos</h1>
+  <h1 class="title1">Mis equipos:</h1>
   <ol id="lista2">
+     <h6  class="adv" v-if="this.user.juego==null">Usted actualmente no está jugando en ningun equipo</h6>
     <li class="usuarios" type="disc" v-for=" juego in this.user.juego" :key="user.idUser"> 
       {{juego}} 
     </li>
@@ -69,6 +72,7 @@ export default {
     return {
       user:{},
       rating:null,
+      bol:false,
 
     }
   },
@@ -107,6 +111,7 @@ export default {
 
     Editado() {
       this.control=true;
+      this.bol=true;
     },
 
 
@@ -160,7 +165,7 @@ export default {
   
   .title1{
    font-family: 'Lato', sans-serif;
-    margin-left:60px;
+    margin-left:10px;
     font-size: 30px;
     font-weight: 200;
     color: #17a2b8;
@@ -246,8 +251,8 @@ export default {
     padding: 0;
     margin-top: 3%;
     text-shadow: 0 1px 0 rgba(255,255,255,.5);
-    margin-left:5%;
-    width:35%;
+    margin-left:2%;
+    width:95%;
 
 
 }
@@ -298,6 +303,9 @@ export default {
     transition: all .3s ease-out;
 }
 
-
+.adv{
+  width:100%;
+  color: grey;
+}
 
 </style>
