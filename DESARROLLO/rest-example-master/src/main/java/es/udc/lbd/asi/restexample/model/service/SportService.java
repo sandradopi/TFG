@@ -71,6 +71,7 @@ public SportDTO update(SportDTO sport){
     bdSport.setComponenteVisualizacion(sport.getComponenteVisualizacion());
     bdSport.setComponenteEntrada(sport.getComponenteEntrada());
    
+    bdSport.getLocations().clear();
     sport.getLocations().forEach(loc -> {
         bdSport.getLocations().add(locationDAO.findById(loc.getIdLocation()));
     });
