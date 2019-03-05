@@ -19,11 +19,13 @@ import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
+import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 
 
 @Configuration
@@ -39,6 +41,9 @@ public class DatabaseLoader {
     
     @Autowired
     private SportDAO sportService;
+    
+    @Autowired
+    private TeamDAO teamService;
     
     @Autowired
     private LocationDAO locationService;
@@ -76,6 +81,8 @@ public class DatabaseLoader {
     locationService.save(location2);
     locationService.save(location3);
     
+   
+    
     Set <Location>locationsFutbol = new <Location> HashSet();
     Set <Location>locationsTennis = new <Location> HashSet();
     Set <Location>locationsBaloncesto = new <Location> HashSet();
@@ -86,10 +93,23 @@ public class DatabaseLoader {
     locationsBaloncesto.add(location1);
     locationsPaddel.add(location3);
     
-    sportService.save(new Sport("Fútbol",null,null,locationsFutbol));
-    sportService.save(new Sport("Tennis",null,null,locationsTennis));
-    sportService.save(new Sport("Baloncesto",null,null,locationsBaloncesto));
-    sportService.save(new Sport("Paddel",null,null,locationsPaddel));
+    Sport sport1=new Sport("Fútbol",null,null,locationsFutbol);
+    Sport sport2= new Sport("Tennis",null,null,locationsTennis);
+    Sport sport3= new Sport("Baloncesto",null,null,locationsBaloncesto);
+    Sport sport4 =new Sport("Paddel",null,null,locationsPaddel);
+    sportService.save(sport1);
+    sportService.save(sport2);
+    sportService.save(sport3);
+    sportService.save(sport4);
+    
+   
+    
+    Team team1= new Team("Deportivo",sport1);
+    Team team2= new Team("Lakers",sport3);
+    Team team3= new Team("CasinoClub",sport2);
+    teamService.save(team1);
+    teamService.save(team2);
+    teamService.save(team3);
     
     }
 

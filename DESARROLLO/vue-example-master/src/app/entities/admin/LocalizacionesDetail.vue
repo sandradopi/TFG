@@ -3,17 +3,20 @@
   <div v-if="bol"class="information message">
     <button @click="hide"> X </button> 
     <div>          
-      <h2>{{this.location.name}}</h2>
+      <h2 v-if="edit==false">{{location.name}}</h2>
+      <h5 class="tit" v-if="edit==true" >Nombre:</h5>
+      <input type='text' v-if="edit==true" class="searchButton1" placeholder='Nombre' v-model="location.name" >
+      <h5 class="tit" v-if="edit==true" >Coste por hora (€/h):</h5>
+      <input type='text' v-if="edit==true" class="searchButton" placeholder='Coste por hora' v-model="location.costPerHour" >
+     <h5 class="comp" v-if="edit==false">Coste por hora (€/h): {{location.costPerHour}}</h5>
       <br>
       <div class="compo">
+      </br>
       	<h5>Ubicación:</h5>
-        <h2 class="comp">Latitud: {{this.location.latitud}}</h2>
-        <h2 class="comp">Longitud: {{this.location.longitud}}</h2>
+        <li class="comp">Latitud: {{location.latitud}}</li>
+        <li class="comp">Longitud: {{location.longitud}}</li>
      </div>
-      <br>
-      <h6 class="tit" v-if="edit==true" >Coste por hora (€/h):</h6>
-      <input type='text' v-if="edit==true" class="searchButton" placeholder='Coste por hora' v-model="this.nuevoCoste" >
-     <h2 class="comp" v-if="edit==false">Coste por hora (€/h): {{this.location.costPerHour}}</h2>
+      
        <button class="editar"  v-if="edit==false" @click="editar()">Editar</button>
         <button class="editar"  v-if="edit==true" @click="guardar()">Guardar</button>
       <button class="eliminar"  v-if="edit==false"@click="eliminar()"> Eliminar</button>
@@ -48,7 +51,7 @@ export default {
       bol:true,
       location:{},
       edit:false,
-      nuevoCoste:0,
+      nuevoCoste:{},
    
      
 
@@ -72,9 +75,8 @@ export default {
        HTTP.get(`locations/${this.idLoc}`) 
       .then(response => {
         this.location = response.data
-        return response
+        
       })
-      .then(response => {this.nuevoCoste = response.data.costPerHour})
       .catch(err => this.error = err.message)
     
     
@@ -92,7 +94,6 @@ export default {
       
     },
     guardar(){
-   	this.location.costPerHour=this.nuevoCoste;
  	HTTP.put(`locations/${this.location.idLocation}`,this.location)
            .then(this.edit1)
            .catch(this._errorHandler)
@@ -164,7 +165,7 @@ div.message.information{background: #AFC7A9;}
   float:left;
   background: #fff;
   padding: 0.6em; 
-  margin-top: 15%;
+  margin-top: 10%;
   margin-bottom: 0.25em;
   border-radius: 5px;
   border: 0.1px solid #f3f3f3;
@@ -195,7 +196,7 @@ td {
   float:left;
   background: #fff;
   padding: 0.6em; 
-  margin-top: 15%;
+  margin-top: 10%;
   margin-bottom: 0.25em;
   border-radius: 5px;
   border: 0.1px solid #f3f3f3;
@@ -209,7 +210,7 @@ td {
    float:right;
   background: #fff;
   padding: 0.6em; 
-  margin-top: 15%;
+  margin-top: 10%;
   margin-bottom: 0.25em;
   border-radius: 5px;
   border: 0.1px solid #f3f3f3;
@@ -229,7 +230,7 @@ td {
 }   
 
 .searchButton {
-  float:right;
+
   width: 30%;
   background: #fff;
   padding: 0.6em; 
@@ -243,8 +244,24 @@ td {
  
 
 }   
+
+.searchButton1 {
+
+  width: 30%;
+  background: #fff;
+  padding: 0.6em; 
+  margin-top: 0.25em;
+  border-radius: 5px;
+  border: 0.1px solid grey;
+  font-size:0.8em;
+  margin-right:120px;
+
+
+ 
+
+}   
 .tit{
-	float:left;
+
 	margin-top:10px;
 }
   

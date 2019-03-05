@@ -22,9 +22,11 @@ import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
+import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.security.SecurityUtils;
 
@@ -34,6 +36,8 @@ public class UserService implements UserServiceInterface{
 
   @Autowired
     private UserDAO userDAO;
+  @Autowired
+  private TeamDAO teamDAO;
   
   
   @Autowired
@@ -49,6 +53,17 @@ public class UserService implements UserServiceInterface{
 		   	 userTransformado.setCity(usuarioDevuelto.getCity());
 		   	 userTransformado.setExperience(usuarioDevuelto.getExperience());
 		   	 
+		   	 userTransformado.getFavoritos().clear();
+		   	 usuarioDevuelto.getFavoritos().forEach(fav -> {
+		    	 userTransformado.getFavoritos().add(new TeamDTO(teamDAO.findById(fav.getIdTeam())));
+		    });
+		   	 
+		   	 userTransformado.getJuego().clear();
+		   	 usuarioDevuelto.getJuego().forEach(fav -> {
+		    	 userTransformado.getJuego().add(new TeamDTO(teamDAO.findById(fav.getIdTeam())));
+		    });
+		   	 
+		    
 	   	 return userTransformado;
 	   }
 
@@ -178,10 +193,20 @@ public class UserService implements UserServiceInterface{
 	    		bdUser.setBirthday(user.getBirthday());
 	    		bdUser.setEmail(user.getEmail());
 	    		bdUser.setSurname1(user.getSurname1());
-	    		bdUser.setSurname2(user.getSurname1());
+	    		bdUser.setSurname2(user.getSurname2());
 	    		bdUser.setName(user.getName());
-	    		bdUser.setFavoritos(user.getFavoritos());
-	    		bdUser.setJuego(user.getJuego());
+	    		
+	    		bdUser.getFavoritos().clear();
+	    		    user.getFavoritos().forEach(fav -> {
+	    		        bdUser.getFavoritos().add(teamDAO.findById(fav.getIdTeam()));
+	    		    });
+	    		    
+	    		bdUser.getJuego().clear();
+	    		   user.getJuego().forEach(jug -> {
+	    		        bdUser.getJuego().add(teamDAO.findById(jug.getIdTeam()));
+	    		    });
+	    		    
+	    		
 	    		User_ user1= userDAO.findByEmail(user.getEmail());
 	    		if ( user1!= null&& user1.getIdUser()!=user.getIdUser()) {
 		             throw new UserLoginEmailExistsException("The email " +user.getEmail() + " already exists");

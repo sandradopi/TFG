@@ -14,9 +14,9 @@
   <div class="equipo">
   <h1 class="title1">Mis equipos favoritos:</h1>
   <ol id="lista2">
-     <h6 class="adv" v-if="this.user.favoritos==null">No tiene guardado ningun equipo en favoritos</h6>
-    <li class="usuarios" type="disc" v-for=" favorito in this.user.favoritos" :key="user.idUser"> 
-      {{favorito}} 
+     <h6 class="adv" v-if="this.user.favoritos==''">No tiene guardado ningun equipo en favoritos</h6>
+    <li class="usuarios" type="disc" v-for=" favorito in this.user.favoritos" :key="favorito.idTeam"> 
+      {{favorito.name}} 
     </li>
 </ol> 
 </br>
@@ -24,9 +24,9 @@
  <div class="equipo1">
   <h1 class="title1">Mis equipos:</h1>
   <ol id="lista2">
-     <h6  class="adv" v-if="this.user.juego==null">Usted actualmente no está jugando en ningun equipo</h6>
-    <li class="usuarios" type="disc" v-for=" juego in this.user.juego" :key="user.idUser"> 
-      {{juego}} 
+     <h6  class="adv" v-if="this.user.juego==''">Usted actualmente no está jugando en ningun equipo</h6>
+    <li class="usuarios" type="disc" v-for=" juego in this.user.juego" :key="juego.idTeam"> 
+      {{juego.name}} 
     </li>
 </ol> 
  </div>
@@ -252,7 +252,8 @@ export default {
     margin-top: 3%;
     text-shadow: 0 1px 0 rgba(255,255,255,.5);
     margin-left:2%;
-    width:95%;
+    width:90%;
+    margin-left:25px;
 
 
 }
@@ -271,7 +272,7 @@ export default {
     text-decoration: none;
     border-radius: .3em;
     transition: all .3s ease-out;  
-    height: 70px; 
+    height: 50px; 
     font-size:1.2em;
 
 }
@@ -292,7 +293,7 @@ export default {
     left: -1.3em;
     top: 50%;
     margin-top: -1.3em;
-    background: #fb887c;
+    background:#17a2b8;
     height: 2.7em;
     width: 2.5em;
     line-height: 2em;

@@ -33,9 +33,7 @@ public class Team {
 	}
 
 
-	public Team(Long idTeam, @NotEmpty String name, @NotNull Sport sport) {
-		super();
-		this.idTeam = idTeam;
+	public Team( @NotEmpty String name, @NotNull Sport sport) {
 		this.name = name;
 		this.sport=sport;
 	}

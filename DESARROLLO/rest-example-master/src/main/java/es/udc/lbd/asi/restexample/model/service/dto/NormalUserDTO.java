@@ -49,8 +49,8 @@ public class NormalUserDTO {
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 	
-    private Set<Team> juego = new HashSet<Team>();
-	private Set<Team> favoritos = new HashSet<Team>();
+    private Set<TeamDTO> juego = new HashSet<TeamDTO>();
+	private Set<TeamDTO> favoritos = new HashSet<TeamDTO>();
 	
 	public NormalUserDTO() {
 	}
@@ -70,22 +70,25 @@ public class NormalUserDTO {
 
 	
 	
-	public Set<Team> getJuego() {
+
+
+
+	public Set<TeamDTO> getJuego() {
 		return juego;
 	}
 
 
-	public void setJuego(Set<Team> juego) {
+	public void setJuego(Set<TeamDTO> juego) {
 		this.juego = juego;
 	}
 
 
-	public Set<Team> getFavoritos() {
+	public Set<TeamDTO> getFavoritos() {
 		return favoritos;
 	}
 
 
-	public void setFavoritos(Set<Team> favoritos) {
+	public void setFavoritos(Set<TeamDTO> favoritos) {
 		this.favoritos = favoritos;
 	}
 
@@ -189,6 +192,15 @@ public class NormalUserDTO {
 
 	public void setBirthday(Date birthday) {
 		this.birthday = birthday;
+	}
+
+
+	@Override
+	public String toString() {
+		return "NormalUserDTO [idUser=" + idUser + ", login=" + login + ", email=" + email + ", password=" + password
+				+ ", authority=" + authority + ", name=" + name + ", surname1=" + surname1 + ", surname2=" + surname2
+				+ ", city=" + city + ", experience=" + experience + ", birthday=" + birthday + ", juego=" + juego
+				+ ", favoritos=" + favoritos + "]";
 	}
 	
 

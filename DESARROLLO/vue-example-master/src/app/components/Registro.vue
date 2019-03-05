@@ -95,14 +95,19 @@
           label-for="Equipos Favoritos">
          <multiselect 
             class="multi"
-            v-model="user.favorito" 
+            v-model="user.favoritos" 
+            :options="this.allteams"
             :multiple="true"
-            :options="this.allteams" 
             :searchable="true" 
+            :clear-on-select="false" 
+            :preserve-search="true"
             :close-on-select="false" 
-            :show-labels="false" 
+            :show-labels="false"
+            track-by="idTeam"
             placeholder="Equipos favoritos"
-            :custom-label="nameCustom"></multiselect>
+            :custom-label="nameCustom"
+            >
+      </multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
       </b-form-group>
 
@@ -112,13 +117,18 @@
          <multiselect 
             class="multi"
             v-model="user.juego" 
-            :options="this.allteams" 
+            :options="this.allteams"
             :multiple="true"
             :searchable="true" 
+            :clear-on-select="false" 
+            :preserve-search="true"
             :close-on-select="false" 
-            :show-labels="false" 
+            :show-labels="false"
+            track-by="idTeam"
             placeholder="Equipos donde juego"
-            :custom-label="nameCustom"></multiselect>
+            :custom-label="nameCustom"
+            >
+      </multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
       </b-form-group>
 
@@ -194,6 +204,7 @@ export default {
      if(this.$route.params.id != null){
       this.user=this.$route.params.id;
      }
+     this.getTeams();
       
      },
 
@@ -206,8 +217,8 @@ export default {
       .catch(this._errorHandler)
       
     },
-    nameCustom ({ name }) {
-      return `${name} `
+    nameCustom ({ name, sport}) {
+      return `${name} (${sport.type})`
     },
 
     getTeams() {
