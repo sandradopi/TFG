@@ -28,7 +28,6 @@ public class Location {
 	private String name;
 	
 	@Column(name="costPerHour")
-	@NotNull
 	private Long costPerHour;
 	
 	@Column(name="latitud")

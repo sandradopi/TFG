@@ -1,6 +1,9 @@
 package es.udc.lbd.asi.restexample.model.service.dto;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -13,12 +16,12 @@ public class LocationDTO {
 	private Long idLocation;
 	@NotEmpty
 	private String name;
-	@NotNull
 	private Long costPerHour;
 	@NotNull
 	private Double latitud;
 	@NotNull
 	private Double longitud;
+
 	
 	public LocationDTO(Location location) {
 		this.idLocation = location.getIdLocation();
@@ -26,7 +29,10 @@ public class LocationDTO {
 		this.costPerHour=location.getCostPerHour();
 		this.latitud=location.getLatitud();
 		this.longitud=location.getLongitud();
+		
 	}
+
+	
 
 	public LocationDTO() {
 	}

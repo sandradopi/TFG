@@ -5,7 +5,8 @@ import DeportesDetail from './admin/DeportesDetail'
 import DeportesForm from './admin/DeportesForm'
 import Registro from '../components'
 import Localizaciones from './admin/Localizaciones'
+import LocalizacionesDetail from './admin/LocalizacionesDetail'
 import Mapa from './admin/Mapa'
 
 
-export {Mapa,UserDetail,Localizaciones,UserList,DeportesDetail,Deportes,DeportesForm,Registro}
+export {Mapa,UserDetail,Localizaciones,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro}

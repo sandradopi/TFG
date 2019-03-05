@@ -115,10 +115,15 @@ export default {
         }
       }
       if (this.fallo==false){//si no tiene el mismo nombre
-
-        HTTP.put(`sports/${this.idDeporte}`,this.sport)
-           .then(this._successHandler)
-           .catch(this._errorHandler)
+            if(this.sport.type != ''){
+            HTTP.put(`sports/${this.idDeporte}`,this.sport)
+               .then(this._successHandler)
+               .catch(this._errorHandler)
+             }else{
+               Vue.notify({
+                   text: "Introduzca un nombre para este deporte",
+                   type: 'error'})
+             }
          }else{
         Vue.notify({
                text: "Este deporte ya está dentro de la BD",

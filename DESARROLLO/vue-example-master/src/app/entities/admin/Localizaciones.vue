@@ -1,4 +1,6 @@
 <template>
+<div>
+  <LocalizacionesDetail @Cerrar="reloadPage" v-if= "(idLoc!=null && nuevo==false)" v-bind:idLoc="this.idLoc" v-bind:num="this.num" v-bind:nuevo="this.nuevo"></LocalizacionesDetail> 
 
   <div  id="shopping-list">
       <h1>Localizaciones</h1>        
@@ -12,7 +14,7 @@
               <td></td>
             </tr>
             <tr >
-              <button class= "sport" v-for="location in locations" :key="location.idLocation" >
+              <button class= "sport" v-for="location in locations" :key="location.idLocation" @click="parametro(location.idLocation)">
                 <td>{{ location.name}}</td>
              </button>             
             </tr>
@@ -20,6 +22,7 @@
           
 
       </div>
+    </div>
 </div>
 
 
@@ -31,13 +34,17 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Mapa from '../../entities/admin/Mapa'
+import LocalizacionesDetail from '../../entities/admin/LocalizacionesDetail'
 
 
 export default {
-  components: {Multiselect},
+  components: {Multiselect, LocalizacionesDetail},
   data() {
     return {
       locations:null,
+      idLoc:null,
+      num:0,
+      nuevo:false
       
      
 
@@ -71,6 +78,24 @@ export default {
     _successHandler(response) {
       this.fetchData()
 
+    },
+    parametro(idLocation){
+      this.nuevo=false;
+      this.idLoc=idLocation;
+      this.num=this.num+1;
+
+      
+    },
+    reloadPage(bolean){
+      if (bolean){
+
+        this.nuevo=true;
+        this.fetchData()
+
+      }else{
+      this.nuevo=false;
+      this.fetchData();
+    }
     },
     
    
