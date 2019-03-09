@@ -38,6 +38,11 @@ public class TeamDAOHibernate extends GenericDAOHibernate implements TeamDAO {
 		return (Team) getSession().createQuery("from Team t where t.name = :name").setParameter("name", name).uniqueResult();
 	}
 	
+	@Override
+	public List<Team> findBySport(Sport sport) {
+		return getSession().createQuery("from Team t where t.sport = :sport").setParameter("sport", sport).list();
+	}
+	
 	
 
 }

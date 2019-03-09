@@ -105,16 +105,16 @@ export default {
 
     },
     guardar(){
-      this.fallo=false;
+      //this.fallo=false;
       if(this.idDeporte){//ACTUALIZAR
-        if(this.typeSport!= this.sport.type){//Si cambiamos nombre
+        /*if(this.typeSport!= this.sport.type){//Si cambiamos nombre
           for ( var i = 0; i < this.sports.length; i ++){
             if (this.sport.type==this.sports[i].type){//si tiene el nombre de alguno ya existente
               this.fallo=true;
             }
         }
-      }
-      if (this.fallo==false){//si no tiene el mismo nombre
+      }*/
+      //if (this.fallo==false){//si no tiene el mismo nombre
             if(this.sport.type != ''){
             HTTP.put(`sports/${this.idDeporte}`,this.sport)
                .then(this._successHandler)
@@ -124,12 +124,12 @@ export default {
                    text: "Introduzca un nombre para este deporte",
                    type: 'error'})
              }
-         }else{
+        /* }else{
         Vue.notify({
                text: "Este deporte ya está dentro de la BD",
                type: 'error'})
 
-      }
+      }*/
 
       }else{//CREAR
       if(this.checkForm()==true){
@@ -155,28 +155,20 @@ export default {
         return false;
       }
       
-      for ( var i = 0; i < this.sports.length; i ++){
+      /*for ( var i = 0; i < this.sports.length; i ++){
         if(this.sports[i].type==this.sport.type){
           this.error="El deporte "+this.sport.type+ " ya está en su BD"
           return false;
         }
       
-      }
+      }*/
 
       if (this.sport.type || this.sport.type && this.spot.locations) {
         return true;
       }
 
     },
-    notification(){
-      if (this.error=="sportDTO.type no puede estar vacío"){
-        this.error="Introduzca un deporte"
-      }
-
-       Vue.notify({
-               text: this.error,
-               type: 'error'})
-    },
+   
 
     getLocations() {
         
@@ -194,6 +186,9 @@ export default {
 
     _errorHandler(err) {
       this.error = err.response.data.message
+       Vue.notify({
+               text: this.error,
+               type: 'error'})
       
     }
 

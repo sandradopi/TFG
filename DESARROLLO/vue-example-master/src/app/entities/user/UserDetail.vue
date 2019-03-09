@@ -16,7 +16,7 @@
   <ol id="lista2">
      <h6 class="adv" v-if="this.user.favoritos==''">No tiene guardado ningun equipo en favoritos</h6>
     <li class="usuarios" type="disc" v-for=" favorito in this.user.favoritos" :key="favorito.idTeam"> 
-      {{favorito.name}} 
+      {{favorito.name}} ({{favorito.sport.type}})
     </li>
 </ol> 
 </br>
@@ -26,7 +26,7 @@
   <ol id="lista2">
      <h6  class="adv" v-if="this.user.juego==''">Usted actualmente no está jugando en ningun equipo</h6>
     <li class="usuarios" type="disc" v-for=" juego in this.user.juego" :key="juego.idTeam"> 
-      {{juego.name}} 
+      {{juego.name}} ({{juego.sport.type}})
     </li>
 </ol> 
  </div>

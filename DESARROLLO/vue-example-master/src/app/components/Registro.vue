@@ -104,7 +104,7 @@
             @tag="addTag"
             :searchable="true" 
             :clear-on-select="false" 
-            tag-placeholder="Añade este equipo como nueva opcion"
+            tag-placeholder="Equipo/Deporte"
             :preserve-search="true"
             :close-on-select="false" 
             :show-labels="false"
@@ -128,7 +128,7 @@
             :searchable="true" 
             :taggable="true"
             @tag="addTag"
-            tag-placeholder="Añade este equipo como nueva opcion"
+            tag-placeholder="Equipo/Deporte"
             :clear-on-select="false" 
             :preserve-search="true"
             :close-on-select="false" 
@@ -211,7 +211,8 @@ export default {
       nameTag:null,
       thesport:null,
       allsportType:[],
-      newTeam:null
+      newTeam:null,
+      bol:false
     }
 
   },
@@ -223,9 +224,10 @@ export default {
      fetchData() {
      if(this.$route.params.id != null){
       this.user=this.$route.params.id;
+       this.getTeams();
+        this.getSports();
      }
-     this.getTeams();
-     this.getSports();
+    
       
      },
 
@@ -254,10 +256,22 @@ export default {
       }
      }
 
+     for ( var i = 0; i < this.allteams.length; i ++){
+      if (this.allteams[i].name==this.nameTag[0]){
+          this.bol=true;
+
+      }
+     }
+
+
      if(this.thesport==null){
 
        Vue.notify({
               text: "Deporte incorrecto, debe ser alguno de estos: "+  this.allsportType,
+              type: 'error'})
+     }else if(this.bol==true){
+         Vue.notify({
+              text: "Este equipo ya está dentro de la BD",
               type: 'error'})
      }else{
 
@@ -276,6 +290,9 @@ export default {
      
 
     }
+    this.allsportType=[];
+    this.bol=false;
+    this.sport=null;
 
     },
 

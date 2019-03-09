@@ -47,7 +47,7 @@ public class SportResource {
     
     @PutMapping("/{idSport}")
     public SportDTO update(@PathVariable Long idSport, @RequestBody @Valid SportDTO sport, Errors errors)
-            throws IdAndBodyNotMatchingOnUpdateException, RequestBodyNotValidException {
+            throws IdAndBodyNotMatchingOnUpdateException, RequestBodyNotValidException, SportExistsException {
         errorHandler(errors);
         if (idSport != sport.getIdSport()) {
             throw new IdAndBodyNotMatchingOnUpdateException(Sport.class);

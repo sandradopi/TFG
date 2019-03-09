@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Location;
+import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
+import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
+import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 
@@ -26,6 +30,12 @@ public class SportService implements SportServiceInterface{
     private SportDAO sportDAO;
   @Autowired
   private LocationDAO locationDAO;
+  @Autowired
+  private TeamDAO teamDAO;
+  @Autowired
+  private UserDAO userDAO;
+
+
 
 
 @Override
@@ -65,8 +75,15 @@ public SportDTO save(SportDTO sport) throws SportExistsException {
 @PreAuthorize("hasAuthority('ADMIN')")
 @Transactional(readOnly = false)
 @Override
-public SportDTO update(SportDTO sport){
+public SportDTO update(SportDTO sport) throws SportExistsException{
     Sport bdSport = sportDAO.findById(sport.getIdSport());
+    
+    if (sportDAO.findByType(sport.getType()) != null) {
+    	
+        throw new SportExistsException("El deporte " + "'"+ sport.getType() + "'"+ " ya está en su BD");
+        
+   }
+    
     bdSport.setType(sport.getType());
     bdSport.setComponenteVisualizacion(sport.getComponenteVisualizacion());
     bdSport.setComponenteEntrada(sport.getComponenteEntrada());
@@ -87,8 +104,38 @@ public void deleteById(Long idSport) {
 	Boolean bol=false;
 	Sport bdSport = sportDAO.findById(idSport);
 	
-	
+
+		List<Team> team= teamDAO.findBySport(bdSport);
+		if (team.size()>0){
+			List<NormalUser> user= userDAO.findAllNoAdmin();
+			for(NormalUser a:user){
+				Set<Team> fav = a.getFavoritos();
+				Set<Team> jug = a.getJuego();
+				for(Team b:fav){
+					if(b.getSport()==bdSport){
+						fav.remove(b);
+					}
+					
+				}
+				for(Team c:jug){
+					if(c.getSport()==bdSport){
+						jug.remove(c);
+					}
+					
+				}
+			}
+			
+			for(Team a:team){
+				teamDAO.deleteById(a.getIdTeam());
+				
+			}
+		}
+		
 		List<Location> loc= sportDAO.findLocationsOfSport(idSport);
+		
+		if (loc.size()==0){
+			sportDAO.deleteById(idSport);
+		}
 		for(Location a:loc){
 			
 			Long count= locationDAO.countSportsOfaLocation(a.getIdLocation());

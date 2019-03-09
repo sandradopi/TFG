@@ -201,15 +201,12 @@ public class UserService implements UserServiceInterface{
 	    		        bdUser.getFavoritos().add(teamDAO.findByName(fav.getName()));
 	    		    });
 	    		    
-	    		    user.getFavoritos().forEach(fav -> {
-	    		    	 System.out.println("CHAO"+fav.getIdTeam());
-	    		    });
 	    		        
 	    	
 	    		    
 	    		bdUser.getJuego().clear();
 	    		   user.getJuego().forEach(jug -> {
-	    		        bdUser.getJuego().add(teamDAO.findById(jug.getIdTeam()));
+	    		        bdUser.getJuego().add(teamDAO.findByName(jug.getName()));
 	    		    });
 	    		    
 	    		
