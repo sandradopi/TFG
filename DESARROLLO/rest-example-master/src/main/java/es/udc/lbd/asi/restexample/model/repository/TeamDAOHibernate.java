@@ -32,6 +32,11 @@ public class TeamDAOHibernate extends GenericDAOHibernate implements TeamDAO {
 		 getSession().delete(findById(idTeam));
 		
 	}
+
+	@Override
+	public Team findByName(String name) {
+		return (Team) getSession().createQuery("from Team t where t.name = :name").setParameter("name", name).uniqueResult();
+	}
 	
 	
 

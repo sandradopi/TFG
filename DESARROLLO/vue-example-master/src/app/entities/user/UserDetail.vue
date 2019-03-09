@@ -139,7 +139,7 @@ export default {
   margin:0;
   margin-left:120px;
   margin-top:80px;
-  margin-bottom:50px;
+  margin-bottom:100px;
 
 
 
@@ -153,6 +153,7 @@ export default {
   border-radius: 3px;
   font-family: 'Lato', sans-serif;
   margin-right:60px;
+
   }
 
   .equipo1{
@@ -161,6 +162,7 @@ export default {
     background: #f3f3f3;
     border-radius: 3px;
     font-family: 'Lato', sans-serif;
+
   }
   
   .title1{

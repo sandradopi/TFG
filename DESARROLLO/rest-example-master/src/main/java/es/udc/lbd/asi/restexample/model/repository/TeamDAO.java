@@ -13,5 +13,6 @@ public interface TeamDAO {
 	 public List <Team> findAll();
 	 public Team findById(Long idTeam) ;
 	 public void deleteById(Long idTeam) ;
+	 public Team findByName(String name) ;
 
 }

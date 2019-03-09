@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
+import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.TeamService;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
@@ -41,5 +42,19 @@ public class TeamResource {
         return teamService.findAll();
     }
     
+    @PostMapping
+    public TeamDTO save(@RequestBody @Valid TeamDTO team, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
+        errorHandler(errors); 
+        return teamService.save(team);
+    }
+    
+    private void errorHandler(Errors errors) throws RequestBodyNotValidException {
+        if (errors.hasErrors()) {
+            String errorMsg = errors.getFieldErrors().stream()
+                    .map(fe -> String.format("%s.%s %s", fe.getObjectName(), fe.getField(), fe.getDefaultMessage()))
+                    .collect(Collectors.joining("; "));
+            throw new RequestBodyNotValidException(errorMsg);
+        }
+    }
    
 }

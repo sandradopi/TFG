@@ -67,6 +67,12 @@ public class Team {
 	public void setSport(Sport sport) {
 		this.sport = sport;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Team [idTeam=" + idTeam + ", name=" + name + ", sport=" + sport + "]";
+	}
 	
 	
 }

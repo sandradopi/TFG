@@ -15,6 +15,8 @@
   <div class="formulario">
   <div class ="contenido" align="middle">
       <h1 class= "titulo" align="left">Datos Personales:</h1>
+
+
   </div>
   <b-form
       v-if="user"
@@ -98,14 +100,18 @@
             v-model="user.favoritos" 
             :options="this.allteams"
             :multiple="true"
+            :taggable="true"
+            @tag="addTag"
             :searchable="true" 
             :clear-on-select="false" 
+            tag-placeholder="Añade este equipo como nueva opcion"
             :preserve-search="true"
             :close-on-select="false" 
             :show-labels="false"
             track-by="idTeam"
             placeholder="Equipos favoritos"
-            :custom-label="nameCustom"
+             :custom-label="nameCustom"
+            
             >
       </multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
@@ -120,6 +126,9 @@
             :options="this.allteams"
             :multiple="true"
             :searchable="true" 
+            :taggable="true"
+            @tag="addTag"
+            tag-placeholder="Añade este equipo como nueva opcion"
             :clear-on-select="false" 
             :preserve-search="true"
             :close-on-select="false" 
@@ -168,6 +177,8 @@
           required
           placeholder="Introduce el email"/>
       </b-form-group>
+
+
     </div>
   
  
@@ -185,6 +196,10 @@ import auth from '../common/auth'
 import Multiselect from 'vue-multiselect'
 import Vue from 'vue'
 export default {
+  mounted(){
+  
+
+  },
   components: {  Multiselect},
   data() {
     return {
@@ -192,6 +207,11 @@ export default {
       error: null,
       city:['A Coruña','Alaba','Albacete', 'Alicante','Almeria','Asturias','Avila','Badajoz','Barcelona','Burgos','Cáceres','Cádiz','Cantabria','Castellón','Ceuta','Ciudad Real','Córdoba','Cuenca','Formentera','Girona','Granada','Guadalajara','Guipuzcoa','Huelva','Huesca','Ibiza','Jaén', 'La Rioja', 'Las Palmas de Gran Canaria','León','Lérida','Lugo','Madrid','Málaga','Mallorca','Menorca','Murcia','Navarra','Orense','Palencia','Pontevedra','Salamanca','Santa Cruz de Tenerife','Segovia', 'Sevilla','Soria','Tarragona','Teruel','Toledo','Valencia','Valladolid','Vizcaya','Zamora','Zaragoza'],
       allteams:[],
+      allsports:[],
+      nameTag:null,
+      thesport:null,
+      allsportType:[],
+      newTeam:null
     }
 
   },
@@ -205,6 +225,7 @@ export default {
       this.user=this.$route.params.id;
      }
      this.getTeams();
+     this.getSports();
       
      },
 
@@ -218,7 +239,44 @@ export default {
       
     },
     nameCustom ({ name, sport}) {
-      return `${name} (${sport.type})`
+      return `${name}/${sport.type}`
+    },
+    addTag(newTag){
+       this.nameTag= newTag.split('/');
+       this.thesport=null;
+
+
+     for ( var i = 0; i < this.allsports.length; i ++){
+      this.allsportType.push(this.allsports[i].type);
+      if (this.allsports[i].type==this.nameTag[1]){
+          this.thesport=this.allsports[i];
+
+      }
+     }
+
+     if(this.thesport==null){
+
+       Vue.notify({
+              text: "Deporte incorrecto, debe ser alguno de estos: "+  this.allsportType,
+              type: 'error'})
+     }else{
+
+      var tag= {
+          idTeam:null,
+          name: this.nameTag[0],
+          sport:this.thesport
+      }
+
+      this.allteams.push(tag)
+
+     
+      HTTP.post('teams', tag)
+      .catch(this._errorHandler)
+
+     
+
+    }
+
     },
 
     getTeams() {
@@ -227,6 +285,14 @@ export default {
       .then(response => this.allteams = response.data)
       .catch(err => this.error = err.message)
     },
+
+     getSports() {
+        
+       HTTP.get('sports')
+      .then(response => this.allsports = response.data)
+      .catch(err => this.error = err.message)
+    },
+   
    
      
 
@@ -316,6 +382,7 @@ export default {
     save() {
       if(this.$route.params.id != null){
         if (this.checkForm1() == true) {
+
               HTTP.put(`users/${this.$route.params.id.idUser}`,this.user)
               .then(this._successHandler)
               .catch(this._errorHandler)
