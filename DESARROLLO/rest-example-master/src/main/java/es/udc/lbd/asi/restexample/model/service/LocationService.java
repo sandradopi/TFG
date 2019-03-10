@@ -35,6 +35,12 @@ public List<LocationDTO> findAll() {
 }
 
 @Override
+public List<LocationDTO> findAllSport(Long idSport) {
+	return locationDAO.findAllSport(idSport).stream().map(location -> new LocationDTO(location)).collect(Collectors.toList());
+	    
+}
+
+@Override
 public LocationDTO findById(Long idLocation) {
 	return new LocationDTO(locationDAO.findById(idLocation));
 }

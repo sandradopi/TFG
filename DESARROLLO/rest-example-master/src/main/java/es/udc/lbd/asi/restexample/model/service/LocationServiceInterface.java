@@ -10,6 +10,7 @@ public interface LocationServiceInterface {
 	  public LocationDTO findById(Long idLocation);
 	  public void deleteById(Long idLocation);
 	  public LocationDTO update(LocationDTO location);
+	  public List<LocationDTO> findAllSport(Long idSport);
 
 
 

@@ -18,10 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
-import es.udc.lbd.asi.restexample.model.service.LocationService;
+import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
+import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
+import es.udc.lbd.asi.restexample.model.service.GameService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
-import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
+import es.udc.lbd.asi.restexample.model.service.TeamService;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.lbd.asi.restexample.web.exception.InstanceNotFoundExceptionHIB;
 import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
@@ -29,41 +33,21 @@ import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
 
 
 @RestController
-@RequestMapping("/api/locations")
-public class LocationResource {
+@RequestMapping("/api/games")
+public class GameResource {
 
     @Autowired
-    private LocationService locationService;
+    private GameService gameService;
 
     @GetMapping
-    public List<LocationDTO> findAll() {
-        return locationService.findAll();
+    public List<GameDTO> findAll() {
+        return gameService.findAll();
     }
     
-    @GetMapping("/filter/{idSport}")
-    public List <LocationDTO> findAllSport(@PathVariable Long idSport) {
-    	 return locationService.findAllSport(idSport);
-    }
-    
-    @GetMapping("/{idLocation}")
-    public LocationDTO findOne(@PathVariable Long idLocation) throws InstanceNotFoundExceptionHIB{
-        LocationDTO location = locationService.findById(idLocation);
-    	return location;
-    }
-    
-    @DeleteMapping("/{idLocation}")
-    public void delete(@PathVariable Long idLocation) throws InstanceNotFoundExceptionHIB{
-        locationService.deleteById(idLocation);
-    }
-    
-    @PutMapping("/{idLocation}")
-    public LocationDTO update(@PathVariable Long idLocation, @RequestBody @Valid LocationDTO location, Errors errors)
-            throws IdAndBodyNotMatchingOnUpdateException, RequestBodyNotValidException {
-        errorHandler(errors);
-        if (idLocation != location.getIdLocation()) {
-            throw new IdAndBodyNotMatchingOnUpdateException(Sport.class);
-        }
-        return locationService.update(location);
+    @PostMapping
+    public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
+        errorHandler(errors); 
+        return gameService.save(game);
     }
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {
@@ -75,5 +59,4 @@ public class LocationResource {
         }
     }
    
-  
 }

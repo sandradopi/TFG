@@ -1,11 +1,13 @@
 package es.udc.lbd.asi.restexample.model.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 import es.udc.lbd.asi.restexample.repository.util.GenericDAOHibernate;
 
 @Repository
@@ -36,6 +38,11 @@ public class LocationDAOHibernate extends GenericDAOHibernate implements Locatio
 	@Override
 	public Long countSportsOfaLocation(Long idLocation) {
 		 return (Long) getSession().createQuery("select count(*) from Sport as s inner join s.locations as l where l.idLocation= :idLocation").setParameter("idLocation", idLocation).uniqueResult();
+	}
+
+	@Override
+	public List<Location> findAllSport(Long idSport) {
+		return getSession().createQuery("select l from Location l inner join l.sports s where s.idSport= :idSport ").setParameter("idSport", idSport).list();
 	}
 
 }
