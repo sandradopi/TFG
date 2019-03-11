@@ -1,0 +1,68 @@
+package es.udc.lbd.asi.restexample.web;
+
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
+import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
+import es.udc.lbd.asi.restexample.model.service.OpenService;
+import es.udc.lbd.asi.restexample.model.service.SportService;
+import es.udc.lbd.asi.restexample.model.service.TeamService;
+import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.OpeningDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
+import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
+import es.udc.lbd.asi.restexample.web.exception.InstanceNotFoundExceptionHIB;
+import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
+
+
+
+@RestController
+@RequestMapping("/api/openings")
+public class OpeningResource {
+
+    @Autowired
+    private OpenService openService;
+
+    @GetMapping
+    public List<OpeningDTO> findAll() {
+        return openService.findAll();
+    }
+    
+    @PostMapping
+    public OpeningDTO save(@RequestBody @Valid OpeningDTO open, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
+        errorHandler(errors); 
+        return openService.save(open);
+    }
+    
+    @GetMapping("/{idLocation}")
+    public List <OpeningDTO> findAllLocation(@PathVariable Long idLocation) {
+    	 return openService.findAllLocation(idLocation);
+    }
+    
+    private void errorHandler(Errors errors) throws RequestBodyNotValidException {
+        if (errors.hasErrors()) {
+            String errorMsg = errors.getFieldErrors().stream()
+                    .map(fe -> String.format("%s.%s %s", fe.getObjectName(), fe.getField(), fe.getDefaultMessage()))
+                    .collect(Collectors.joining("; "));
+            throw new RequestBodyNotValidException(errorMsg);
+        }
+    }
+   
+}

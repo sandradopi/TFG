@@ -30,40 +30,7 @@ import L from 'leaflet'
 
 
 export default {
-  mounted() {
-
-  	 mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(mymap);
-     this.marcadores();
-
-     var popup = L.popup();
-
-	function onMapClick(e) {
-		var campo= e.latlng.toString().split('(');
-		var campoMod= "Coordenadas: (" + campo[1];
-
-		var dato=campo.toString().split(',');
-    	this.latitud=dato[0];
-    	var dato2= dato[1].split(')');
-    	this.longitud=dato2[0];
-
-	    popup
-	        .setLatLng(e.latlng)
-	        .setContent(campoMod)
-	        .openOn(mymap);
-
-	 
-}
-
-
-mymap.on('click', onMapClick);
-		
-
-
-    
- },
+ 
   components: {},
   data() {
     return {
@@ -72,6 +39,10 @@ mymap.on('click', onMapClick);
     	location:{},
     	latitud:null,
     	longitud:null,
+      dato:null,
+      dato2:null,
+      campo:null,
+      campoMod:null
 
     }
   },
@@ -84,6 +55,41 @@ mymap.on('click', onMapClick);
   
     
   },
+
+   mounted() {
+
+     mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(mymap);
+     this.marcadores();
+
+     var popup = L.popup();
+
+  function onMapClick(e) {
+      this.campo= e.latlng.toString().split('(');
+      this.campoMod= "Coordenadas: (" + this.campo[1];
+
+      this.dato=this.campo.toString().split(',');
+      this.latitud=this.dato[1];
+      this.dato2= this.dato[2].split(')');
+      this.longitud=this.dato2[0];
+
+      popup
+          .setLatLng(e.latlng)
+          .setContent(this.campoMod)
+          .openOn(mymap);
+
+   
+}
+
+
+mymap.on('click', onMapClick);
+    
+
+
+    
+ },
 
   methods: {
     fetchData() {

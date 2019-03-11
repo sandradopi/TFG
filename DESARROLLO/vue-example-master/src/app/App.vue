@@ -94,6 +94,7 @@ export default {
     
   }
 
+
   .notification {
      margin: 10px;
      margin-bottom: 0;
@@ -123,8 +124,8 @@ export default {
       background-color: #292c2f;
       width: 100%;
       font: bold 16px sans-serif;
-      padding: 25px 50px;
-      margin-top: 68px;
+      padding: 20px 40px;
+
   }
 
 .footer-distributed .footer-left,

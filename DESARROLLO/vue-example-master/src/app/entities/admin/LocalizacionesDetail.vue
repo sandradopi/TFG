@@ -2,25 +2,33 @@
 
   <div v-if="bol"class="information message">
     <button @click="hide"> X </button> 
-    <div>          
+    <div> 
+
       <h2 v-if="edit==false">{{location.name}}</h2>
       <h5 class="tit" v-if="edit==true" >Nombre:</h5>
+
       <input type='text' v-if="edit==true" class="searchButton1" placeholder='Nombre' v-model="location.name" >
+
       <h5 class="tit" v-if="edit==true" >Coste por hora (€/h):</h5>
+
       <input type='text' v-if="edit==true" class="searchButton" placeholder='Coste por hora' v-model="location.costPerHour" >
-     <h5 class="comp" v-if="edit==false">Coste por hora (€/h): {{location.costPerHour}}</h5>
-      <br>
-      <div class="compo">
+      <h5 class="comp" v-if="edit==false">Coste por hora (€/h): {{location.costPerHour}}</h5>
+    
       </br>
+     <h5>Horario:</h5>
+     <li type="comp" v-for=" open in opens" :key="opens.idOpening"> {{open.dayOfTheWeek}}: {{custom(open.to)}}/ {{custom(open.from)}}</li>
+     </br>
+
+      <div class="compo">
       	<h5>Ubicación:</h5>
         <li class="comp">Latitud: {{location.latitud}}</li>
         <li class="comp">Longitud: {{location.longitud}}</li>
-     </div>
-      
+      </div>
+
        <button class="editar"  v-if="edit==false" @click="editar()">Editar</button>
-        <button class="editar"  v-if="edit==true" @click="guardar()">Guardar</button>
-      <button class="eliminar"  v-if="edit==false"@click="eliminar()"> Eliminar</button>
-        <button class="eliminar"  v-if="edit==true"@click="edit1()"> Cancelar</button>  
+       <button class="editar"  v-if="edit==true" @click="guardar()">Guardar</button>
+       <button class="eliminar"  v-if="edit==false"@click="eliminar()"> Eliminar</button>
+      <button class="eliminar"  v-if="edit==true"@click="edit1()"> Cancelar</button>  
 
     </div>
 </div>
@@ -41,8 +49,6 @@ export default {
     idLoc:null,
     num:0,
     
-
-    
   },
   data() {
 
@@ -52,6 +58,7 @@ export default {
       location:{},
       edit:false,
       nuevoCoste:{},
+      opens:null
    
      
 
@@ -63,6 +70,7 @@ export default {
 
 
   },
+
  
   created() { //se va a lanzar siempre en una clase de componentes
     this.fetchData()
@@ -75,19 +83,31 @@ export default {
        HTTP.get(`locations/${this.idLoc}`) 
       .then(response => {
         this.location = response.data
-        
+        return response
       })
+      .then(this.getOpeningtime)
       .catch(err => this.error = err.message)
-    
-    
 
     },
+    custom(open){
+    return open.substring(0,5);
+  },
+
+    getOpeningtime(){
+      HTTP.get(`openings/${this.idLoc}`) 
+            .then(response => {
+              this.opens = response.data
+            })
+            .catch(err => this.error = err.message)
+    },
+
     hide(){
       this.bol=false;
       this.edit1();
       this.$emit('Cerrar',false);
 
     },
+
 
     editar(){
     	this.edit=true;
@@ -264,6 +284,6 @@ td {
 
 	margin-top:10px;
 }
-  
+
 
 </style>

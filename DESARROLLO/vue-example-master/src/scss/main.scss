@@ -1,21 +1,28 @@
 
-
-
 .content {
-  margin: 0px 0px 0px 0px;
+  height: 70%;
+  margin-bottom: 2%;
 
 }
 
 
 .app-form {
   padding-top: 30px;
+
 }
 
- body {
+ body , html{
   background:white;
+  width: 100%;
+  height: 100%;
 
 }
 
 .nav-item{
 	color:white;
+}
+
+div#app{
+	width: 100%;
+  height: 100%;
 }

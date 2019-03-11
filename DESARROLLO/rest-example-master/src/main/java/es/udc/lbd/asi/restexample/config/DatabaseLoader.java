@@ -3,6 +3,7 @@ package es.udc.lbd.asi.restexample.config;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,12 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.domain.Location;
+import es.udc.lbd.asi.restexample.model.domain.OpeningTime;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
+import es.udc.lbd.asi.restexample.model.repository.OpenDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 
@@ -44,6 +47,9 @@ public class DatabaseLoader {
     
     @Autowired
     private TeamDAO teamService;
+    
+    @Autowired
+    private OpenDAO openService;
     
     @Autowired
     private LocationDAO locationService;
@@ -81,7 +87,18 @@ public class DatabaseLoader {
     locationService.save(location2);
     locationService.save(location3);
     
-   
+    OpeningTime open1=new OpeningTime("Lunes", LocalTime.of(10,00),LocalTime.of(21,00),location3);
+    openService.save(open1);
+    OpeningTime open2=new OpeningTime("Martes", LocalTime.of(10,00),LocalTime.of(21,00),location3);
+    openService.save(open2);
+    OpeningTime open3=new OpeningTime("Miercoles", LocalTime.of(10,00),LocalTime.of(20,30),location3);
+    openService.save(open3);
+    OpeningTime open4=new OpeningTime("Jueves", LocalTime.of(10,00),LocalTime.of(22,30),location3);
+    openService.save(open4);
+    OpeningTime open5=new OpeningTime("Viernes", LocalTime.of(10,00),LocalTime.of(23,00),location3);
+    openService.save(open5);
+    OpeningTime open6=new OpeningTime("Sabado", LocalTime.of(16,00),LocalTime.of(23,00),location3);
+    openService.save(open6);
     
     Set <Location>locationsFutbol = new <Location> HashSet();
     Set <Location>locationsTennis = new <Location> HashSet();
