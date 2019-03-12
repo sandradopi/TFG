@@ -85,43 +85,43 @@ public class UserService implements UserServiceInterface{
 	    	     //Comprobaciones Servicio del Registro
 	    	     
 	    	    if(login == null){ //Login vacio
-		        	  throw new RequiredFieldsException("The login is a required field");
+		        	  throw new RequiredFieldsException("El login es un campo requerido");
 		         }
 		        else if (userDAO.findByLogin(login) != null) {
-		             throw new UserLoginEmailExistsException("User login " + login + " already exists");//login existente
+		             throw new UserLoginEmailExistsException("El login " + login + " ya existe");//login existente
 		        }
 		        
 		        if (email== null){//Que el email esté vacio
 		        	 throw new RequiredFieldsException("The email is a required field");
 		        }else if (userDAO.findByEmail(email) != null) {
-		             throw new UserLoginEmailExistsException("The email " +email + " already exists"); //email existente
+		             throw new UserLoginEmailExistsException("El email " +email + " ya existe"); //email existente
 		        } else{
 	    	    	 Matcher matcher = pattern.matcher(email);
 	    	    	 if (!matcher.matches()){
-	    	    	 throw new EmailIncorrect("The email: "+ email +" don´t have the good format, review it ");
+	    	    	 throw new EmailIncorrect("El email: "+ email +" no sigue el formato adecuado, revísalo! ");
 	    	    	 }
 	    	   
 		        }
 	    	    
 		        if(name == null){ //Nombre vacio
-		        	  throw new RequiredFieldsException("The name is a required field");
+		        	  throw new RequiredFieldsException("El nombre es un campo requerido");
 		         }
 		        
 		        if(surname1 == null){ //Apellido1 vacio
-		        	  throw new RequiredFieldsException("The First surname is a required field");
+		        	  throw new RequiredFieldsException("El primer apellido es un campo requerido");
 		         }
 		        
 		        if(surname2 == null){ //Apellido2 vacio
-		        	  throw new RequiredFieldsException("The Second surname is a required field");
+		        	  throw new RequiredFieldsException("El segundo apellido es un campo requerido");
 		         }
 		        
 		       
 		      
 		        if(password == null){ //password vacio
-		        	  throw new RequiredFieldsException("The password is a required field");
+		        	  throw new RequiredFieldsException("La contraseña es un campo requerido");
 		           
 		        }else if(password.length()<4){ //Password muy corta
-		        	throw new PasswordTooShort("The password is too short, minimum 4 letters please");
+		        	throw new PasswordTooShort("La contraseña es muy corta, minimo 4 digitos");
 		        }
 
 	    	     registerUser(login,email, password, false, name, surname1, surname2, city,birthday);

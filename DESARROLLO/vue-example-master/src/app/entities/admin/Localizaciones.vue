@@ -5,7 +5,7 @@
   <div  id="shopping-list">
       <h1>Localizaciones</h1>        
        <b-btn class="button"
-              :to="{ name: 'Mapa', params: {id: this.locations}}"
+              :to="{ name: 'Mapa'}"
               variant="link">Nueva Localización</b-btn>
 
         <div class="list">

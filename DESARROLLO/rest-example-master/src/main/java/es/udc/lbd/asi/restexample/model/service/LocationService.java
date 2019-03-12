@@ -12,10 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.domain.Team;
+import es.udc.lbd.asi.restexample.model.exception.LocationExistsException;
+import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
+import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -74,7 +79,31 @@ public LocationDTO update(LocationDTO location){
     }
   
 	
-				
+@PreAuthorize("hasAuthority('ADMIN')")
+@Transactional(readOnly = false)
+@Override
+public LocationDTO save(LocationDTO location) throws LocationExistsException, RequiredFieldsException {
+	if(location.getName() == null){
+  	  throw new RequiredFieldsException("El nombre es un campo requerido");
+   }
+	
+	if(location.getLatitud() == null && location.getLongitud() == null){ 
+	  	  throw new RequiredFieldsException("La latitud y logitud son campos requerido");
+	   }
+	
+	
+	if (locationDAO.findByUbicacion(location.getLatitud(), location.getLongitud())!=null) {
+         throw new LocationExistsException("Esas coordenadas ya pertenecen a una localizacion que ya está en su BD");
+    }
+
+		
+	Location bdLocation = new Location(location.getName(),location.getCostPerHour(),location.getLatitud(),location.getLongitud());
+	
+
+	locationDAO.save(bdLocation);
+    return new LocationDTO(bdLocation);
+}				
+	     		
 	     
    
 

@@ -14,7 +14,10 @@ import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
+import es.udc.lbd.asi.restexample.model.domain.User_;
+import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
+import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
@@ -52,8 +55,12 @@ public SportDTO findById(Long idSport) {
 @PreAuthorize("hasAuthority('ADMIN')")
 @Transactional(readOnly = false)
 @Override
-public SportDTO save(SportDTO sport) throws SportExistsException {
+public SportDTO save(SportDTO sport) throws SportExistsException, RequiredFieldsException {
 	
+	 if(sport.getType() == null){ //Nombre vacio
+	  	  throw new RequiredFieldsException("El nombre es un campo requerido");
+	   }
+	 
 	if (sportDAO.findByType(sport.getType()) != null) {
          throw new SportExistsException("El deporte " + "'"+ sport.getType() + "'"+ " ya está en su BD");
     }
@@ -75,11 +82,14 @@ public SportDTO save(SportDTO sport) throws SportExistsException {
 @PreAuthorize("hasAuthority('ADMIN')")
 @Transactional(readOnly = false)
 @Override
-public SportDTO update(SportDTO sport) throws SportExistsException{
+public SportDTO update(SportDTO sport) throws SportExistsException, RequiredFieldsException{
     Sport bdSport = sportDAO.findById(sport.getIdSport());
     
-    if (sportDAO.findByType(sport.getType()) != null) {
-    	
+    if(sport.getType() == null){ //Nombre vacio
+  	  throw new RequiredFieldsException("El nombre es un campo requerido");
+   }
+   
+    if (sportDAO.findByType(sport.getType()) != null && !(bdSport.getType().equals(sport.getType()))) {
         throw new SportExistsException("El deporte " + "'"+ sport.getType() + "'"+ " ya está en su BD");
         
    }

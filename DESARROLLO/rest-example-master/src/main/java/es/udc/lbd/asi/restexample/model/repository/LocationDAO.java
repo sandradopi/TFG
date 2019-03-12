@@ -13,5 +13,7 @@ public interface LocationDAO {
 	 public Location findById(Long idLocation) ;
 	 public void deleteById(Long idLocation) ;
 	 public Long countSportsOfaLocation(Long idLocation);
-	public List<Location> findAllSport(Long idSport);
+	 public List<Location> findAllSport(Long idSport);
+     public Location findByName(String name);
+	 public Location findByUbicacion(Double latitud, Double longitud);
 }

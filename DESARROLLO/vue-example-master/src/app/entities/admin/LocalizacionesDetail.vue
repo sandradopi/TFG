@@ -4,15 +4,9 @@
     <button @click="hide"> X </button> 
     <div> 
 
-      <h2 v-if="edit==false">{{location.name}}</h2>
-      <h5 class="tit" v-if="edit==true" >Nombre:</h5>
-
-      <input type='text' v-if="edit==true" class="searchButton1" placeholder='Nombre' v-model="location.name" >
-
-      <h5 class="tit" v-if="edit==true" >Coste por hora (€/h):</h5>
-
-      <input type='text' v-if="edit==true" class="searchButton" placeholder='Coste por hora' v-model="location.costPerHour" >
-      <h5 class="comp" v-if="edit==false">Coste por hora (€/h): {{location.costPerHour}}</h5>
+      <h2 >{{location.name}}</h2>
+    
+      <h5 class="comp">Coste por hora (€/h): {{location.costPerHour}}</h5>
     
       </br>
      <h5>Horario:</h5>
@@ -25,10 +19,12 @@
         <li class="comp">Longitud: {{location.longitud}}</li>
       </div>
 
-       <button class="editar"  v-if="edit==false" @click="editar()">Editar</button>
-       <button class="editar"  v-if="edit==true" @click="guardar()">Guardar</button>
-       <button class="eliminar"  v-if="edit==false"@click="eliminar()"> Eliminar</button>
-      <button class="eliminar"  v-if="edit==true"@click="edit1()"> Cancelar</button>  
+
+        <b-btn
+                    class="editar"
+                    :to="{ name: 'Mapa', params: { id: this.location}}"
+                   ><span>Editar</span></b-btn> 
+       <button class="eliminar" @click="eliminar()"> Eliminar</button>
 
     </div>
 </div>
@@ -56,7 +52,6 @@ export default {
       sport:{},
       bol:true,
       location:{},
-      edit:false,
       nuevoCoste:{},
       opens:null
    
@@ -78,7 +73,6 @@ export default {
   methods: {
 
      fetchData() {
-     this.edit=false;
       this.bol=true;
        HTTP.get(`locations/${this.idLoc}`) 
       .then(response => {
@@ -109,20 +103,6 @@ export default {
     },
 
 
-    editar(){
-    	this.edit=true;
-      
-    },
-    guardar(){
- 	HTTP.put(`locations/${this.location.idLocation}`,this.location)
-           .then(this.edit1)
-           .catch(this._errorHandler)
-    },
-   
-   edit1(){
-   	this.edit=false;
-
-   },
 
     _successHandler(response) {
       this.bol=false;

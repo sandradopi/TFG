@@ -179,6 +179,9 @@ export default {
    
 
     _successHandler(response) {
+      Vue.notify({
+               text: "Cambios guardados",
+               type: 'success'})
       this.bol=false;
       this.$emit('Cerrar');
 

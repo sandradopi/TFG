@@ -49,11 +49,22 @@ public class Location {
 	public Location() {
 		
 	}
+	
+	
+
+	public Location( @NotEmpty String name, Long costPerHour, @NotNull Double latitud,
+			@NotNull Double longitud, Set<Sport> sports) {
+		this.name = name;
+		this.costPerHour = costPerHour;
+		this.latitud = latitud;
+		this.longitud = longitud;
+		this.sports = sports;
+	}
+
 
 
 	public Location(@NotEmpty String name, @NotEmpty Long costPerHour, @NotEmpty Double latitud,
 			@NotEmpty Double longitud) {
-		super();
 		this.name = name;
 		this.costPerHour = costPerHour;
 		this.latitud = latitud;

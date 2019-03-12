@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
@@ -46,9 +47,8 @@ public class SportResource {
     }
     
     @PutMapping("/{idSport}")
-    public SportDTO update(@PathVariable Long idSport, @RequestBody @Valid SportDTO sport, Errors errors)
-            throws IdAndBodyNotMatchingOnUpdateException, RequestBodyNotValidException, SportExistsException {
-        errorHandler(errors);
+    public SportDTO update(@PathVariable Long idSport, @RequestBody  SportDTO sport, Errors errors)
+            throws IdAndBodyNotMatchingOnUpdateException, SportExistsException, RequiredFieldsException {
         if (idSport != sport.getIdSport()) {
             throw new IdAndBodyNotMatchingOnUpdateException(Sport.class);
         }
@@ -57,8 +57,7 @@ public class SportResource {
     
     
     @PostMapping
-    public SportDTO save(@RequestBody @Valid SportDTO sport, Errors errors) throws RequestBodyNotValidException, SportExistsException {
-        errorHandler(errors); 
+    public SportDTO save(@RequestBody SportDTO sport, Errors errors) throws  SportExistsException, RequiredFieldsException {
         return sportService.save(sport);
     }
     
@@ -68,12 +67,5 @@ public class SportResource {
     }
     
     
-    private void errorHandler(Errors errors) throws RequestBodyNotValidException {
-        if (errors.hasErrors()) {
-            String errorMsg = errors.getFieldErrors().stream()
-                    .map(fe -> String.format("%s.%s %s", fe.getObjectName(), fe.getField(), fe.getDefaultMessage()))
-                    .collect(Collectors.joining("; "));
-            throw new RequestBodyNotValidException(errorMsg);
-        }
-    }
+
 }

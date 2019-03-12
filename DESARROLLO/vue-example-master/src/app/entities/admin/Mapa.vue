@@ -4,14 +4,13 @@
 	<h1>Nueva Localización</h1> 
 	<div class="inp">
 		<input type='text' class="searchButton" placeholder='Nombre' v-model="location.name" autofocus required >
-		<input type='text' class="searchButton" placeholder='Latitud' v-model="this.latitud" autofocus required >
-		<input type='text' class="searchButton" placeholder='Longitud' v-model="this.longitud" autofocus required >
-	
+		<input type='text' class="searchButton" placeholder='Latitud' v-model="this.latitud" autofocus required readonly onmousedown="return false;">
+		<input type='text' class="searchButton" placeholder='Longitud' v-model="this.longitud" autofocus required readonly onmousedown="return false;">
+    <input type='text' class="searchButton" placeholder='Coste/Hora(€)' v-model="location.costPerHour" autofocus required >
+	<b-btn class="button" @click="añadir()" variant="link">Añadir</b-btn>
 	</div>
-
-<b-btn class="button" @click="añadir()" variant="link">Añadir</b-btn>
 </div>
-<div id="mymap"></div>
+<div id="mymap" class="mymap"></div>
 
 
 
@@ -42,7 +41,9 @@ export default {
       dato:null,
       dato2:null,
       campo:null,
-      campoMod:null
+      campoMod:null,
+      errors:''
+
 
     }
   },
@@ -51,6 +52,7 @@ export default {
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
+
   	this.fetchData();
   
     
@@ -58,13 +60,19 @@ export default {
 
    mounted() {
 
-     mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
+    this.fetchData();
+    this.mapa();
+
+     var mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(mymap);
-     this.marcadores();
+
+     this.marcadores.bind(this);
+     L.marker([43.311689,  -8.374329]).addTo(mymap);
 
      var popup = L.popup();
+
 
   function onMapClick(e) {
       this.campo= e.latlng.toString().split('(');
@@ -84,7 +92,7 @@ export default {
 }
 
 
-mymap.on('click', onMapClick);
+mymap.on('click', onMapClick.bind(this));
     
 
 
@@ -93,30 +101,90 @@ mymap.on('click', onMapClick);
 
   methods: {
     fetchData() {
+ 
+      this.location={};
+      this.latitud='';
+      this.longitud='';
+      HTTP.get('locations')
+        .then(response => {
+       this.locations = response.data
+       
+     })
+     .catch(err => {
+       this.error = err.message
+     })
+
     
+    },
+    mapa(){
+
+    },
+
+    checkForm1 () {
+      
+      if (!this.location.name) {
+        this.errors= "El nombre es un campo obligatorio "
+        return false;
+      }
+
+       if (!this.latitud && !this.longitud) {
+
+        this.errors= "La latitud y longitud son campos obligatorios "
+        return false;
+      }
+
+      if(this.location.name && this.latitud && this.longitud){
+      return true;
+    }
+
     },
 
     añadir(){
     this.location.latitud=this.latitud;
     this.location.longitud=this.longitud;
 
-    HTTP.post('locations',this.location)
-	.then(this._successHandler)
-    .catch(this._errorHandler)
+    if(this.checkForm1()==true){
+        HTTP.post('locations',this.location)
+    	 .then(this.resetear)
+        .catch(this._errorHandler)
+    }else{
+       Vue.notify({
+          text: this.errors,
+          type: 'error'})
+    }
+
     },
 
     marcadores(){
-
-
-     for ( var i = 0; i < this.$route.params.id.length; i ++){
-       		 L.marker([this.$route.params.id[i].latitud, this.$route.params.id[i].longitud]).addTo(mymap).bindPopup(this.$route.params.id[i].name).openPopup();
+     
+     for ( var i = 0; i < this.locations.length; i ++){
+       		 L.marker([this.locations[i].latitud, this.locations[i].longitud]).addTo(mymap).bindPopup(this.locations[i].name).openPopup();
         }
+
+
 	
+    },
+
+    resetear(){
+   
+      // L.marker([this.location.latitud, this.location.longitud]).addTo(mymap).bindPopup(this.location.name).openPopup();
+        this._successHandler();
+
+
+    },
+
+     guardar(){
+     HTTP.put(`locations/${this.location.idLocation}`,this.location)
+           .then(this.edit1)
+           .catch(this._errorHandler)
     },
 
     
 
     _successHandler(response) {
+      Vue.notify({
+               text: "La nueva localización ha sido añadida",
+               type: 'success'})
       this.fetchData()
 
     },
@@ -124,6 +192,9 @@ mymap.on('click', onMapClick);
    
     _errorHandler(err) {
       this.error = err.response.data.message
+       Vue.notify({
+               text: this.error,
+               type: 'error'})
     }
   }
 }
@@ -182,7 +253,7 @@ mymap.on('click', onMapClick);
 	float:right;
 	background: #f3f3f3;
 	width:30%;
-	height:50%;
+	height:80%;
 	border-radius: 6px;
 	margin-top:50px;
 }

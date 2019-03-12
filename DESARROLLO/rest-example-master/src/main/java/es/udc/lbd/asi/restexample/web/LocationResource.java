@@ -18,8 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.exception.LocationExistsException;
+import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
+import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.LocationService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
@@ -64,6 +68,12 @@ public class LocationResource {
             throw new IdAndBodyNotMatchingOnUpdateException(Sport.class);
         }
         return locationService.update(location);
+    }
+    
+    @PostMapping
+    public LocationDTO save(@RequestBody LocationDTO location, Errors errors) throws LocationExistsException, RequiredFieldsException {
+       
+        return locationService.save(location);
     }
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {
