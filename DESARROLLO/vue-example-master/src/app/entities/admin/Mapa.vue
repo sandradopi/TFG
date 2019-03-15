@@ -8,11 +8,20 @@
 		<input type='text' class="searchButton" placeholder='Latitud' v-model="this.latitud" autofocus required readonly onmousedown="return false;">
 		<input type='text' class="searchButton" placeholder='Longitud' v-model="this.longitud" autofocus required readonly onmousedown="return false;">
     <input type='text' class="searchButton" placeholder='Coste/Hora(€)' v-model="location.costPerHour" autofocus required >
-	<b-btn v-if="this.$route.params.id== null"class="button" @click="añadir()" variant="link">Añadir</b-btn>
-  <b-btn v-if="this.$route.params.id!= null"class="button" @click="editar()" variant="link">Guardar</b-btn>
+
+  
+    <div id="horario"class="horario">
+      <input type='text' class="searchButton" placeholder='Día de la semana'  autofocus required >
+      <input type='time' class="searchButton1" placeholder='Apertura'  autofocus required >
+      <input type='time' class="searchButton1" placeholder='Cierre'  autofocus required >
+      <b-btn class="button2" @click="addInput()">+</b-btn>
+   </div>
+
+	<b-btn v-if="this.$route.params.id== null"class="button" @click="añadir()" >Añadir</b-btn>
+  <b-btn v-if="this.$route.params.id!= null"class="button" @click="editar()" >Guardar</b-btn>
 	</div>
 </div>
-<div id="mymap" class="mymap"></div>
+<div id="mymap" class="mymap" :key="this.editado"></div>
 
 
 
@@ -44,13 +53,16 @@ export default {
       dato2:null,
       campo:null,
       campoMod:null,
-      errors:''
+      errors:'',
+      marker:{},
+      editado:false,
 
 
     }
   },
   watch: {
     '$route': 'fetchData',
+     editado: 'fetchData',
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
@@ -62,16 +74,20 @@ export default {
 
    mounted() {
 
-    this.fetchData();
-    this.mapa();
+    this.fetchData().then(() => {
+       this.mapa();
 
-     var mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
+     this.mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(mymap);
+            }).addTo(this.mymap);
 
-     this.marcadores.bind(this);
-     L.marker([43.311689,  -8.374329]).addTo(mymap);
+
+     this.marcadores();
+     this.mymap.on('click', onMapClick.bind(this));
+    });
+   
+
 
      var popup = L.popup();
 
@@ -88,15 +104,10 @@ export default {
       popup
           .setLatLng(e.latlng)
           .setContent(this.campoMod)
-          .openOn(mymap);
+          .openOn(this.mymap);
 
    
 }
-
-
-mymap.on('click', onMapClick.bind(this));
-    
-
 
     
  },
@@ -115,11 +126,13 @@ mymap.on('click', onMapClick.bind(this));
         this.location=this.$route.params.id;
       }
 
-      HTTP.get('locations')
-        .then(response => {
-       this.locations = response.data
+      return HTTP.get('locations')
+      .then(response => {
+          this.locations = response.data
+          return response.data
        
      })
+
      .catch(err => {
        this.error = err.message
      })
@@ -127,12 +140,19 @@ mymap.on('click', onMapClick.bind(this));
     
     },
     marcadores(){
-     
+      this.contador= this.locations.length;
      for ( var i = 0; i < this.locations.length; i ++){
-           L.marker([this.locations[i].latitud, this.locations[i].longitud]).addTo(mymap).bindPopup(this.locations[i].name).openPopup();
+        this.marker[this.locations[i].idLocation] = L.marker([this.locations[i].latitud, this.locations[i].longitud])
+            .addTo(this.mymap).bindPopup(this.locations[i].name).openPopup();
         }
   
     },
+    addInput() {
+      var x = document.createElement("INPUT");
+      x.setAttribute("type", "text");
+      document.body.appendChild(x);
+    },
+
     mapa(){
 
     },
@@ -164,6 +184,8 @@ mymap.on('click', onMapClick.bind(this));
         HTTP.post('locations',this.location)
     	 .then(this.resetear)
         .catch(this._errorHandler)
+
+
     }else{
        Vue.notify({
           text: this.errors,
@@ -189,9 +211,10 @@ mymap.on('click', onMapClick.bind(this));
     
 
     resetear(){
-   
-      // L.marker([this.location.latitud, this.location.longitud]).addTo(mymap).bindPopup(this.location.name).openPopup();
-        this._successHandler();
+      
+      this.marker[this.location.idLocation]=L.marker([this.location.latitud, this.location.longitud]).addTo(this.mymap).bindPopup(this.location.name).openPopup();
+      debugger
+        this.editado=true;
 
 
     },
@@ -199,7 +222,7 @@ mymap.on('click', onMapClick.bind(this));
      guardar(){
      HTTP.put(`locations/${this.location.idLocation}`,this.location)
            .then(this.resetear)
-           .catch(this._errorHandler)
+           .catch(this._successHandler)
     },
 
     
@@ -227,7 +250,7 @@ mymap.on('click', onMapClick.bind(this));
 <style scoped lang="scss">
 
 #mymap {
-	margin-left:80px;
+	margin-left:60px;
 	margin-top:30px;
     position: relative;
     padding: 0;
@@ -256,8 +279,23 @@ mymap.on('click', onMapClick.bind(this));
   
 }
 
+.button2{
+
+  outline: none;
+  background: #AFC7A9;
+  border: none;
+  width: 8%;
+  color: white;
+  text-transform: uppercase;
+  border-bottom: 2px solid darken(#AFC7A9, 5%);
+  margin-left:3%;
+
+
+  
+}
+
 .searchButton {
-  width: 70%;
+  width: 40%;
   background: #fff;
   padding: 0.6em; 
   margin-top: 0.25em;
@@ -269,16 +307,31 @@ mymap.on('click', onMapClick.bind(this));
 
  
 
+}     
+
+.searchButton1 {
+  width: 14%;
+  background: #fff;
+  padding: 0.6em; 
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  border-radius: 5px;
+  border: 0.1px solid grey;
+  font-size:0.9em;
+  margin-left:10px;
+
+ 
+
 }      
 
 .formulario{
-	margin-right:110px;
+	margin-right:70px;
 	float:right;
 	background: #f3f3f3;
-	width:30%;
-	height:80%;
+	width:40%;
+	height:95%;
 	border-radius: 6px;
-	margin-top:50px;
+
 }
 .inp{
 	 margin-top:50px;
@@ -287,6 +340,10 @@ h1 {
   color: #3a3a3a;
   text-align: center;
   margin: 1em 0;
+}
+
+.horario{
+  display: inline;
 }
 
 </style>

@@ -1,6 +1,7 @@
 <template>
 <div class="shopping-list">
   <h1 class="title"> Crear Partido</h1>  
+   {{game.location}}
     
     <input type='date' class="searchButton" placeholder='Fecha' v-model="game.date" autofocus required >
     <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeStart" autofocus required >
@@ -14,7 +15,7 @@
             :searchable="true" 
             :clear-on-select="false" 
             :preserve-search="true"
-            :close-on-select="false" 
+            :close-on-select="true" 
             :show-labels="false"
             @close="selectOn()"
             track-by="idSport"
@@ -23,14 +24,14 @@
             >
       </multiselect>
 
+
+
        <multiselect  v-if="bol==true"
             v-model="game.location" 
             :options="this.alllocations"
             :multiple="false"
             :searchable="true" 
-            :clear-on-select="false" 
-            :preserve-search="true"
-            :close-on-select="false" 
+            :close-on-select="true" 
             :show-labels="false"
             track-by="idLocation"
             placeholder="Localizaciones"
@@ -93,11 +94,11 @@ export default {
     },
     selectOn(){
 		this.bol=true;
-    this.game.location='';
-    debugger
+   // this.game.location=null;
   	 	HTTP.get(`locations/filter/${this.game.sport.idSport}`) 
 		    .then(response => {
 		       this.alllocations = response.data
+           this.game.location = this.alllocations[0];
 		 
      })
      .catch(err => {

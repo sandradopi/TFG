@@ -81,7 +81,8 @@ public LocationDTO update(LocationDTO location){
     Location bdLocation = locationDAO.findById(location.getIdLocation());
     bdLocation.setName(location.getName());
     bdLocation.setCostPerHour(location.getCostPerHour());
-    
+    bdLocation.setLatitud(location.getLatitud());
+    bdLocation.setLongitud(location.getLongitud());
     
     locationDAO.save(bdLocation);
     return new LocationDTO(bdLocation);
