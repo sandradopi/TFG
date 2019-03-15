@@ -1,13 +1,15 @@
 <template>
 <div class="loc">
 <div class="formulario">
-	<h1>Nueva Localización</h1> 
+	<h1 v-if="this.$route.params.id== null">Nueva Localización</h1> 
+  <h1 v-if="this.$route.params.id!= null">Editar Localización</h1> 
 	<div class="inp">
 		<input type='text' class="searchButton" placeholder='Nombre' v-model="location.name" autofocus required >
 		<input type='text' class="searchButton" placeholder='Latitud' v-model="this.latitud" autofocus required readonly onmousedown="return false;">
 		<input type='text' class="searchButton" placeholder='Longitud' v-model="this.longitud" autofocus required readonly onmousedown="return false;">
     <input type='text' class="searchButton" placeholder='Coste/Hora(€)' v-model="location.costPerHour" autofocus required >
-	<b-btn class="button" @click="añadir()" variant="link">Añadir</b-btn>
+	<b-btn v-if="this.$route.params.id== null"class="button" @click="añadir()" variant="link">Añadir</b-btn>
+  <b-btn v-if="this.$route.params.id!= null"class="button" @click="editar()" variant="link">Guardar</b-btn>
 	</div>
 </div>
 <div id="mymap" class="mymap"></div>
@@ -101,10 +103,18 @@ mymap.on('click', onMapClick.bind(this));
 
   methods: {
     fetchData() {
+
  
       this.location={};
       this.latitud='';
       this.longitud='';
+
+      if(this.$route.params.id!= null){
+        this.latitud=this.$route.params.id.latitud;
+        this.longitud=this.$route.params.id.longitud;
+        this.location=this.$route.params.id;
+      }
+
       HTTP.get('locations')
         .then(response => {
        this.locations = response.data
@@ -115,6 +125,13 @@ mymap.on('click', onMapClick.bind(this));
      })
 
     
+    },
+    marcadores(){
+     
+     for ( var i = 0; i < this.locations.length; i ++){
+           L.marker([this.locations[i].latitud, this.locations[i].longitud]).addTo(mymap).bindPopup(this.locations[i].name).openPopup();
+        }
+  
     },
     mapa(){
 
@@ -154,16 +171,22 @@ mymap.on('click', onMapClick.bind(this));
     }
 
     },
+    editar(){
+      this.location.latitud=this.latitud;
+      this.location.longitud=this.longitud;
 
-    marcadores(){
-     
-     for ( var i = 0; i < this.locations.length; i ++){
-       		 L.marker([this.locations[i].latitud, this.locations[i].longitud]).addTo(mymap).bindPopup(this.locations[i].name).openPopup();
-        }
-
-
-	
+    if(this.checkForm1()==true){
+        HTTP.put(`locations/${this.location.idLocation}`,this.location) 
+       .then(this.resetear)
+        .catch(this._errorHandler)
+    }else{
+       Vue.notify({
+          text: this.errors,
+          type: 'error'})
+    }
     },
+
+    
 
     resetear(){
    
@@ -175,7 +198,7 @@ mymap.on('click', onMapClick.bind(this));
 
      guardar(){
      HTTP.put(`locations/${this.location.idLocation}`,this.location)
-           .then(this.edit1)
+           .then(this.resetear)
            .catch(this._errorHandler)
     },
 

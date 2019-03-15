@@ -97,7 +97,6 @@ export default {
 
     hide(){
       this.bol=false;
-      this.edit1();
       this.$emit('Cerrar',false);
 
     },

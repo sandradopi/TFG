@@ -42,9 +42,6 @@ public class Location {
     private Set<Sport> sports = new HashSet<Sport>();
 	
 	
-	
-	
-
 
 	public Location() {
 		

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
+import es.udc.lbd.asi.restexample.model.domain.OpeningTime;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.domain.User_;
@@ -19,6 +20,7 @@ import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
+import es.udc.lbd.asi.restexample.model.repository.OpenDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
@@ -37,6 +39,8 @@ public class SportService implements SportServiceInterface{
   private TeamDAO teamDAO;
   @Autowired
   private UserDAO userDAO;
+  @Autowired
+  private OpenDAO openDAO;
 
 
 
@@ -152,6 +156,12 @@ public void deleteById(Long idSport) {
 			
 			if (count==1 && bol==false){
 				sportDAO.deleteById(idSport);
+				
+				 List<OpeningTime> openings= openDAO.findByLocation(a.getIdLocation());
+				 for(OpeningTime o: openings){
+				    	openDAO.deleteById(o.getIdOpening());
+				     }
+				 
 				locationDAO.deleteById(a.getIdLocation());
 				bol= true;
 			}else{
