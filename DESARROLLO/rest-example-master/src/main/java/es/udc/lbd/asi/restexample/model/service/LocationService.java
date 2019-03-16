@@ -11,14 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Location;
-import es.udc.lbd.asi.restexample.model.domain.OpeningTime;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.exception.LocationExistsException;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
-import es.udc.lbd.asi.restexample.model.repository.OpenDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
@@ -31,8 +29,7 @@ public class LocationService implements LocationServiceInterface{
  
   @Autowired
   private LocationDAO locationDAO;
-  @Autowired
-  private OpenDAO openDAO;
+
   @Autowired
   private SportDAO sportDAO;
 
@@ -65,11 +62,7 @@ public void deleteById(Long idLocation) {
     	a.getLocations().remove(location);
      }
 	 
-	 List<OpeningTime> openings= openDAO.findByLocation(idLocation);
-	 for(OpeningTime o: openings){
-	    	openDAO.deleteById(o.getIdOpening());
-	     }
-	 
+	
 	locationDAO.deleteById(idLocation);
 	
 }
@@ -80,7 +73,6 @@ public void deleteById(Long idLocation) {
 public LocationDTO update(LocationDTO location){
     Location bdLocation = locationDAO.findById(location.getIdLocation());
     bdLocation.setName(location.getName());
-    bdLocation.setCostPerHour(location.getCostPerHour());
     bdLocation.setLatitud(location.getLatitud());
     bdLocation.setLongitud(location.getLongitud());
     
@@ -107,7 +99,7 @@ public LocationDTO save(LocationDTO location) throws LocationExistsException, Re
     }
 
 		
-	Location bdLocation = new Location(location.getName(),location.getCostPerHour(),location.getLatitud(),location.getLongitud());
+	Location bdLocation = new Location(location.getName(),location.getLatitud(),location.getLongitud());
 	
 
 	locationDAO.save(bdLocation);

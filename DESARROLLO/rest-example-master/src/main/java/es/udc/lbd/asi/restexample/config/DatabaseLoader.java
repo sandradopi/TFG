@@ -19,14 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.domain.Location;
-import es.udc.lbd.asi.restexample.model.domain.OpeningTime;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
-import es.udc.lbd.asi.restexample.model.repository.OpenDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 
@@ -48,8 +46,6 @@ public class DatabaseLoader {
     @Autowired
     private TeamDAO teamService;
     
-    @Autowired
-    private OpenDAO openService;
     
     @Autowired
     private LocationDAO locationService;
@@ -80,25 +76,14 @@ public class DatabaseLoader {
     userService.registerUser("sandra","vicfic23@gmail.com","sandra", false,"Sandra","Dopico","Cantarero","A Coruña", sdf.parse("1997-08-20"));
     userService.registerUser("lucas", "sandra111@outlook.com","lucas", false,"Lucas", "Vazquez", "Lorenzo","Madrid", sdf.parse("1995-03-17"));
   
-    Location location1=new Location("Parque de Oza", new Long(0), new Double(43.350538),new Double(-8.401573));
-    Location location2=new Location("Bastiagueiro", new Long(0), new Double(43.340167),new Double(-8.35426));
-    Location location3=new Location("Paddel Plus", new Long(5), new Double(43.301454),new Double(-8.373114));
+    Location location1=new Location("Parque de Oza", new Double(43.350538),new Double(-8.401573));
+    Location location2=new Location("Bastiagueiro",  new Double(43.340167),new Double(-8.35426));
+    Location location3=new Location("Paddel Plus",  new Double(43.301454),new Double(-8.373114));
     locationService.save(location1);
     locationService.save(location2);
     locationService.save(location3);
     
-    OpeningTime open1=new OpeningTime("Lunes", LocalTime.of(10,00),LocalTime.of(21,00),location3);
-    openService.save(open1);
-    OpeningTime open2=new OpeningTime("Martes", LocalTime.of(10,00),LocalTime.of(21,00),location3);
-    openService.save(open2);
-    OpeningTime open3=new OpeningTime("Miercoles", LocalTime.of(10,00),LocalTime.of(20,30),location3);
-    openService.save(open3);
-    OpeningTime open4=new OpeningTime("Jueves", LocalTime.of(10,00),LocalTime.of(22,30),location3);
-    openService.save(open4);
-    OpeningTime open5=new OpeningTime("Viernes", LocalTime.of(10,00),LocalTime.of(23,00),location3);
-    openService.save(open5);
-    OpeningTime open6=new OpeningTime("Sabado", LocalTime.of(16,00),LocalTime.of(23,00),location3);
-    openService.save(open6);
+    
     
     Set <Location>locationsFutbol = new <Location> HashSet();
     Set <Location>locationsTennis = new <Location> HashSet();

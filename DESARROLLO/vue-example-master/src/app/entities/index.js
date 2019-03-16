@@ -5,9 +5,8 @@ import Deportes from './admin/Deportes'
 import DeportesDetail from './admin/DeportesDetail'
 import DeportesForm from './admin/DeportesForm'
 import Registro from '../components'
-import Localizaciones from './admin/Localizaciones'
 import LocalizacionesDetail from './admin/LocalizacionesDetail'
 import Mapa from './admin/Mapa'
 
 
-export {Mapa,UserDetail,Localizaciones,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}
+export {Mapa,UserDetail,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}

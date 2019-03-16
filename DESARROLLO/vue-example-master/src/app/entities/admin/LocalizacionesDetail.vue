@@ -6,11 +6,6 @@
 
       <h2 >{{location.name}}</h2>
     
-      <h5 class="comp">Coste por hora (€/h): {{location.costPerHour}}</h5>
-    
-      </br>
-     <h5>Horario:</h5>
-     <li type="comp" v-for=" open in opens" :key="opens.idOpening"> {{open.dayOfTheWeek}}: {{custom(open.to)}}/ {{custom(open.from)}}</li>
      </br>
 
       <div class="compo">
@@ -78,7 +73,6 @@ export default {
         this.location = response.data
         return response
       })
-      .then(this.getOpeningtime)
       .catch(err => this.error = err.message)
 
     },
@@ -86,13 +80,6 @@ export default {
     return open.substring(0,5);
   },
 
-    getOpeningtime(){
-      HTTP.get(`openings/${this.idLoc}`) 
-            .then(response => {
-              this.opens = response.data
-            })
-            .catch(err => this.error = err.message)
-    },
 
     hide(){
       this.bol=false;

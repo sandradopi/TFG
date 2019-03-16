@@ -27,8 +27,6 @@ public class Location {
 	@NotEmpty
 	private String name;
 	
-	@Column(name="costPerHour")
-	private Long costPerHour;
 	
 	@Column(name="latitud")
 	@NotNull
@@ -49,10 +47,9 @@ public class Location {
 	
 	
 
-	public Location( @NotEmpty String name, Long costPerHour, @NotNull Double latitud,
+	public Location( @NotEmpty String name, @NotNull Double latitud,
 			@NotNull Double longitud, Set<Sport> sports) {
 		this.name = name;
-		this.costPerHour = costPerHour;
 		this.latitud = latitud;
 		this.longitud = longitud;
 		this.sports = sports;
@@ -60,10 +57,9 @@ public class Location {
 
 
 
-	public Location(@NotEmpty String name, @NotEmpty Long costPerHour, @NotEmpty Double latitud,
+	public Location(@NotEmpty String name,@NotEmpty Double latitud,
 			@NotEmpty Double longitud) {
 		this.name = name;
-		this.costPerHour = costPerHour;
 		this.latitud = latitud;
 		this.longitud = longitud;
 	}
@@ -89,14 +85,6 @@ public class Location {
 	}
 
 
-	public Long getCostPerHour() {
-		return costPerHour;
-	}
-
-
-	public void setCostPerHour(Long costPerHour) {
-		this.costPerHour = costPerHour;
-	}
 
 
 	public Double getLatitud() {

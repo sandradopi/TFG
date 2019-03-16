@@ -16,7 +16,6 @@ public class LocationDTO {
 	private Long idLocation;
 	@NotEmpty
 	private String name;
-	private Long costPerHour;
 	@NotNull
 	private Double latitud;
 	@NotNull
@@ -26,7 +25,6 @@ public class LocationDTO {
 	public LocationDTO(Location location) {
 		this.idLocation = location.getIdLocation();
 		this.name=location.getName();
-		this.costPerHour=location.getCostPerHour();
 		this.latitud=location.getLatitud();
 		this.longitud=location.getLongitud();
 		
@@ -53,13 +51,7 @@ public class LocationDTO {
 		this.name = name;
 	}
 
-	public Long getCostPerHour() {
-		return costPerHour;
-	}
-
-	public void setCostPerHour(Long costPerHour) {
-		this.costPerHour = costPerHour;
-	}
+	
 
 	public Double getLatitud() {
 		return latitud;
