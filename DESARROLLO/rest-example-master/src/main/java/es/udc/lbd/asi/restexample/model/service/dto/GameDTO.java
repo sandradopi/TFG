@@ -31,7 +31,7 @@ public class GameDTO {
 	
 	private Long price;
 	
-	private JSONObject result;
+	private String result;
 
     @NotNull
     private SportDTO sport;
@@ -133,12 +133,12 @@ public class GameDTO {
 	}
 
 
-	public JSONObject getResult() {
+	public String getResult() {
 		return result;
 	}
 
 
-	public void setResult(JSONObject result) {
+	public void setResult(String result) {
 		this.result = result;
 	}
 

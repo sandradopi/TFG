@@ -13,7 +13,7 @@
 
             <b-nav-item
                  v-if="isAdmin"
-                :to="{ name: 'Localizaciones' }"
+                :to="{ name: 'Mapa' }"
                 exact>Localizaciones</b-nav-item> 
 
             <b-nav-item

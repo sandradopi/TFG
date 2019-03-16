@@ -20,9 +20,8 @@
       </div>
 
 
-        <b-btn
-                    class="editar"
-                    :to="{ name: 'Mapa', params: { id: this.location}}"
+        <b-btn class="editar"
+                   @click="editar()" 
                    ><span>Editar</span></b-btn> 
        <button class="eliminar" @click="eliminar()"> Eliminar</button>
 
@@ -100,6 +99,10 @@ export default {
       this.$emit('Cerrar',false);
 
     },
+     editar(){
+      this.$emit('Editar',this.location);
+
+    },
 
 
 
@@ -143,7 +146,8 @@ div.message {
   background: #fff;
   width:40%;
   float:right;
-  margin-right:150px;
+  margin-right:30px;
+  margin-top:80px;
   
   
   -webkit-transition: all .5s ease;

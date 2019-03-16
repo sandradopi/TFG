@@ -1,8 +1,12 @@
 <template>
 <div class="loc">
-<div class="formulario">
-	<h1 v-if="this.$route.params.id== null">Nueva Localización</h1> 
-  <h1 v-if="this.$route.params.id!= null">Editar Localización</h1> 
+  <LocalizacionesDetail @Cerrar="hide" @Editar="edicion" v-if="(nueva==false && idLoc!=null)" v-bind:idLoc="this.idLoc" v-bind:num="this.num"></LocalizacionesDetail>
+<b-btn class="button3" v-if="this.nueva==false" @click="nuevaLoc()"variant="link">Nueva Localización</b-btn>
+
+<div class="formulario" v-if="this.nueva==true">
+  <button  class="xbut" @click="hide"> X </button> 
+	<h1 v-if="this.bool==false">Nueva Localización</h1> 
+  <h1 v-if="this.bool==true">Editar Localización</h1> 
 	<div class="inp">
 		<input type='text' class="searchButton" placeholder='Nombre' v-model="location.name" autofocus required >
 		<input type='text' class="searchButton" placeholder='Latitud' v-model="this.latitud" autofocus required readonly onmousedown="return false;">
@@ -17,8 +21,8 @@
       <b-btn class="button2" @click="addInput()">+</b-btn>
    </div>
 
-	<b-btn v-if="this.$route.params.id== null"class="button" @click="añadir()" >Añadir</b-btn>
-  <b-btn v-if="this.$route.params.id!= null"class="button" @click="editar()" >Guardar</b-btn>
+	<b-btn v-if="this.bool==false"class="button" @click="añadir()" >Añadir</b-btn>
+  <b-btn v-if="this.bool==true"class="button" @click="editar()" >Guardar</b-btn>
 	</div>
 </div>
 <div id="mymap" class="mymap" :key="this.editado"></div>
@@ -26,6 +30,7 @@
 
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+
 </div>
   
 
@@ -36,12 +41,13 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import L from 'leaflet'
+import LocalizacionesDetail from '../../entities/admin/LocalizacionesDetail'
 
 
 
 export default {
  
-  components: {},
+  components: {LocalizacionesDetail},
   data() {
     return {
     	locations:null,
@@ -56,6 +62,11 @@ export default {
       errors:'',
       marker:{},
       editado:false,
+      nueva:false,
+      idLoc:null,
+      markers:{},
+      bool:false,
+       num:0,
 
 
     }
@@ -68,14 +79,12 @@ export default {
   created() { //se va a lanzar siempre en una clase de componentes
 
   	this.fetchData();
-  
     
   },
 
    mounted() {
 
     this.fetchData().then(() => {
-       this.mapa();
 
      this.mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
             L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -85,7 +94,9 @@ export default {
 
      this.marcadores();
      this.mymap.on('click', onMapClick.bind(this));
+      
     });
+
    
 
 
@@ -114,17 +125,11 @@ export default {
 
   methods: {
     fetchData() {
-
- 
+      debugger
       this.location={};
       this.latitud='';
       this.longitud='';
 
-      if(this.$route.params.id!= null){
-        this.latitud=this.$route.params.id.latitud;
-        this.longitud=this.$route.params.id.longitud;
-        this.location=this.$route.params.id;
-      }
 
       return HTTP.get('locations')
       .then(response => {
@@ -140,22 +145,45 @@ export default {
     
     },
     marcadores(){
-      this.contador= this.locations.length;
      for ( var i = 0; i < this.locations.length; i ++){
-        this.marker[this.locations[i].idLocation] = L.marker([this.locations[i].latitud, this.locations[i].longitud])
-            .addTo(this.mymap).bindPopup(this.locations[i].name).openPopup();
+        this.markers[this.locations[i].idLocation]=L.marker([this.locations[i].latitud, this.locations[i].longitud],{id:this.locations[i].idLocation})
+            .addTo(this.mymap).bindPopup(this.locations[i].name).openPopup().on('popupopen', onMarkerClick.bind(this));
+            this.markers[this.locations[i].idLocation].id=this.locations[i].idLocation;
+            function onMarkerClick(e) {
+              this.nueva=false;
+              this.idLoc=e.popup._source.id;
+              this.num=this.num+1;
+   
+            }
+                 
         }
   
     },
-    addInput() {
-      var x = document.createElement("INPUT");
-      x.setAttribute("type", "text");
-      document.body.appendChild(x);
+
+    edicion(localizacion){
+       this.latitud=localizacion.latitud;
+       this.longitud=localizacion.longitud;
+       this.location=localizacion;
+       this.nueva=true;
+       this.bool=true;
+
     },
 
-    mapa(){
-
+    nuevaLoc(){
+      this.latitud=null;
+      this.longitud=null;
+      this.location={};
+      this.nueva=true;
     },
+
+    hide(){
+       this.nueva=false;
+       this.editado=true;
+       this.bool=false;
+       this.idLoc=null;
+    },
+    
+
 
     checkForm1 () {
       
@@ -199,7 +227,7 @@ export default {
 
     if(this.checkForm1()==true){
         HTTP.put(`locations/${this.location.idLocation}`,this.location) 
-       .then(this.resetear)
+       .then(this.resetea)
         .catch(this._errorHandler)
     }else{
        Vue.notify({
@@ -213,7 +241,14 @@ export default {
     resetear(){
       
       this.marker[this.location.idLocation]=L.marker([this.location.latitud, this.location.longitud]).addTo(this.mymap).bindPopup(this.location.name).openPopup();
-      debugger
+        this.nueva=false;
+        this.editado=true;
+
+
+    },
+
+    resetea(){
+        this.nueva=false;
         this.editado=true;
 
 
@@ -252,9 +287,10 @@ export default {
 #mymap {
 	margin-left:60px;
 	margin-top:30px;
+  margin-bottom:30px;
     position: relative;
     padding: 0;
-    width: 700px;
+    width: 50%;
     height: 500px;
 }
 
@@ -267,7 +303,7 @@ export default {
   border: none;
   padding: 0.7em;
   border-radius: 6px;
-  width: 70%;
+  width: 85%;
   color: white;
   text-transform: uppercase;
   cursor: pointer;
@@ -289,6 +325,27 @@ export default {
   text-transform: uppercase;
   border-bottom: 2px solid darken(#AFC7A9, 5%);
   margin-left:3%;
+
+
+  
+}
+
+.button3{
+  margin: 0.25em 0;
+  display: block;
+  outline: none;
+  background: #AFC7A9;
+  border: none;
+  padding: 0.7em;
+  border-radius: 6px;
+  width: 50%;
+  color: white;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-bottom: 4px solid darken(#AFC7A9, 5%);
+  margin-left:60px;
+  margin-top:20px;
+
 
 
   
@@ -329,13 +386,15 @@ export default {
 	float:right;
 	background: #f3f3f3;
 	width:40%;
-	height:95%;
+	height:85%;
 	border-radius: 6px;
 
 }
+
 .inp{
 	 margin-top:50px;
 }
+
 h1 {
   color: #3a3a3a;
   text-align: center;
@@ -345,5 +404,18 @@ h1 {
 .horario{
   display: inline;
 }
+
+
+  button.xbut{
+  width: 8%;
+  float:right;
+  background: #f3f3f3;
+  border-radius: 5px;
+  border: 0.1px solid #f3f3f3;
+  font-size:1.9em;
+  color: white;
+  color:black;
+}
+
 
 </style>

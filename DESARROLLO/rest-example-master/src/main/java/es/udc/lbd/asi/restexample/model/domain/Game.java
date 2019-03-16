@@ -49,7 +49,7 @@ public class Game {
 	
 	@Type(type = "string")
 	@Column(name = "result")
-	private JSONObject result;
+	private String result;
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "idSport")
@@ -72,7 +72,7 @@ public class Game {
 			}
 	
 	public Game(@NotEmpty LocalDate date, @NotEmpty LocalTime timeStart, @NotEmpty LocalTime timeEnd, Long maxPlayers,
-			Long minPlayers, Long price, JSONObject result, @NotNull Sport sport, @NotNull Location location,
+			Long minPlayers, Long price, String result, @NotNull Sport sport, @NotNull Location location,
 			@NotNull NormalUser creator) {
 
 		this.date = date;
@@ -154,11 +154,11 @@ public class Game {
 		this.price = price;
 	}
 
-	public JSONObject getResult() {
+	public String getResult() {
 		return result;
 	}
 
-	public void setResult(JSONObject result) {
+	public void setResult(String result) {
 		this.result = result;
 	}
 
