@@ -115,13 +115,8 @@ export default {
 .botones{
 	width:100%;
 
-
-
 }
 
-.b1{
-
-}
 
 @keyframes slideUp {
   from {
@@ -152,13 +147,10 @@ export default {
 }
 
 .profile1{
-    background: #ffffff;
-	border-radius: 5px;
-    box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.17);
-    padding: 20px 10px 10px 10px;
+	background: #6c757d;
     position: relative;
     width: 63%;
-    height:75px;
+    height:38px;
     color: black;
     float:right;
     margin-right:20px;
@@ -190,6 +182,9 @@ export default {
    background: #17a2b8;
    margin-bottom:20px;
 }
+
+
+
 .profile__button:hover {
   background: #fb887c;
   color: white;
@@ -288,7 +283,7 @@ export default {
     margin-left:35px;
     margin-top:50px;
     margin-bottom:50px;
-    height:60%;
+    height:70%;
     border-radius: 6px;
 }
 
