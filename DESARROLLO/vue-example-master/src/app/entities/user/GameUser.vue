@@ -1,6 +1,16 @@
 <template>
   <div class="content"> 
+  
     <h1 class="title"> Perfil Público</h1>  
+    	<div class="profile1">
+  		<div class="botones">
+	  		<b-btn class="b1">Próximos Partidos</b-btn>
+			<b-btn class="b1">Partidos Organizados</b-btn>
+			<b-btn class="b1">Partidos Jugados</b-btn>
+			<b-btn class="b1">Partidos Recomendados</b-btn>
+			<b-btn class="b1">Comentarios</b-btn>
+		</div>
+	</div>
     	<div class="layout">
 			  <div class="profile">
 			    <div class="profile__picture"><img src="http://i.pravatar.cc/250?img=41"/></div>
@@ -34,6 +44,7 @@
 			  </div>
 		</div>
 
+	
     <div class="information message2">
     </div>
   </div>
@@ -101,6 +112,16 @@ export default {
 
 <style scoped lang="scss">
 
+.botones{
+	width:100%;
+
+
+
+}
+
+.b1{
+
+}
 
 @keyframes slideUp {
   from {
@@ -120,13 +141,29 @@ export default {
     background: #ffffff;
     border-radius: 25px;
     box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.17);
-    /* margin-top: 40px; */
     padding: 20px 10px 10px 10px;
     position: relative;
     width: 410px;
     color: black;
     float:left;
     margin-left:20px;
+   
+
+}
+
+.profile1{
+    background: #ffffff;
+	border-radius: 5px;
+    box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.17);
+    padding: 20px 10px 10px 10px;
+    position: relative;
+    width: 63%;
+    height:75px;
+    color: black;
+    float:right;
+    margin-right:20px;
+
+
 
 }
 .profile__account {
@@ -136,6 +173,10 @@ export default {
   justify-content: flex-end;
 
 }
+
+
+
+
 .profile__button {
   border-radius: 40px;
   color: white;
@@ -237,14 +278,14 @@ export default {
 
 
 .content{
-    width: 83%;
+    width: 95%;
     background: #f3f3f3;
     padding: 1em;
     border-radius: 3px;
     margin-top:50px;
     font-family: 'Lato', sans-serif;
     margin:0;
-    margin-left:120px;
+    margin-left:35px;
     margin-top:50px;
     margin-bottom:50px;
     height:60%;
@@ -267,16 +308,14 @@ export default {
 div.message.information{background: #fb887c;}
 
 div.message2 {
-  
+  border-radius: 5px;
   padding: 10px;
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
   background: #fff;
-  width:58%;
-  float:left;
+  width:63%;
   height:70%;
   margin-right:20px;
-
   float:right;
 
 }
