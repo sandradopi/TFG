@@ -28,8 +28,7 @@ public class GameDTO {
 	private Long maxPlayers;
 	
 	private Long minPlayers;
-	
-	private Long price;
+
 	
 	private String result;
 
@@ -55,7 +54,6 @@ public class GameDTO {
 		this.timeEnd = game.getTimeEnd();
 		this.maxPlayers = game.getMaxPlayers();
 		this.minPlayers = game.getMinPlayers();
-		this.price = game.getPrice();
 		this.result = game.getResult();
 		this.sport = new SportDTO(game.getSport());
 		this.location = new LocationDTO(game.getLocation());
@@ -123,14 +121,7 @@ public class GameDTO {
 	}
 
 
-	public Long getPrice() {
-		return price;
-	}
-
-
-	public void setPrice(Long price) {
-		this.price = price;
-	}
+	
 
 
 	public String getResult() {

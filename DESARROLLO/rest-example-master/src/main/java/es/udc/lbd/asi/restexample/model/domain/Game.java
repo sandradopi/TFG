@@ -44,8 +44,6 @@ public class Game {
 	@Column(name="minPlayers")
 	private Long minPlayers;
 	
-	@Column(name="price")
-	private Long price;
 	
 	@Type(type = "string")
 	@Column(name = "result")
@@ -72,7 +70,7 @@ public class Game {
 			}
 	
 	public Game(@NotEmpty LocalDate date, @NotEmpty LocalTime timeStart, @NotEmpty LocalTime timeEnd, Long maxPlayers,
-			Long minPlayers, Long price, String result, @NotNull Sport sport, @NotNull Location location,
+			Long minPlayers,  String result, @NotNull Sport sport, @NotNull Location location,
 			@NotNull NormalUser creator) {
 
 		this.date = date;
@@ -80,7 +78,6 @@ public class Game {
 		this.timeEnd = timeEnd;
 		this.maxPlayers = maxPlayers;
 		this.minPlayers = minPlayers;
-		this.price = price;
 		this.result = result;
 		this.sport = sport;
 		this.location = location;
@@ -146,14 +143,7 @@ public class Game {
 		this.minPlayers = minPlayers;
 	}
 
-	public Long getPrice() {
-		return price;
-	}
-
-	public void setPrice(Long price) {
-		this.price = price;
-	}
-
+	
 	public String getResult() {
 		return result;
 	}

@@ -295,12 +295,12 @@ export default {
   border: none;
   padding: 0.7em;
   border-radius: 6px;
-  width: 85%;
+  width: 50%;
   color: white;
   text-transform: uppercase;
   cursor: pointer;
   border-bottom: 4px solid darken(#AFC7A9, 5%);
-  margin-left:70px;
+  margin-left:123px;
   margin-top:20px;
   margin-bottom:50px;
 
@@ -344,7 +344,7 @@ export default {
 }
 
 .searchButton {
-  width: 40%;
+  width: 50%;
   background: #fff;
   padding: 0.6em; 
   margin-top: 0.25em;
@@ -352,26 +352,12 @@ export default {
   border-radius: 5px;
   border: 0.1px solid grey;
   font-size:0.9em;
-  margin-left:70px;
+  margin-left:125px;
 
  
 
 }     
 
-.searchButton1 {
-  width: 14%;
-  background: #fff;
-  padding: 0.6em; 
-  margin-top: 0.25em;
-  margin-bottom: 0.25em;
-  border-radius: 5px;
-  border: 0.1px solid grey;
-  font-size:0.9em;
-  margin-left:10px;
-
- 
-
-}      
 
 .formulario{
 	margin-right:70px;

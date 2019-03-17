@@ -33,6 +33,7 @@
               <b-dropdown-item disabled> {{loggedUser}}</b-dropdown-item>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item exact v-if="isLogged && !isAdmin"  :to="{ name: 'GameCreate' , params: { id: WhatLogin}} ">Crear Evento</b-dropdown-item>
+              <b-dropdown-item exact v-if="isLogged && !isAdmin"  :to="{ name: 'GameUser' , params: { id: WhatLogin}} ">Perfil Público</b-dropdown-item>
                 <b-dropdown-item exact v-if="isLogged && !isAdmin"  :to="{ name: 'UserDetail' , params: { id: WhatLogin}} ">Datos Personales</b-dropdown-item>
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item exact v-if="isLogged" @click="logout()" :to="{ name: ''}">Cerrar Sesión</b-dropdown-item>

@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
 import { Home, Login, NotFound,Registro } from './components'
-import { Mapa,UserDetail,UserList,Deportes,DeportesDetail,DeportesForm, Localizaciones, LocalizacionesDetail, GameCreate} from './entities'
+import { Mapa,UserDetail,UserList,Deportes,DeportesDetail,DeportesForm, Localizaciones, LocalizacionesDetail, GameCreate,GameDetail,GameUser} from './entities'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },
@@ -14,10 +14,12 @@ const routes = [
   { name: 'LocalizacionesDetail', path: '/localizaciones/details', component: LocalizacionesDetail,meta: { authority: 'ADMIN' }},
   { name: 'Mapa', path: 'localizaciones/mapa', component: Mapa,meta: { authority: 'ADMIN' }},
   { name: 'Deportes', path: '/deportes', component: Deportes,meta: { authority: 'ADMIN' }},
-  { name: 'DeportesDetail', path: '/deportes/details', component: DeportesDetail,meta: { authority: 'ADMIN' }},
+  { name: 'DeportesDetail', path: '/deportes/:id', component: DeportesDetail,meta: { authority: 'ADMIN' }},
   { name: 'DeportesCreate', path: '/deportes/new', component: DeportesForm,meta: { authority: 'ADMIN' }},
   { name: 'DeportesUpdate', path: '/deportes/:id/editar', component: DeportesForm,meta: { authority: 'ADMIN' }},
   { name: 'GameCreate', path: '/games/new', component: GameCreate,meta: { authority: 'USER' }},
+  { name: 'GameDetail', path: '/games/:id', component: GameDetail,meta: { authority: 'USER' }},
+  { name: 'GameUser', path: 'user/perfilPublico/:id', component: GameUser,meta: { authority: 'USER' }},
   { path: '*', component: NotFound, meta: { public: true }},
 
 ]

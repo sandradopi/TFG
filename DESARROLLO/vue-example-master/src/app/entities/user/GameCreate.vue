@@ -1,7 +1,7 @@
 <template>
 <div class="shopping-list">
   <h1 class="title"> Crear Partido</h1>  
-   {{game.location}}
+
     
     <input type='date' class="searchButton" placeholder='Fecha' v-model="game.date" autofocus required >
     <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeStart" autofocus required >
@@ -13,7 +13,6 @@
             :options="this.allsports"
             :multiple="false"
             :searchable="true" 
-            :clear-on-select="false" 
             :preserve-search="true"
             :close-on-select="true" 
             :show-labels="false"
@@ -94,7 +93,7 @@ export default {
     },
     selectOn(){
 		this.bol=true;
-   // this.game.location=null;
+     this.game.location={};
   	 	HTTP.get(`locations/filter/${this.game.sport.idSport}`) 
 		    .then(response => {
 		       this.alllocations = response.data
@@ -140,7 +139,8 @@ export default {
 
 
     _successHandler(response) {
-      this.fetchData()
+       this.$router.replace({ name: 'GameDetail', params: { id: this.game}})
+
     },
     back() {
       this.$router.go(-1)
