@@ -27,6 +27,7 @@ export default {
     '$route': 'fetchData',
     tipo: 'fetchData',
     
+    
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
