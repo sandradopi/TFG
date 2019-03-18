@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.domain.AdminUser;
+import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
@@ -25,6 +26,7 @@ import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
@@ -43,7 +45,12 @@ public class UserService implements UserServiceInterface{
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-		
+  @PreAuthorize("hasAuthority('USER')")
+  @Override
+	public List<GameDTO> findGamesCreated(String login) {
+	  return userDAO.findAllGamesCreated(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+	  }
+	 
 		@PreAuthorize("hasAuthority('USER')")
 		@Override
 		public NormalUserDTO findByLogin(String login)  {
@@ -247,7 +254,8 @@ public class UserService implements UserServiceInterface{
 			
 						
 		}
-		 
+
+		
    
 
 }

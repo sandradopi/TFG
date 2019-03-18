@@ -4,11 +4,11 @@
     <h1 class="title"> Perfil Público</h1>  
     	<div class="profile1">
   		<div class="botones">
-	  		<b-btn class="b1">Próximos Partidos</b-btn>
-			<b-btn class="b1">Partidos Organizados</b-btn>
-			<b-btn class="b1">Partidos Jugados</b-btn>
-			<b-btn class="b1">Partidos Recomendados</b-btn>
-			<b-btn class="b1">Comentarios</b-btn>
+	  		<b-btn class="b1" @click="TipoPatidos('proximos')">Próximos Partidos</b-btn>
+			<b-btn class="b1" @click="TipoPatidos('organizados')">Partidos Organizados</b-btn>
+			<b-btn class="b1" @click="TipoPatidos('jugados')">Partidos Jugados</b-btn>
+			<b-btn class="b1" @click="TipoPatidos('recomendados')">Partidos Recomendados</b-btn>
+			<b-btn class="b1" @click="TipoPatidos('comentarios')">Comentarios</b-btn>
 		</div>
 	</div>
     	<div class="layout">
@@ -45,8 +45,8 @@
 		</div>
 
 	
-    <div class="information message2">
-    </div>
+    <GameList v-bind:tipo="this.tipo" v-bind:login="this.user.login">>
+    </GameList>
   </div>
 
 </template>
@@ -55,15 +55,17 @@
 import { HTTP } from '../../common/http-common' 
 import auth from '../../common/auth'
 import Vue from 'vue'
+import GameList from '../../entities/user/GameList'
 
 
 export default {
-  components: { },
+  components: {GameList},
   data() {
     return {
       game:{},
       login:null,
-      user:{}
+      user:{},
+      tipo:''
     }
   },
   watch: {
@@ -95,6 +97,18 @@ export default {
 
     	
   
+    },
+    TipoPatidos(tipo){
+    	if(tipo=='proximos'){
+    		this.tipo='proximo';
+    	}else if (tipo=='organizados'){
+    		this.tipo='organizados';
+    	}else if (tipo=='jugados'){
+    		this.tipo='jugados';
+    	}else if (tipo=='recomendados'){
+    		this.tipo='recomendados';
+    	}else if (tipo=='comentarios'){
+    		this.tipo='comentarios';}
     },
    
     _successHandler(response) {
@@ -153,7 +167,7 @@ export default {
     height:38px;
     color: black;
     float:right;
-    margin-right:20px;
+    margin-right:22px;
 
 
 
@@ -273,14 +287,14 @@ export default {
 
 
 .content{
-    width: 95%;
+    width: 93%;
     background: #f3f3f3;
     padding: 1em;
     border-radius: 3px;
     margin-top:50px;
     font-family: 'Lato', sans-serif;
     margin:0;
-    margin-left:35px;
+    margin-left:30px;
     margin-top:50px;
     margin-bottom:50px;
     height:70%;
@@ -303,14 +317,13 @@ export default {
 div.message.information{background: #fb887c;}
 
 div.message2 {
-  border-radius: 5px;
   padding: 10px;
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
   background: #fff;
   width:63%;
   height:70%;
-  margin-right:20px;
+  margin-right:21.5px;
   float:right;
 
 }

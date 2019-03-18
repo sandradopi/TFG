@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.UserService;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
@@ -43,6 +44,12 @@ public class UserResource {
     public NormalUserDTO findOneUserByLogin(@PathVariable String login) throws InstanceNotFoundExceptionHIB{
         NormalUserDTO user = userService.findByLogin(login);
     	return user;
+    }
+    
+    @GetMapping("/{login}/organizados")
+    public List<GameDTO> findAllPartidosOrganizados(@PathVariable String login){
+    	 List<GameDTO> games = userService.findGamesCreated(login);
+    	return games;
     }
     
     @PutMapping("/{idUser}")

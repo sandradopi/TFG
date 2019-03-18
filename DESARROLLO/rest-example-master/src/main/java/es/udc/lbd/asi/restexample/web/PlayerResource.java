@@ -21,9 +21,11 @@ import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.GameService;
+import es.udc.lbd.asi.restexample.model.service.PlayerService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.TeamService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
@@ -33,22 +35,21 @@ import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
 
 
 @RestController
-@RequestMapping("/api/games")
-public class GameResource {
+@RequestMapping("/api/players")
+public class PlayerResource {
 
     @Autowired
-    private GameService gameService;
+    private PlayerService playerService;
 
     @GetMapping
-    public List<GameDTO> findAll() {
-        return gameService.findAll();
+    public List<PlayerDTO> findAll() {
+        return playerService.findAll();
     }
-   
     
     @PostMapping
-    public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
+    public PlayerDTO save(@RequestBody @Valid PlayerDTO player, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
         errorHandler(errors); 
-        return gameService.save(game);
+        return playerService.save(player);
     }
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {

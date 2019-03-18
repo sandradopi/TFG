@@ -1,0 +1,41 @@
+package es.udc.lbd.asi.restexample.model.repository;
+
+import java.util.List;
+
+import org.springframework.stereotype.Repository;
+
+import es.udc.lbd.asi.restexample.model.domain.Game;
+import es.udc.lbd.asi.restexample.model.domain.Player;
+import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.domain.Team;
+import es.udc.lbd.asi.restexample.repository.util.GenericDAOHibernate;
+
+@Repository
+public class PlayerDAOHibernate extends GenericDAOHibernate implements PlayerDAO {
+
+	@Override
+	public void save(Player player) {
+		getSession().saveOrUpdate(player);
+		
+	}
+
+	@Override
+	public List<Player> findAll() {
+		return getSession().createQuery("from Player p order by p.idPlayer").list();
+	}
+
+	@Override
+	public Player findById(Long idPlayer) {
+		 return (Player) getSession().createQuery("from Player p where p.idPlayer = :idPlayer").setParameter("idPlayer", idPlayer).uniqueResult();
+	}
+
+	@Override
+	public void deleteById(Long idPlayer) {
+		 getSession().delete(findById(idPlayer));
+		
+	}
+
+	
+	
+
+}

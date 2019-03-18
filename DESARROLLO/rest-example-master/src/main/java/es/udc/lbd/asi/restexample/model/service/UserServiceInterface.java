@@ -11,6 +11,7 @@ import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 
@@ -21,6 +22,7 @@ public interface UserServiceInterface {
     public void registerUser(String login,String email, String password, String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect;
     public NormalUserDTO update(NormalUserDTO user) throws UserLoginEmailExistsException;
 	public List<UserDTO> findAll();
+	public List<GameDTO> findGamesCreated(String login);
 	public UserDTO changePermission(Long idUser);
 	public void deleteById(Long idUser);
 
