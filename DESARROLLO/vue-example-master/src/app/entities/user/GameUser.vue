@@ -65,7 +65,7 @@ export default {
       game:{},
       login:null,
       user:{},
-      tipo:''
+      tipo:'proximo'
     }
   },
   watch: {

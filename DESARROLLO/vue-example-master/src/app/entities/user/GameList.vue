@@ -1,6 +1,22 @@
 <template>
+  <div>
   <div class="information message2">
-        <h1 class="title">{{this.login}} {{this.tipo}}</h1>  
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
+      <ul class="w3-ul w3-card-4">
+        <li class="w3-bar">
+          <img v-if="game.sport.type=='Fútbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+           <img v-if="game.sport.type=='Tennis'"src="ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+            <img v-if="game.sport.type=='Paddel'"src="paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+            <img v-if="game.sport.type=='Baloncesto'"src="bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+          <div class="w3-bar-item">
+            <span class="w3-large">{{game.location.name}}</span><br>
+            <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  <div>
   </div>
 
 </template>
@@ -11,8 +27,9 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 
 
+
 export default {
-  components: { },
+  components: {},
   props:{
     tipo:null,
     login:null
@@ -26,7 +43,7 @@ export default {
   watch: {
     '$route': 'fetchData',
     tipo: 'fetchData',
-    
+
     
   },
  
@@ -41,8 +58,8 @@ export default {
   },
   methods: {
     fetchData() {
+      this.games=null
       if (this.tipo=='organizados'){
-        debugger
         HTTP.get(`users/${this.login}/organizados`) 
           .then(response => { this.games= response.data
                 return response })
@@ -51,6 +68,11 @@ export default {
 
       }
 
+    },
+    
+
+    custom(hora){
+      return hora.substring(0,5)
     },
    
     _successHandler(response) {
@@ -69,22 +91,37 @@ export default {
 <style scoped lang="scss">
 
 
-div.message.information{background: #fb887c;}
-
 div.message2 {
   padding: 10px;
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
-  background: #fff;
   width:63%;
   height:70%;
-  margin-right:21.5px;
+  margin-right:21.5px; 
   float:right;
+  background: #fb887c;
 
 }
 
 
-div.message2.information{background: #fb887c;}
+
+.w3-ul li:last-child {
+    margin-top:10px;
+    border-bottom: none;
+    background: white;
+    color: #6c757d;
+    border-radius: 25px;
+}
+
+ul.w3-ul.w3-card-4{
+   border-radius: 25px;
+    background: white;
+
+}
+.w3-container{
+  width:100%;
+  height:50%;
+}
 
 
 </style>

@@ -3,6 +3,8 @@ import Vue from 'vue'
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
+import vuescroll from 'vue-scroll'
+Vue.use(vuescroll)
 
 import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
