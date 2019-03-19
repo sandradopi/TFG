@@ -334,7 +334,7 @@ export default {
 
       var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (!expr.test(this.user.email)) {
-        this.errors= "The email: "+ this.user.email +" don´t have the good format, review it "
+        this.errors= "El email: "+ this.user.email +" no tiene el formato ejemplo@ejemplo.com "
         return false;
       } 
 
@@ -526,7 +526,7 @@ export default {
   right: 0;
 }
 .button1{
-   background-color: #f4511e;
+   background-color: #fb887c;
    float:right;
    
  }

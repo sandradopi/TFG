@@ -1,17 +1,17 @@
 <template>
   <div class="content"> 
-    <h1 class="title"> Detalles del partido</h1>  
-    <div class="information message">
-      <h6>Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
-      <h6>Deporte: {{this.game.sport.type}}</h6>
-      <h6>Ubicación: {{this.game.location.name}}</h6>
-      <h6>Horario: {{this.game.timeStart}} - {{this.game.timeEnd}} </h6>
-      <h6>Fecha: {{this.game.date}}</h6>
-    </div>
-    <div class="information message2">
-    </div>
+      <b-btn class="button" variant="primary" @click="back()"><span>Atrás</span></b-btn>
+      <h1 class="title"> Detalles del partido</h1>  
+      <div class="information message">
+        <h6>Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
+        <h6>Deporte: {{this.game.sport.type}}</h6>
+        <h6>Ubicación: {{this.game.location.name}}</h6>
+        <h6>Horario: {{this.game.timeStart}} - {{this.game.timeEnd}} </h6>
+        <h6>Fecha: {{this.game.date}}</h6>
+      </div>
+      <div class="information message2">
+      </div>
   </div>
-
 </template>
 
 <script>
@@ -36,19 +36,20 @@ export default {
 
     this.fetchData()
   },
+
   methods: {
     fetchData() {
       this.game=this.$route.params.id;
-    	
-  
     },
    
     _successHandler(response) {
       this.fetchData()
     },
+
     back() {
       this.$router.go(-1)
     },
+    
     _errorHandler(err) {
       this.error = err.response.data.message
     }
@@ -116,6 +117,48 @@ div.message2 {
 
 
 div.message2.information{background: #17a2b8;}
+
+.button, .button1 {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #17a2b8;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 17px;
+  padding: 5px;
+  width: 80px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  float:right;
+
+}
+
+.button span{
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span{
+  padding-right: 20px;
+}
+
+.button:hover span:after{
+  opacity: 1;
+  right: 0;
+}
 
 
 </style>

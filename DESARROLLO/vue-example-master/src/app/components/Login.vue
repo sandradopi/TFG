@@ -125,7 +125,7 @@ export default {
 }
 
 .button1{
-   background-color: #f4511e;
+   background-color: #fb887c;
    float:right;
    
  }

@@ -1,29 +1,22 @@
 <template>
-<div class="loc">
-
-  <LocalizacionesDetail @Cerrar="hide" @Editar="edicion" v-if="(nueva==false && idLoc!=null)" v-bind:idLoc="this.idLoc" v-bind:num="this.num"></LocalizacionesDetail>
-  <b-btn class="button3" v-if="this.nueva==false" @click="nuevaLoc()"variant="link">Nueva Localizacion</b-btn>
-
-  <div class="formulario" v-if="this.nueva==true">
-      <button  class="xbut" @click="hide"> X </button> 
-    	<h1 v-if="this.bool==false">Nueva Localización</h1> 
-      <h1 v-if="this.bool==true">Editar Localización</h1> 
-    	<div class="inp">
-        		<input type='text' class="searchButton" placeholder='Nombre' v-model="location.name" autofocus required >
-        		<input type='text' class="searchButton" placeholder='Latitud' v-model="this.latitud" autofocus required readonly onmousedown="return false;">
-        		<input type='text' class="searchButton" placeholder='Longitud' v-model="this.longitud" autofocus required readonly onmousedown="return false;">
-
-        	  <b-btn v-if="this.bool==false"class="button" @click="añadir()" >Añadir</b-btn>
+  <div class="loc">
+    <LocalizacionesDetail @Cerrar="hide" @Editar="edicion" @Eliminar="eliminar"v-if="(nueva==false && idLoc!=null)" v-bind:idLoc="this.idLoc" v-bind:num="this.num"></LocalizacionesDetail>
+    <b-btn class="button3" v-if="this.nueva==false" @click="nuevaLoc()"variant="link">Nueva Localización</b-btn>
+    <div class="formulario" v-if="this.nueva==true">
+        <button  class="xbut" @click="hide"> X </button> 
+      	<h1 v-if="this.bool==false">Nueva Localización</h1> 
+        <h1 v-if="this.bool==true">Editar Localización</h1> 
+      	<div class="inp">
+          	<input type='text' class="searchButton" placeholder='Nombre' v-model="location.name" autofocus required >
+          	<input type='text' class="searchButton" placeholder='Latitud' v-model="this.latitud" autofocus required readonly onmousedown="return false;">
+          	<input type='text' class="searchButton" placeholder='Longitud' v-model="this.longitud" autofocus required readonly onmousedown="return false;">
+          	 <b-btn v-if="this.bool==false"class="button" @click="añadir()" >Añadir</b-btn>
             <b-btn v-if="this.bool==true"class="button" @click="editar()" >Guardar</b-btn>
-    	</div>
+      	</div>
+    </div>
+    <div id="mymap" class="mymap"></div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
   </div>
-
-  <div id="mymap" class="mymap" :key="this.editado"></div>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
-
-</div>
-  
-
 </template>
 
 <script>
@@ -51,32 +44,26 @@ export default {
       campoMod:null,
       errors:'',
       marker:{},
-      editado:false,
       nueva:false,
       idLoc:null,
       markers:{},
       bool:false,
       num:0,
 
-
-
     }
   },
   watch: {
     '$route': 'fetchData',
-     editado: 'fetchData',
+     
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
-
   	this.fetchData();
     
   },
 
    mounted() {
-
     this.fetchData().then(() => {
-         this.mymap=null;
          this.mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
                 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
                     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -85,7 +72,7 @@ export default {
          this.mymap.on('click', onMapClick.bind(this));
     });
 
-   
+
     var popup = L.popup();
 
     function onMapClick(e) {
@@ -101,9 +88,9 @@ export default {
             .setLatLng(e.latlng)
             .setContent(this.campoMod)
             .openOn(this.mymap);
-    }     
+    } 
 
-  
+
  },
 
   methods: {
@@ -114,13 +101,9 @@ export default {
 
 
       return HTTP.get('locations')
-      .then(response => {
-          this.locations = response.data
-          return response.data})
-      .catch(err => {
-            this.error = err.message
-      })
-    
+                  .then(response => { this.locations = response.data
+                        return response.data})
+                  .catch(err => { this.error = err.message})
     },
 
     marcadores(){
@@ -137,24 +120,34 @@ export default {
               this.nueva=false;
               this.idLoc=e.popup._source.id;
               this.num=this.num+1;
-   
-            }
+           }
                  
         }
-  
     },
+
     edicion(localizacion){
        this.latitud=localizacion.latitud;
        this.longitud=localizacion.longitud;
        this.location=localizacion;
-      this.nueva=true;
-       this.bool=true;
-      
-
+       this.nueva=true;//aparezca formulario
+       this.bool=true;//editar
 
     },
-   
-  
+
+    recargarMapa(){
+      this.resetear();
+      this.fetchData().then(() => {
+      this.marcadores() });
+    },
+
+    recargarMapaEdi(){
+      this.mymap.removeLayer(this.markers[this.idLoc]);
+      this.resetear();
+      this.fetchData().then(() => {
+      this.marcadores() });
+
+    },
+
 
     nuevaLoc(){
       this.latitud=null;
@@ -164,60 +157,71 @@ export default {
     },
 
     hide(){
-       this.nueva=false;
-       this.editado=true;
+       this.resetear();
        this.bool=false;
        this.idLoc=null;
     },
-    
+
+    eliminar(){
+      this.mymap.removeLayer(this.markers[this.idLoc]);
+      this.resetear();
+      this.bool=false;
+      this.idLoc=null;
+      this.fetchData().then(() => {
+      this.marcadores() });
+
+    },
+
+    resetear(){
+      this.nueva=false;//desaparezca formulario
+    },
 
 
     checkForm1 () {
-      
       if (!this.location.name) {
         this.errors= "El nombre es un campo obligatorio "
         return false;
       }
-
        if (!this.latitud && !this.longitud) {
 
         this.errors= "La latitud y longitud son campos obligatorios "
         return false;
       }
-
       if(this.location.name && this.latitud && this.longitud){
-      return true;
-    }
-
+        return true;
+      }
     },
 
-    
 
     añadir(){
-    this.location.latitud=this.latitud;
-    this.location.longitud=this.longitud;
+    
+      this.location.latitud=this.latitud;
+      this.location.longitud=this.longitud;
 
-    if(this.checkForm1()==true){
-        HTTP.post('locations',this.location)
-    	     .then(this.resetear)
-           .catch(this._errorHandler)
+      if(this.checkForm1()==true){
+          HTTP.post('locations',this.location)
+      	     .then(response => { this.idLoc = response.data.idLocation
+                        return response.data})
+             .then(this.recargarMapa)
+             .catch(this._errorHandler)
 
-
-    }else{
-       Vue.notify({
-          text: this.errors,
-          type: 'error'})
-    }
+      }else{
+         Vue.notify({
+            text: this.errors,
+            type: 'error'})
+      }
 
     },
+
     editar(){
       this.location.latitud=this.latitud;
       this.location.longitud=this.longitud;
 
-
       if(this.checkForm1()==true){
         HTTP.put(`locations/${this.location.idLocation}`,this.location) 
-            .then(this.resetea)
+           .then(response => { this.idLoc = response.data.idLocation
+                        return response.data})
+             .then(this.recargarMapaEdi)
             .catch(this._errorHandler)
       }else{
        Vue.notify({
@@ -226,33 +230,11 @@ export default {
       }
     },
 
-
-    resetear(){
-      
-      this.marker[this.location.idLocation]=L.marker([this.location.latitud, this.location.longitud])
-                                                      .addTo(this.mymap)
-                                                      .bindPopup(this.location.name)
-                                                      .openPopup();
-        this.nueva=false;
-        this.editado=true;
-
-
-    },
-
-    resetea(){
-        this.nueva=false;
-        this.editado=true;
-
-
-    },
-
      guardar(){
      HTTP.put(`locations/${this.location.idLocation}`,this.location)
            .then(this.resetear)
            .catch(this._successHandler)
     },
-
-    
 
     _successHandler(response) {
       Vue.notify({
@@ -262,7 +244,6 @@ export default {
 
     },
     
-   
     _errorHandler(err) {
       this.error = err.response.data.message
        Vue.notify({

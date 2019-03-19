@@ -1,36 +1,31 @@
 <template>
-
   <div v-if="bol"class="information message">
-   
-    
     <div class="half margin-right">
-    <h2 class="titulo" v-if=" idDeporte==null">Nuevo Deporte</h2>
-         <input type='text' class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
-          <multiselect 
-            class="multi"
-            v-model="sport.locations" 
-            :options="this.alllocations"
-            :multiple="true"
-            :searchable="true" 
-            :clear-on-select="false" 
-            :preserve-search="true"
-            :close-on-select="false" 
-            :show-labels="false"
-            track-by="idLocation"
-            placeholder="Localizaciones"
-            :custom-label="nameCustom"
-            >
-      </multiselect>
-      <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-      <input type='text' class="searchButton" placeholder='Nombre del componente de entrada' v-model="sport.componenteEntrada" autofocus required >
-      <input type='text' class="searchButton" placeholder='Nombre del componente de visualización' v-model="sport.componenteVisualizacion" autofocus required >
-     
+        <h2 class="titulo" v-if=" idDeporte==null">Nuevo Deporte</h2>
+        <input type='text' class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
+        <multiselect 
+                class="multi"
+                v-model="sport.locations" 
+                :options="this.alllocations"
+                :multiple="true"
+                :searchable="true" 
+                :clear-on-select="false" 
+                :preserve-search="true"
+                :close-on-select="false" 
+                :show-labels="false"
+                track-by="idLocation"
+                placeholder="Localizaciones"
+                :custom-label="nameCustom"
+                >
+        </multiselect>
 
-       <button class="guardar"@click="guardar()"> Guardar</button>
-       <button @click="hide"> Cancelar </button> 
-        </div>
-</div>
-  
+        <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+        <input type='text' class="searchButton" placeholder='Nombre del componente de entrada' v-model="sport.componenteEntrada" autofocus required >
+        <input type='text' class="searchButton" placeholder='Nombre del componente de visualización' v-model="sport.componenteVisualizacion" autofocus required >
+        <button class="guardar"@click="guardar()"> Guardar</button>
+        <button @click="hide"> Cancelar </button> 
+    </div>
+  </div>
 </template>
 
 <script>
@@ -45,11 +40,9 @@ export default {
   components: {Multiselect},
   props:{
      idDeporte:null
-
-    
   },
-  data() {
 
+  data() {
     return {
       sport:{},
       bol:true,
@@ -58,92 +51,66 @@ export default {
       loc:[],
       typeSport:null,
       fallo:false
-   
-     
-
     }
   },
   watch: {
     '$route': 'fetchData',
-
-
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
     this.getLocations();
     this.fetchData();
   },
+
   methods: {
 
      fetchData() {
        if (this.idDeporte) {
-            HTTP.get(`sports/${this.idDeporte}`)
-           .then(response => {
-            this.sport = response.data
-            return response
-            })
-           .then(response => {this.typeSport = response.data.type})
-            .catch(err => this.error = err.message)
-
-        } else {
+          HTTP.get(`sports/${this.idDeporte}`)
+                  .then(response => {this.sport = response.data 
+                        return response })
+                  .then(response => {this.typeSport = response.data.type})
+                  .catch(err => this.error = err.message)
+      }else{
            this.sport={};
         }
      
       HTTP.get('sports')
-        .then(response => {
-       this.sports = response.data
-       
-     })
-     .catch(err => {
-       this.error = err.message
-     })
+              .then(response => {this.sports = response.data})
+              .catch(err => { this.error = err.message})
     
     },
+
     hide(){
       this.bol=false;
       this.$emit('Cerrar');
 
     },
     guardar(){
-      //this.fallo=false;
       if(this.idDeporte){//ACTUALIZAR
-        /*if(this.typeSport!= this.sport.type){//Si cambiamos nombre
-          for ( var i = 0; i < this.sports.length; i ++){
-            if (this.sport.type==this.sports[i].type){//si tiene el nombre de alguno ya existente
-              this.fallo=true;
-            }
-        }
-      }*/
-      //if (this.fallo==false){//si no tiene el mismo nombre
-            if(this.sport.type != ''){
-            HTTP.put(`sports/${this.idDeporte}`,this.sport)
-               .then(this._successHandler)
-               .catch(this._errorHandler)
-             }else{
+          if(this.sport.type != ''){
+              HTTP.put(`sports/${this.idDeporte}`,this.sport)
+                      .then(this._successHandler)
+                      .catch(this._errorHandler)
+          }else{
                Vue.notify({
                    text: "Introduzca un nombre para este deporte",
                    type: 'error'})
-             }
-        /* }else{
-        Vue.notify({
-               text: "Este deporte ya está dentro de la BD",
-               type: 'error'})
-
-      }*/
+          }
 
       }else{//CREAR
-      if(this.checkForm()==true){
-      HTTP.post('sports',this.sport)
-
-           .then(this._successHandler)
-           .catch(this._errorHandler)
-         } else{
+        if(this.checkForm()==true){
+            HTTP.post('sports',this.sport)
+                    .then(this._successHandler)
+                    .catch(this._errorHandler)
+         }else{
            Vue.notify({
                text: this.error,
                type: 'error'})
-         }
-        } 
+        }
+      } 
     },
+
      nameCustom ({ name }) {
       return `${name} `
     },
@@ -154,30 +121,20 @@ export default {
         this.error="Introduzca un deporte"
         return false;
       }
-      
-      /*for ( var i = 0; i < this.sports.length; i ++){
-        if(this.sports[i].type==this.sport.type){
-          this.error="El deporte "+this.sport.type+ " ya está en su BD"
-          return false;
-        }
-      
-      }*/
 
       if (this.sport.type || this.sport.type && this.spot.locations) {
         return true;
       }
 
     },
-   
 
     getLocations() {
         
        HTTP.get('locations')
-      .then(response => this.alllocations = response.data)
-      .catch(err => this.error = err.message)
+            .then(response => this.alllocations = response.data)
+            .catch(err => this.error = err.message)
     },
    
-
     _successHandler(response) {
       Vue.notify({
                text: "Cambios guardados",

@@ -1,16 +1,15 @@
 <template>
-<div>
-  <ol id="lista2">
-    <li class="usuarios" type="disc" v-for=" user in this.users" :key="user.idUser"> 
-      {{user.name}} {{user.surname1}} {{user.surname2}}
-      <div class="but">
-        <b-btn class="button" @click="autoridad(user.idUser)"><span>{{user.authority}}</span></b-btn>
-        <b-btn class="button1" @click="eliminar(user.idUser)"><span>Eliminar</span></b-btn>
-      </div>
-    </li>
-</ol> 
-</div>
-
+  <div>
+      <ol id="lista2">
+        <li class="usuarios" type="disc" v-for=" user in this.users" :key="user.idUser"> 
+          {{user.name}} {{user.surname1}} {{user.surname2}}
+          <div class="but">
+            <b-btn class="button" @click="autoridad(user.idUser)"><span>{{user.authority}}</span></b-btn>
+            <b-btn class="button1" @click="eliminar(user.idUser)"><span>Eliminar</span></b-btn>
+          </div>
+        </li>
+    </ol> 
+  </div>
 </template>
 
 <script>
@@ -38,35 +37,33 @@ export default {
   },
   methods: {
     fetchData() {
-    HTTP.get('users')
-        .then(response => {
-       this.users = response.data
-       
-     })
-     .catch(err => {
-       this.error = err.message
-     })
-
-  
+       HTTP.get('users')
+            .then(response => { this.users = response.data })
+            .catch(err => { this.error = err.message})
     },
      
 
     _successHandler(response) {
       this.fetchData()
     },
+
     back() {
       this.$router.go(-1)
     },
     
     eliminar(idUser){
        HTTP.delete(`users/${idUser}`)
-        .then(this._successHandler)
-        .catch(this._errorHandler)
+          .then(this._successHandler)
+          .catch(this._errorHandler)
     },
 
     _errorHandler(err) {
       this.error = err.response.data.message
+       Vue.notify({
+               text: this.error,
+               type: 'error'})
     },
+    
     autoridad(idUser){
       
        HTTP.put(`users/${idUser}/authority`)

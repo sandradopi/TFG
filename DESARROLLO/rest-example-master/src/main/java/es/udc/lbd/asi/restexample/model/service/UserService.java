@@ -22,7 +22,9 @@ import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
+import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
+import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
@@ -37,9 +39,11 @@ import es.udc.lbd.asi.restexample.security.SecurityUtils;
 public class UserService implements UserServiceInterface{
 
   @Autowired
-    private UserDAO userDAO;
+  private UserDAO userDAO;
   @Autowired
   private TeamDAO teamDAO;
+  @Autowired
+  private GameDAO gameDAO;
   
   
   @Autowired
@@ -248,7 +252,10 @@ public class UserService implements UserServiceInterface{
 		@PreAuthorize("hasAuthority('ADMIN')")
 		@Transactional(readOnly = false)
 		@Override
-		public void deleteById(Long idUser) {
+		public void deleteById(Long idUser) throws SportDeleteException {
+			if (gameDAO.findByCreator(idUser)!=0){
+				throw new SportDeleteException("Este usuario tiene asociados actualmente partidos");
+			}
 			User_ bdUser = userDAO.findById(idUser);
 			userDAO.deleteById(idUser);
 			

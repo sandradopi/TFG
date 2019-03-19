@@ -1,61 +1,40 @@
 <template>
-<div>
-   <div class="float-right">
-      <b-btn        class="button"
-                    variant="primary"
-                    @click="back()"><span>Atrás</span></b-btn>
-     <b-btn
-                    class="button1"
-                    :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}"
-                    @click="Editado()"><span>Editar</span></b-btn> <!--Solo podemos editar las notificaciones del usuario que esta logueado-->
-     
-  </div>
+  <div>
+     <div class="float-right">
+        <b-btn class="button1" :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}" @click="Editado()"><span>Editar</span></b-btn> 
+    </div>
+    <div class="equipo">
+        <h1 class="title1">Mis equipos favoritos:</h1>
+        <ol id="lista2">
+            <h6 class="adv" v-if="this.user.favoritos==''">No tiene guardado ningun equipo en favoritos</h6>
+            <li class="usuarios" type="disc" v-for=" favorito in this.user.favoritos" :key="favorito.idTeam"> {{favorito.name}} ({{favorito.sport.type}}) </li>
+        </ol> 
   
-  <div class="equipo">
-  <h1 class="title1">Mis equipos favoritos:</h1>
-  <ol id="lista2">
-     <h6 class="adv" v-if="this.user.favoritos==''">No tiene guardado ningun equipo en favoritos</h6>
-    <li class="usuarios" type="disc" v-for=" favorito in this.user.favoritos" :key="favorito.idTeam"> 
-      {{favorito.name}} ({{favorito.sport.type}})
-    </li>
-</ol> 
-</br>
-</br>
- <div class="equipo1">
-  <h1 class="title1">Mis equipos:</h1>
-  <ol id="lista2">
-     <h6  class="adv" v-if="this.user.juego==''">Usted actualmente no está jugando en ningun equipo</h6>
-    <li class="usuarios" type="disc" v-for=" juego in this.user.juego" :key="juego.idTeam"> 
-      {{juego.name}} ({{juego.sport.type}})
-    </li>
-</ol> 
- </div>
- </div>
-
- 
-  <div class= "datosUsuario">
-     <h1 class="title"> Datos Personales</h1>  
-     <h4 class="subtitle">
-      </br>
-            <div class="subdatos" >
-                  <p class="subtitle-tag">Nombre: {{this.user.name}} </p>                  
-                  <p class="subtitle-tag">Apellidos: {{this.user.surname1}} {{this.user.surname2}} </p>                 
-                  <p class="subtitle-tag">Fecha de nacimiento: {{this.user.birthday}} </p>
-                  <p class="subtitle-tag">Ciudad: {{this.user.city}} </p>
-                  <p class="subtitle-tag">Login: {{this.user.login}} </p>
-                  <p class="subtitle-tag">Email: {{this.user.email}} </p>
-                  <p class="subtitle-tag">Experiencia: {{this.user.experience}}  
-                  <star-rating class="star" v-model="rating" v-bind:star-size="30" :read-only="true"></star-rating></p>
-
-             </div>
-     </h4>    
-      
- </div>
-
- 
-
-</div>
-
+        <div class="equipo1">
+          <h1 class="title1">Mis equipos:</h1>
+          <ol id="lista2">
+             <h6  class="adv" v-if="this.user.juego==''">Usted actualmente no está jugando en ningun equipo</h6>
+            <li class="usuarios" type="disc" v-for=" juego in this.user.juego" :key="juego.idTeam"> {{juego.name}} ({{juego.sport.type}})</li>
+        </ol> 
+      </div>
+   </div>
+   <div class= "datosUsuario">
+       <h1 class="title"> Datos Personales</h1>  
+       <h4 class="subtitle">
+          </br>
+          <div class="subdatos" >
+                <p class="subtitle-tag">Nombre: {{this.user.name}} </p>                  
+                <p class="subtitle-tag">Apellidos: {{this.user.surname1}} {{this.user.surname2}} </p>                 
+                <p class="subtitle-tag">Fecha de nacimiento: {{this.user.birthday}} </p>
+                <p class="subtitle-tag">Ciudad: {{this.user.city}} </p>
+                <p class="subtitle-tag">Login: {{this.user.login}} </p>
+                <p class="subtitle-tag">Email: {{this.user.email}} </p>
+                <p class="subtitle-tag">Experiencia: {{this.user.experience}}  
+                <star-rating class="star" v-model="rating" v-bind:star-size="30" :read-only="true"></star-rating></p>
+          </div>
+       </h4>    
+    </div>
+  </div>
 </template>
 
 <script>
@@ -84,26 +63,18 @@ export default {
   created() { //se va a lanzar siempre en una clase de componentes
     this.fetchData()
   },
+
   methods: {
     fetchData() {
 
      HTTP.get(`users/${this.$route.params.id}`) 
-    .then(response => {
-       this.user = response.data
-       return response
-       
-     })
-    .then(response => {
-        this.rating = response.data.experience
-      })
-
-
-     .catch(err => {
-       this.error = err.message
-     })
-
+          .then(response => {this.user = response.data
+                return response })
+          .then(response => { this.rating = response.data.experience})
+          .catch(err => { this.error = err.message})
   
     },
+
      WhatLogin() {
       return auth.user.login
     },
@@ -118,9 +89,11 @@ export default {
     _successHandler(response) {
       this.fetchData()
     },
+
     back() {
       this.$router.go(-1)
     },
+    
     _errorHandler(err) {
       this.error = err.response.data.message
     }
@@ -148,7 +121,7 @@ export default {
   .equipo{
   float:right;
   padding: 1em;
-  width: 30%;
+  width: 40%;
   background: #f3f3f3;
   border-radius: 3px;
   font-family: 'Lato', sans-serif;
@@ -241,7 +214,7 @@ export default {
   right: 0;
 }
 .button1{
-   background-color: #f4511e;
+   background-color: #fb887c;
    float:right;
    
  }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
@@ -69,7 +70,7 @@ public class UserResource {
     
     
     @DeleteMapping("/{idUser}")
-    public void delete(@PathVariable Long idUser) throws InstanceNotFoundExceptionHIB{
+    public void delete(@PathVariable Long idUser) throws InstanceNotFoundExceptionHIB, SportDeleteException{
         userService.deleteById(idUser);
     }
     

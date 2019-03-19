@@ -1,14 +1,10 @@
 <template>
-<div class="shopping-list">
-  <h1 class="title"> Crear Partido</h1>  
-
-    
+  <div class="shopping-list">
+    <h1 class="title"> Crear Partido</h1>  
     <input type='date' class="searchButton" placeholder='Fecha' v-model="game.date" autofocus required >
     <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeStart" autofocus required >
-     <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeEnd" autofocus required >
-
-         
-          <multiselect 
+    <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeEnd" autofocus required >
+    <multiselect 
             v-model="game.sport" 
             :options="this.allsports"
             :multiple="false"
@@ -21,11 +17,12 @@
             placeholder="Deportes"
             :custom-label="nameCustom1"
             >
-      </multiselect>
+    </multiselect>
 
 
 
-       <multiselect  v-if="bol==true"
+    <multiselect  
+            v-if="bol==true"
             v-model="game.location" 
             :options="this.alllocations"
             :multiple="false"
@@ -36,16 +33,12 @@
             placeholder="Localizaciones"
             :custom-label="nameCustom"
             >
-      </multiselect>
-      <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-      
-      <input type='text' class="searchButton" placeholder='Número máximo de jugadores' v-model="game.maxPlayers" autofocus required >
-      <input type='text' class="searchButton" placeholder='Número míximo de jugadores' v-model="game.minPlayers" autofocus required >
-
-       <b-btn class="button"
-              @click="guardar()"><span>Crear</span></b-btn>
-</div>
-
+    </multiselect>
+    <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+    <input type='text' class="searchButton" placeholder='Número máximo de jugadores' v-model="game.maxPlayers" autofocus required >
+    <input type='text' class="searchButton" placeholder='Número míximo de jugadores' v-model="game.minPlayers" autofocus required >
+    <b-btn class="button" @click="guardar()"><span>Crear</span></b-btn>
+  </div>
 </template>
 
 <script>
@@ -79,53 +72,39 @@ export default {
   methods: {
     fetchData() {
     	 HTTP.get(`users/${this.$route.params.id}`) 
-		    .then(response => {
-		       this.game.creator = response.data
-		       return response
-       
-     })
-     .catch(err => {
-       this.error = err.message
-     })
-
-     
-  
+		        .then(response => { this.game.creator = response.data
+		              return response })
+            .catch(err => { this.error = err.message})
     },
+
     selectOn(){
-		this.bol=true;
-     this.game.location={};
+		  this.bol=true;
+      this.game.location={};
   	 	HTTP.get(`locations/filter/${this.game.sport.idSport}`) 
-		    .then(response => {
-		       this.alllocations = response.data
-           this.game.location = this.alllocations[0];
-		 
-     })
-     .catch(err => {
-       this.error = err.message
-     })
+		        .then(response => { this.alllocations = response.data
+                                this.game.location = this.alllocations[0]; })
+            .catch(err => { this.error = err.message})
 		
+
     },
     guardar(){
        HTTP.post('games',this.game)
-
            .then(this._successHandler)
            .catch(this._errorHandler)
 
     },
+
     getLocations() {
       
-      	 HTTP.get('locations')
-     	 .then(response => this.alllocations = response.data)
-      	.catch(err => this.error = err.message)
- 
-  	 
+      HTTP.get('locations')
+     	     .then(response => this.alllocations = response.data)
+      	   .catch(err => this.error = err.message)
     },
 
     getSports() {
-        
-       HTTP.get('sports')
-      .then(response => this.allsports = response.data)
-      .catch(err => this.error = err.message)
+        HTTP.get('sports')
+            .then(response => this.allsports = response.data)
+            .catch(err => this.error = err.message)
     },
 
      nameCustom ({ name }) {
@@ -136,15 +115,15 @@ export default {
       return `${type} `
     },
      
-
-
     _successHandler(response) {
        this.$router.replace({ name: 'GameDetail', params: { id: this.game}})
 
     },
+    
     back() {
       this.$router.go(-1)
     },
+
     _errorHandler(err) {
       this.error = err.response.data.message
     }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
+import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
@@ -62,7 +63,7 @@ public class SportResource {
     }
     
     @DeleteMapping("/{idSport}")
-    public void delete(@PathVariable Long idSport) throws InstanceNotFoundExceptionHIB{
+    public void delete(@PathVariable Long idSport) throws InstanceNotFoundExceptionHIB, SportDeleteException{
         sportService.deleteById(idSport);
     }
     

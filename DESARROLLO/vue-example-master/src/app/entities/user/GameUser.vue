@@ -1,16 +1,15 @@
 <template>
   <div class="content"> 
-  
-    <h1 class="title"> Perfil Público</h1>  
+      <h1 class="title"> Perfil Público</h1>  
     	<div class="profile1">
-  		<div class="botones">
-	  		<b-btn class="b1" @click="TipoPatidos('proximos')">Próximos Partidos</b-btn>
-			<b-btn class="b1" @click="TipoPatidos('organizados')">Partidos Organizados</b-btn>
-			<b-btn class="b1" @click="TipoPatidos('jugados')">Partidos Jugados</b-btn>
-			<b-btn class="b1" @click="TipoPatidos('recomendados')">Partidos Recomendados</b-btn>
-			<b-btn class="b1" @click="TipoPatidos('comentarios')">Comentarios</b-btn>
-		</div>
-	</div>
+    		<div class="botones">
+      	  	<b-btn class="b1" @click="TipoPatidos('proximos')">Próximos Partidos</b-btn>
+      			<b-btn class="b1" @click="TipoPatidos('organizados')">Partidos Organizados</b-btn>
+      			<b-btn class="b1" @click="TipoPatidos('jugados')">Partidos Jugados</b-btn>
+      			<b-btn class="b1" @click="TipoPatidos('recomendados')">Partidos Recomendados</b-btn>
+      			<b-btn class="b1" @click="TipoPatidos('comentarios')">Comentarios</b-btn>
+    		</div>
+	   </div>
     	<div class="layout">
 			  <div class="profile">
 			    <div class="profile__picture"><img src="http://i.pravatar.cc/250?img=41"/></div>
@@ -43,12 +42,9 @@
 			    </div>
 			  </div>
 		</div>
-
-	
     <GameList v-bind:tipo="this.tipo" v-bind:login="this.user.login">>
     </GameList>
   </div>
-
 </template>
 
 <script>
@@ -73,31 +69,19 @@ export default {
     
   },
  
-  created() { //se va a lanzar siempre en una clase de componentes
-
+  created() { //se va a lanzar siempre en una clase de componente
     this.fetchData()
   },
+  
   methods: {
     fetchData() {
-
      HTTP.get(`users/${this.$route.params.id}`) 
-    .then(response => {
-       this.user = response.data
-       return response
-       
-     })
-    .then(response => {
-        this.rating = response.data.experience
-      })
+          .then(response => { this.user = response.data
+                 return response })
+          .catch(err => { this.error = err.message})
 
-
-     .catch(err => {
-       this.error = err.message
-     })
-
-    	
-  
     },
+
     TipoPatidos(tipo){
     	if(tipo=='proximos'){
     		this.tipo='proximo';
@@ -114,9 +98,11 @@ export default {
     _successHandler(response) {
       this.fetchData()
     },
+
     back() {
       this.$router.go(-1)
     },
+    
     _errorHandler(err) {
       this.error = err.response.data.message
     }

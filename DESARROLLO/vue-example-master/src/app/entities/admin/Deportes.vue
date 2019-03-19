@@ -1,27 +1,25 @@
 <template>
+  <div>
+      <DeportesDetail @Cerrar="reloadPage" v-if= "(idDeporte!=null && nuevo==false)" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num" v-bind:nuevo="this.nuevo"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
+      <DeportesForm @Cerrar="reloadPage"  v-if= "(idDeporte==null && nuevo||nuevo)" v-bind:idDeporte="this.idDeporte"></DeportesForm>
 
-<div>
-  <DeportesDetail @Cerrar="reloadPage" v-if= "(idDeporte!=null && nuevo==false)" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num" v-bind:nuevo="this.nuevo"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
-  <DeportesForm @Cerrar="reloadPage"  v-if= "(idDeporte==null && nuevo||nuevo)" v-bind:idDeporte="this.idDeporte"></DeportesForm>
-
-  <div  id="shopping-list">
-        <h1>Deportes</h1>        
-        <button id="addItem" @click="crear()">Nuevo Deporte</button>
-        <div class="list">
-          <table >
-            <tr class="table-header">
-              <td></td>
-            </tr>
-            <tr >
-              <button class= "sport" v-for="sport in sports" :key="sport.idSport" @click="parametro(sport.idSport)">
-                <td>{{ sport.type}}</td>
-             </button>             
-            </tr>
-          </table>  
-</div>
-</div>
-
-</div>
+      <div  id="shopping-list">
+          <h1>Deportes</h1>        
+          <button id="addItem" @click="crear()">Nuevo Deporte</button>
+          <div class="list">
+              <table >
+                <tr class="table-header">
+                  <td></td>
+                </tr>
+                <tr >
+                  <button class= "sport" v-for="sport in sports" :key="sport.idSport" @click="parametro(sport.idSport)">
+                    <td>{{ sport.type}}</td>
+                 </button>             
+                </tr>
+              </table>  
+          </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -54,19 +52,16 @@ export default {
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
-    
     this.fetchData()
   },
+
   methods: {
     fetchData() {
       HTTP.get('sports')
         .then(response => {
-       this.sports = response.data
-       
-     })
-     .catch(err => {
-       this.error = err.message
-     })
+              this.sports = response.data})
+        .catch(err => {
+              this.error = err.message})
 
     },
     
@@ -74,9 +69,8 @@ export default {
       this.nuevo=false;
       this.idDeporte=idSport;
       this.num=this.num+1;
-
-      
     },
+
     reloadPage(bolean){
       if (bolean){
 
@@ -84,26 +78,22 @@ export default {
         this.fetchData()
 
       }else{
-      this.nuevo=false;
-      this.fetchData();
-    }
+        this.nuevo=false;
+        this.fetchData();
+      }
     },
 
-    
     crear(){
       this.nuevo=true;  
       this.idDeporte=null;        
     },
     
-
     _successHandler(response) {
       this.sport.type="";
       this.sport.locations=null;
       this.fetchData()
-
     },
     
-   
     _errorHandler(err) {
       this.error = err.response.data.message
       this.notification()
@@ -185,7 +175,6 @@ table {
   font-size:0.9em;
 
 }      
-
 
 
 button {

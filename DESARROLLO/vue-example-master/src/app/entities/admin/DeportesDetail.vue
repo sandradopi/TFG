@@ -1,24 +1,24 @@
 <template>
-
   <div v-if="bol"class="information message">
     <button @click="hide"> X </button> 
-    
-     
-    <div >          
-      <h2>{{this.sport.type}}</h2>
-      <br>
-      <h5>Ubicaciones:</h5>
-      <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
-      <li v-if="this.loc.length==0"> No hay localizaciones aun registradas para este deporte</li>
-      <div class="compo">
-        <h2 class="comp">Componente de Entrada: {{this.sport.componenteEntrada}}</h2>
-        <h2 class="comp">Componente de Visualización: {{this.sport.componenteVisualizacion}}</h2>
-     </div>
-       <button class="editar" @click="editar()">Editar</button>
-      <button class="eliminar"@click="eliminar()"> Eliminar</button> 
+    <div>   
+        <h2>{{this.sport.type}}</h2>
+        <br>
+
+        <h5>Ubicaciones:</h5>
+        <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
+        <li v-if="this.loc.length==0"> No hay localizaciones aun registradas para este deporte</li>
+
+        <div class="compo">
+            <h2 class="comp">Componente de Entrada: {{this.sport.componenteEntrada}}</h2>
+            <h2 class="comp">Componente de Visualización: {{this.sport.componenteVisualizacion}}</h2>
+       </div>
+
+        <button class="editar" @click="editar()">Editar</button>
+        <button class="eliminar"@click="eliminar()"> Eliminar</button> 
+
     </div>
-</div>
-  
+  </div>
 </template>
 
 <script>
@@ -34,26 +34,20 @@ export default {
   props:{
     idDeporte:null,
     num:0,
-    
-
-    
   },
-  data() {
 
+  data() {
     return {
       sport:{},
       bol:true,
       sports:null,
       loc:[]
-   
-     
-
     }
   },
+
   watch: {
     '$route': 'fetchData',
      num:'fetchData',
-     
 
   },
  
@@ -61,52 +55,36 @@ export default {
     this.getLocations()
     this.fetchData()
   },
-  methods: {
 
+  methods: {
      fetchData() {
       this.bol=true;
-      
-       HTTP.get(`sports/${this.idDeporte}`) 
-      .then(response => {
-        this.sport = response.data
-        return response
-      })
-      .then(response => {this.loc = response.data.locations})
-      .catch(err => this.error = err.message)
-    
-    
-
+      HTTP.get(`sports/${this.idDeporte}`) 
+              .then(response => {this.sport = response.data
+                    return response})
+              .then(response => {this.loc = response.data.locations})
+              .catch(err => this.error = err.message)
     },
+
     hide(){
       this.bol=false;
       this.$emit('Cerrar',false);
-
     },
 
     editar(){
-
       this.$emit('Cerrar',true);
     },
     
      nameCustom ({ name }) {
       return `${name} `
     },
-
     
-    notification(){
-      if (this.error=="sportDTO.type no puede estar vacío"){
-        this.error="Introduzca un deporte"
-      }
 
-       Vue.notify({
-               text: this.error,
-               type: 'error'})
-    },
     getLocations() {
         
        HTTP.get('locations')
-      .then(response => this.alllocations = response.data)
-      .catch(err => this.error = err.message)
+                .then(response => this.alllocations = response.data)
+                .catch(err => this.error = err.message)
     },
    
 
@@ -118,17 +96,20 @@ export default {
 
     _errorHandler(err) {
       this.error = err.response.data.message
+        Vue.notify({
+               text: this.error,
+               type: 'error'})
       
     },
+    
     eliminar(){
       HTTP.delete(`sports/${this.idDeporte}`)
         .then(this._successHandler)
         .catch(this._errorHandler)
 
-
     }
   
-}
+  }
 }
 </script>
 

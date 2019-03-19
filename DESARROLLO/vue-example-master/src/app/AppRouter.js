@@ -19,8 +19,8 @@ const routes = [
   { name: 'DeportesUpdate', path: '/deportes/:id/editar', component: DeportesForm,meta: { authority: 'ADMIN' }},
   { name: 'GameCreate', path: '/games/new', component: GameCreate,meta: { authority: 'USER' }},
   { name: 'GameDetail', path: '/games/:id', component: GameDetail,meta: { authority: 'USER' }},
-  { name: 'GameListOrganizados', path: '/games/organizados/user/:id', component: GameList,meta: { authority: 'USER' }},
-  { name: 'GameUser', path: 'user/perfilPublico/:id', component: GameUser,meta: { authority: 'USER' }},
+  { name: 'GameList', path: '/games/organizados/user/:id', component: GameList,meta: { authority: 'USER' }},
+  { name: 'GameUser', path: 'users/:id/perfilPublico', component: GameUser,meta: { authority: 'USER' }},
   { path: '*', component: NotFound, meta: { public: true }},
 
 ]

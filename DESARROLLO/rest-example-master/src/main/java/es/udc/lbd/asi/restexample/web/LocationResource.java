@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.LocationExistsException;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
+import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.LocationService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
@@ -56,7 +57,7 @@ public class LocationResource {
     }
     
     @DeleteMapping("/{idLocation}")
-    public void delete(@PathVariable Long idLocation) throws InstanceNotFoundExceptionHIB{
+    public void delete(@PathVariable Long idLocation) throws InstanceNotFoundExceptionHIB, SportDeleteException{
         locationService.deleteById(idLocation);
     }
     

@@ -1,28 +1,18 @@
 <template>
-
   <div v-if="bol"class="information message">
     <button @click="hide"> X </button> 
     <div> 
-
-      <h2 >{{location.name}}</h2>
-    
-     </br>
-
-      <div class="compo">
-      	<h5>Ubicación:</h5>
-        <li class="comp">Latitud: {{location.latitud}}</li>
-        <li class="comp">Longitud: {{location.longitud}}</li>
-      </div>
-
-
-        <b-btn class="editar"
-                   @click="editar()" 
-                   ><span>Editar</span></b-btn> 
-       <button class="eliminar" @click="eliminar()"> Eliminar</button>
-
+        <h2 >{{location.name}}</h2>
+        </br>
+        <div class="compo">
+          	<h5>Ubicación:</h5>
+            <li class="comp">Latitud: {{location.latitud}}</li>
+            <li class="comp">Longitud: {{location.longitud}}</li>
+        </div>
+        <b-btn class="editar" @click="editar()" ><span>Editar</span></b-btn> 
+        <button class="eliminar" @click="eliminar()"> Eliminar</button>
     </div>
-</div>
-  
+  </div>
 </template>
 
 <script>
@@ -38,47 +28,39 @@ export default {
   props:{
     idLoc:null,
     num:0,
-    
   },
   data() {
-
     return {
       sport:{},
       bol:true,
       location:{},
       nuevoCoste:{},
       opens:null
-   
-     
-
     }
   },
   watch: {
     '$route': 'fetchData',
      num:'fetchData',
 
-
   },
 
- 
   created() { //se va a lanzar siempre en una clase de componentes
     this.fetchData()
   },
-  methods: {
 
+  methods: {
      fetchData() {
-      this.bol=true;
-       HTTP.get(`locations/${this.idLoc}`) 
-      .then(response => {
-        this.location = response.data
-        return response
-      })
-      .catch(err => this.error = err.message)
+        this.bol=true;
+        HTTP.get(`locations/${this.idLoc}`) 
+              .then(response => { this.location = response.data
+                    return response})
+              .catch(err => this.error = err.message)
 
     },
+
     custom(open){
-    return open.substring(0,5);
-  },
+      return open.substring(0,5);
+    },
 
 
     hide(){
@@ -86,32 +68,32 @@ export default {
       this.$emit('Cerrar',false);
 
     },
+
      editar(){
       this.$emit('Editar',this.location);
-
     },
-
-
 
     _successHandler(response) {
       this.bol=false;
-      this.$emit('Cerrar');
+      this.$emit('Eliminar');
 
     },
 
     _errorHandler(err) {
       this.error = err.response.data.message
+       Vue.notify({
+               text: this.error,
+               type: 'error'})
       
     },
+
     eliminar(){
       HTTP.delete(`locations/${this.idLoc}`)
-        .then(this._successHandler)
-        .catch(this._errorHandler)
-
-
+            .then(this._successHandler)
+            .catch(this._errorHandler)
     }
   
-}
+  }
 }
 </script>
 
