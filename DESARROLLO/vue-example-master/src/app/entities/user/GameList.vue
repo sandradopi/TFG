@@ -1,5 +1,5 @@
 <template>
-  <div>
+
   <div class="information message2">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
@@ -16,8 +16,8 @@
         </li>
       </ul>
     </div>
-  <div>
   </div>
+
 
 </template>
 
@@ -25,11 +25,12 @@
 import { HTTP } from '../../common/http-common' 
 import auth from '../../common/auth'
 import Vue from 'vue'
+import vueCustomScrollbar from 'vue-custom-scrollbar'
 
 
 
 export default {
-  components: {},
+  components: {vueCustomScrollbar},
   props:{
     tipo:null,
     login:null
@@ -92,6 +93,7 @@ export default {
 
 
 div.message2 {
+  overflow: scroll;
   padding: 10px;
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
@@ -106,7 +108,7 @@ div.message2 {
 
 
 .w3-ul li:last-child {
-    margin-top:10px;
+    margin-top:20px;
     border-bottom: none;
     background: white;
     color: #6c757d;
@@ -118,10 +120,7 @@ ul.w3-ul.w3-card-4{
     background: white;
 
 }
-.w3-container{
-  width:100%;
-  height:50%;
-}
+
 
 
 </style>
