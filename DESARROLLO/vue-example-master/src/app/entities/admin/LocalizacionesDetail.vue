@@ -81,9 +81,7 @@ export default {
 
     _errorHandler(err) {
       this.error = err.response.data.message
-       Vue.notify({
-               text: this.error,
-               type: 'error'})
+      this.$swal('Alerta!', this.error, 'error')
       
     },
 

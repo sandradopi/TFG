@@ -59,6 +59,8 @@
           placeholder="Introduce el segundo apellido"/>
       </b-form-group>
 
+
+
        <b-form-group
         label="Fecha de Nacimiento: "
         label-for="Data">
@@ -92,6 +94,19 @@
 <hr class="linea">
  <div class="web">
 
+       <b-form-group
+        label="Email: *"
+        label-for="email">
+        <b-form-input
+          id="email"
+          v-model="user.email"
+          type="email"
+          autocomplete="off"
+          required
+          placeholder="Introduce el email"/>
+      </b-form-group>
+
+<div class="equipos" v-if="this.$route.params.boleano!=null">
       <b-form-group v-if="this.$route.params.boleano!=null"
           label="Equipos favorito: "
           label-for="Equipos Favoritos">
@@ -100,8 +115,6 @@
             v-model="user.favoritos" 
             :options="this.allteams"
             :multiple="true"
-            :taggable="true"
-            @tag="addTag"
             :searchable="true" 
             :clear-on-select="false" 
             tag-placeholder="Equipo/Deporte"
@@ -113,6 +126,7 @@
              :custom-label="nameCustom"
             
             >
+
       </multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
       </b-form-group>
@@ -126,8 +140,6 @@
             :options="this.allteams"
             :multiple="true"
             :searchable="true" 
-            :taggable="true"
-            @tag="addTag"
             tag-placeholder="Equipo/Deporte"
             :clear-on-select="false" 
             :preserve-search="true"
@@ -139,8 +151,38 @@
             >
       </multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-      </b-form-group>
+      <b-btn class="button2" variant="success" v-b-modal.modalPrevent ><span>Añadir Equipo</span></b-btn>
 
+      <b-modal
+        id="modalPrevent"
+        ref="modal"
+        title="Equipo nuevo"
+        @ok="handleOk"
+        @shown="clearName">
+
+        <form @submit.stop.prevent="handleSubmit">
+          <b-form-group>
+              <multiselect 
+                v-model="deporte" 
+                :options="this.allsports"
+                :multiple="false"
+                :searchable="true" 
+                :preserve-search="true"
+                :close-on-select="true" 
+                :show-labels="false"
+                track-by="idSport"
+                placeholder="Deportes"
+                :custom-label="nameCustom1"
+            >
+    </multiselect>
+          </b-form-group>
+          <b-form-group>
+            <b-form-input type="text" placeholder="Introduce el Equipo" v-model="equipo" />
+          </b-form-group>
+        </form>
+      </b-modal>
+      </b-form-group>
+    </div>
 
       <b-form-group
         label="Login: *"
@@ -166,18 +208,7 @@
           placeholder="Introduce la contraseña"/>
       </b-form-group>
 
-       <b-form-group
-        label="Email: *"
-        label-for="email">
-        <b-form-input
-          id="email"
-          v-model="user.email"
-          type="email"
-          autocomplete="off"
-          required
-          placeholder="Introduce el email"/>
-      </b-form-group>
-
+      
 
     </div>
   
@@ -212,7 +243,10 @@ export default {
       thesport:null,
       allsportType:[],
       newTeam:null,
-      bol:false
+      bol:false,
+      name:null,
+      deporte:null,
+      equipo:null
     }
 
   },
@@ -230,6 +264,42 @@ export default {
     
       
      },
+      clearName() {
+        this.equipo = ''
+        this.deporte = ''
+      },
+      handleOk(evt) {
+        // Prevent modal from closing
+        evt.preventDefault()
+        if (!this.deporte) {
+           this.$swal('Alerta!', "Seleccione un deporte!", 'error')
+        
+        } else if (!this.equipo){
+           this.$swal('Alerta!', "Intoduzca un nombre para el equipo!", 'error')
+          
+        }else{
+          this.handleSubmit()
+        }
+      },
+      handleSubmit() {
+
+        var tag= {
+          idTeam:null,
+          name: this.equipo,
+          sport:this.deporte
+      }
+
+        HTTP.post('teams', tag)
+        .then(response =>  this.allteams.push(tag))
+        .catch(this._errorHandler)
+
+        this.$swal('Guardado', 'Se ha añadido el equipo correctamente', 'success')
+        this.clearName()
+        this.$nextTick(() => {
+          // Wrapped in $nextTick to ensure DOM is rendered before closing
+          this.$refs.modal.hide()
+        })
+      },
 
     userLogin() {
       auth.login({
@@ -243,57 +313,9 @@ export default {
     nameCustom ({ name, sport}) {
       return `${name}/${sport.type}`
     },
-    addTag(newTag){
-       this.nameTag= newTag.split('/');
-       this.thesport=null;
-
-
-     for ( var i = 0; i < this.allsports.length; i ++){
-      this.allsportType.push(this.allsports[i].type);
-      if (this.allsports[i].type==this.nameTag[1]){
-          this.thesport=this.allsports[i];
-
-      }
-     }
-
-     for ( var i = 0; i < this.allteams.length; i ++){
-      if (this.allteams[i].name==this.nameTag[0]){
-          this.bol=true;
-
-      }
-     }
-
-
-     if(this.thesport==null){
-
-       Vue.notify({
-              text: "Deporte incorrecto, debe ser alguno de estos: "+  this.allsportType,
-              type: 'error'})
-     }else if(this.bol==true){
-         Vue.notify({
-              text: "Este equipo ya está dentro de la BD",
-              type: 'error'})
-     }else{
-
-      var tag= {
-          idTeam:null,
-          name: this.nameTag[0],
-          sport:this.thesport
-      }
-
-      this.allteams.push(tag)
-
-     
-      HTTP.post('teams', tag)
-      .catch(this._errorHandler)
-
-     
-
-    }
-    this.allsportType=[];
-    this.bol=false;
-    this.sport=null;
-
+    
+     nameCustom1 ({ type }) {
+      return `${type} `
     },
 
     getTeams() {
@@ -334,7 +356,7 @@ export default {
 
       var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (!expr.test(this.user.email)) {
-        this.errors= "El email: "+ this.user.email +" no tiene el formato ejemplo@ejemplo.com "
+        this.errors= "El email"+" ' "+this.user.email +" ' "+" no tiene el formato ejemplo@ejemplo.com "
         return false;
       } 
 
@@ -370,7 +392,7 @@ export default {
 
       var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
       if (!expr.test(this.user.email)) {
-        this.errors= "The email: "+ this.user.email +" don´t have the good format, review it "
+        this.errors= "El email: "+" ' "+ this.user.email +" ' "+" no tiene el formato ejemplo@ejemplo.com "
         return false;
       } 
 
@@ -405,9 +427,7 @@ export default {
               .catch(this._errorHandler)
 
           }else{
-              Vue.notify({
-              text: this.errors,
-              type: 'error'})
+            this.$swal('Alerta!', this.errors, 'error')
          }
     
       }else{
@@ -419,22 +439,19 @@ export default {
           .catch(this._errorHandler)
       }else{
         
-        Vue.notify({
-          text: this.errors,
-          type: 'error'})
+       this.$swal('Alerta!', this.errors, 'error')
     
       }
       }
     },
     notification(){ 
-      Vue.notify({
-               text: this.error,
-               type: 'error'})
+     this.$swal('Alerta!', this.error, 'error')
     },
     back() {
       this.$router.go(-1)
     },
     _successHandler(response) {
+      this.$swal('Guardado', 'Los cambios se han guardado correctamente', 'success')
       this.$router.replace({ name: 'UserDetail', params: { id: this.user.login}})
     },
       _errorHandler(err) {
@@ -529,5 +546,15 @@ export default {
    background-color: #fb887c;
    float:right;
    
+ }
+
+ .button2{
+  margin-top:20px;
+  margin-left:90px;
+ }
+
+ .equipos{
+  background: #f3f3f3;
+  padding:10px;
  }
 </style>

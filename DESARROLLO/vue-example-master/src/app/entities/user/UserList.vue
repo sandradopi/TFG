@@ -59,9 +59,7 @@ export default {
 
     _errorHandler(err) {
       this.error = err.response.data.message
-       Vue.notify({
-               text: this.error,
-               type: 'error'})
+       this.$swal('Alerta!', this.error, 'error')
     },
     
     autoridad(idUser){
@@ -81,7 +79,7 @@ export default {
     *list-style: decimal; 
     font: 15px 'trebuchet MS', 'lucida sans';
     padding: 0;
-    margin-top: 3%;
+    margin-top: 6%;
     text-shadow: 0 1px 0 rgba(255,255,255,.5);
     margin-left:5%;
     width:35%;

@@ -1,6 +1,5 @@
 <template>
   <div class="content"> 
-      <b-btn class="button" variant="primary" @click="back()"><span>Atrás</span></b-btn>
       <h1 class="title"> Detalles del partido</h1>  
       <div class="information message">
         <h6>Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>

@@ -138,6 +138,7 @@ export default {
       this.resetear();
       this.fetchData().then(() => {
       this.marcadores() });
+       this.$swal('Guardado', 'La nueva localización ha sido añadida', 'success')
     },
 
     recargarMapaEdi(){
@@ -145,6 +146,7 @@ export default {
       this.resetear();
       this.fetchData().then(() => {
       this.marcadores() });
+       this.$swal('Guardado', 'Los cambios se han guardado correctamente', 'success')
 
     },
 
@@ -164,11 +166,12 @@ export default {
 
     eliminar(){
       this.mymap.removeLayer(this.markers[this.idLoc]);
+      //this.splice()
+      delete this.markers[this.idLoc]
       this.resetear();
       this.bool=false;
       this.idLoc=null;
-      this.fetchData().then(() => {
-      this.marcadores() });
+       this.$swal('Eliminado', 'La localización ha sido eliminada correctamente', 'success')
 
     },
 
@@ -206,9 +209,7 @@ export default {
              .catch(this._errorHandler)
 
       }else{
-         Vue.notify({
-            text: this.errors,
-            type: 'error'})
+        this.$swal('Alerta!', this.errors, 'error')
       }
 
     },
@@ -224,31 +225,19 @@ export default {
              .then(this.recargarMapaEdi)
             .catch(this._errorHandler)
       }else{
-       Vue.notify({
-          text: this.errors,
-          type: 'error'})
+      this.$swal('Alerta!', this.error, 'error')
       }
     },
 
-     guardar(){
-     HTTP.put(`locations/${this.location.idLocation}`,this.location)
-           .then(this.resetear)
-           .catch(this._successHandler)
-    },
 
     _successHandler(response) {
-      Vue.notify({
-               text: "La nueva localización ha sido añadida",
-               type: 'success'})
       this.fetchData()
 
     },
     
     _errorHandler(err) {
       this.error = err.response.data.message
-       Vue.notify({
-               text: this.error,
-               type: 'error'})
+      this.$swal('Alerta!', this.error, 'error')
     }
   }
 }

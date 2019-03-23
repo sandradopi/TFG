@@ -93,9 +93,7 @@ export default {
                       .then(this._successHandler)
                       .catch(this._errorHandler)
           }else{
-               Vue.notify({
-                   text: "Introduzca un nombre para este deporte",
-                   type: 'error'})
+               this.$swal('Alerta!', this.error, 'error')
           }
 
       }else{//CREAR
@@ -104,9 +102,7 @@ export default {
                     .then(this._successHandler)
                     .catch(this._errorHandler)
          }else{
-           Vue.notify({
-               text: this.error,
-               type: 'error'})
+           this.$swal('Alerta!', this.error, 'error')
         }
       } 
     },
@@ -118,7 +114,7 @@ export default {
     checkForm () {
 
       if (!this.sport.type) {
-        this.error="Introduzca un deporte"
+        this.error="Introduzca un nombre para el deporte"
         return false;
       }
 
@@ -136,9 +132,7 @@ export default {
     },
    
     _successHandler(response) {
-      Vue.notify({
-               text: "Cambios guardados",
-               type: 'success'})
+      this.$swal('Guardado', 'Los cambios se han guardado correctamente', 'success')
       this.bol=false;
       this.$emit('Cerrar');
 
@@ -146,9 +140,7 @@ export default {
 
     _errorHandler(err) {
       this.error = err.response.data.message
-       Vue.notify({
-               text: this.error,
-               type: 'error'})
+      this.$swal('Alerta!', this.error, 'error')
       
     }
 

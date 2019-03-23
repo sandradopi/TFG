@@ -1,22 +1,21 @@
 <template>
-  <div v-if="bol"class="information message">
-    <button @click="hide"> X </button> 
-    <div>   
-        <h2>{{this.sport.type}}</h2>
-        <br>
+  
+    <div v-if="bol"class="information message">
+      <button @click="hide"> X </button> 
+      <div>   
+          <h2>{{this.sport.type}}</h2>
+          <br>
 
-        <h5>Ubicaciones:</h5>
-        <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
-        <li v-if="this.loc.length==0"> No hay localizaciones aun registradas para este deporte</li>
+          <h5>Ubicaciones:</h5>
+          <li type="disc" v-for=" location in this.sport.locations" :key="location.idLocation"> {{location.name}}</li>
+          <li v-if="this.loc.length==0"> No hay localizaciones aun registradas para este deporte</li>
+          <div class="compo">
+              <h2 class="comp">Componente de Entrada: {{this.sport.componenteEntrada}}</h2>
+              <h2 class="comp">Componente de Visualización: {{this.sport.componenteVisualizacion}}</h2>
+         </div>
 
-        <div class="compo">
-            <h2 class="comp">Componente de Entrada: {{this.sport.componenteEntrada}}</h2>
-            <h2 class="comp">Componente de Visualización: {{this.sport.componenteVisualizacion}}</h2>
-       </div>
-
-        <button class="editar" @click="editar()">Editar</button>
-        <button class="eliminar"@click="eliminar()"> Eliminar</button> 
-
+          <button class="editar" @click="editar()">Editar</button>
+          <button class="eliminar"@click="eliminar()"> Eliminar</button> 
     </div>
   </div>
 </template>
@@ -26,6 +25,7 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+
 
 
 
@@ -101,12 +101,26 @@ export default {
                type: 'error'})
       
     },
+    alertDisplay() {
+        this.$swal("¿Estás seguro de querer borrar este deporte? Podrían borrarse algunas localizaciones asociadas a él.", {
+          dangerMode: true,
+          buttons: true
+        }).then((result) => {
+            if(result) {
+                this.$swal('Eliminado', 'Se ha borrado correctamente el deporte', 'success')
+                 HTTP.delete(`sports/${this.idDeporte}`)
+                      .then(this._successHandler)
+                       .catch(this._errorHandler)
+          } else {
+                this.$swal('Cancelado', 'No se ha realizado ningún cambio', 'info')
+          }
+        })
+    
+  },
     
     eliminar(){
-      HTTP.delete(`sports/${this.idDeporte}`)
-        .then(this._successHandler)
-        .catch(this._errorHandler)
-
+      this.alertDisplay();
+     
     }
   
   }
@@ -121,6 +135,10 @@ export default {
 
 .compo{
   margin-top:20px;
+}
+
+.alertas{
+  background:black;
 }
 
 div.message {
@@ -214,6 +232,7 @@ td {
   border: 0.1px solid #fff;
   font-size:0.9em;
 
-}      
+}    
+
 
 </style>
