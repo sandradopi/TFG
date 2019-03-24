@@ -22,7 +22,6 @@ public class Player {
 	private Long idPlayer;
 	
 	@Column(name = "valorationGame")
-	@NotNull
 	private Long valorationGame;
 	
 	@Column(name = "equipo")
@@ -34,22 +33,44 @@ public class Player {
     @NotNull
     private Game game;
 	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn (name = "idUser")
+    @NotNull
+    private NormalUser player;
+	
 	public Player() {
 				
 			}
 
 
-	public Player( @NotNull Long valorationGame, @NotEmpty String equipo, @NotNull Game game) {
+
+	public Player( Long valorationGame, @NotEmpty String equipo, @NotNull Game game,
+			@NotNull NormalUser player) {
 		this.valorationGame = valorationGame;
 		this.equipo = equipo;
 		this.game = game;
+		this.player = player;
 	}
+	
+	public Player(@NotEmpty String equipo) {
+		this.equipo = equipo;
+	}
+	
+	public Player(@NotEmpty String equipo, @NotNull Game game,
+			@NotNull NormalUser player) {
+		this.equipo = equipo;
+		this.game = game;
+		this.player = player;
+	}
+	
+	
 
-	public Player( @NotNull Long valorationGame, @NotEmpty String equipo) {
+	public Player(Long valorationGame, @NotEmpty String equipo) {
 		this.valorationGame = valorationGame;
 		this.equipo = equipo;
-
 	}
+
 
 
 	public Long getIdPlayer() {
@@ -89,6 +110,18 @@ public class Player {
 
 	public void setGame(Game game) {
 		this.game = game;
+	}
+
+
+
+	public NormalUser getPlayer() {
+		return player;
+	}
+
+
+
+	public void setPlayer(NormalUser player) {
+		this.player = player;
 	}
 	
 	

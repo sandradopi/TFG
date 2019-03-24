@@ -4,12 +4,13 @@
         <b-btn class="button1" :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}" @click="Editado()"><span>Editar</span></b-btn> 
     </div>
     <div class="equipo">
+        <div class="equipo2">
         <h1 class="title1">Mis equipos favoritos:</h1>
         <ol id="lista2">
             <h6 class="adv" v-if="this.user.favoritos==''">No tiene guardado ningun equipo en favoritos</h6>
             <li class="usuarios" type="disc" v-for=" favorito in this.user.favoritos" :key="favorito.idTeam"> {{favorito.name}} ({{favorito.sport.type}}) </li>
         </ol> 
-  
+        </div>
         <div class="equipo1">
           <h1 class="title1">Mis equipos:</h1>
           <ol id="lista2">
@@ -106,13 +107,13 @@ export default {
 .datosUsuario{
   width: 30%;
   background: #f3f3f3;
-  padding: 1em;
+  padding: 2em;
   border-radius: 3px;
   font-family: 'Lato', sans-serif;
   margin:0;
   margin-left:120px;
-  margin-top:80px;
-  margin-bottom:100px;
+  margin-top:100px;
+  height:80%;
 
 
 
@@ -126,15 +127,28 @@ export default {
   border-radius: 3px;
   font-family: 'Lato', sans-serif;
   margin-right:60px;
+  height:80%;
 
   }
 
   .equipo1{
 
     width: 100%;
+    height:50%;
     background: #f3f3f3;
     border-radius: 3px;
     font-family: 'Lato', sans-serif;
+    overflow: scroll;
+
+  }
+  .equipo2{
+
+    width: 100%;
+    height:50%;
+    background: #f3f3f3;
+    border-radius: 3px;
+    font-family: 'Lato', sans-serif;
+    overflow: scroll;
 
   }
   
@@ -222,7 +236,7 @@ export default {
     counter-reset: li; 
     list-style: none; 
     *list-style: decimal; 
-    font: 15px 'trebuchet MS', 'lucida sans';
+    font: 13px 'trebuchet MS', 'lucida sans';
     padding: 0;
     margin-top: 3%;
     text-shadow: 0 1px 0 rgba(255,255,255,.5);
@@ -247,7 +261,7 @@ export default {
     text-decoration: none;
     border-radius: .3em;
     transition: all .3s ease-out;  
-    height: 50px; 
+    height: 40px; 
     font-size:1.2em;
 
 }

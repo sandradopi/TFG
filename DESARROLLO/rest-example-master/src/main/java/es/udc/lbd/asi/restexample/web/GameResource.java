@@ -24,6 +24,7 @@ import es.udc.lbd.asi.restexample.model.service.GameService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.TeamService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
@@ -44,11 +45,19 @@ public class GameResource {
         return gameService.findAll();
     }
    
+    @GetMapping("/locations/{idLocation}")
+    public List <GameDTO> findAllLocation(@PathVariable Long idLocation) {
+    	 return gameService.findAllLocation(idLocation);
+    }
     
     @PostMapping
     public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
         errorHandler(errors); 
         return gameService.save(game);
+    }
+    @DeleteMapping("/{idGame}")
+    public void delete(@PathVariable Long idGame) {
+        gameService.deleteById(idGame);
     }
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {

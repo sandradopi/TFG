@@ -11,13 +11,17 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
+import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
+import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -32,6 +36,8 @@ public class GameService implements GameServiceInterface{
   private LocationDAO locationDAO;
   @Autowired
   private UserDAO userDAO;
+  @Autowired
+  private PlayerDAO playerDAO;
 
 
 @Override
@@ -60,7 +66,27 @@ public GameDTO save(GameDTO game){
 	
 	gameDAO.save(bdGame);
     return new GameDTO(bdGame);
-}				
+}
+
+public List<GameDTO> findAllLocation(Long idLocation) {
+	return gameDAO.findAllLocation(idLocation).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+}
+
+@PreAuthorize("hasAuthority('USER')")
+@Transactional(readOnly = false)
+@Override
+public void deleteById(Long idGame) {
+	List<Player> players= playerDAO.findAllByGame(idGame);
+	if(players.size()>0){
+		for(Player a:players){
+			playerDAO.deleteById(a.getIdPlayer());
+		}
+	}
+	Game game= gameDAO.findById(idGame);
+	gameDAO.deleteById(idGame);
+	
+				
+}			
 	     
    
 

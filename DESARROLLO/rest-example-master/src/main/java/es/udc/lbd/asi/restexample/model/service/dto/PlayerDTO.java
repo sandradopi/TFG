@@ -23,12 +23,13 @@ import es.udc.lbd.asi.restexample.model.domain.Player;
 public class PlayerDTO {
 
 	private Long idPlayer;
-	@NotNull
 	private Long valorationGame;
 	@NotEmpty
 	private String equipo;
     @NotNull
     private GameDTO game;
+    @NotNull
+    private NormalUserDTO player;
 	
 
     public PlayerDTO() {
@@ -39,6 +40,7 @@ public class PlayerDTO {
 		this.valorationGame = player.getValorationGame();
 		this.equipo = player.getEquipo();
 		this.game =  new GameDTO(player.getGame());
+		this.player =  new NormalUserDTO(player.getPlayer());
 	}
 
 	public Long getIdPlayer() {
@@ -47,6 +49,15 @@ public class PlayerDTO {
 
 	public void setIdPlayer(Long idPlayer) {
 		this.idPlayer = idPlayer;
+	}
+	
+
+	public NormalUserDTO getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(NormalUserDTO player) {
+		this.player = player;
 	}
 
 	public Long getValorationGame() {

@@ -12,6 +12,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 public interface GameServiceInterface {
 	  public List<GameDTO> findAll();
 	  public GameDTO save(GameDTO game);
+	  public void deleteById(Long idGame);
 	 
 
 

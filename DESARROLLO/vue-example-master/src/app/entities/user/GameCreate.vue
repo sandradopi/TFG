@@ -89,6 +89,8 @@ export default {
     },
     guardar(){
        HTTP.post('games',this.game)
+            .then(response => { this.game = response.data
+              return response})
            .then(this._successHandler)
            .catch(this._errorHandler)
 

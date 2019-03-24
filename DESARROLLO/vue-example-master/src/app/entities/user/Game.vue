@@ -1,0 +1,198 @@
+<template>
+ <div>
+	<div id="mymap" class="mymap"></div>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
+    <div class="information message2" v-if="this.bol==true">
+   		 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+   		 <h3 class= "titulo">{{this.idLocName}}</h3>
+   		 <div class="w3-container" v-for=" game in this.gamesLoc" :key="game.idGame">
+       		 <b-btn class="w3-bar" :to="{ name: 'GameDetail', params: { id: game}}">
+          	 <img v-if="game.sport.type=='Fútbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+          	 <img v-if="game.sport.type=='Tennis'"src="ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+          	 <img v-if="game.sport.type=='Paddel'"src="paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+           	<img v-if="game.sport.type=='Baloncesto'"src="bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+           	<div class="w3-bar-item">
+              <span class="w3-large">{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span><br>
+              <span>Creador: {{game.creator.name}} {{game.creator.surname1}} {{game.creator.surname2}}</span>
+         	</div>
+       	 	</b-btn>
+   		</div>
+  	</div>
+ </div>
+</template>
+
+<script>
+import { HTTP } from '../../common/http-common' 
+import auth from '../../common/auth'
+import Vue from 'vue'
+import L from 'leaflet'
+
+
+
+export default {
+  components: {},
+  data() {
+
+    return {
+    	games:null,
+  		mymap:null,
+  		markers:{},
+  		locations:[],
+  		bol:false,
+  		gamesLoc:null,
+  		idLoc:null,
+  		idLocName:"",
+  
+    }
+  },
+  watch: {
+    '$route': 'fetchData',
+    tipo: 'fetchData',
+
+    
+  },
+ 
+  created() { //se va a lanzar siempre en una clase de componentes
+
+    this.fetchData()
+  },
+
+   mounted() {
+    this.fetchData().then(() => {
+         this.mymap = L.map('mymap').setView([43.34, -8.3888010], 12);
+                L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(this.mymap);
+         this.marcadores();
+         
+    });
+
+
+    var popup = L.popup();
+
+   
+
+ },
+
+
+  methods: {
+    fetchData() {
+    	 return HTTP.get('games')
+                  .then(response => { this.games = response.data
+                        return response.data})
+                  .catch(err => { this.error = err.message})
+    
+    },
+     custom(hora){
+      return hora.substring(0,5)
+    },
+
+     marcadores(){
+     for ( var i = 0; i < this.games.length; i ++){
+     	if(this.locations.includes(this.games[i].location.name)==false){
+
+             this.markers[this.games[i].idGame]=L.marker([this.games[i].location.latitud, this.games[i].location.longitud],{id:this.games[i].location.idLocation,name:this.games[i].location.name})
+                      .addTo(this.mymap)
+                      .bindPopup(this.games[i].location.name)
+                      .openPopup()
+                      .on('popupopen', onMarkerClick.bind(this));
+
+        this.markers[this.games[i].idGame].id=this.games[i].location.idLocation;
+        this.markers[this.games[i].idGame].name=this.games[i].location.name;
+
+            function onMarkerClick(e) {
+              this.bol=true;
+              this.idLoc=e.popup._source.id;
+              this.idLocName=e.popup._source.name;
+              HTTP.get(`games/locations/${this.idLoc}`)
+                  .then(response => { this.gamesLoc = response.data
+                        return response.data})
+                  .catch(err => { this.error = err.message})
+           }
+                 
+        this.locations.push(this.games[i].location.name)
+   	 	}
+   	  }
+    },
+
+ 
+    _successHandler(response) {
+      this.fetchData()
+    },
+
+    back() {
+      this.$router.go(-1)
+    },
+    
+    _errorHandler(err) {
+      this.error = err.response.data.message
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+
+#mymap {
+	margin-left:60px;
+	margin-top:70px;
+  	margin-bottom:30px;
+    position: relative;
+    padding: 0;
+    width: 45%;
+    height: 500px;
+    float:left;
+}
+div.message2 {
+  overflow: scroll;
+  padding: 10px;
+  padding-left: 20px;
+  box-shadow:0 2px 5px rgba(0,0,0,.3);
+  width:39%;
+  height:80%;
+  margin-right:70px; 
+  margin-top:70px;
+  float:right;
+  background: #AFC7A9;
+
+}
+
+
+
+
+.w3-ul li:last-child {
+    
+    border-bottom: none;
+    background: white;
+    color: #6c757d;
+    border-radius: 25px;
+}
+
+ul.w3-ul.w3-card-4{
+   border-radius: 25px;
+    background: white;
+
+}
+
+.w3-bar{
+    border-radius: 25px;
+    background: white;
+    color: #6c757d;
+    margin-top:10px;
+    border-color:white;
+    box-shadow:0 2px 5px rgba(0,0,0,.3);
+
+}
+
+.titulo{
+	margin-left:32%;
+	margin-bottom:20px;
+  font-family: 'Lato', sans-serif;
+  font-size: 30px;
+  font-weight: 200;
+
+}
+
+
+
+</style>

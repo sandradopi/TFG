@@ -47,7 +47,6 @@ public class GameDTO {
 	} 
     
 	public GameDTO(Game game) {
-		super();
 		this.idGame = game.getIdGame();
 		this.date = game.getDate();
 		this.timeStart = game.getTimeStart();

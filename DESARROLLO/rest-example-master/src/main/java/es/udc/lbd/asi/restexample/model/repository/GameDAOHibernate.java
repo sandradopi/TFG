@@ -8,6 +8,7 @@ import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.repository.util.GenericDAOHibernate;
 
 @Repository
@@ -47,6 +48,11 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 	@Override
 	public Long findByCreator(Long idUser) {
 		 return  (Long) getSession().createQuery("select count(*)from Game g inner join g.creator c where c.idUser = :idUser").setParameter("idUser", idUser).uniqueResult();
+	}
+
+	@Override
+	public List<Game> findAllLocation(Long idLocation) {
+		return getSession().createQuery("select g from Game g inner join g.location l where l.idLocation= :idLocation ").setParameter("idLocation", idLocation).list();
 	}
 
 

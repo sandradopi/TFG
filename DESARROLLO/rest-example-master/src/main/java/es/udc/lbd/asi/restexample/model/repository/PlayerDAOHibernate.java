@@ -8,6 +8,8 @@ import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.repository.util.GenericDAOHibernate;
 
 @Repository
@@ -34,6 +36,13 @@ public class PlayerDAOHibernate extends GenericDAOHibernate implements PlayerDAO
 		 getSession().delete(findById(idPlayer));
 		
 	}
+
+	@Override
+	public List<Player> findAllByGame(Long idGame) {
+		return getSession().createQuery("select p from Player p inner join p.game g where g.idGame =:idGame").setParameter("idGame", idGame).list();
+	}
+
+	
 
 	
 	

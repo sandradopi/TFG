@@ -13,6 +13,8 @@ import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.domain.User_;
+import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
@@ -31,11 +33,23 @@ public class PlayerService implements PlayerServiceInterface{
   private GameDAO gameDAO;
   @Autowired
   private PlayerDAO playerDAO;
+  @Autowired
+  private UserDAO userDAO;
 
 @Override
 public List<PlayerDTO> findAll() {
 	return playerDAO.findAll().stream().map(player -> new PlayerDTO(player)).collect(Collectors.toList());
 	    
+}
+
+@PreAuthorize("hasAuthority('USER')")
+@Transactional(readOnly = false)
+@Override
+public void deleteById(Long idPlayer) {
+	Player player= playerDAO.findById(idPlayer);
+	playerDAO.deleteById(idPlayer);
+	
+				
 }
 	
 @PreAuthorize("hasAuthority('USER')")
@@ -43,13 +57,19 @@ public List<PlayerDTO> findAll() {
 @Override
 public PlayerDTO save(PlayerDTO player){
 	
-	Player bdPlayer = new Player(player.getValorationGame(), player.getEquipo());
+	Player bdPlayer = new Player(player.getEquipo());
 	Game game= gameDAO.findById(player.getGame().getIdGame());
 	bdPlayer.setGame(game);
+	NormalUser playerUser= (NormalUser) userDAO.findById(player.getPlayer().getIdUser());
+	bdPlayer.setPlayer(playerUser);
 
 	
 	playerDAO.save(bdPlayer);
     return new PlayerDTO(bdPlayer);
+}
+
+public List<PlayerDTO> findAllByGame(Long idGame) {
+	return playerDAO.findAllByGame(idGame).stream().map(player -> new PlayerDTO(player)).collect(Collectors.toList());
 }				
 	     
    

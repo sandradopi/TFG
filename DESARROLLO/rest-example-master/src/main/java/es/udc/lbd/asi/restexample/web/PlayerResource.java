@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.GameService;
@@ -25,6 +26,7 @@ import es.udc.lbd.asi.restexample.model.service.PlayerService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.TeamService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
@@ -46,10 +48,19 @@ public class PlayerResource {
         return playerService.findAll();
     }
     
+    @GetMapping("/{idGame}")
+    public List<PlayerDTO> findAllByGame(@PathVariable Long idGame) {
+    	return playerService.findAllByGame(idGame);
+    }
+    
     @PostMapping
-    public PlayerDTO save(@RequestBody @Valid PlayerDTO player, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
-        errorHandler(errors); 
+    public PlayerDTO save(@RequestBody PlayerDTO player, Errors errors) {
         return playerService.save(player);
+    }
+    
+    @DeleteMapping("/{idPlayer}")
+    public void delete(@PathVariable Long idPlayer) {
+        playerService.deleteById(idPlayer);
     }
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {
