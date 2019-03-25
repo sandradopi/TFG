@@ -3,7 +3,7 @@
       <h1 class="title"> Perfil Público</h1>  
     	<div class="profile1">
     		<div class="botones">
-      	  	<b-btn class="b1" @click="TipoPatidos('proximos')">Próximos Partidos</b-btn>
+      	  	<b-btn class="b1" @click="TipoPatidos('proximo')">Próximos Partidos</b-btn>
       			<b-btn class="b1" @click="TipoPatidos('organizados')">Partidos Organizados</b-btn>
       			<b-btn class="b1" @click="TipoPatidos('jugados')">Partidos Jugados</b-btn>
       			<b-btn class="b1" @click="TipoPatidos('recomendados')">Partidos Recomendados</b-btn>
@@ -66,6 +66,7 @@ export default {
   },
   watch: {
     '$route': 'fetchData',
+    'tipo': 'fetchData',
     
   },
  
@@ -83,7 +84,7 @@ export default {
     },
 
     TipoPatidos(tipo){
-    	if(tipo=='proximos'){
+    	if(tipo=='proximo'){
     		this.tipo='proximo';
     	}else if (tipo=='organizados'){
     		this.tipo='organizados';

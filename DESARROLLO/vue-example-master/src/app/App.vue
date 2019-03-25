@@ -50,7 +50,8 @@
         
 
 
-          <a href="#"> <i class="fab fa-facebook"></i></a>
+          <i><font-awesome-icon icon="brain"/></i>
+          <i><font-awesome-icon icon="sliders-h"/></i>
           <a href="#"><i class="fa fa-twitter"></i></a>
           <a href="#"><i class="fa fa-linkedin"></i></a>
           <a href="#"><i class="fa fa-github"></i></a>

@@ -38,7 +38,7 @@ export default {
   },
   watch: {
     '$route': 'fetchData',
-    tipo: 'fetchData',
+     tipo: 'fetchData',
 
     
   },
@@ -61,11 +61,20 @@ export default {
                       return response })
                 .catch(err => { this.error = err.message})
       }
+      else if (this.tipo=='proximo'){
+          HTTP.get(`users/${this.WhatLogin()}/proximos`) 
+                .then(response => { this.games= response.data
+                      return response })
+                .catch(err => { this.error = err.message})
+      }
 
     },
 
     custom(hora){
       return hora.substring(0,5)
+    },
+     WhatLogin() {
+      return auth.user.login
     },
    
     _successHandler(response) {

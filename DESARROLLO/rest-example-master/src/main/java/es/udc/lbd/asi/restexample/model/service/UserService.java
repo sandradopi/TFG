@@ -54,6 +54,12 @@ public class UserService implements UserServiceInterface{
 	public List<GameDTO> findGamesCreated(String login) {
 	  return userDAO.findAllGamesCreated(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 	  }
+  
+  @PreAuthorize("hasAuthority('USER')")
+  @Override
+  public List<GameDTO> findGamesNext(String login) {
+	  return userDAO.findAllGamesNext(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+	}
 	 
 		@PreAuthorize("hasAuthority('USER')")
 		@Override
@@ -261,6 +267,8 @@ public class UserService implements UserServiceInterface{
 			
 						
 		}
+
+		
 
 		
    

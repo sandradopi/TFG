@@ -1,10 +1,13 @@
 <template>
  <div>
+  <b-btn class="button"  @click="filtrar()"><font-awesome-icon icon="sliders-h"style="font-size:30px;"/></b-btn> 
+  <div class="conjunto">
 	<div id="mymap" class="mymap"></div>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
     <div class="information message2" v-if="this.bol==true">
    		 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
    		 <h3 class= "titulo">{{this.idLocName}}</h3>
+       <div class="scroll">
    		 <div class="w3-container" v-for=" game in this.gamesLoc" :key="game.idGame">
        		 <b-btn class="w3-bar" :to="{ name: 'GameDetail', params: { id: game}}">
           	 <img v-if="game.sport.type=='Fútbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
@@ -18,7 +21,9 @@
        	 	</b-btn>
    		</div>
   	</div>
+  </div>
  </div>
+</div>
 </template>
 
 <script>
@@ -134,26 +139,35 @@ export default {
 <style scoped lang="scss">
 
 #mymap {
-	margin-left:60px;
-	margin-top:70px;
+	 margin-left:30px;
+	  margin-top:30px;
   	margin-bottom:30px;
     position: relative;
     padding: 0;
-    width: 45%;
+    width: 49%;
     height: 500px;
     float:left;
+
 }
 div.message2 {
-  overflow: scroll;
   padding: 10px;
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
-  width:39%;
-  height:80%;
-  margin-right:70px; 
-  margin-top:70px;
+  width:40%;
+  height:500px;
+  margin-top:30px;
   float:right;
   background: #AFC7A9;
+  margin-right:70px;
+  border-radius:2em;
+
+}
+
+
+.scroll{
+  height:400px;
+   overflow: scroll;
+
 
 }
 
@@ -192,6 +206,67 @@ ul.w3-ul.w3-card-4{
   font-weight: 200;
 
 }
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #17a2b8;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 17px;
+  padding: 5px;
+  width: 50px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+  margin-left:55px;
+  margin-top:20px;
+  background-color: #fb887c;
+  height:50px;
+
+
+}
+
+.button span, .button1 span, .button3 span{
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after , .button1 span:after, .button3 span:after{
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span, .button1:hover span, .button3:hover span{
+  padding-right: 20px;
+}
+
+.button:hover span:after, .button1:hover span:after, .button3:hover span:after{
+  opacity: 1;
+  right: 0;
+}
+.button1{
+  
+   float:right;
+   width: 150px;
+   
+ }
+
+ .filtros{
+
+  background-color: #fb887c;
+  margin-top:20px;
+  width:20%;
+  height:79.5%;
+
+ }
 
 
 

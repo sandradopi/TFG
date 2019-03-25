@@ -53,6 +53,12 @@ public class UserResource {
     	return games;
     }
     
+    @GetMapping("/{login}/proximos")
+    public List<GameDTO> findAllPartidosProximos(@PathVariable String login){
+    	 List<GameDTO> games = userService.findGamesNext(login);
+    	return games;
+    }
+    
     @PutMapping("/{idUser}")
     public NormalUserDTO update(@PathVariable Long idUser, @RequestBody @Valid NormalUserDTO user, Errors errors)
             throws IdAndBodyNotMatchingOnUpdateException, RequestBodyNotValidException, UserLoginEmailExistsException {

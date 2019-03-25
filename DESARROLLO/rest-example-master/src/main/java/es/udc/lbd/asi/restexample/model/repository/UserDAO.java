@@ -1,10 +1,12 @@
 package es.udc.lbd.asi.restexample.model.repository;
 
+import java.util.Collection;
 import java.util.List;
 
 import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.User_;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 
 
 public interface UserDAO {
@@ -17,6 +19,7 @@ public interface UserDAO {
     public NormalUser findByIdNormal(Long idUser) ;
 	public List<NormalUser> findAllNoAdmin();
 	public User_ findByEmail(String email);
-	 public void deleteById(Long idUser) ;
+	public void deleteById(Long idUser) ;
+	public List<Game> findAllGamesNext(String login);
    
 }

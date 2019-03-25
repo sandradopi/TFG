@@ -50,6 +50,7 @@ public class GameResource {
     	 return gameService.findAllLocation(idLocation);
     }
     
+    
     @PostMapping
     public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
         errorHandler(errors); 
