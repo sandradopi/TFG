@@ -15,8 +15,6 @@
   <div class="formulario">
   <div class ="contenido" align="middle">
       <h1 class= "titulo" align="left">Datos Personales:</h1>
-
-
   </div>
   <b-form
       v-if="user"

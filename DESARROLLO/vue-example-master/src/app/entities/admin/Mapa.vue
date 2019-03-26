@@ -166,7 +166,6 @@ export default {
 
     eliminar(){
       this.mymap.removeLayer(this.markers[this.idLoc]);
-      //this.splice()
       delete this.markers[this.idLoc]
       this.resetear();
       this.bool=false;

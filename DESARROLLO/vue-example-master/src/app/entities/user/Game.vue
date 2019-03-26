@@ -1,6 +1,63 @@
 <template>
  <div>
-  <b-btn class="button"  @click="filtrar()"><font-awesome-icon icon="sliders-h"style="font-size:30px;"/></b-btn> 
+  <b-btn class="button" v-b-modal.modalPrevent><font-awesome-icon icon="sliders-h"style="font-size:30px;"/></b-btn> 
+  <b-modal
+        class="formulario"
+        id="modalPrevent"
+        ref="modal"
+        title="Filtros"
+        @ok="handleOk"
+        @shown="clearName">
+
+        <form @submit.stop.prevent="handleSubmit">
+          <b-form-group>
+              <multiselect 
+                v-model="deporte" 
+                :options="this.allsports"
+                :multiple="true"
+                :searchable="true" 
+                :preserve-search="true"
+                :close-on-select="true" 
+                :show-labels="false"
+                track-by="idSport"
+                placeholder="Deportes"
+                :custom-label="nameCustom1"
+                >
+              </multiselect>
+            </b-form-group>
+            <b-form-group>
+            <multiselect 
+                v-model="usuario" 
+                :options="this.users"
+                :multiple="false"
+                :searchable="true" 
+                :preserve-search="true"
+                :close-on-select="true" 
+                :show-labels="false"
+                track-by="idUser"
+                placeholder="Creador"
+                :custom-label="nameCustom2"
+                >
+              </multiselect>
+              </b-form-group>
+               <b-form-group>
+            <multiselect 
+                v-model="edad" 
+                :options="this.edades"
+                :multiple="false"
+                :searchable="true" 
+                :preserve-search="true"
+                :close-on-select="true" 
+                :show-labels="false"
+                placeholder="Edad"
+                >
+              </multiselect>
+              </b-form-group>
+              <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+        </form>
+    </b-modal>
+
+
   <div class="conjunto">
 	<div id="mymap" class="mymap"></div>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
@@ -31,11 +88,12 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import L from 'leaflet'
+import Multiselect from 'vue-multiselect'
 
 
 
 export default {
-  components: {},
+  components: {Multiselect},
   data() {
 
     return {
@@ -47,6 +105,12 @@ export default {
   		gamesLoc:null,
   		idLoc:null,
   		idLocName:"",
+      allsports:[],
+      deporte:null,
+      users:[],
+      usuario:null,
+      edad:null,
+      edades:['< 18','18 < edad < 25','25 < edad < 40', '> 40']
   
     }
   },
@@ -58,7 +122,8 @@ export default {
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
-
+    this.getSports();
+    this.getUsers();
     this.fetchData()
   },
 
@@ -91,11 +156,76 @@ export default {
      custom(hora){
       return hora.substring(0,5)
     },
+     getSports() {
+        
+       HTTP.get('sports')
+      .then(response => this.allsports = response.data)
+      .catch(err => this.error = err.message)
+    },
+    getUsers(){
+       HTTP.get(`users/normal`)
+            .then(response => { this.users = response.data })
+            .catch(err => { this.error = err.message})
+    },
+
+    clearName() {
+        this.deporte = null;
+        this.usuario=null;
+        this.edad=null;
+      },
+
+    nameCustom1 ({ type }) {
+      return `${type} `
+    },
+
+    nameCustom2 ({ login }) {
+      return `${login} `
+    },
+
+
+      handleOk(evt) {
+        // Prevent modal from closing
+        evt.preventDefault()
+        if ((!this.deporte) &&(!this.usuario)&& (!this.edad)) {
+           this.$swal('Alerta!', "Seleccione por lo menos un filtro!", 'error')
+          
+        }else{
+          this.handleSubmit()
+        }
+      },
+      handleSubmit() {
+         
+                  return HTTP.post(`games/filtro`, this.deporte)
+                  .then(response => { this.games = response.data
+                        return response.data})
+                  .then(this.confirmación)
+                  .catch(err => { this.error = err.message})
+      },
+
+    confirmación(){
+
+        this.$swal('', 'Se han aplicado los filtros seleccionados', 'success')
+        this.clearName()
+        this.$nextTick(() => {
+          // Wrapped in $nextTick to ensure DOM is rendered before closing
+          this.$refs.modal.hide()
+        })
+
+       var numero= Object.keys(this.markers).length;
+        for ( var i = 1; i < numero+1; i ++){
+          this.mymap.removeLayer(this.markers[i]);
+          delete this.markers[i];
+ 
+        }
+        this.locations=[];
+        this.marcadores();
+
+    },
 
      marcadores(){
      for ( var i = 0; i < this.games.length; i ++){
      	if(this.locations.includes(this.games[i].location.name)==false){
-
+        console.log("dentro")
              this.markers[this.games[i].idGame]=L.marker([this.games[i].location.latitud, this.games[i].location.longitud],{id:this.games[i].location.idLocation,name:this.games[i].location.name})
                       .addTo(this.mymap)
                       .bindPopup(this.games[i].location.name)
@@ -139,7 +269,7 @@ export default {
 <style scoped lang="scss">
 
 #mymap {
-	 margin-left:30px;
+	 margin-left:50px;
 	  margin-top:30px;
   	margin-bottom:30px;
     position: relative;
@@ -259,14 +389,11 @@ ul.w3-ul.w3-card-4{
    
  }
 
- .filtros{
+  .formulario{
+  color:#17a2b8;
+  
+}
 
-  background-color: #fb887c;
-  margin-top:20px;
-  width:20%;
-  height:79.5%;
-
- }
 
 
 

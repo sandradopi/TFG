@@ -27,6 +27,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.lbd.asi.restexample.web.exception.InstanceNotFoundExceptionHIB;
 import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
@@ -43,6 +44,11 @@ public class GameResource {
     @GetMapping
     public List<GameDTO> findAll() {
         return gameService.findAll();
+    }
+    
+    @PostMapping("/filtro")
+    public List<GameDTO> findAllFiltros(@RequestBody List<SportDTO> sport) {
+        return gameService.findAllFiltros(sport);
     }
    
     @GetMapping("/locations/{idLocation}")

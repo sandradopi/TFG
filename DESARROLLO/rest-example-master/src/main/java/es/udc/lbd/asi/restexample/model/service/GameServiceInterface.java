@@ -13,6 +13,7 @@ public interface GameServiceInterface {
 	  public List<GameDTO> findAll();
 	  public GameDTO save(GameDTO game);
 	  public void deleteById(Long idGame);
+	  public List<GameDTO> findAllFiltros(List<SportDTO> sport);
 	 
 
 

@@ -41,6 +41,11 @@ public class UserResource {
         return userService.findAll();
     }
     
+    @GetMapping("/normal")
+    public List<UserDTO> findAllNormalUsers() {
+        return userService.findAllNoAdmin();
+    }
+    
     @GetMapping("/{login}")
     public NormalUserDTO findOneUserByLogin(@PathVariable String login) throws InstanceNotFoundExceptionHIB{
         NormalUserDTO user = userService.findByLogin(login);

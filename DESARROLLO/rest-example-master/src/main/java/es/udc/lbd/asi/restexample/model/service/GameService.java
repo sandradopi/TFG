@@ -2,6 +2,7 @@ package es.udc.lbd.asi.restexample.model.service;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -45,6 +48,22 @@ public List<GameDTO> findAll() {
 	return gameDAO.findAll().stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 	    
 }
+@PreAuthorize("hasAuthority('USER')")
+@Override
+public List<GameDTO> findAllFiltros(List <SportDTO> sport) {
+	if(sport!=null){
+		List<Sport> deportes =new ArrayList<Sport>();
+		
+		for(SportDTO a:sport){
+			Sport Sportbd= sportDAO.findById(a.getIdSport());
+			deportes.add(Sportbd);
+		}
+		return gameDAO.findAllFiltros(deportes).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+	}else{
+		return gameDAO.findAll().stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+	}
+	
+}	
 	
 @PreAuthorize("hasAuthority('USER')")
 @Transactional(readOnly = false)
@@ -86,7 +105,9 @@ public void deleteById(Long idGame) {
 	gameDAO.deleteById(idGame);
 	
 				
-}			
+}
+
+		
 	     
    
 

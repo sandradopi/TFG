@@ -8,6 +8,7 @@ import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 
 
 
@@ -22,5 +23,6 @@ public interface GameDAO {
 	 public Long findByLocation(Location location);
 	 public Long findByCreator(Long idUser);
 	 public List<Game> findAllLocation(Long idLocation);
+	public List<Game> findAllFiltros(List<Sport> sport);
 
 }

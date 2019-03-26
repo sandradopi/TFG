@@ -89,7 +89,12 @@ public class UserService implements UserServiceInterface{
 		public List<UserDTO> findAll() {
 			 return userDAO.findAll().stream().map(user -> new UserDTO(user)).collect(Collectors.toList());}
 		
-		
+  		@PreAuthorize("hasAuthority('USER')")
+		@Override
+  		public List<UserDTO> findAllNoAdmin() {
+  			 return userDAO.findAllNoAdmin().stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+		}
+  		
 	     @Transactional(readOnly = false)
 	     @Override
 		 public void registerUser(String login, String email,String password, String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect {
@@ -267,6 +272,8 @@ public class UserService implements UserServiceInterface{
 			
 						
 		}
+
+		
 
 		
 

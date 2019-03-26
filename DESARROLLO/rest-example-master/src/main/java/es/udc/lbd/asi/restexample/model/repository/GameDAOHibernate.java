@@ -55,6 +55,11 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 		return getSession().createQuery("select g from Game g inner join g.location l where l.idLocation= :idLocation ").setParameter("idLocation", idLocation).list();
 	}
 
+	@Override
+	public List<Game> findAllFiltros(List<Sport> sport) {
+		return getSession().createQuery(" from Game g where g.sport in (:sport)").setParameterList("sport", sport).list();
+	}
+
 
 	
 	

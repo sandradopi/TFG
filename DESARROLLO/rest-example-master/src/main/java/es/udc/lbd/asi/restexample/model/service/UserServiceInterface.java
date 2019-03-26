@@ -27,6 +27,7 @@ public interface UserServiceInterface {
 	public UserDTO changePermission(Long idUser);
 	public void deleteById(Long idUser) throws SportDeleteException;
 	public List<GameDTO> findGamesNext(String login);
+	public List<UserDTO> findAllNoAdmin();
 
   
 
