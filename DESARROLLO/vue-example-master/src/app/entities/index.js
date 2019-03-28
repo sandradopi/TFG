@@ -1,6 +1,7 @@
 import UserDetail from './user/UserDetail'
 import GameCreate from './user/GameCreate'
 import GameUser from './user/GameUser'
+import Weather from './user/Weather'
 import Game from './user/Game'
 import GameList from './user/GameList'
 import GameDetail from './user/GameDetail'
@@ -13,4 +14,4 @@ import LocalizacionesDetail from './admin/LocalizacionesDetail'
 import Mapa from './admin/Mapa'
 
 
-export {Mapa,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}
+export {Mapa,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}

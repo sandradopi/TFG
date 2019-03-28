@@ -23,6 +23,7 @@ import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 
@@ -50,17 +51,30 @@ public List<GameDTO> findAll() {
 }
 @PreAuthorize("hasAuthority('USER')")
 @Override
-public List<GameDTO> findAllFiltros(List <SportDTO> sport) {
-	if(sport!=null){
-		List<Sport> deportes =new ArrayList<Sport>();
-		
-		for(SportDTO a:sport){
-			Sport Sportbd= sportDAO.findById(a.getIdSport());
-			deportes.add(Sportbd);
-		}
-		return gameDAO.findAllFiltros(deportes).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
-	}else{
+public List<GameDTO> findAllFiltros(List <SportDTO> sport, String user) {
+	Integer sportEv=0;
+	Integer userEv=0;
+	List<Sport> deportes =new ArrayList<Sport>();
+	NormalUser usuario= new NormalUser();
+	
+	if(sport==null && user==null){
 		return gameDAO.findAll().stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+		
+	}else{
+		if(sport!=null){
+		sportEv=1;
+		
+			for(SportDTO a:sport){
+				Sport Sportbd= sportDAO.findById(a.getIdSport());
+				deportes.add(Sportbd);
+			}
+		}
+		
+		if(!(user.equals("vacio"))){
+			userEv=1;
+		}
+		return gameDAO.findAllFiltros(deportes,user,sportEv,userEv).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());		
+		
 	}
 	
 }	

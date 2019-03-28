@@ -25,6 +25,7 @@ import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.TeamService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
@@ -46,9 +47,10 @@ public class GameResource {
         return gameService.findAll();
     }
     
-    @PostMapping("/filtro")
-    public List<GameDTO> findAllFiltros(@RequestBody List<SportDTO> sport) {
-        return gameService.findAllFiltros(sport);
+    @PostMapping("/filtro/{login}")
+    public List<GameDTO> findAllFiltros(List<SportDTO> sport, @PathVariable String login) {
+    	
+        return gameService.findAllFiltros(sport, login);
     }
    
     @GetMapping("/locations/{idLocation}")

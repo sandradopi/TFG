@@ -102,7 +102,7 @@ export default {
   		markers:{},
   		locations:[],
   		bol:false,
-  		gamesLoc:null,
+  		gamesLoc:[],
   		idLoc:null,
   		idLocName:"",
       allsports:[],
@@ -194,8 +194,14 @@ export default {
         }
       },
       handleSubmit() {
+        var login="";
+        if(!this.usuario){
+          login="vacio";
+        }else{
+          login=this.usuario.login;
+        }
          
-                  return HTTP.post(`games/filtro`, this.deporte)
+                  return HTTP.post(`games/filtro/${login}`, this.deporte)
                   .then(response => { this.games = response.data
                         return response.data})
                   .then(this.confirmación)
@@ -208,24 +214,26 @@ export default {
         this.clearName()
         this.$nextTick(() => {
           // Wrapped in $nextTick to ensure DOM is rendered before closing
-          this.$refs.modal.hide()
+          this.$refs.modal.hide();
+          this.bol=false;
         })
 
-       var numero= Object.keys(this.markers).length;
-        for ( var i = 1; i < numero+1; i ++){
-          this.mymap.removeLayer(this.markers[i]);
-          delete this.markers[i];
+      var marcadores= Object.entries(this.markers);
+          for (var [key, value] of marcadores) {
+          console.log(key)
+          this.mymap.removeLayer(this.markers[key]);
+          delete this.markers[key];
  
         }
         this.locations=[];
         this.marcadores();
+        console.log(Object.entries(this.markers))
 
     },
 
      marcadores(){
      for ( var i = 0; i < this.games.length; i ++){
      	if(this.locations.includes(this.games[i].location.name)==false){
-        console.log("dentro")
              this.markers[this.games[i].idGame]=L.marker([this.games[i].location.latitud, this.games[i].location.longitud],{id:this.games[i].location.idLocation,name:this.games[i].location.name})
                       .addTo(this.mymap)
                       .bindPopup(this.games[i].location.name)
@@ -237,12 +245,17 @@ export default {
 
             function onMarkerClick(e) {
               this.bol=true;
+              this.gamesLoc=[];
               this.idLoc=e.popup._source.id;
               this.idLocName=e.popup._source.name;
-              HTTP.get(`games/locations/${this.idLoc}`)
+              for ( var i = 0; i < this.games.length; i ++){
+                if(this.games[i].location.name==this.idLocName)
+                  this.gamesLoc.push(this.games[i])
+              }
+             /* HTTP.get(`games/locations/${this.idLoc}`)
                   .then(response => { this.gamesLoc = response.data
                         return response.data})
-                  .catch(err => { this.error = err.message})
+                  .catch(err => { this.error = err.message})*/
            }
                  
         this.locations.push(this.games[i].location.name)

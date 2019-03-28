@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
 import { Home, Login, NotFound,Registro } from './components'
-import { Mapa,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
+import { Weather,Mapa,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },
@@ -22,6 +22,7 @@ const routes = [
   { name: 'GameList', path: '/games/organizados/user/:id', component: GameList,meta: { authority: 'USER' }},
   { name: 'GameUser', path: '/users/:id/perfilPublico', component: GameUser,meta: { authority: 'USER' }},
   { name: 'Game', path: '/games', component: Game,meta: { authority: 'USER' }},
+  { name: 'Weather', path: '/games/weather', component: Weather,meta: { authority: 'USER' }},
   { path: '*', component: NotFound, meta: { public: true }},
 
 ]

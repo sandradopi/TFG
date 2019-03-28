@@ -39,8 +39,11 @@
     "vue-simple-spinner": "^1.2.8",
     "vue-star-rating": "^1.6.1",
     "vue-swal": "^1.0.0",
+    "vue-weather-widget": "^2.1.7",
     "vue2-circle-progress": "^1.2.3",
-    "vue2-leaflet": "^2.0.0"
+    "vue2-leaflet": "^2.0.0",
+    "weather-js": "^2.0.0",
+    "weather.js": "^0.1.0"
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "2.5.2",

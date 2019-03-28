@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
+import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
@@ -22,7 +23,7 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 
 	@Override
 	public List<Game> findAll() {
-		return getSession().createQuery("from Game g order by g.idGame").list();
+		return getSession().createQuery(" from Game g where ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").list();
 	}
 
 	@Override
@@ -52,12 +53,12 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 
 	@Override
 	public List<Game> findAllLocation(Long idLocation) {
-		return getSession().createQuery("select g from Game g inner join g.location l where l.idLocation= :idLocation ").setParameter("idLocation", idLocation).list();
+		return getSession().createQuery("select g from Game g inner join g.location l where (l.idLocation= :idLocation) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameter("idLocation", idLocation).list();
 	}
 
 	@Override
-	public List<Game> findAllFiltros(List<Sport> sport) {
-		return getSession().createQuery(" from Game g where g.sport in (:sport)").setParameterList("sport", sport).list();
+	public List<Game> findAllFiltros(List<Sport> sport, String usuario, Integer sportEv, Integer userEv) {
+		return getSession().createQuery("select g from Game g inner join g.creator u where (:sportEv=0 OR g.sport in (:sport)) AND ( :userEv=0 OR u.login= :usuario ) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameterList("sport", sport).setParameter("usuario", usuario).setParameter("sportEv", sportEv).setParameter("userEv", userEv).list();
 	}
 
 

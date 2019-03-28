@@ -12,6 +12,10 @@
                 exact>Deportes</b-nav-item> 
 
             <b-nav-item
+                :to="{ name: 'Weather' }"
+                exact>Weather</b-nav-item> 
+
+            <b-nav-item
                  v-if="isAdmin"
                 :to="{ name: 'Mapa' }"
                 exact>Localizaciones</b-nav-item> 
