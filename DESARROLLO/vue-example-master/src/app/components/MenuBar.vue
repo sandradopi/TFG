@@ -12,8 +12,9 @@
                 exact>Deportes</b-nav-item> 
 
             <b-nav-item
-                :to="{ name: 'Weather' }"
-                exact>Weather</b-nav-item> 
+                :to="{ name: 'Calendar' }"
+                exact>Calendar</b-nav-item> 
+
 
             <b-nav-item
                  v-if="isAdmin"

@@ -3,11 +3,16 @@ import Vue from 'vue'
 
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
+
 import vuescroll from 'vue-scroll'
 Vue.use(vuescroll)
 import VueSwal from 'vue-swal'
 
 Vue.use(VueSwal)
+
+import FullCalendar from 'vue-full-calendar';
+Vue.use(FullCalendar);
+
 
 import { Icon } from "leaflet"
 delete Icon.Default.prototype._getIconUrl

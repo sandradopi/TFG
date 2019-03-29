@@ -12,6 +12,7 @@ import DeportesForm from './admin/DeportesForm'
 import Registro from '../components'
 import LocalizacionesDetail from './admin/LocalizacionesDetail'
 import Mapa from './admin/Mapa'
+import Calendar from './user/Calendar'
 
 
-export {Mapa,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}
+export {Calendar,Mapa,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}
