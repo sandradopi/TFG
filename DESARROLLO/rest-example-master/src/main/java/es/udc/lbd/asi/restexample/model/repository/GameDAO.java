@@ -23,6 +23,6 @@ public interface GameDAO {
 	 public Long findByLocation(Location location);
 	 public Long findByCreator(Long idUser);
 	 public List<Game> findAllLocation(Long idLocation);
-	public List<Game> findAllFiltros(List<Sport> sport, String user, Integer sportEv, Integer userEv);
+	public List<Game> findAllFiltros(List<String> sport, String user, Integer sportEv, Integer userEv);
 
 }

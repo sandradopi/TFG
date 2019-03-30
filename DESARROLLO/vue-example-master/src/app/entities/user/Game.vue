@@ -40,19 +40,7 @@
                 >
               </multiselect>
               </b-form-group>
-               <b-form-group>
-            <multiselect 
-                v-model="edad" 
-                :options="this.edades"
-                :multiple="false"
-                :searchable="true" 
-                :preserve-search="true"
-                :close-on-select="true" 
-                :show-labels="false"
-                placeholder="Edad"
-                >
-              </multiselect>
-              </b-form-group>
+              
               <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </form>
     </b-modal>
@@ -67,7 +55,7 @@
        <div class="scroll">
    		 <div class="w3-container" v-for=" game in this.gamesLoc" :key="game.idGame">
        		 <b-btn class="w3-bar" :to="{ name: 'GameDetail', params: { id: game}}">
-          	 <img v-if="game.sport.type=='Fútbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+          	 <img v-if="game.sport.type=='Futbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
           	 <img v-if="game.sport.type=='Tennis'"src="ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
           	 <img v-if="game.sport.type=='Paddel'"src="paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
            	<img v-if="game.sport.type=='Baloncesto'"src="bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
@@ -101,6 +89,7 @@ export default {
   		mymap:null,
   		markers:{},
   		locations:[],
+      nomdep:null,
   		bol:false,
   		gamesLoc:[],
   		idLoc:null,
@@ -110,7 +99,8 @@ export default {
       users:[],
       usuario:null,
       edad:null,
-      edades:['< 18','18 < edad < 25','25 < edad < 40', '> 40']
+      edades:['< 18','18 < edad < 25','25 < edad < 40', '> 40'],
+      login:""
   
     }
   },
@@ -159,7 +149,8 @@ export default {
      getSports() {
         
        HTTP.get('sports')
-      .then(response => this.allsports = response.data)
+      .then(response => { this.allsports = response.data
+                        return response.data})
       .catch(err => this.error = err.message)
     },
     getUsers(){
@@ -167,6 +158,8 @@ export default {
             .then(response => { this.users = response.data })
             .catch(err => { this.error = err.message})
     },
+
+    
 
     clearName() {
         this.deporte = null;
@@ -194,14 +187,38 @@ export default {
         }
       },
       handleSubmit() {
-        var login="";
-        if(!this.usuario){
-          login="vacio";
-        }else{
-          login=this.usuario.login;
+        var url=`games/filtro?creator=${this.login}&sport=$`
+        var deportes;
+
+        if (!this.usuario){
+          this.login="vacio"
         }
+        else{
+          this.login=this.usuario.login
+        }
+
+
+         if (!this.deporte){
+          url= `games/filtro?creator=${this.login}&sport=vacio`
+          
+         }else{
+
+            //Obtener la URL segun el numero de deportes que me vengan
+            if(this.deporte.length==1){
+              url= `games/filtro?creator=${this.login}&sport=${this.deporte[0].type}`
+       
+            }else{
+              url= `games/filtro?creator=${this.login}&sport=${this.deporte[0].type}`
+              for ( var i = 1; i < this.deporte.length; i ++){
+                url= url+ `,${this.deporte[i].type}`;
+             
+             }
+
+        }
+     }
          
-                  return HTTP.post(`games/filtro/${login}`, this.deporte)
+         
+                  return HTTP.get(url)
                   .then(response => { this.games = response.data
                         return response.data})
                   .then(this.confirmación)

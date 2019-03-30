@@ -95,7 +95,7 @@ public class DatabaseLoader {
     locationsBaloncesto.add(location1);
     locationsPaddel.add(location3);
     
-    Sport sport1=new Sport("Fútbol",null,null,locationsFutbol);
+    Sport sport1=new Sport("Futbol",null,null,locationsFutbol);
     Sport sport2= new Sport("Tennis",null,null,locationsTennis);
     Sport sport3= new Sport("Baloncesto",null,null,locationsBaloncesto);
     Sport sport4 =new Sport("Paddel",null,null,locationsPaddel);

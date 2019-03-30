@@ -51,33 +51,34 @@ public List<GameDTO> findAll() {
 }
 @PreAuthorize("hasAuthority('USER')")
 @Override
-public List<GameDTO> findAllFiltros(List <SportDTO> sport, String user) {
+public List<GameDTO> findAllFiltros(String sport, String user) {
 	Integer sportEv=0;
 	Integer userEv=0;
-	List<Sport> deportes =new ArrayList<Sport>();
+	List<String> deportes =new ArrayList<String>();
 	NormalUser usuario= new NormalUser();
 	
-	if(sport==null && user==null){
-		return gameDAO.findAll().stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
-		
-	}else{
-		if(sport!=null){
+		if(!(sport.equals("vacio"))){
 		sportEv=1;
+		String[] sports=sport.split(",");
 		
-			for(SportDTO a:sport){
-				Sport Sportbd= sportDAO.findById(a.getIdSport());
-				deportes.add(Sportbd);
+			for(String a:sports){
+				Sport Sportbd= sportDAO.findByType(a);
+				deportes.add(Sportbd.getType());
 			}
+		}else{
+			deportes.add("vacio");
 		}
+	
 		
 		if(!(user.equals("vacio"))){
 			userEv=1;
 		}
+		
 		return gameDAO.findAllFiltros(deportes,user,sportEv,userEv).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());		
 		
 	}
 	
-}	
+	
 	
 @PreAuthorize("hasAuthority('USER')")
 @Transactional(readOnly = false)

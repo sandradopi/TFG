@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
@@ -47,10 +48,9 @@ public class GameResource {
         return gameService.findAll();
     }
     
-    @PostMapping("/filtro/{login}")
-    public List<GameDTO> findAllFiltros(List<SportDTO> sport, @PathVariable String login) {
-    	
-        return gameService.findAllFiltros(sport, login);
+    @GetMapping("/filtro")
+    public List<GameDTO> findAllFiltros(@RequestParam String creator, @RequestParam String sport) {
+        return gameService.findAllFiltros(sport, creator);
     }
    
     @GetMapping("/locations/{idLocation}")

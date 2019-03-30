@@ -68,6 +68,12 @@ public class Sport {
 		this.type = type;
 		this.locations=location;
 	}
+	
+	public Sport(@NotEmpty String type) {
+		this.type = type;
+
+	}
+
 
 	public Set<Location> getLocations() {
 		return locations;
