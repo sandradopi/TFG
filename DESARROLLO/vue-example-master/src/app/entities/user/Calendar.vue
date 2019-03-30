@@ -1,8 +1,5 @@
 <template>
     <div id="app">
-      <button @click="refreshEvents">Refresh</button>
-      <button v-if="selected._id" @click="removeEvent">Remove</button>
-      <pre>{{ selected }}</pre>
       <full-calendar ref="calendar" :event-sources="eventSources" @event-selected="eventSelected" @event-created="eventCreated" :config="config"></full-calendar>
     
     </div>
@@ -13,7 +10,7 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import moment from 'moment';
-import FullCalendar from 'FullCalendar';
+import 'fullcalendar/dist/fullcalendar';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Calendar } from '@fullcalendar/core';
 import 'fullcalendar/dist/fullcalendar.css';
@@ -53,6 +50,9 @@ export default {
       },
       selected: {},
     };
+  },
+  created(){
+
   },
   methods: {
     refreshEvents() {
@@ -94,7 +94,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  width: 50%;
 }
 
 </style>

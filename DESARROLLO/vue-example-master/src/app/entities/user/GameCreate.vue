@@ -1,4 +1,6 @@
 <template>
+  <div>
+    <Calendar class="calendario"></Calendar>
   <div class="shopping-list">
     <h1 class="title"> Crear Partido</h1>  
     <input type='date' class="searchButton" placeholder='Fecha' v-model="game.date" autofocus required >
@@ -38,6 +40,7 @@
     <input type='text' class="searchButton" placeholder='Número máximo de jugadores' v-model="game.maxPlayers" autofocus required >
     <input type='text' class="searchButton" placeholder='Número míximo de jugadores' v-model="game.minPlayers" autofocus required >
     <b-btn class="button" @click="guardar()"><span>Crear</span></b-btn>
+    </div>
   </div>
 </template>
 
@@ -46,11 +49,12 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+import Calendar from '../../entities/user/Calendar'
 
 
 
 export default {
-  components: { Multiselect },
+  components: { Multiselect, Calendar },
   data() {
     return {
      game:{},
@@ -143,8 +147,7 @@ export default {
   font-family: 'Lato', sans-serif;
   margin:0;
   margin-left:120px;
-  margin-top:50px;
-  margin-bottom:50px;
+  margin-top:90px;
   border-radius: 6px;
 
 
@@ -215,6 +218,14 @@ export default {
   opacity: 1;
   right: 0;
 }
+.calendario {
+    font-size: 0.8em;
+    width: 50%;
+    height: 10%;
+    float: right;
+    margin-right: 7%;
+}
+
 
 
 </style>
