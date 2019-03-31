@@ -149,6 +149,7 @@ export default {
   margin-left:120px;
   margin-top:90px;
   border-radius: 6px;
+  height:80%;
 
 
   
@@ -219,9 +220,9 @@ export default {
   right: 0;
 }
 .calendario {
+
     font-size: 0.8em;
     width: 50%;
-    height: 10%;
     float: right;
     margin-right: 7%;
 }

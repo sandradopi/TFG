@@ -22,39 +22,54 @@ export default {
   name: 'app',
   data() {
     return {
-      events: [
-        {
-          id: 1,
-          title: 'event1',
-          start: moment().hours(12).minutes(0),
-        },
-        {
-          id: 2,
-          title: 'event2',
-          start: moment().add(-1, 'days'),
-          end: moment().add(1, 'days'),
-          allDay: true,
-        },
-        {
-          id: 3,
-          title: 'event3',
-          start: moment().add(2, 'days'),
-          end: moment().add(2, 'days').add(6, 'hours'),
-          allDay: false,
-        },
-      ],
+      games:null,
+      events: [],
       config: {
         eventClick: (event) => {
           this.selected = event;
         },
       },
       selected: {},
-    };
+    }
   },
+  watch: {
+    '$route': 'fetchData',
+    
+  },
+ 
   created(){
+    this.fetchData();
+    
 
   },
   methods: {
+    fetchData(){
+      console.log("hola")
+      HTTP.get('games')
+                  .then(response => { this.games = response.data
+                        return response.data})
+                  .then(this.crearEventos)
+                  .catch(err => { this.error = err.message})
+    },
+
+    crearEventos(){
+
+      for ( var i = 1; i < this.games.length; i ++){
+        var evento ={
+          id:i,
+          title:this.games[i].location.name,
+          start:this.games[i].date+"T"+this.games[i].timeStart,
+          end:this.games[i].date+"T"+this.games[i].timeEnd,
+          allDay:false,
+          backgroundColor:"#fb887c",
+          borderColor:"#fb887c",
+          editable:false
+       }
+
+        this.events.push(evento);
+      }
+
+    },
     refreshEvents() {
       this.$refs.calendar.$emit('refetch-events');
     },
@@ -83,18 +98,23 @@ export default {
       ];
     },
   },
-};
+}
 </script>
 
 <style scoped lang="scss">
 
 #app {
+  margin-top:50px;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   width: 50%;
+
+}
+.hola{
+  color:black;
 }
 
 </style>
