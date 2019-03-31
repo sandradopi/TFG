@@ -1,5 +1,7 @@
 package es.udc.lbd.asi.restexample.model.repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,5 +26,6 @@ public interface GameDAO {
 	 public Long findByCreator(Long idUser);
 	 public List<Game> findAllLocation(Long idLocation);
 	public List<Game> findAllFiltros(List<String> sport, String user, Integer sportEv, Integer userEv);
+	Long findColapso(LocalDate date, LocalTime timeStart, LocalTime timeEnd);
 
 }

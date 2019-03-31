@@ -44,6 +44,7 @@ export default {
      
 
     _successHandler(response) {
+      this.$swal('Eliminado!', "El usuario se ha borrado correctamente", 'success')
       this.fetchData()
     },
 

@@ -1,5 +1,7 @@
 package es.udc.lbd.asi.restexample.model.repository;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -30,6 +32,12 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 	public Game findById(Long idGame) {
 		 return (Game) getSession().createQuery("from Game g where g.idGame = :idGame").setParameter("idGame", idGame).uniqueResult();
 	}
+	
+	@Override
+	public Long findColapso(LocalDate date, LocalTime timeStart, LocalTime timeEnd) {
+		 return (Long) getSession().createQuery("select count(*) from Game g where (g.date= :date AND ((g.timeStart BETWEEN :timeStart AND :timeEnd) OR (g.timeEnd BETWEEN :timeStart AND :timeEnd)))").setParameter("date", date).setParameter("timeStart", timeStart).setParameter("timeEnd", timeEnd).uniqueResult();
+	}
+	
 	
 	@Override
 	public Long findBySport(Sport sport) {

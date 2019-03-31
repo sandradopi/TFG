@@ -1,11 +1,25 @@
 <template>
   <div>
+
     <Calendar class="calendario"></Calendar>
+    <b-modal
+        id="modalPrevent"
+        ref="modal"
+        size="lg"
+        ok-only no-stacking>
+        <Weather v-if="this.game.location!=null" v-bind:location="this.game.location"></Weather>
+
+
+
+      </b-modal>
+
   <div class="shopping-list">
     <h1 class="title"> Crear Partido</h1>  
     <input type='date' class="searchButton" placeholder='Fecha' v-model="game.date" autofocus required >
     <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeStart" autofocus required >
     <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeEnd" autofocus required >
+
+     
     <multiselect 
             v-model="game.sport" 
             :options="this.allsports"
@@ -39,7 +53,9 @@
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
     <input type='text' class="searchButton" placeholder='Número máximo de jugadores' v-model="game.maxPlayers" autofocus required >
     <input type='text' class="searchButton" placeholder='Número míximo de jugadores' v-model="game.minPlayers" autofocus required >
+      <b-btn class="button1" v-b-modal.modalPrevent v-if="this.game.location!=null"><span>Metereología</span></b-btn>
     <b-btn class="button" @click="guardar()"><span>Crear</span></b-btn>
+
     </div>
   </div>
 </template>
@@ -50,17 +66,23 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Calendar from '../../entities/user/Calendar'
+import Weather from '../../entities/user/Weather'
+import vSelect from 'vue-select'
+
 
 
 
 export default {
-  components: { Multiselect, Calendar },
+  components: { Multiselect, Calendar, Weather, vSelect },
+  
   data() {
     return {
      game:{},
      alllocations:[],
      allsports:[],
-     bol:false
+     bol:false,
+     showModal:false,
+     error:""
     }
   },
   watch: {
@@ -83,20 +105,57 @@ export default {
 
     selectOn(){
 		  this.bol=true;
-      this.game.location={};
+      //this.game.location={}
   	 	HTTP.get(`locations/filter/${this.game.sport.idSport}`) 
 		        .then(response => { this.alllocations = response.data
-                                this.game.location = this.alllocations[0]; })
+                                this.game.location=this.alllocations[0]
+                                })
             .catch(err => { this.error = err.message})
 		
 
     },
+    checkForm () {
+
+      if (!this.game.date) {
+        this.error="Introduzca una fecha para su evento"
+        return false;
+      }
+       if (!this.game.timeStart) {
+        this.error="Introduzca una hora de inicio para su evento"
+        return false;
+      }
+
+       if (!this.game.timeEnd) {
+        this.error="Introduzca una hora de finalización para su evento"
+        return false;
+      }
+      if (!this.game.sport) {
+        this.error="Seleccione un deporte"
+        return false;
+      }
+
+      if (!this.game.location) {
+        this.error="Seleccione una localizacion"
+        return false;
+      }
+
+      if (this.game.date && this.game.timeStart && this.game.timeEnd && this.game.sport&& this.game.location) {
+        return true;
+      }
+
+    },
+
+
     guardar(){
-       HTTP.post('games',this.game)
-            .then(response => { this.game = response.data
-              return response})
-           .then(this._successHandler)
-           .catch(this._errorHandler)
+       if(this.checkForm()==true){
+         HTTP.post('games',this.game)
+              .then(response => {this.game = response.data
+                return response})
+             .then(this._successHandler)
+             .catch(this._errorHandler)
+        }else{
+          this.$swal('Alerta!', this.error, 'error')
+        }
 
     },
 
@@ -112,7 +171,7 @@ export default {
             .then(response => this.allsports = response.data)
             .catch(err => this.error = err.message)
     },
-
+    
      nameCustom ({ name }) {
       return `${name} `
     },
@@ -130,8 +189,10 @@ export default {
       this.$router.go(-1)
     },
 
-    _errorHandler(err) {
+   _errorHandler(err) {
       this.error = err.response.data.message
+      this.$swal('Alerta!', this.error, 'error')
+      
     }
   }
 }
@@ -143,13 +204,14 @@ export default {
   background: #f3f3f3;
   padding: 1em;
   border-radius: 3px;
-  margin-top:50px;
   font-family: 'Lato', sans-serif;
   margin:0;
   margin-left:120px;
-  margin-top:90px;
+  margin-top:80px;
   border-radius: 6px;
-  height:80%;
+  height:84%;
+  margin-bottom:20px;
+  float:left;
 
 
   
@@ -173,10 +235,10 @@ export default {
     font-weight: 200;
     color: #17a2b8;
     margin-top:20px;
-    margin-bottom:30px;
-    color:#fb887c;
+    margin-bottom:15px;
+    color:#17a2b8;
   }
-  .button{
+  .button, .button1{
 
   display: inline-block;
   border-radius: 4px;
@@ -195,14 +257,14 @@ export default {
 
 }
 
-.button span{
+.button span, .button1 span{
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
 
-.button span:after {
+.button span:after, .button1 span:after {
   content: '\00bb';
   position: absolute;
   opacity: 0;
@@ -211,21 +273,33 @@ export default {
   transition: 0.5s;
 }
 
-.button:hover span {
+.button:hover span, .button1:hover span {
   padding-right: 20px;
 }
 
-.button:hover span:after{
+.button:hover span:after, .button1:hover span:after{
   opacity: 1;
   right: 0;
+}
+
+.button1{
+
+    background-color:#fb887c;
+    width:100%;
+    margin-left:0px;
+    margin-top:10px;
+
 }
 .calendario {
 
     font-size: 0.8em;
     width: 50%;
     float: right;
+    margin-top:90px;
     margin-right: 7%;
 }
+
+
 
 
 

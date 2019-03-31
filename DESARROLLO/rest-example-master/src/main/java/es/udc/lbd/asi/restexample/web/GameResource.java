@@ -1,6 +1,7 @@
 package es.udc.lbd.asi.restexample.web;
 
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.exception.EventBeforeDayException;
+import es.udc.lbd.asi.restexample.model.exception.GameColapseException;
+import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.GameService;
@@ -60,7 +64,7 @@ public class GameResource {
     
     
     @PostMapping
-    public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, TeamExistsException {
+    public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException {
         errorHandler(errors); 
         return gameService.save(game);
     }

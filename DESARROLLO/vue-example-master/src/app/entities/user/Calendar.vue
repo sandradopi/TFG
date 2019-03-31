@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     fetchData(){
-      console.log("hola")
       HTTP.get('games')
                   .then(response => { this.games = response.data
                         return response.data})
@@ -53,6 +52,7 @@ export default {
     },
 
     crearEventos(){
+
 
       for ( var i = 1; i < this.games.length; i ++){
         var evento ={
@@ -68,6 +68,7 @@ export default {
 
         this.events.push(evento);
       }
+      console.log(this.events)
 
     },
     refreshEvents() {
@@ -104,13 +105,13 @@ export default {
 <style scoped lang="scss">
 
 #app {
-  margin-top:50px;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   width: 50%;
+  height:10%
 
 }
 .hola{
