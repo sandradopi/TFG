@@ -1,6 +1,8 @@
 <template>
  <div>
   <b-btn class="button" v-b-modal.modalPrevent><font-awesome-icon icon="sliders-h"style="font-size:30px;"/></b-btn> 
+  <b-btn class="button1" v-if="this.calendar==false" @click="displayCalendar()"><font-awesome-icon icon="calendar-alt"style="font-size:30px;"/></b-btn> 
+   <b-btn class="button1" v-if="this.calendar==true" @click="displayMap()"><font-awesome-icon icon="map-marked-alt"style="font-size:30px;"/></b-btn> 
   <b-modal
         class="formulario"
         id="modalPrevent"
@@ -47,7 +49,8 @@
 
 
   <div class="conjunto">
-	<div id="mymap" class="mymap"></div>
+  <Calendar class="calendario" v-if="this.calendar==true" ></Calendar>
+	<div id="mymap" class="mymap" v-if="this.calendar==false"></div>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
     <div class="information message2" v-if="this.bol==true">
    		 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -77,11 +80,12 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import L from 'leaflet'
 import Multiselect from 'vue-multiselect'
+import Calendar from '../../entities/user/Calendar'
 
 
 
 export default {
-  components: {Multiselect},
+  components: {Multiselect,Calendar},
   data() {
 
     return {
@@ -100,7 +104,8 @@ export default {
       usuario:null,
       edad:null,
       edades:['< 18','18 < edad < 25','25 < edad < 40', '> 40'],
-      login:""
+      login:"",
+      calendar:false
   
     }
   },
@@ -159,7 +164,15 @@ export default {
             .catch(err => { this.error = err.message})
     },
 
-    
+    displayCalendar(){
+      this.calendar=true;
+      this.bol=false;
+    },
+
+    displayMap(){
+      this.calendar=false;
+    },
+
 
     clearName() {
         this.deporte = null;
@@ -331,7 +344,13 @@ div.message2 {
 
 }
 
+.calendario {
 
+    font-size: 0.8em;
+    width: 50%;
+    margin-top:90px;
+    margin-left:50px;
+}
 
 
 .w3-ul li:last-child {
@@ -367,7 +386,7 @@ ul.w3-ul.w3-card-4{
 
 }
 
-.button {
+.button , .button1{
   display: inline-block;
   border-radius: 4px;
   background-color: #17a2b8;
@@ -413,15 +432,19 @@ ul.w3-ul.w3-card-4{
   right: 0;
 }
 .button1{
-  
-   float:right;
-   width: 150px;
+  margin-left:0;
+  background-color:#17a2b8;
+
    
  }
 
   .formulario{
   color:#17a2b8;
   
+}
+
+fieldset {
+    border: 1px solid #c0c0c000;
 }
 
 

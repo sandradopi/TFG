@@ -295,7 +295,7 @@ export default {
     font-size: 0.8em;
     width: 50%;
     float: right;
-    margin-top:90px;
+    margin-top:80px;
     margin-right: 7%;
 }
 

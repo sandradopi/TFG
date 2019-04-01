@@ -62,6 +62,12 @@ public class GameResource {
     	 return gameService.findAllLocation(idLocation);
     }
     
+    @GetMapping("/{idGame}")
+    public GameDTO findOne(@PathVariable Long idGame) throws InstanceNotFoundExceptionHIB{
+        GameDTO game = gameService.findById(idGame);
+    	return game;
+    }
+    
     
     @PostMapping
     public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException {

@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-      <full-calendar ref="calendar" :event-sources="eventSources" @event-selected="eventSelected" @event-created="eventCreated" :config="config"></full-calendar>
+      <full-calendar ref="calendar" :event-sources="eventSources" @event-selected="eventSelected"  @event-created="eventCreated" :config="config"></full-calendar>
     
     </div>
 </template>
@@ -23,10 +23,17 @@ export default {
   data() {
     return {
       games:null,
+      game:{},
       events: [],
       config: {
         eventClick: (event) => {
-          this.selected = event;
+           HTTP.get(`games/${event.id}`) 
+                .then(response => { this.game= response.data
+                      return response })
+                .then(this.$router.replace({ name: 'GameDetail', params: { id: this.game}}))
+                .catch(err => { this.error = err.message})
+           
+
         },
       },
       selected: {},
@@ -56,7 +63,7 @@ export default {
 
       for ( var i = 0; i < this.games.length; i ++){
         var evento ={
-          id:i,
+          id:this.games[i].idGame,
           title:this.games[i].location.name,
           start:this.games[i].date+"T"+this.games[i].timeStart,
           end:this.games[i].date+"T"+this.games[i].timeEnd,
@@ -80,6 +87,7 @@ export default {
     },
     eventSelected(event) {
       this.selected = event;
+      console.log(this.selected)
     },
     eventCreated(...test) {
       console.log(test);

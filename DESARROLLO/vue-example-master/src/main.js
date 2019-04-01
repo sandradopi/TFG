@@ -30,12 +30,14 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faMinusSquare , faBrain, faSlidersH} from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faMinusSquare , faBrain, faSlidersH, faCalendarAlt,faMapMarkedAlt} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faSearch)
 library.add(faMinusSquare)
 library.add(faBrain)
 library.add(faSlidersH)
+library.add(faCalendarAlt)
+library.add(faMapMarkedAlt)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
