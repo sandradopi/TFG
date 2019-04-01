@@ -5,6 +5,7 @@ package es.udc.lbd.asi.restexample.model.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,11 +96,20 @@ public List<GameDTO> findAllFiltros(String sport, String user) {
 public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException{
 	
 	  LocalDate localDate = LocalDate.now();
+	  LocalTime localTime = LocalTime.now();
 
+	 if((game.getTimeStart().compareTo(game.getTimeEnd()) >= 0) ){
+			throw new EventBeforeDayException("La fecha de fin del evento debe ser posterior a la de inicio ");
+		} 
 	 
-	if((game.getDate().compareTo(localDate) < 0)){
+	if((game.getDate().compareTo(localDate) <  0)){
 		throw new EventBeforeDayException("La fecha del evento tiene que ser posterior al dia de hoy");
 	}
+	
+	if((game.getDate().compareTo(localDate) ==  0) && (game.getTimeStart().compareTo(localTime)<0)){
+		throw new EventBeforeDayException("La hora del evento ya ha tenido lugar, selecciona otro horario.");
+	}
+	
 	
 	if(game.getDate() == null){ //Nombre vacio
 	  	  throw new RequiredFieldsException("La fecha del evento es un campo requerido");

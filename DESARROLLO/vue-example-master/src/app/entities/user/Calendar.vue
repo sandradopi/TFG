@@ -54,7 +54,7 @@ export default {
     crearEventos(){
 
 
-      for ( var i = 1; i < this.games.length; i ++){
+      for ( var i = 0; i < this.games.length; i ++){
         var evento ={
           id:i,
           title:this.games[i].location.name,
@@ -92,7 +92,7 @@ export default {
         {
           events(start, end, timezone, callback) {
             setTimeout(() => {
-              callback(self.events.filter(() => Math.random() > 0.5));
+              callback(self.events);
             }, 1000);
           },
         },
