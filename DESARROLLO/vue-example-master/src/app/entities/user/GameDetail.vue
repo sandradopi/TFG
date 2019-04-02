@@ -1,8 +1,16 @@
 <template>
   <div class="content"> 
+    <b-modal
+        id="modalPrevent"
+        ref="modal"
+        size="lg"
+        ok-only no-stacking>
+        <Weather v-bind:location="this.game.location"></Weather>
+    </b-modal>
      <b-btn class="button3" v-if="this.game.creator.login==WhatLogin()"@click="alertDisplay()"><span>Eliminar</span></b-btn> 
     <b-btn class="button" v-if="this.bol==false" @click="apuntarse()"><span>Apuntarse</span></b-btn> 
     <b-btn class="button1" v-if="this.bol==true" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
+     <b-btn class="button2" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
       <h1 class="title">Detalles Partido</h1>  
       <div class="information message">
         <h2 class="title1"> Información</h2>  
@@ -31,9 +39,10 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+import Weather from '../../entities/user/Weather'
 
 export default {
-  components: { Multiselect},
+  components: { Multiselect, Weather},
   data() {
     return {
       game:{},
@@ -223,7 +232,7 @@ div.message2 {
 
 div.message2.information{background: #17a2b8;}
 
-.button, .button1, .button3 {
+.button, .button1, .button3 , .button2{
   display: inline-block;
   border-radius: 4px;
   background-color: #17a2b8;
@@ -240,14 +249,14 @@ div.message2.information{background: #17a2b8;}
 
 }
 
-.button span, .button1 span, .button3 span{
+.button span, .button2 span, .button1 span, .button3 span{
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
 
-.button span:after , .button1 span:after, .button3 span:after{
+.button span:after ,.button2 span:after , .button1 span:after, .button3 span:after{
   content: '\00bb';
   position: absolute;
   opacity: 0;
@@ -256,11 +265,11 @@ div.message2.information{background: #17a2b8;}
   transition: 0.5s;
 }
 
-.button:hover span, .button1:hover span, .button3:hover span{
+.button:hover span, .button1:hover span, .button3:hover span, .button2:hover span{
   padding-right: 20px;
 }
 
-.button:hover span:after, .button1:hover span:after, .button3:hover span:after{
+.button:hover span:after, .button1:hover span:after, .button3:hover span:after, .button2:hover span:after{
   opacity: 1;
   right: 0;
 }
@@ -271,10 +280,16 @@ div.message2.information{background: #17a2b8;}
    
  }
  .button3{
-   background-color: red;
+   background-color: grey;
    float:right;
    width: 150px;
    
+ }
+
+ .button2{
+  float:left;
+  width:6%;
+  margin-left:20px;
  }
 
  .user{
