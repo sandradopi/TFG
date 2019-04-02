@@ -1,8 +1,8 @@
 <template>
  <div>
-  <b-btn class="button" v-b-modal.modalPrevent><font-awesome-icon icon="sliders-h"style="font-size:30px;"/></b-btn> 
+  <b-btn class="button" v-if="this.calendar==false" v-b-modal.modalPrevent><font-awesome-icon icon="sliders-h"style="font-size:30px;"/></b-btn> 
   <b-btn class="button1" v-if="this.calendar==false" @click="displayCalendar()"><font-awesome-icon icon="calendar-alt"style="font-size:30px;"/></b-btn> 
-   <b-btn class="button1" v-if="this.calendar==true" @click="displayMap()"><font-awesome-icon icon="map-marked-alt"style="font-size:30px;"/></b-btn> 
+   <b-btn class="button2" v-if="this.calendar==true" @click="displayMap()"><font-awesome-icon icon="map-marked-alt"style="font-size:30px;"/></b-btn> 
   <b-modal
         class="formulario"
         id="modalPrevent"
@@ -42,6 +42,10 @@
                 >
               </multiselect>
               </b-form-group>
+
+               <b-form-group>
+              <b-btn class="button3" @click="deshacerFiltro()">Mostrar todos los partidos</b-btn> 
+              </b-form-group>
               
               <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </form>
@@ -49,8 +53,11 @@
 
 
   <div class="conjunto">
+
   <Calendar class="calendario" v-if="this.calendar==true" ></Calendar>
+
 	<div id="mymap" class="mymap" v-if="this.calendar==false"></div>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
     <div class="information message2" v-if="this.bol==true">
    		 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -71,6 +78,32 @@
   	</div>
   </div>
  </div>
+    <div class="instrucciones" v-if="this.bol==false">
+       <div class="news">
+        <h1>
+          Busca un partido
+        </h1>
+        <p>
+          Encuéntralo a través del mapa o por el calendario
+        </p>
+      </div>
+      <div class="sports">
+        <h1>
+          Apúntate
+        </h1>
+        <p>
+          Si alguno de ellos te convence, no te lo pienses, únete!
+        </p>
+      </div>
+      <div class="entertainment">
+        <h1>
+          Que gane el mejor!
+        </h1>
+        <p>
+          Juega lo mejor que puedas para ir ganando experiencia.
+        </p>
+      </div>
+    </div>
 </div>
 </template>
 
@@ -106,12 +139,12 @@ export default {
       edades:['< 18','18 < edad < 25','25 < edad < 40', '> 40'],
       login:"",
       calendar:false
+
   
     }
   },
   watch: {
     '$route': 'fetchData',
-    tipo: 'fetchData',
 
     
   },
@@ -168,6 +201,7 @@ export default {
       this.calendar=true;
       this.bol=false;
     },
+ 
 
     displayMap(){
       this.calendar=false;
@@ -186,6 +220,11 @@ export default {
 
     nameCustom2 ({ login }) {
       return `${login} `
+    },
+    deshacerFiltro(){
+     this.fetchData().then(() => {this.confirmación()});
+      
+
     },
 
 
@@ -250,14 +289,13 @@ export default {
 
       var marcadores= Object.entries(this.markers);
           for (var [key, value] of marcadores) {
-          console.log(key)
           this.mymap.removeLayer(this.markers[key]);
           delete this.markers[key];
  
         }
         this.locations=[];
         this.marcadores();
-        console.log(Object.entries(this.markers))
+        
 
     },
 
@@ -347,8 +385,8 @@ div.message2 {
 .calendario {
 
     font-size: 0.8em;
-    width: 50%;
-    margin-top:90px;
+    float:left;
+    margin-top:50px;
     margin-left:50px;
 }
 
@@ -386,7 +424,7 @@ ul.w3-ul.w3-card-4{
 
 }
 
-.button , .button1{
+.button , .button1,.button3,.button2{
   display: inline-block;
   border-radius: 4px;
   background-color: #17a2b8;
@@ -407,14 +445,14 @@ ul.w3-ul.w3-card-4{
 
 }
 
-.button span, .button1 span, .button3 span{
+.button span, .button1 span, .button3 span, .button2 span{
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
 
-.button span:after , .button1 span:after, .button3 span:after{
+.button span:after , .button1 span:after, .button3 span:after, .button2 span:after{
   content: '\00bb';
   position: absolute;
   opacity: 0;
@@ -423,17 +461,31 @@ ul.w3-ul.w3-card-4{
   transition: 0.5s;
 }
 
-.button:hover span, .button1:hover span, .button3:hover span{
+.button:hover span, .button1:hover span, .button3:hover span, .button2:hover span{
   padding-right: 20px;
 }
 
-.button:hover span:after, .button1:hover span:after, .button3:hover span:after{
+.button:hover span:after, .button1:hover span:after, .button3:hover span:after, .button2:hover span:after{
   opacity: 1;
   right: 0;
 }
 .button1{
   margin-left:0;
   background-color:#17a2b8;
+
+   
+ }
+ .button3{
+  width :100%;
+  margin-left:0;
+  background-color:#17a2b8;
+  margin-top:0;
+
+   
+ }
+
+  .button2{
+  margin-left:55px;
 
    
  }
@@ -448,6 +500,33 @@ fieldset {
 }
 
 
+div.news h1 {
+  color: #fb887c;
+  border-bottom: 2px solid #fb887c;
+}
+div.news p {
+  color: #fb887c;
+}
 
+div.sports h1 {
+  color: #AFC7A9;
+  border-bottom: 2px solid #AFC7A9;
+}
+div.sports p {
+  color: #AFC7A9;
+}
 
+div.entertainment h1 {
+  color: #17a2b8;
+  border-bottom: 2px solid #17a2b8;
+}
+div.entertainment p {
+  color: #17a2b8;
+}
+.instrucciones{
+  width:30%;
+  float:right;
+  margin-top:120px;
+  margin-right:140px;
+}
 </style>

@@ -18,7 +18,8 @@
 			        <h4 class="profile__username">{{this.user.name}} {{this.user.surname1}} {{this.user.surname2}} </h4>
 			        <h4 class="profile__username1"> ({{this.user.city}})</h4>
 			      </div>
-			      <div class="profile__edit"><a class="profile__button" href="#">Editar Perfil</a></div>
+
+			      <div class="profile__edit"><b-btn class="profile__button" :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}" @click="Editado()">Editar Perfil</b-btn ></div>
 			    </div>
 			    <div class="profile__stats">
 			      <div class="profile__stat1">
@@ -61,7 +62,8 @@ export default {
       game:{},
       login:null,
       user:{},
-      tipo:'proximo'
+      tipo:'proximo',
+      bol:false,
     }
   },
   watch: {
@@ -99,6 +101,9 @@ export default {
     _successHandler(response) {
       this.fetchData()
     },
+    Editado(){
+      this.bol=true;
+    },
 
     back() {
       this.$router.go(-1)
@@ -115,6 +120,17 @@ export default {
 
 .botones{
 	width:100%;
+  background:#17a2b8;
+  border-radius:20px;
+
+
+}
+
+.b1,.b2,.b3{
+  background:#17a2b8;
+  margin-left:10px;
+  border:none;
+  color:white;
 
 }
 
@@ -143,18 +159,21 @@ export default {
     color: black;
     float:left;
     margin-left:20px;
+
    
 
 }
 
 .profile1{
-	background: #6c757d;
+	 background:#17a2b8;
     position: relative;
     width: 63%;
     height:38px;
     color: black;
     float:right;
     margin-right:22px;
+    border-radius:10px 10px 0px 0px;
+
 
 
 
@@ -182,6 +201,7 @@ export default {
   transition: ease-in-out 250ms background, ease-in-out 250ms color;
    background: #17a2b8;
    margin-bottom:20px;
+   border:none;
 }
 
 
@@ -312,6 +332,8 @@ div.message2 {
   height:70%;
   margin-right:21.5px;
   float:right;
+  border-radius:0px 0px 10px 10px;
+
 
 }
 

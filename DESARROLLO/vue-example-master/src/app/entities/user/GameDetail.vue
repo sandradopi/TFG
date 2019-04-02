@@ -58,6 +58,7 @@ export default {
 
   methods: {
     fetchData() {
+
       this.game=this.$route.params.id;
       this.playerG.game=this.game;
 

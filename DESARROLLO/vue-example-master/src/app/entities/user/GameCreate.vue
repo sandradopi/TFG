@@ -209,7 +209,7 @@ export default {
   margin-left:120px;
   margin-top:80px;
   border-radius: 6px;
-  height:84%;
+  height:70%;
   margin-bottom:20px;
   float:left;
 
@@ -295,7 +295,7 @@ export default {
     font-size: 0.8em;
     width: 50%;
     float: right;
-    margin-top:80px;
+    margin-top:87px;
     margin-right: 7%;
 }
 

@@ -27,12 +27,12 @@ export default {
       events: [],
       config: {
         eventClick: (event) => {
-           HTTP.get(`games/${event.id}`) 
-                .then(response => { this.game= response.data
-                      return response })
-                .then(this.$router.replace({ name: 'GameDetail', params: { id: this.game}}))
-                .catch(err => { this.error = err.message})
-           
+           for ( var i = 0; i < this.games.length; i ++){
+              if(this.games[i].idGame==event.id){
+                this.game=this.games[i];
+              }
+           }
+           this.details();
 
         },
       },
@@ -78,6 +78,11 @@ export default {
       console.log(this.events)
 
     },
+    details(){
+
+      this.$router.replace({ name: 'GameDetail', params: { id: this.game}})
+    },
+  
     refreshEvents() {
       this.$refs.calendar.$emit('refetch-events');
     },
