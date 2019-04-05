@@ -21,5 +21,6 @@ public interface UserDAO {
 	public User_ findByEmail(String email);
 	public void deleteById(Long idUser) ;
 	public List<Game> findAllGamesNext(String login);
+	public List<User_> findAllNoAdminU();
    
 }

@@ -74,10 +74,7 @@ public class UserResource {
         return userService.update(user);
     }
     
-    @PutMapping("/{idUser}/authority")
-    public UserDTO changePermissions(@PathVariable Long idUser){
-        return userService.changePermission(idUser);
-    }
+
     
     
     @DeleteMapping("/{idUser}")

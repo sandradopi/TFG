@@ -4,7 +4,6 @@
         <li class="usuarios" type="disc" v-for=" user in this.users" :key="user.idUser"> 
           {{user.name}} {{user.surname1}} {{user.surname2}}
           <div class="but">
-            <b-btn class="button" @click="autoridad(user.idUser)"><span>{{user.authority}}</span></b-btn>
             <b-btn class="button1" @click="eliminar(user.idUser)"><span>Eliminar</span></b-btn>
           </div>
         </li>
@@ -48,6 +47,11 @@ export default {
       this.fetchData()
     },
 
+     _successHandler1(response) {
+      this.$swal('Cambios guardados', "Se han cambiado los permisos del usuario correctamente", 'success')
+      this.fetchData()
+    },
+
     back() {
       this.$router.go(-1)
     },
@@ -63,12 +67,7 @@ export default {
        this.$swal('Alerta!', this.error, 'error')
     },
     
-    autoridad(idUser){
-      
-       HTTP.put(`users/${idUser}/authority`)
-              .then(this._successHandler)
-              .catch(this._errorHandler)
-    }
+   
   }
 }
 </script>

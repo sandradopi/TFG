@@ -14,6 +14,8 @@ import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.User_;
+import es.udc.lbd.asi.restexample.model.exception.EventBeforeDayException;
+import es.udc.lbd.asi.restexample.model.exception.MaxPlayersException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
@@ -55,17 +57,22 @@ public void deleteById(Long idPlayer) {
 @PreAuthorize("hasAuthority('USER')")
 @Transactional(readOnly = false)
 @Override
-public PlayerDTO save(PlayerDTO player){
+public PlayerDTO save(PlayerDTO player) throws MaxPlayersException{
 	
 	Player bdPlayer = new Player(player.getEquipo());
 	Game game= gameDAO.findById(player.getGame().getIdGame());
+	if(playerDAO.findAllByGameCount(game.getIdGame())<game.getMaxPlayers()){
+		
 	bdPlayer.setGame(game);
 	NormalUser playerUser= (NormalUser) userDAO.findById(player.getPlayer().getIdUser());
 	bdPlayer.setPlayer(playerUser);
 
 	
 	playerDAO.save(bdPlayer);
-    return new PlayerDTO(bdPlayer);
+    return new PlayerDTO(bdPlayer);}
+	else{
+		throw new MaxPlayersException("El cupo de participantes ya está cubierto");
+	}
 }
 
 public List<PlayerDTO> findAllByGame(Long idGame) {

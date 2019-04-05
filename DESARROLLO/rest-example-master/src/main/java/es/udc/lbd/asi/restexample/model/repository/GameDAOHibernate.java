@@ -2,6 +2,7 @@ package es.udc.lbd.asi.restexample.model.repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -67,6 +68,12 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 	@Override
 	public List<Game> findAllFiltros(List<String> sport, String usuario, Integer sportEv, Integer userEv) {
 		return getSession().createQuery("select g from Game g inner join g.creator u inner join g.sport s where (:sportEv=0 OR s.type in (:sport)) AND ( :userEv=0 OR u.login= :usuario ) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameterList("sport", sport).setParameter("usuario", usuario).setParameter("sportEv", sportEv).setParameter("userEv", userEv).list();
+	}
+	
+	@Override
+	public List<Game> findAllTomorrow(LocalDate data) {
+		return getSession().createQuery(" from Game g WHERE g.date = :data").setParameter("data", data).list();
+		
 	}
 
 

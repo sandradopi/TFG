@@ -92,7 +92,7 @@ public class UserService implements UserServiceInterface{
   		@PreAuthorize("hasAuthority('USER')")
 		@Override
   		public List<UserDTO> findAllNoAdmin() {
-  			 return userDAO.findAllNoAdmin().stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+  			 return userDAO.findAllNoAdminU().stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
 		}
   		
 	     @Transactional(readOnly = false)
@@ -245,19 +245,6 @@ public class UserService implements UserServiceInterface{
 			    return new NormalUserDTO(bdUser);
 			    }
 
-		@Transactional(readOnly = false)
-		@Override
-		public UserDTO changePermission(Long idUser) {
-			User_ bdUser =  userDAO.findById(idUser);
-			if(bdUser.getAuthority()==UserAuthority.USER){
-				bdUser.setAuthority(UserAuthority.ADMIN);
-			}else{
-				bdUser.setAuthority(UserAuthority.USER);
-			}
-			
-			userDAO.save(bdUser);
-		    return new UserDTO(bdUser);
-		}
 
 		
 		@PreAuthorize("hasAuthority('ADMIN')")

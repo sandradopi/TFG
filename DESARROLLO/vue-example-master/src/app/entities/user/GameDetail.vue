@@ -103,7 +103,7 @@ export default {
           .then(response => { this.bol = true
                  return response })
           .then(this._successHandler1)
-          .catch(err => { this.error = err.message})
+          .catch(this._errorHandler)
     },
 
     desapuntarse(){
@@ -159,6 +159,7 @@ export default {
     
     _errorHandler(err) {
       this.error = err.response.data.message
+       this.$swal('Lo sentimos...', 'El partido ya tiene cubierto su cupo máximo de participantes', 'error')
     }
   }
 }

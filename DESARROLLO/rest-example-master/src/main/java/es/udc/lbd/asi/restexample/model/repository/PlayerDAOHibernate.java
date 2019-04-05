@@ -42,6 +42,11 @@ public class PlayerDAOHibernate extends GenericDAOHibernate implements PlayerDAO
 		return getSession().createQuery("select p from Player p inner join p.game g where g.idGame =:idGame").setParameter("idGame", idGame).list();
 	}
 
+	@Override
+	public Long findAllByGameCount(Long idGame) {
+		return (Long) getSession().createQuery("select count(*) from Player p inner join p.game g where g.idGame =:idGame").setParameter("idGame", idGame).uniqueResult();
+	}
+
 	
 
 	
