@@ -51,6 +51,7 @@ public class NormalUserDTO {
 	
     private Set<TeamDTO> juego = new HashSet<TeamDTO>();
 	private Set<TeamDTO> favoritos = new HashSet<TeamDTO>();
+	private Set<GameDTO> notifications = new HashSet<GameDTO>();
 	
 	public NormalUserDTO() {
 	}
@@ -70,7 +71,17 @@ public class NormalUserDTO {
 
 	
 	
+	
 
+
+	public Set<GameDTO> getNotifications() {
+		return notifications;
+	}
+
+
+	public void setNotifications(Set<GameDTO> notifications) {
+		this.notifications = notifications;
+	}
 
 
 	public Set<TeamDTO> getJuego() {

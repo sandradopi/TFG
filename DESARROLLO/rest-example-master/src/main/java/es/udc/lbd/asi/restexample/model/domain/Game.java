@@ -39,9 +39,11 @@ public class Game {
 	private LocalTime timeEnd;
 	
 	@Column(name="maxPlayers")
+	@NotNull
 	private Long maxPlayers;
 	
 	@Column(name="minPlayers")
+	@NotNull
 	private Long minPlayers;
 	
 	
@@ -69,8 +71,8 @@ public class Game {
 				
 			}
 	
-	public Game(@NotEmpty LocalDate date, @NotEmpty LocalTime timeStart, @NotEmpty LocalTime timeEnd, Long maxPlayers,
-			Long minPlayers,  String result, @NotNull Sport sport, @NotNull Location location,
+	public Game(@NotEmpty LocalDate date, @NotEmpty LocalTime timeStart, @NotEmpty LocalTime timeEnd, @NotNull Long maxPlayers,
+			@NotNull Long minPlayers,  String result, @NotNull Sport sport, @NotNull Location location,
 			@NotNull NormalUser creator) {
 
 		this.date = date;
@@ -84,8 +86,8 @@ public class Game {
 		this.creator = creator;
 	}
 	
-	public Game(@NotEmpty LocalDate date, @NotEmpty LocalTime timeStart, @NotEmpty LocalTime timeEnd, Long maxPlayers,
-			Long minPlayers) {
+	public Game(@NotEmpty LocalDate date, @NotEmpty LocalTime timeStart, @NotEmpty LocalTime timeEnd,@NotNull  Long maxPlayers,
+			@NotNull Long minPlayers) {
 
 		this.date = date;
 		this.timeStart = timeStart;

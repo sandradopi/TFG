@@ -25,6 +25,7 @@ import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -77,8 +78,7 @@ public PlayerDTO save(PlayerDTO player) throws MaxPlayersException{
 
 public List<PlayerDTO> findAllByGame(Long idGame) {
 	return playerDAO.findAllByGame(idGame).stream().map(player -> new PlayerDTO(player)).collect(Collectors.toList());
-}				
-	     
-   
+}
+
 
 }

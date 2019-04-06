@@ -16,5 +16,6 @@ public interface PlayerDAO {
 	 public void deleteById(Long idPlayer) ;
 	 public List<Player> findAllByGame(Long idGame);
 	 public Long findAllByGameCount(Long idGame);
+	 public Player findPlayerGame(String login,Long idGame);
 
 }

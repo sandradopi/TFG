@@ -1,6 +1,9 @@
 package es.udc.lbd.asi.restexample.model.domain;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -8,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -38,6 +43,7 @@ public class Player {
     @JoinColumn (name = "idUser")
     @NotNull
     private NormalUser player;
+	
 	
 	public Player() {
 				
@@ -123,6 +129,8 @@ public class Player {
 	public void setPlayer(NormalUser player) {
 		this.player = player;
 	}
+
+
 	
 	
 	

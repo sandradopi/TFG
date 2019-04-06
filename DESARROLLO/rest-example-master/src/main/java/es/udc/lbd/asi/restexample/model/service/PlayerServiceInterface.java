@@ -15,6 +15,7 @@ public interface PlayerServiceInterface {
 	  public List<PlayerDTO> findAll();
 	  public PlayerDTO save(PlayerDTO player) throws MaxPlayersException;
 	  public void deleteById(Long idPlayer);
+
 	 
 
 

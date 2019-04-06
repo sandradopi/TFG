@@ -95,7 +95,21 @@ public List<GameDTO> findAllFiltros(String sport, String user) {
 @Override
 public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException{
 	
-	  LocalDate localDate = LocalDate.now();
+	  
+	
+	if(game.getDate() == null){ //Nombre vacio
+	  	  throw new RequiredFieldsException("La fecha del evento es un campo requerido");
+	   }
+	
+	if(game.getTimeStart() == null){ //Nombre vacio
+	  	  throw new RequiredFieldsException("La hora de inicio del evento es un campo requerido");
+	   }
+	
+	if(game.getTimeEnd() == null){ //Nombre vacio
+	  	  throw new RequiredFieldsException("La hora de finalización del evento es un campo requerido");
+	   }
+	
+	LocalDate localDate = LocalDate.now();
 	  LocalTime localTime = LocalTime.now();
 
 	 if((game.getTimeStart().compareTo(game.getTimeEnd()) >= 0) ){
@@ -111,24 +125,20 @@ public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseExc
 	}
 	
 	
-	if(game.getDate() == null){ //Nombre vacio
-	  	  throw new RequiredFieldsException("La fecha del evento es un campo requerido");
-	   }
-	
-	if(game.getTimeStart() == null){ //Nombre vacio
-	  	  throw new RequiredFieldsException("La hora de inicio del evento es un campo requerido");
-	   }
-	
-	if(game.getTimeEnd() == null){ //Nombre vacio
-	  	  throw new RequiredFieldsException("La hora de finalización del evento es un campo requerido");
-	   }
-	
-	if(game.getLocation() == null){ //Nombre vacio
+	if(game.getLocation() == null){ 
 	  	  throw new RequiredFieldsException("La localización del evento es un campo requerido");
 	   }
 	
-	if(game.getSport() == null){ //Nombre vacio
+	if(game.getSport() == null){ 
 	  	  throw new RequiredFieldsException("El deporte del evento es un campo requerido");
+	   }
+	
+	if(game.getMaxPlayers() == null){ 
+	  	  throw new RequiredFieldsException("El número máximo de jugadores del evento es un campo requerido");
+	   }
+	
+	if(game.getMinPlayers() == null){ 
+	  	  throw new RequiredFieldsException("El número mínimo de jugadores del evento es un campo requerido");
 	   }
 	 
 	if (gameDAO.findColapso(game.getDate(), game.getTimeStart(), game.getTimeEnd()) > 0) {

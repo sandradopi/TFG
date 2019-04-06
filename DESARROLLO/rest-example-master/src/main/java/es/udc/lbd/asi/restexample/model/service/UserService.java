@@ -16,6 +16,7 @@ import es.udc.lbd.asi.restexample.model.domain.AdminUser;
 import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
+import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 import es.udc.lbd.asi.restexample.model.domain.User_;
@@ -25,11 +26,13 @@ import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
+import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.security.SecurityUtils;
@@ -44,6 +47,8 @@ public class UserService implements UserServiceInterface{
   private TeamDAO teamDAO;
   @Autowired
   private GameDAO gameDAO;
+  @Autowired
+  private PlayerDAO playerDAO;
   
   
   @Autowired
@@ -54,6 +59,20 @@ public class UserService implements UserServiceInterface{
 	public List<GameDTO> findGamesCreated(String login) {
 	  return userDAO.findAllGamesCreated(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 	  }
+  
+  @PreAuthorize("hasAuthority('USER')")
+  @Override
+	public Boolean getNotification(String login,Long idGame) {
+	  Boolean bol=false;
+	  NormalUser usuarioDevuelto= userDAO.findByLoginNormal(login);
+	  for(Game noti :usuarioDevuelto.getNotifications()){
+		  if(noti.getIdGame()==idGame){
+			  bol= true;
+		  }
+	  }
+	return bol;
+	 
+  }
   
   @PreAuthorize("hasAuthority('USER')")
   @Override
@@ -69,6 +88,7 @@ public class UserService implements UserServiceInterface{
 		   	 userTransformado.setBirthday(usuarioDevuelto.getBirthday());
 		   	 userTransformado.setCity(usuarioDevuelto.getCity());
 		   	 userTransformado.setExperience(usuarioDevuelto.getExperience());
+		   	
 		   	 
 		   	 userTransformado.getFavoritos().clear();
 		   	 usuarioDevuelto.getFavoritos().forEach(fav -> {
@@ -78,6 +98,11 @@ public class UserService implements UserServiceInterface{
 		   	 userTransformado.getJuego().clear();
 		   	 usuarioDevuelto.getJuego().forEach(fav -> {
 		    	 userTransformado.getJuego().add(new TeamDTO(teamDAO.findById(fav.getIdTeam())));
+		    });
+		   	 
+		   	 userTransformado.getNotifications().clear();
+		   	 usuarioDevuelto.getNotifications().forEach(fav -> {
+		    	 userTransformado.getNotifications().add(new GameDTO(gameDAO.findById(fav.getIdGame())));
 		    });
 		   	 
 		    
@@ -259,6 +284,25 @@ public class UserService implements UserServiceInterface{
 			
 						
 		}
+		
+		@PreAuthorize("hasAuthority('USER')")
+		@Transactional(readOnly = false)
+		@Override
+		public NormalUserDTO updateNotification(String login, Long idGame, Boolean bool)  {
+			if(bool==false){
+				NormalUser usuario = userDAO.findByLoginNormal(login);
+				usuario.getNotifications().add(gameDAO.findById(idGame));
+				userDAO.save(usuario);
+				return new NormalUserDTO(usuario);
+				}else{
+					NormalUser usuario = userDAO.findByLoginNormal(login);
+					usuario.getNotifications().remove(gameDAO.findById(idGame));
+					userDAO.save(usuario);
+					return new NormalUserDTO(usuario);
+				}
+			  
+
+		  }
 
 		
 

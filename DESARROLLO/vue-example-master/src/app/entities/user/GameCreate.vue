@@ -139,7 +139,17 @@ export default {
         return false;
       }
 
-      if (this.game.date && this.game.timeStart && this.game.timeEnd && this.game.sport&& this.game.location) {
+        if (!this.game.maxPlayers) {
+        this.error="Introduzca el número máximo de jugadores"
+        return false;
+      }
+
+      if (!this.game.minPlayers) {
+        this.error="Introduzca el número mínimo de jugadores"
+        return false;
+      }
+
+      if (this.game.date && this.game.timeStart && this.game.timeEnd && this.game.sport&& this.game.location&& this.game.maxPlayers &&this.game.minPlayers) {
         return true;
       }
 

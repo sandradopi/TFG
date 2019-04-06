@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.MaxPlayersException;
+import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
@@ -58,6 +59,7 @@ public class PlayerResource {
     public PlayerDTO save(@RequestBody PlayerDTO player, Errors errors) throws MaxPlayersException {
         return playerService.save(player);
     }
+    
     
     @DeleteMapping("/{idPlayer}")
     public void delete(@PathVariable Long idPlayer) {

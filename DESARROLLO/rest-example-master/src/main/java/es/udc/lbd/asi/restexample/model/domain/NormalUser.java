@@ -50,6 +50,14 @@ public class NormalUser extends User_ {
     		)
     private Set<Team> favoritos = new HashSet<Team>();
 	
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+    		name = "NOTIFICATIONS",
+    		joinColumns = {@JoinColumn(name = "idUser")},
+    		inverseJoinColumns = {@JoinColumn(name = "idGame")}
+    		)
+    private Set<Game> notifications = new HashSet<Game>();
+	
 	public NormalUser() {
 		super();
 	}
@@ -105,7 +113,17 @@ public class NormalUser extends User_ {
 		this.favoritos = favoritos;
 	}
 
+	public Set<Game> getNotifications() {
+		return notifications;
+	}
 
+	public void setNotifications(Set<Game> notifications) {
+		this.notifications = notifications;
+	}
+
+	
+
+	
 	
 	
 

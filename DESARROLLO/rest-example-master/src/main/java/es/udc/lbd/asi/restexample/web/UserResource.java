@@ -22,6 +22,7 @@ import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.lbd.asi.restexample.web.exception.InstanceNotFoundExceptionHIB;
@@ -74,9 +75,17 @@ public class UserResource {
         return userService.update(user);
     }
     
+    @PutMapping("/notifications/{login}/{idGame}/{bool}")
+    public NormalUserDTO updateNotifications(@PathVariable String login,@PathVariable Long idGame, @PathVariable Boolean bool) {
+        return userService.updateNotification(login,idGame, bool);
+    }
+    
+    @GetMapping("/notifications/{login}/{idGame}")
+    public Boolean getNotification(@PathVariable String login,@PathVariable Long idGame) {
+        return userService.getNotification(login,idGame);
+    }
+    
 
-    
-    
     @DeleteMapping("/{idUser}")
     public void delete(@PathVariable Long idUser) throws InstanceNotFoundExceptionHIB, SportDeleteException{
         userService.deleteById(idUser);

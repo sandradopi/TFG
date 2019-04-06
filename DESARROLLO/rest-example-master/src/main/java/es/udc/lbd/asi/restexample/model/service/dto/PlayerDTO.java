@@ -30,7 +30,7 @@ public class PlayerDTO {
     private GameDTO game;
     @NotNull
     private NormalUserDTO player;
-	
+
 
     public PlayerDTO() {
 	} 
@@ -41,6 +41,7 @@ public class PlayerDTO {
 		this.equipo = player.getEquipo();
 		this.game =  new GameDTO(player.getGame());
 		this.player =  new NormalUserDTO(player.getPlayer());
+
 	}
 
 	public Long getIdPlayer() {
@@ -84,7 +85,7 @@ public class PlayerDTO {
 		this.game = game;
 	}
 
-		
+	
 	
   
 	

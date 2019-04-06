@@ -14,6 +14,7 @@ import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 
 
@@ -27,6 +28,8 @@ public interface UserServiceInterface {
 	public void deleteById(Long idUser) throws SportDeleteException;
 	public List<GameDTO> findGamesNext(String login);
 	public List<UserDTO> findAllNoAdmin();
+	public NormalUserDTO updateNotification(String login, Long idGame, Boolean bool);
+	public Boolean getNotification(String login, Long idGame);
 
   
 

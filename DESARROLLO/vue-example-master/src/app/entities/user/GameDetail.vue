@@ -11,6 +11,8 @@
     <b-btn class="button" v-if="this.bol==false" @click="apuntarse()"><span>Apuntarse</span></b-btn> 
     <b-btn class="button1" v-if="this.bol==true" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
      <b-btn class="button2" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
+      <b-btn class="button22" v-if="this.notification==false" @click="notificar()"><font-awesome-icon icon="bell"style="font-size:30px;"/></b-btn>
+       <b-btn class="button22" v-if="this.notification==true" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>
       <h1 class="title">Detalles Partido</h1>  
       <div class="information message">
         <h2 class="title1"> Información</h2>  
@@ -53,6 +55,8 @@ export default {
       equipos:['a','b'],
       equipo:null,
       idPlayer:null,
+      notification:false
+
     }
   },
   watch: {
@@ -81,6 +85,12 @@ export default {
           .then(response => {this.jugador = response.data
                 return response })
           .catch(err => { this.error = err.message})
+
+          HTTP.get(`users/notifications/${this.WhatLogin()}/${this.game.idGame}`) 
+          .then(response => {this.notification = response.data
+                return response })
+          .catch(err => { this.error = err.message})
+
 
 
 
@@ -137,6 +147,19 @@ export default {
         })
     
   },
+
+    notificar(){
+      HTTP.put(`users/notifications/${this.WhatLogin()}/${this.game.idGame}/${this.notification}`)
+          .then(this._successHandler3)
+          .catch(this._errorHandler2)
+
+    },
+
+    desnotificar(){
+      HTTP.put(`users/notifications/${this.WhatLogin()}/${this.game.idGame}/${this.notification}`)
+          .then(this._successHandler4)
+          .catch(this._errorHandler2)
+    },
    
     _successHandler1(response) {
       this.$swal('Apuntado', 'Ya formas parte del partido, disfruta!', 'success')
@@ -147,6 +170,17 @@ export default {
     },
     _successHandler2(response) {
       this.$swal('Desapuntado', 'Has dejado de formar parte del partido', 'success')
+      this.fetchData()
+    },
+     _successHandler3(response) {
+      this.notification=true;
+      this.$swal('Notificaciones activadas', 'Se le notificará de cualquier cambio en este partido', 'success')
+      this.fetchData()
+    },
+
+    _successHandler4(response) {
+      this.notification=false;
+      this.$swal('Notificaciones desactivadas', 'No se le notificará de cualquier cambio en este partido en adelante', 'success')
       this.fetchData()
     },
       WhatLogin() {
@@ -160,6 +194,11 @@ export default {
     _errorHandler(err) {
       this.error = err.response.data.message
        this.$swal('Lo sentimos...', 'El partido ya tiene cubierto su cupo máximo de participantes', 'error')
+    },
+
+    _errorHandler2(err) {
+      this.error = err.response.data.message
+      
     }
   }
 }
@@ -233,7 +272,7 @@ div.message2 {
 
 div.message2.information{background: #17a2b8;}
 
-.button, .button1, .button3 , .button2{
+.button, .button1, .button3 , .button2, .button22{
   display: inline-block;
   border-radius: 4px;
   background-color: #17a2b8;
@@ -275,22 +314,28 @@ div.message2.information{background: #17a2b8;}
   right: 0;
 }
 .button1{
-   background-color: #fb887c;
-   float:right;
-   width: 150px;
-   
- }
- .button3{
    background-color: grey;
    float:right;
    width: 150px;
    
  }
+ .button3{
+   background-color: red;
+   float:right;
+   width: 150px;
+   
+ }
 
- .button2{
+ .button2, .button22{
   float:left;
   width:6%;
   margin-left:20px;
+
+ }
+
+ .button22{
+    background-color: green;
+    width:6%;
  }
 
  .user{
