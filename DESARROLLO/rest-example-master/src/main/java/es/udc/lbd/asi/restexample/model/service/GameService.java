@@ -179,6 +179,10 @@ public List<GameDTO> findAllLocation(Long idLocation) {
 @Override
 public void deleteById(Long idGame) throws AddressException, MessagingException, ParseException {
 	List<Player> players= playerDAO.findAllByGame(idGame);
+	String mensaje="El partido ha sido cancelado por motivos personales del creador o por que no ha llegado "
+			+ "al mínimo de personas requeridas para poderse llevar a cabo. Sentimos las molestias...";
+	notificationTask.reportCurrentTime(idGame, mensaje,true);
+	
 	if(players.size()>0){
 		for(Player a:players){
 			playerDAO.deleteById(a.getIdPlayer());
@@ -186,9 +190,6 @@ public void deleteById(Long idGame) throws AddressException, MessagingException,
 	}
 	Game game= gameDAO.findById(idGame);
 	
-	String mensaje="El partido ha sido cancelado por motivos personales del creador o por que no ha llegado "
-			+ "al mínimo de personas requeridas para poderse llevar a cabo. Sentimos las molestias..";
-	notificationTask.reportCurrentTime(idGame, mensaje);
 	
 	List<NormalUser> usuarios =userDAO.findAllNoAdmin();
 	for(NormalUser user: usuarios){

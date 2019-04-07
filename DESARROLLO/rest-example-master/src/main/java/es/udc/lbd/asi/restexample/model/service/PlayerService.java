@@ -59,7 +59,7 @@ public List<PlayerDTO> findAll() {
 public void deleteById(Long idPlayer) throws AddressException, MessagingException, ParseException {
 	Player player= playerDAO.findById(idPlayer);
 	String mensaje="Se acaba de desapuntar de este partido el usuario "+player.getPlayer().getName()+" "+player.getPlayer().getSurname1()+" "+player.getPlayer().getSurname2()+".";
-	notificationTask.reportCurrentTime(player.getGame().getIdGame(), mensaje);
+	notificationTask.reportCurrentTime(player.getGame().getIdGame(), mensaje,false);
 	playerDAO.deleteById(idPlayer);
 	
 }
@@ -79,8 +79,8 @@ public PlayerDTO save(PlayerDTO player) throws MaxPlayersException, AddressExcep
 
 	
 	playerDAO.save(bdPlayer);
-	String mensaje="Se acaba de apuntar de este partido el usuario "+player.getPlayer().getName()+" "+player.getPlayer().getSurname1()+" "+player.getPlayer().getSurname2()+".";
-	notificationTask.reportCurrentTime(player.getGame().getIdGame(), mensaje);
+	String mensaje="Se acaba de apuntar a este partido el usuario "+player.getPlayer().getName()+" "+player.getPlayer().getSurname1()+" "+player.getPlayer().getSurname2()+".";
+	notificationTask.reportCurrentTime(player.getGame().getIdGame(), mensaje,false);
     return new PlayerDTO(bdPlayer);}
 	else{
 		throw new MaxPlayersException("El cupo de participantes ya está cubierto");

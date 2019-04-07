@@ -43,6 +43,8 @@ public class NotificationTask {
 	UserDAO userDAO;
 	@Autowired
 	GameDAO gameDAO;
+	@Autowired
+	PlayerDAO playerDAO;
 	
 	private Properties properties = new Properties();
 	private Session session;
@@ -57,12 +59,13 @@ public class NotificationTask {
 		session = Session.getDefaultInstance(properties);
 	}
 	
-
-    public void reportCurrentTime(Long idGame, String mensaje) throws AddressException, MessagingException, ParseException {
+	//Para avisar cuando alguien se apunta, se desapunta y se elimina el partido
+    public void reportCurrentTime(Long idGame, String mensaje, Boolean bol) throws AddressException, MessagingException, ParseException {
     	init();
     	Game partido=gameDAO.findById(idGame);
     	List<NormalUser> usuarios =userDAO.findAllNoAdmin();
     	List<NormalUser> notificados= new ArrayList();
+    	List<NormalUser> playersGame= new ArrayList();
     	for(NormalUser user: usuarios){
     		Set<Game> games= user.getNotifications();
     		for (Game game:games){
@@ -71,7 +74,18 @@ public class NotificationTask {
     			}
     		}
     	}
-    	
+    	if(bol==true){//Si se va a eliminar un partido, avisamos tanto a los que tienen las notificaciones activadas como a los que están apuntados
+    		List<Player> players= playerDAO.findAllByGame(idGame);
+    		for(Player player:players){
+    			for(NormalUser notificado:notificados){
+    				if(notificado.getIdUser()!=player.getPlayer().getIdUser()){
+    					playersGame.add(player.getPlayer());
+    				}
+    			}
+    			
+    		}
+    	}
+    	notificados.addAll(playersGame);
     	for(NormalUser usuario : notificados){
 		    	    	try{
 			    	    		MimeMessage message = new MimeMessage(session);
@@ -79,8 +93,8 @@ public class NotificationTask {
 			    				message.addRecipient(Message.RecipientType.TO, new InternetAddress(usuario.getEmail()));
 			    				message.setSubject("Se han producido cambios en su partido!");
 			    				message.setText("Hola Señor/Señora "+usuario.getName()+".\n" +"Este email es para comunicarle que se han producido cambios en su partido"
-			    				+" que iba a tener lugar en "+ partido.getLocation().getName() +" el día "+ partido.getDate()+ " a la hora "+ partido.getTimeStart()+ "."+"\n"+"\n"
-			    				+"El cambio que se ha producido es el siguiente: "+mensaje +"\n"+"\n"+ "Espero que esta información te haya sido de utilidad, un saludo de tu app preferida: Play2Gether <3");
+			    				+" que iba a tener lugar en "+ partido.getLocation().getName() +" el día "+ partido.getDate()+ " a la hora "+ partido.getTimeStart()+ ". "+"\n"+
+			    				"El cambio que se ha producido es el siguiente: "+mensaje +"\n"+"\n"+ "Espero que esta información te haya sido de utilidad, un saludo de tu app preferida: Play2Gether <3");
 			    				Transport t = session.getTransport("smtp");
 			    				t.connect("marsusanez@gmail.com","asiasi2018");
 			    				t.sendMessage(message, message.getAllRecipients());

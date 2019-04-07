@@ -58,6 +58,7 @@ public class MinPlayersGameTask {
 		session = Session.getDefaultInstance(properties);
 	}
 	
+	//El día anterio comprueba si hay algun partido que no ha llegado al minimo requerido, y lo elimina si es así
     @Scheduled(cron = "0 22 22 * * * ")
     public void reportCurrentTime() throws AddressException, MessagingException, ParseException {
     	init();
