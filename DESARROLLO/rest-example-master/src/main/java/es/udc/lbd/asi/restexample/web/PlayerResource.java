@@ -1,9 +1,12 @@
 package es.udc.lbd.asi.restexample.web;
 
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,13 +59,13 @@ public class PlayerResource {
     }
     
     @PostMapping
-    public PlayerDTO save(@RequestBody PlayerDTO player, Errors errors) throws MaxPlayersException {
+    public PlayerDTO save(@RequestBody PlayerDTO player, Errors errors) throws MaxPlayersException, AddressException, MessagingException, ParseException {
         return playerService.save(player);
     }
     
     
     @DeleteMapping("/{idPlayer}")
-    public void delete(@PathVariable Long idPlayer) {
+    public void delete(@PathVariable Long idPlayer) throws AddressException, MessagingException, ParseException {
         playerService.deleteById(idPlayer);
     }
     

@@ -2,8 +2,13 @@ package es.udc.lbd.asi.restexample.model.service;
 
 
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -26,6 +31,7 @@ import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
+import es.udc.lbd.asi.restexample.repository.util.NotificationTask;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -38,6 +44,8 @@ public class PlayerService implements PlayerServiceInterface{
   private PlayerDAO playerDAO;
   @Autowired
   private UserDAO userDAO;
+  @Autowired
+  private NotificationTask notificationTask;
 
 @Override
 public List<PlayerDTO> findAll() {
@@ -48,17 +56,18 @@ public List<PlayerDTO> findAll() {
 @PreAuthorize("hasAuthority('USER')")
 @Transactional(readOnly = false)
 @Override
-public void deleteById(Long idPlayer) {
+public void deleteById(Long idPlayer) throws AddressException, MessagingException, ParseException {
 	Player player= playerDAO.findById(idPlayer);
+	String mensaje="Se acaba de desapuntar de este partido el usuario "+player.getPlayer().getName()+" "+player.getPlayer().getSurname1()+" "+player.getPlayer().getSurname2()+".";
+	notificationTask.reportCurrentTime(player.getGame().getIdGame(), mensaje);
 	playerDAO.deleteById(idPlayer);
 	
-				
 }
 	
 @PreAuthorize("hasAuthority('USER')")
 @Transactional(readOnly = false)
 @Override
-public PlayerDTO save(PlayerDTO player) throws MaxPlayersException{
+public PlayerDTO save(PlayerDTO player) throws MaxPlayersException, AddressException, MessagingException, ParseException{
 	
 	Player bdPlayer = new Player(player.getEquipo());
 	Game game= gameDAO.findById(player.getGame().getIdGame());
@@ -70,6 +79,8 @@ public PlayerDTO save(PlayerDTO player) throws MaxPlayersException{
 
 	
 	playerDAO.save(bdPlayer);
+	String mensaje="Se acaba de apuntar de este partido el usuario "+player.getPlayer().getName()+" "+player.getPlayer().getSurname1()+" "+player.getPlayer().getSurname2()+".";
+	notificationTask.reportCurrentTime(player.getGame().getIdGame(), mensaje);
     return new PlayerDTO(bdPlayer);}
 	else{
 		throw new MaxPlayersException("El cupo de participantes ya está cubierto");

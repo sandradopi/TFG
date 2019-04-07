@@ -38,7 +38,7 @@ import es.udc.lbd.asi.restexample.model.service.GameService;
 @Component
 @EnableTransactionManagement
 @Transactional
-public class NotificaciónTask {
+public class NotificationTask {
 	@Autowired
 	UserDAO userDAO;
 	@Autowired
@@ -75,12 +75,12 @@ public class NotificaciónTask {
     	for(NormalUser usuario : notificados){
 		    	    	try{
 			    	    		MimeMessage message = new MimeMessage(session);
-			    	    		message.setFrom(new InternetAddress(usuario.getEmail()));
-			    				message.addRecipient(Message.RecipientType.TO, new InternetAddress("sandra@sandra.com"));
+			    	    		message.setFrom(new InternetAddress("marsusanez@gmail.com"));
+			    				message.addRecipient(Message.RecipientType.TO, new InternetAddress(usuario.getEmail()));
 			    				message.setSubject("Se han producido cambios en su partido!");
-			    				message.setText("Hola Señor/Señora  :"+usuario.getName()+"\n" +"Este email es para comunicarle que se han producido cambios en su partido"
-			    				+" que iba a tener lugar en"+ partido.getLocation().getName() +" el día"+ partido.getDate()+ " a la hora "+ partido.getTimeStart()+ 
-			    				"\n El cambio que se ha producido es el siguiente: "+mensaje +"\n"+"\n"+ "Espero que esta información te haya sido de utilidad, un saludo de tu app preferida: Play2Gether <3");
+			    				message.setText("Hola Señor/Señora "+usuario.getName()+".\n" +"Este email es para comunicarle que se han producido cambios en su partido"
+			    				+" que iba a tener lugar en "+ partido.getLocation().getName() +" el día "+ partido.getDate()+ " a la hora "+ partido.getTimeStart()+ "."+"\n"+"\n"
+			    				+"El cambio que se ha producido es el siguiente: "+mensaje +"\n"+"\n"+ "Espero que esta información te haya sido de utilidad, un saludo de tu app preferida: Play2Gether <3");
 			    				Transport t = session.getTransport("smtp");
 			    				t.connect("marsusanez@gmail.com","asiasi2018");
 			    				t.sendMessage(message, message.getAllRecipients());

@@ -10,7 +10,12 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -36,6 +41,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
+import es.udc.lbd.asi.restexample.repository.util.NotificationTask;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -52,6 +58,8 @@ public class GameService implements GameServiceInterface{
   private UserDAO userDAO;
   @Autowired
   private PlayerDAO playerDAO;
+  @Autowired
+  private NotificationTask notificationTask;
 
 
 @Override
@@ -169,7 +177,7 @@ public List<GameDTO> findAllLocation(Long idLocation) {
 @PreAuthorize("hasAuthority('USER')")
 @Transactional(readOnly = false)
 @Override
-public void deleteById(Long idGame) {
+public void deleteById(Long idGame) throws AddressException, MessagingException, ParseException {
 	List<Player> players= playerDAO.findAllByGame(idGame);
 	if(players.size()>0){
 		for(Player a:players){
@@ -177,7 +185,24 @@ public void deleteById(Long idGame) {
 		}
 	}
 	Game game= gameDAO.findById(idGame);
+	
+	String mensaje="El partido ha sido cancelado por motivos personales del creador o por que no ha llegado "
+			+ "al mínimo de personas requeridas para poderse llevar a cabo. Sentimos las molestias..";
+	notificationTask.reportCurrentTime(idGame, mensaje);
+	
+	List<NormalUser> usuarios =userDAO.findAllNoAdmin();
+	for(NormalUser user: usuarios){
+		Set<Game> games= user.getNotifications();
+		for (Game game1:games){
+			if(game1.getIdGame()==idGame){
+				user.getNotifications().remove(game);
+			}
+		}
+	}
+	
+
 	gameDAO.deleteById(idGame);
+	
 	
 				
 }

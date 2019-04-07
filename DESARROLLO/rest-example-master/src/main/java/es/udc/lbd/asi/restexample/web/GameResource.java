@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +77,7 @@ public class GameResource {
         return gameService.save(game);
     }
     @DeleteMapping("/{idGame}")
-    public void delete(@PathVariable Long idGame) {
+    public void delete(@PathVariable Long idGame) throws AddressException, MessagingException, ParseException {
         gameService.deleteById(idGame);
     }
     

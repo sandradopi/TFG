@@ -34,7 +34,7 @@ import es.udc.lbd.asi.restexample.model.service.GameService;
 @Component
 @EnableTransactionManagement
 @Transactional
-public class ScheduledTask {
+public class MinPlayersGameTask {
 	
 	@Autowired
 	GameService gameService;
@@ -63,8 +63,6 @@ public class ScheduledTask {
     	init();
     	LocalDate today = LocalDate.now();
         LocalDate tomorrow = today.plus(1, ChronoUnit.DAYS);
-        
-        System.out.println("RESISTENCIA"+ tomorrow);
       
 
         games=gameDAO.findAllTomorrow(tomorrow);
