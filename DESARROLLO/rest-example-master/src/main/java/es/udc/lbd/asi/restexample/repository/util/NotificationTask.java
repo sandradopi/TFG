@@ -101,7 +101,7 @@ public class NotificationTask {
 			    				t.close();
 			    		}catch (MessagingException me){
 			    			return;
-			    				}
+			    		}
 		    	    	
     	}    		
     }

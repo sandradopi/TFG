@@ -139,8 +139,13 @@ export default {
         return false;
       }
 
-        if (!this.game.maxPlayers) {
+      if (!this.game.maxPlayers) {
         this.error="Introduzca el número máximo de jugadores"
+        return false;
+      }
+
+       if ((this.game.maxPlayers%2) !=0) {
+        this.error="Introduzca un número par para poder realizar una mejor gestión de los equipos"
         return false;
       }
 

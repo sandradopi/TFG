@@ -7,9 +7,51 @@
         ok-only no-stacking>
         <Weather v-bind:location="this.game.location"></Weather>
     </b-modal>
+
+      <b-modal
+        class="formulario"
+        id="modalPrevent1"
+        ref="modal"
+        title="Filtros"
+        @ok="handleOk"
+        @shown="clearName">
+
+        <form @submit.stop.prevent="handleSubmit">
+           <b-form-group>
+           <b-form-group class="equipoA">
+               <h6>Jugadores del equipo A</h6>
+               <div v-for=" playerG in this.playersA" :key="playerG.idPlayer">
+                   <li>{{playerG.player.name}} {{playerG.player.surname1}}</li>
+               </div>
+          </b-form-group> 
+         
+          <b-form-group class="equipoB">
+              <h6>Jugadores del equipo B</h6>
+               <div v-for=" playerG in this.playersB" :key="playerG.idPlayer">
+                   <li>{{playerG.player.name}} {{playerG.player.surname1}}</li>
+               </div>
+          </b-form-group>  
+           </b-form-group>  
+          <b-form-group class="equipos">
+              <multiselect 
+                v-model="equipo" 
+                :options="this.equipos"
+                :multiple="false"
+                :searchable="true" 
+                :preserve-search="true"
+                :close-on-select="true" 
+                :show-labels="false"
+                placeholder="Equipo"
+                >
+              </multiselect>
+            </b-form-group>            
+            <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+        </form>
+      </b-modal>
      <b-btn class="button3" v-if="this.game.creator.login==WhatLogin()"@click="alertDisplay()"><span>Eliminar</span></b-btn> 
-    <b-btn class="button" v-if="this.bol==false" @click="apuntarse()"><span>Apuntarse</span></b-btn> 
+    <b-btn class="button" v-if="this.bol==false && this.completado==false" v-b-modal.modalPrevent1><span>Apuntarse</span></b-btn> 
     <b-btn class="button1" v-if="this.bol==true" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
+     <b-btn class="button31" v-if="this.completado==true" ><span>Completo</span></b-btn> 
      <b-btn class="button2" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
       <b-btn class="button22" v-if="this.notification==false" @click="notificar()"><font-awesome-icon icon="bell"style="font-size:30px;"/></b-btn>
        <b-btn class="button22" v-if="this.notification==true" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>
@@ -52,10 +94,14 @@ export default {
       bol:false,
       playerG:{},
       jugador:null,
-      equipos:['a','b'],
+      equipos:['A','B'],
       equipo:null,
       idPlayer:null,
-      notification:false
+      notification:false,
+      equipo:"",
+      playersA:[],
+      playersB:[],
+      completado:false,
 
     }
   },
@@ -71,6 +117,8 @@ export default {
 
   methods: {
     fetchData() {
+      this.playersA=[];
+      this.playersB=[];
 
       this.game=this.$route.params.id;
       this.playerG.game=this.game;
@@ -79,6 +127,8 @@ export default {
           .then(response => { this.players = response.data
                  return response })
           .then(this.comprobarApuntamiento)
+          .then(this.comprobarCompleto)
+          .then(this.listarPorEquipos)
           .catch(err => { this.error = err.message})
 
        HTTP.get(`users/${this.WhatLogin()}`) 
@@ -105,15 +155,68 @@ export default {
 
     },
 
+    comprobarCompleto(){
+      if((this.bol==false) && (this.players.length== this.game.maxPlayers)){
+        this.completado=true;
+       }
+    },
+    listarPorEquipos(){
+        for ( var i = 0; i < this.players.length; i ++){
+         if(this.players[i].equipo=="A"){
+           this.playersA.push(this.players[i])
+         }else{
+          this.playersB.push(this.players[i])
+         }
+
+       }
+
+    },
+    clearName() {
+        this.equipo = "";
+
+      },
+
+      handleOk(evt) {
+        // Prevent modal from closing
+        evt.preventDefault()
+        if (!this.equipo) {
+           this.$swal('Alerta!', "Seleccione por lo menos un equipo!", 'error')
+          
+        }else if(this.equipo=="A" && this.playersA.length==(this.game.maxPlayers/2)){
+          this.$swal('Alerta!', "El equipo A ya está al máximo, únete al otro equipo", 'error');
+          
+        }else if (this.equipo=="B" && this.playersB.length==(this.game.maxPlayers/2)) {
+          this.$swal('Alerta!', "El equipo B ya está al máximo, únete al otro equipo", 'error');
+        }else{ 
+          this.handleSubmit()
+        }
+      },
+      handleSubmit() {
+        this.apuntarse();
+
+      },
+
+    confirmacion(){
+       this.clearName()
+        this.$nextTick(() => {
+          // Wrapped in $nextTick to ensure DOM is rendered before closing
+        this.$refs.modal.hide();
+      })
+        this.fetchData();
+    }, 
+
     apuntarse(){
-      this.playerG.equipo="a";
+      this.playerG.equipo=this.equipo[0];
       this.playerG.player=this.jugador;
       
       HTTP.post('players', this.playerG) 
           .then(response => { this.bol = true
                  return response })
           .then(this._successHandler1)
+          .then(this.confirmacion)
           .catch(this._errorHandler)
+
+
     },
 
     desapuntarse(){
@@ -163,7 +266,7 @@ export default {
    
     _successHandler1(response) {
       this.$swal('Apuntado', 'Ya formas parte del partido, disfruta!', 'success')
-      this.fetchData()
+  
     },
      _successHandler(response) {
       this.$router.replace({ name: 'Game'})
@@ -272,7 +375,7 @@ div.message2 {
 
 div.message2.information{background: #17a2b8;}
 
-.button, .button1, .button3 , .button2, .button22{
+.button, .button1, .button3 , .button2, .button22, .button31{
   display: inline-block;
   border-radius: 4px;
   background-color: #17a2b8;
@@ -338,6 +441,10 @@ div.message2.information{background: #17a2b8;}
     width:6%;
  }
 
+ .button31{
+    background-color: green;
+ }
+
  .user{
     width: 90%;
     background-color:#17a2b8;
@@ -369,6 +476,19 @@ div.message2.information{background: #17a2b8;}
   color:white;
   margin-left:20px;
  }
+
+.formulario{
+  color:#17a2b8;
+}
+.equipoB{
+  float:right;
+  margin-right:20px;
+}
+
+.equipoA{
+  float:left;
+   margin-left:20px;
+}
 
 
 </style>
