@@ -30,6 +30,7 @@ public interface UserServiceInterface {
 	public List<UserDTO> findAllNoAdmin();
 	public NormalUserDTO updateNotification(String login, Long idGame, Boolean bool);
 	public Boolean getNotification(String login, Long idGame);
+	public List<GameDTO>findByCreatorResultado(String login);
 
   
 

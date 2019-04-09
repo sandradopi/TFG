@@ -51,11 +51,58 @@
 
 <script>
 import { Carousel, Slide } from 'vue-carousel'
+import { HTTP } from '../common/http-common'
+import auth from '../common/auth'
+import Swal from 'sweetalert2';
+
+
+
 
 export default {
-   components: {
-    Carousel,
-    Slide
+  components: { Carousel, Slide},
+  data() {
+    return {
+      games:[],
+     
+    }
+  },
+  watch: {
+    '$route': 'fetchData',
+    
+  },
+  created() { //se va a lanzar siempre en una clase de componentes
+
+    this.fetchData()
+  },
+
+  methods: {
+    fetchData() {  
+      if(this.$route.params.id==true){
+         HTTP.get(`users/${this.WhatLogin()}/pendingResult`) 
+                .then(response => { this.games= response.data
+                      return response })
+                .then(this.completarResultados)
+                .catch(err => { this.error = err.message})
+      }
+
+
+    },
+     WhatLogin() {
+      return auth.user.login
+    },
+    completarResultados(){
+      if(this.games.length>0){
+          this.$swal("Tienes partidos pendientes de completar sus resultados. Deseas hacerlo ahora?", {
+           dangerMode: false,
+           buttons: true
+         }).then((result) => {
+             if(result) {
+                 this.$swal('Eliminado', 'Se ha borrado correctamente el deporte', 'success')
+                 
+           } 
+         })
+      }
+    }
   }
 }
 </script>

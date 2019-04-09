@@ -207,11 +207,13 @@ public void deleteById(Long idGame) throws AddressException, MessagingException,
 	
 				
 }
-@PreAuthorize("hasAuthority('USER')")
-@Override
-public GameDTO findById(Long idGame) {
-	return new GameDTO(gameDAO.findById(idGame));
-}
+	@PreAuthorize("hasAuthority('USER')")
+	@Override
+	public GameDTO findById(Long idGame) {
+		return new GameDTO(gameDAO.findById(idGame));
+	}
+	
+	
 
 		
 	     

@@ -58,6 +58,7 @@ public class GameResource {
     public List<GameDTO> findAllFiltros(@RequestParam String creator, @RequestParam String sport) {
         return gameService.findAllFiltros(sport, creator);
     }
+    
    
     @GetMapping("/locations/{idLocation}")
     public List <GameDTO> findAllLocation(@PathVariable Long idLocation) {

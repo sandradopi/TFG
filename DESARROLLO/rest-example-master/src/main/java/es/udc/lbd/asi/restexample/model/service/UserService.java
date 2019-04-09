@@ -60,6 +60,11 @@ public class UserService implements UserServiceInterface{
 	  return userDAO.findAllGamesCreated(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 	  }
   
+  @Override
+	public List<GameDTO> findByCreatorResultado(String login) {
+		return userDAO.findByCreatorResultado(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());		
+	}
+  
   @PreAuthorize("hasAuthority('USER')")
   @Override
 	public Boolean getNotification(String login,Long idGame) {

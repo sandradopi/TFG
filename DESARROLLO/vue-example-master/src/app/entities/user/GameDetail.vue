@@ -453,8 +453,6 @@ div.message2.information{background: #17a2b8;}
     overflow: scroll;
     margin-left:10px;
 
-
-
  }
 
 .foto{
@@ -469,8 +467,6 @@ div.message2.information{background: #17a2b8;}
   float:left;
  }
 
-
- 
 
  .info{
   color:white;

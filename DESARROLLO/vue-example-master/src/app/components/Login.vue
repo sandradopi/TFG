@@ -48,7 +48,8 @@ export default {
     return {
       username: '',
       password: '',
-      error: null
+      error: null,
+
     }
   },
   methods: {
@@ -58,12 +59,16 @@ export default {
         password: this.password
       })
       .then(() => {
-        this.$router.go(-1)
+        this.volverHome();
       })
       .catch(err => {
         this.error = err.response.data.message
       })
-    }
+    },
+  
+    volverHome(){
+      this.$router.replace({ name: 'Home', params: { id: true}})
+    },
   }
 }
 </script>

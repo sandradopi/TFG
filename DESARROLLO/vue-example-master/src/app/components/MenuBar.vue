@@ -1,6 +1,37 @@
 <template>
   <div>
   <b-navbar toggleable="md" variant="info">
+  <b-modal
+        id="modalPrevent2"
+        ref="modal"
+        class="formulario"
+        title="Completar Resultados"
+        ok-only ok-variant="secondary" 
+        ok-title="Cancelar"
+        @ok="handleOk"
+        @shown="clearName">
+
+        <form @submit.stop.prevent="handleSubmit">
+          <b-form-group>
+             <div class="information message2">
+             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+             <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
+             <b-btn class="w3-bar">
+               <img v-if="game.sport.type=='Futbol'"src="../entities/user/futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-if="game.sport.type=='Tennis'"src="../entities/user/ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-if="game.sport.type=='Paddel'"src="../entities/user/paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-if="game.sport.type=='Baloncesto'"src="../entities/user/bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="w3-bar-item">
+                <span class="w3-large">{{game.location.name}}</span><br>
+                <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
+              </div>
+          </b-btn>
+    </div>
+  </div>
+          </b-form-group>
+        </form>
+      </b-modal>
+
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle target>
       <b-navbar-brand class="hello" to="/">PLAY2GETHER</b-navbar-brand>
       <b-collapse id="nav_collapse" is-nav>
@@ -44,9 +75,10 @@
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item exact v-if="isLogged" @click="logout()" :to="{ name: ''}">Cerrar Sesión</b-dropdown-item>
             </b-nav-item-dropdown>
+             <b-btn class="button" v-b-modal.modalPrevent2 v-if="isLogged && !isAdmin"><div>{{this.games.length}}</div><font-awesome-icon icon="exclamation-circle"style="font-size:35px;"/></b-btn>
+            
+            
          </b-navbar-nav>
-
-
        </b-collapse>
     </b-navbar>
   </div>
@@ -54,8 +86,19 @@
 
 <script>
 import auth from '../common/auth'
+import { HTTP } from '../common/http-common'
 export default {
+data() {
+    return {
+      games:[],
+     
+    }
+  },
+  watch: {
+    '$route': 'fetchData',
 
+    
+  },
   computed: {
     isLogged() {
       return auth.user.logged
@@ -70,11 +113,37 @@ export default {
        return auth.isAdmin()
      }
   },
+  created(){
+    this.fetchData();
+  },
   methods: {
     logout() {
       auth.logout()
       this.$router.push({ name: 'Home' })
-    }
+    },
+    fetchData(){
+      if(this.isLogged){
+       HTTP.get(`users/${this.WhatLogin1()}/pendingResult`) 
+                .then(response => { this.games= response.data
+                      return response })
+                .then(this.completarResultados)
+                .catch(err => { this.error = err.message})}
+    },
+    WhatLogin1() {
+      return auth.user.login
+    },
+     clearName() {
+        
+      },
+      handleOk(evt) {
+      
+      },
+      handleSubmit() {
+
+      },
+      custom(hora){
+      return hora.substring(0,5)
+    },
   }
 }
 </script>
@@ -103,9 +172,35 @@ ul.navbar-nav {
    margin-left:20px;
    margin-top:20px;
 }
+
+
+.button{
+   background-color:#17a2b8;
+   border:none;
+}
+
+.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .active > .nav-link, .navbar-light .navbar-nav .nav-link.show, .navbar-light .navbar-nav .nav-link.active {
+    color: rgba(0, 0, 0, 0.9);
+    margin-top: 20px;
+}
 .ml-auto{
    margin-right:60px;
 }
 
+fieldset {
+    border: none;
+    
+}
+.w3-bar{
+   border-radius: 25px;
+    background: white;
+    color: #6c757d;
+    margin-top:10px;
+    border-color:white;
+    box-shadow:0 2px 5px rgba(0,0,0,.3);
+}
 
+.formulario{
+  color:#17a2b8;
+}
 </style>

@@ -15,4 +15,6 @@ import Mapa from './admin/Mapa'
 import Calendar from './user/Calendar'
 
 
+
+
 export {Calendar,Mapa,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}
