@@ -3,7 +3,7 @@
   <b-navbar toggleable="md" variant="info">
   <b-modal
         id="modalPrevent2"
-        ref="modal"
+        ref="modal2"
         class="formulario"
         title="Completar Resultados"
         ok-only ok-variant="secondary" 

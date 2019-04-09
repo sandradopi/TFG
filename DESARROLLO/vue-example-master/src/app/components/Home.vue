@@ -45,7 +45,35 @@
         </p>
       </b-carousel-slide>
     </b-carousel>
+<b-modal
+        id="modalPrevent22"
+        ref="modal"
+        class="formulario"
+        title="Completar Resultados"
+        ok-only ok-variant="secondary" 
+        ok-title="Cancelar"
+       >
 
+        <form @submit.stop.prevent="handleSubmit">
+          <b-form-group>
+             <div class="information message2">
+             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+             <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
+             <b-btn class="w3-bar">
+               <img v-if="game.sport.type=='Futbol'"src="../entities/user/futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-if="game.sport.type=='Tennis'"src="../entities/user/ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-if="game.sport.type=='Paddel'"src="../entities/user/paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-if="game.sport.type=='Baloncesto'"src="../entities/user/bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="w3-bar-item">
+                <span class="w3-large">{{game.location.name}}</span><br>
+                <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
+              </div>
+          </b-btn>
+    </div>
+  </div>
+          </b-form-group>
+        </form>
+      </b-modal>
   </div>
 </template>
 
@@ -90,6 +118,9 @@ export default {
      WhatLogin() {
       return auth.user.login
     },
+    custom(hora){
+      return hora.substring(0,5)
+    },
     completarResultados(){
       if(this.games.length>0){
           this.$swal("Tienes partidos pendientes de completar sus resultados. Deseas hacerlo ahora?", {
@@ -97,7 +128,7 @@ export default {
            buttons: true
          }).then((result) => {
              if(result) {
-                 this.$swal('Eliminado', 'Se ha borrado correctamente el deporte', 'success')
+                 this.$refs.modal.show();
                  
            } 
          })
@@ -116,6 +147,22 @@ export default {
   margin-right: auto;
   margin-top:110px;
  
+}
+fieldset {
+    border: none;
+    
+}
+.w3-bar{
+   border-radius: 25px;
+    background: white;
+    color: #6c757d;
+    margin-top:10px;
+    border-color:white;
+    box-shadow:0 2px 5px rgba(0,0,0,.3);
+}
+
+.formulario{
+  color:#17a2b8;
 }
 
 </style>
