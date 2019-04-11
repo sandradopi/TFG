@@ -13,10 +13,10 @@
 
         <form @submit.stop.prevent="handleSubmit">
           <b-form-group>
-             <div class="information message2">
+             <div class="informationmessage2">
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
              <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
-             <b-btn class="w3-bar">
+             <b-btn class="w3-bar" @click="confirmacion(game)">
                <img v-if="game.sport.type=='Futbol'"src="../entities/user/futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
                <img v-if="game.sport.type=='Tennis'"src="../entities/user/ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
                <img v-if="game.sport.type=='Paddel'"src="../entities/user/paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
@@ -75,7 +75,7 @@
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item exact v-if="isLogged" @click="logout()" :to="{ name: ''}">Cerrar Sesión</b-dropdown-item>
             </b-nav-item-dropdown>
-             <b-btn class="button" v-b-modal.modalPrevent2 v-if="isLogged && !isAdmin"><div>{{this.games.length}}</div><font-awesome-icon icon="exclamation-circle"style="font-size:35px;"/></b-btn>
+             <b-btn class="button" v-b-modal.modalPrevent2 v-if="isLogged && !isAdmin && this.games.length>0"><div>{{this.games.length}}</div><font-awesome-icon icon="exclamation-circle"style="font-size:35px;"/></b-btn>
             
             
          </b-navbar-nav>
@@ -91,6 +91,7 @@ export default {
 data() {
     return {
       games:[],
+
      
     }
   },
@@ -138,9 +139,17 @@ data() {
       handleOk(evt) {
       
       },
-      handleSubmit() {
+     confirmacion(game){
 
-      },
+        this.$nextTick(() => {
+          // Wrapped in $nextTick to ensure DOM is rendered before closing
+        this.$refs.modal2.hide();
+
+      })
+       this.$router.replace({ name: 'FutbolForm', params: { id:game}})
+
+       
+    }, 
       custom(hora){
       return hora.substring(0,5)
     },
@@ -201,6 +210,12 @@ fieldset {
 }
 
 .formulario{
+
   color:#17a2b8;
+  
+}
+.informationmessage2{
+  height:300px;
+  overflow: scroll;
 }
 </style>

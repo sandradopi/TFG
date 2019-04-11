@@ -65,6 +65,12 @@ public class UserResource {
     	return games;
     }
     
+    @GetMapping("/{login}/jugados")
+    public List<GameDTO> findAllPartidosJugados(@PathVariable String login){
+    	 List<GameDTO> games = userService.findGamesPlayed(login);
+    	return games;
+    }
+    
     @GetMapping("/{login}/pendingResult")
     public List<GameDTO> findAllGamePendingResult(@PathVariable String login){
     	 List<GameDTO> games = userService.findByCreatorResultado(login);

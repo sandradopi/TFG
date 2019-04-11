@@ -59,7 +59,7 @@
              <div class="information message2">
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
              <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
-             <b-btn class="w3-bar">
+             <b-btn class="w3-bar" @click="confirmacion(game)">
                <img v-if="game.sport.type=='Futbol'"src="../entities/user/futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
                <img v-if="game.sport.type=='Tennis'"src="../entities/user/ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
                <img v-if="game.sport.type=='Paddel'"src="../entities/user/paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
@@ -115,6 +115,15 @@ export default {
 
 
     },
+     confirmacion(game){
+        this.$nextTick(() => {
+          // Wrapped in $nextTick to ensure DOM is rendered before closing
+        this.$refs.modal2.hide();
+
+      })
+       this.$router.replace({ name: 'FutbolForm', params: { id:game}})
+       
+    }, 
      WhatLogin() {
       return auth.user.login
     },

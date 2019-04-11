@@ -55,6 +55,12 @@ public class UserService implements UserServiceInterface{
   private PasswordEncoder passwordEncoder;
 
   @PreAuthorize("hasAuthority('USER')")
+	@Override
+	public List<GameDTO> findGamesPlayed(String login) {
+	  return userDAO.findAllGamesPlayed(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+	}
+
+  @PreAuthorize("hasAuthority('USER')")
   @Override
 	public List<GameDTO> findGamesCreated(String login) {
 	  return userDAO.findAllGamesCreated(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
@@ -243,7 +249,6 @@ public class UserService implements UserServiceInterface{
 	    	NormalUser bdUser = (NormalUser) userDAO.findById(user.getIdUser());
 	    		bdUser.setCity(user.getCity());
 	    		bdUser.setBirthday(user.getBirthday());
-	    		bdUser.setEmail(user.getEmail());
 	    		bdUser.setSurname1(user.getSurname1());
 	    		bdUser.setSurname2(user.getSurname2());
 	    		bdUser.setName(user.getName());
@@ -309,9 +314,7 @@ public class UserService implements UserServiceInterface{
 
 		  }
 
-		
-
-		
+	
 
 		
    

@@ -555,4 +555,10 @@ export default {
   background: #f3f3f3;
   padding:10px;
  }
+
+ fieldset {
+    border: none;
+    margin: 0 2px;
+    padding: .35em .625em .75em;
+}
 </style>

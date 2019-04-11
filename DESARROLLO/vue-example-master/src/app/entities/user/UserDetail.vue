@@ -112,14 +112,16 @@ export default {
   font-family: 'Lato', sans-serif;
   margin:0;
   margin-left:120px;
-  margin-top:100px;
+  margin-top:70px;
   height:80%;
+  float:left;
 
 
 
   }
 
   .equipo{
+  margin-top:70px;
   float:right;
   padding: 1em;
   width: 40%;
@@ -200,6 +202,7 @@ export default {
   transition: all 0.5s;
   cursor: pointer;
   margin: 5px;
+  margin-top:73px;
 
 }
 
@@ -298,4 +301,17 @@ export default {
   color: grey;
 }
 
+
+.swal-title {
+    color: rgba(0,0,0,.65);
+    font-weight: 500px;
+    text-transform: none;
+    position: relative;
+    display: block;
+    padding: 13px 16px;
+    font-size: 27px;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 0;
+}
 </style>

@@ -340,5 +340,17 @@ div.message2 {
 
 div.message2.information{background: #fb887c;}
 
+.swal-title {
+    color: rgba(0,0,0,.65);
+    font-weight: 500px;
+    text-transform: none;
+    position: relative;
+    display: block;
+    padding: 13px 16px;
+    font-size: 27px;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 0;
+}
 
 </style>

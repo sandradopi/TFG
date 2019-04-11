@@ -66,6 +66,10 @@ export default {
                 .then(response => { this.games= response.data
                       return response })
                 .catch(err => { this.error = err.message})
+      }else if(this.tipo=='jugados'){
+          HTTP.get(`users/${this.WhatLogin()}/jugados`) 
+                .then(response => { this.games= response.data
+                      return response })
       }
 
     },
@@ -134,5 +138,17 @@ ul.w3-ul.w3-card-4{
 }
 
 
+.swal-title {
+    color: rgba(0,0,0,.65);
+    font-weight: 500px;
+    text-transform: none;
+    position: relative;
+    display: block;
+    padding: 13px 16px;
+    font-size: 27px;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 0;
+}
 
 </style>

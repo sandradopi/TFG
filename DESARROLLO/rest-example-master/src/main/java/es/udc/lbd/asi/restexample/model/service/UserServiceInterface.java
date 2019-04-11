@@ -27,6 +27,7 @@ public interface UserServiceInterface {
 	public List<GameDTO> findGamesCreated(String login);
 	public void deleteById(Long idUser) throws SportDeleteException;
 	public List<GameDTO> findGamesNext(String login);
+	public List<GameDTO> findGamesPlayed(String login);
 	public List<UserDTO> findAllNoAdmin();
 	public NormalUserDTO updateNotification(String login, Long idGame, Boolean bool);
 	public Boolean getNotification(String login, Long idGame);

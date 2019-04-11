@@ -13,6 +13,7 @@
         id="modalPrevent1"
         ref="modal"
         title="Filtros"
+        
         @ok="handleOk"
         @shown="clearName">
 
@@ -21,16 +22,20 @@
            <b-form-group class="equipoA">
                <h6>Jugadores del equipo A</h6>
                <div v-for=" playerG in this.playersA" :key="playerG.idPlayer">
-                   <li>{{playerG.player.name}} {{playerG.player.surname1}}</li>
+                   <li class="jugadores">{{playerG.player.name}} {{playerG.player.surname1}}</li>
+
                </div>
+                <li class="jugadores" v-if="this.playersA.length==0">Equipo sin jugadores</li>
           </b-form-group> 
          
           <b-form-group class="equipoB">
               <h6>Jugadores del equipo B</h6>
                <div v-for=" playerG in this.playersB" :key="playerG.idPlayer">
-                   <li>{{playerG.player.name}} {{playerG.player.surname1}}</li>
+                   <li class="jugadores">{{playerG.player.name}} {{playerG.player.surname1}}</li>
                </div>
-          </b-form-group>  
+               <li class="jugadores" v-if="this.playersB.length==0">Equipo sin jugadores</li> 
+          </b-form-group> 
+           
            </b-form-group>  
           <b-form-group class="equipos">
               <multiselect 
@@ -319,7 +324,7 @@ export default {
     margin-left:120px;
     margin-top:50px;
     margin-bottom:50px;
-    height:60%;
+    height:65%;
     border-radius: 6px;
 }
 
@@ -486,5 +491,26 @@ div.message2.information{background: #17a2b8;}
    margin-left:20px;
 }
 
+fieldset {
+    border: none;
+    margin: 0 2px;
+    padding: .35em .625em .75em;
+}
 
+.jugadores{
+  color:grey;
+}
+
+.swal-title {
+    color: rgba(0,0,0,.65);
+    font-weight: 500px;
+    text-transform: none;
+    position: relative;
+    display: block;
+    padding: 13px 16px;
+    font-size: 27px;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 0;
+}
 </style>

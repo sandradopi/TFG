@@ -224,7 +224,7 @@ export default {
   margin-left:120px;
   margin-top:80px;
   border-radius: 6px;
-  height:70%;
+  height:80%;
   margin-bottom:20px;
   float:left;
 
@@ -310,12 +310,24 @@ export default {
     font-size: 0.8em;
     width: 50%;
     float: right;
-    margin-top:87px;
+    margin-top:120px;
     margin-right: 7%;
 }
 
 
 
+.swal-title {
+    color: rgba(0,0,0,.65);
+    font-weight: 500px;
+    text-transform: none;
+    position: relative;
+    display: block;
+    padding: 13px 16px;
+    font-size: 27px;
+    line-height: normal;
+    text-align: center;
+    margin-bottom: 0;
+}
 
 
 </style>
