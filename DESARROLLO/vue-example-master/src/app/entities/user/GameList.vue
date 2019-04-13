@@ -2,7 +2,7 @@
   <div class="information message2">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
-        <b-btn class="w3-bar" :to="{ name: 'GameDetail', params: { id: game}}">
+        <b-btn class="w3-bar" @click="verDetallePartido(game)">
            <img v-if="game.sport.type=='Futbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
            <img v-if="game.sport.type=='Tennis'"src="ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
            <img v-if="game.sport.type=='Paddel'"src="paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
@@ -32,7 +32,11 @@ export default {
   },
   data() {
     return {
-      games:null
+      games:null,
+      pasado:null,
+      bool:false,
+      jugados:null
+
   
     }
   },
@@ -77,6 +81,26 @@ export default {
     custom(hora){
       return hora.substring(0,5)
     },
+    verDetallePartido(game){
+      if(this.tipo=='proximo'){
+        this.$router.replace({ name: 'GameDetail', params: { id:game}})
+      }else if(this.tipo=='jugados'){
+         this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
+      } else if(this.tipo=='organizados'){
+
+        var f=new Date();
+        var cad=f.getHours()+":"+f.getMinutes()+":"+f.getSeconds(); 
+        var n = f.toISOString().substring(0,10);
+       if((game.date<n)|| (game.date ==n && game.timeStart<cad)){
+        this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
+      }else{
+
+        this.$router.replace({ name: 'GameDetail', params: { id:game}})
+      }
+      
+    }
+    },
+    
      WhatLogin() {
       return auth.user.login
     },

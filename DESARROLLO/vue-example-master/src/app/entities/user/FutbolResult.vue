@@ -1,8 +1,8 @@
 <template>
   <div class="content"> 
    
-     <b-btn class="button" @click="guardar()"><span>Guardar</span></b-btn> 
-      <h1 class="title">Resultado Partido</h1> 
+     
+      <h1 class="title">Partido Finalizado</h1> 
 
       <div class="information message" v-if="loading==true">
         <h2 class="title1"> Información</h2>  
@@ -13,74 +13,7 @@
         <h6>Fecha: {{this.game.date}}</h6>
       </div>
       <div class="information message2">
-       
-
-     <div class="formulario">
-		  <b-form
-		      v-if="game"
-		      class="app-form"
-		      >
-		 <b-form-group>
-		 <span class="w3-large">Resultado Final:</span><br>
-		 <div class="bloque2">
-		  <span class="letra">A</span><br>
-		        <b-form-input
-		          id="nombre"
-		          v-model="resultadoA"
-		          type="text"
-		          autocomplete="off"
-		          required
-		          placeholder=""></b-form-input>
-		</div>
-
-		<div class="bloque3">
-  		 <span class="letra">B</span><br>
-		        <b-form-input
-		          id="nombre"
-		          v-model="resultadoB"
-		          type="text"
-		          autocomplete="off"
-		          required
-		          placeholder="">
-		      	</b-form-input>
-		
-     </div>
-   	 </b-form-group>     
-	 <b-form-group>
-	<div class="info">
-	<span class="w3-large">Goles Jugadores A:</span><br>
-    <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
-     <div class="conj">	
-              <span class="w3-large">{{playerG.player.login}}</span><br>
-                 <b-form-input
-		          id="players"
-		          v-model="goles[playerG.idPlayer]"
-		          type="text"
-		          autocomplete="off"
-		          required
-		          placeholder=""/>
-		      </div>
-    </div>
-	</br>
-	</br>
-  <span class="w3-large">Goles Jugadores B:</span><br>
-    <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
-     <div class="conj">	
-              <span class="w3-large">{{playerG.player.login}}</span><br>
-                 <b-form-input
-		          id="players"
-		          v-model="goles[playerG.idPlayer]"
-		          type="text"
-		          autocomplete="off"
-		          required
-		          placeholder=""/>
-		      </div>
-    </div>
-      </b-form-group>
-     </b-form>
-	</div>
+      </div>
    </div>
  </div>
 </template>
@@ -100,15 +33,15 @@ export default {
   },
   data() {
     return {
-    	game:{},
-    	players:null,
-    	playersA:[],
-    	playersB:[],
-    	resultadoA:'0',
-    	resultadoB:'0',
-    	goles:[],
-    	loading:false,
-    	resultado:{},
+      game:{},
+      players:null,
+      playersA:[],
+      playersB:[],
+      resultadoA:'0',
+      resultadoB:'0',
+      goles:[],
+      loading:false,
+      resultado:{},
 
 
     }
@@ -130,87 +63,87 @@ export default {
 
   methods: {
     fetchData() {
-    	 this.game={}
-    	 this.loading=false;
-    	 HTTP.get(`games/${this.$route.params.id}`) 
+       this.game={}
+       this.loading=false;
+       HTTP.get(`games/${this.$route.params.id}`) 
           .then(response => { this.game = response.data
                  return response })
           .then(this.jugadoresJuego)
           .then(this.prepararInfo)
           .catch(err => { this.error = err.message})
-    	    	
+            
       
     },
   
-	jugadoresJuego(){
-		  HTTP.get(`players/${this.game.idGame}`) 
-		          .then(response => { this.players = response.data
-		                 return response })
-		          .then(this.DividirEnEquipos)
-		          .catch(err => { this.error = err.message})
+  jugadoresJuego(){
+      HTTP.get(`players/${this.game.idGame}`) 
+              .then(response => { this.players = response.data
+                     return response })
+              .then(this.DividirEnEquipos)
+              .catch(err => { this.error = err.message})
 
 
-	 },
+   },
 
-	prepararInfo(){
-		 this.loading=true;
+  prepararInfo(){
+     this.loading=true;
 
-	 },
+   },
 
-	 DividirEnEquipos(){
+   DividirEnEquipos(){
 
-    	 for ( var i = 0; i < this.players.length; i ++){
-    	 	if(this.players[i].equipo=='A'){
-    	 		this.playersA.push(this.players[i])
-    	 	}else{
-    	 		this.playersB.push(this.players[i])
-    	 	}
-    	 }
+       for ( var i = 0; i < this.players.length; i ++){
+        if(this.players[i].equipo=='A'){
+          this.playersA.push(this.players[i])
+        }else{
+          this.playersB.push(this.players[i])
+        }
+       }
 
-	 },
+   },
   
      _successHandler(response) {
       this.$router.replace({ name: 'Game'})
     },
 
     guardar(){
-    	
-    	var equipoA={};
-    	var equipoB={};
-    	var jugadoresA=[];
-    	var jugadoresB=[];
+      
+      var equipoA={};
+      var equipoB={};
+      var jugadoresA=[];
+      var jugadoresB=[];
 
 
-    	 for ( var i = 0; i < this.players.length; i ++){
-    	 	if(this.players[i].equipo=='A'){
-    	 		jugadoresA.push({
-    	 			"id":this.players[i].idPlayer,
-    	 			"goles":this.goles[this.players[i].idPlayer]
-    		});
-    	 	}
+       for ( var i = 0; i < this.players.length; i ++){
+        if(this.players[i].equipo=='A'){
+          jugadoresA.push({
+            "id":this.players[i].idPlayer,
+            "goles":this.goles[this.players[i].idPlayer]
+        });
+        }
 
-    	 	if(this.players[i].equipo=='B'){
-    	 		jugadoresB.push({
-    	 			"id":this.players[i].idPlayer,
-    	 			"goles":this.goles[this.players[i].idPlayer]
-    		});
-    	 	}
-    		
-    	}
+        if(this.players[i].equipo=='B'){
+          jugadoresB.push({
+            "id":this.players[i].idPlayer,
+            "goles":this.goles[this.players[i].idPlayer]
+        });
+        }
+        
+      }
 
-    	equipoA.goles=this.resultadoA;
-    	equipoB.goles=this.resultadoB;
-    	equipoA.jugadoresA=jugadoresA;
-    	equipoB.jugadoresB=jugadoresB;
-    	this.resultado.equipoA=equipoA;
-    	this.resultado.equipoB=equipoB;
+      equipoA.goles=this.resultadoA;
+      equipoB.goles=this.resultadoB;
+      equipoA.jugadoresA=jugadoresA;
+      equipoB.jugadoresB=jugadoresB;
+      this.resultado.equipoA=equipoA;
+      this.resultado.equipoB=equipoB;
 
-    	
-    	 HTTP.put(`games/${this.game.idGame}`,this.resultado)
+      
+       HTTP.put(`games/${this.game.idGame}`,this.resultado)
               .then(this._successHandler)
               .catch(this._errorHandler)
 
-    	
+      
     },
 
      _successHandler(response) {
@@ -342,7 +275,7 @@ div.message2.information{background: #17a2b8;}
  }
 
  #players{
- 	width:50px;
+  width:50px;
 
  }
 
@@ -367,16 +300,7 @@ fieldset {
 }
 
  
-.app-form {
-    padding-top: 0px;
 
-}
-
-#nombre{
-	width:50px;
-
-
-}
 .button{
   display: inline-block;
   border-radius: 4px;
@@ -419,25 +343,6 @@ fieldset {
   right: 0;
 }
 
-.bloque3{
-	float:right;
-	margin-right:550px;
-}
 
-.bloque2{
-
-	float:left;
-	display:inline-block;
-}
-.letra{
-	margin-left:20px;
-}
-.bloque{
-	display:inline-block;
-}
-
-.conj{
-	float:right;
-}
 
 </style>

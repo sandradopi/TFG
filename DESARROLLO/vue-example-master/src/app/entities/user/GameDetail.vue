@@ -1,5 +1,6 @@
 <template>
   <div class="content"> 
+    
     <b-modal
         id="modalPrevent"
         ref="modal"
