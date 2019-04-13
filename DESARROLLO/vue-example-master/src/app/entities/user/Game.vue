@@ -56,7 +56,7 @@
 
   <Calendar class="calendario" v-if="this.calendar==true" ></Calendar>
 
-	<div id="mymap" class="mymap" v-if="this.calendar==false"></div>
+	<div id="mymap" class="mymap" v-show="this.calendar==false"></div>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.1.0/dist/leaflet.css" />
     <div class="information message2" v-if="this.bol==true">

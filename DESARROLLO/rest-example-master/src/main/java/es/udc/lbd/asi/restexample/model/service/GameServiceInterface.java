@@ -23,6 +23,7 @@ public interface GameServiceInterface {
 	  public void deleteById(Long idGame) throws AddressException, MessagingException, ParseException;
 	  public List<GameDTO> findAllFiltros(String sport, String user);
 	  public GameDTO findById(Long idGame);
+	  public GameDTO update(Long idGame, String resultado);
 	  
 	 
 

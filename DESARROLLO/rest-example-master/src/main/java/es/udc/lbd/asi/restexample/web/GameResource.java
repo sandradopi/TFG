@@ -27,6 +27,7 @@ import es.udc.lbd.asi.restexample.model.exception.GameColapseException;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
+import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.GameService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.TeamService;
@@ -80,6 +81,12 @@ public class GameResource {
     @DeleteMapping("/{idGame}")
     public void delete(@PathVariable Long idGame) throws AddressException, MessagingException, ParseException {
         gameService.deleteById(idGame);
+    }
+    
+    @PutMapping("/{idGame}")
+    public GameDTO update(@PathVariable Long idGame, @RequestBody @Valid String result, Errors errors){
+           
+        return gameService.update(idGame,result);
     }
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {

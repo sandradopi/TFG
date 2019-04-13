@@ -116,12 +116,8 @@ export default {
 
     },
      confirmacion(game){
-        this.$nextTick(() => {
-          // Wrapped in $nextTick to ensure DOM is rendered before closing
-        this.$refs.modal2.hide();
-
-      })
-       this.$router.replace({ name: 'FutbolForm', params: { id:game}})
+        
+       this.$router.replace({ name: 'FutbolForm', params: { id:game.idGame}})
        
     }, 
      WhatLogin() {

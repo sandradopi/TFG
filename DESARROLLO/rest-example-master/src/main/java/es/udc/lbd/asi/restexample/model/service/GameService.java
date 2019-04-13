@@ -25,11 +25,13 @@ import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
+import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.exception.EventBeforeDayException;
 import es.udc.lbd.asi.restexample.model.exception.GameColapseException;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
+import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
@@ -214,7 +216,15 @@ public void deleteById(Long idGame) throws AddressException, MessagingException,
 	}
 	
 	
-
+	@Transactional(readOnly = false)
+	@Override
+	public GameDTO update(Long idGame, String resultado) {	
+    	Game bdGame = (Game) gameDAO.findById(idGame);
+    	bdGame.setResult(resultado);
+    	
+		    gameDAO.save(bdGame);
+		    return new GameDTO(bdGame);
+		    }
 		
 	     
    
