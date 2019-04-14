@@ -56,7 +56,7 @@
 
         <form @submit.stop.prevent="handleSubmit">
           <b-form-group>
-             <div class="information message2">
+             <div class="informationmessage2">
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
              <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
              <b-btn class="w3-bar" @click="confirmacion(game)">
@@ -168,6 +168,10 @@ fieldset {
 
 .formulario{
   color:#17a2b8;
+}
+.informationmessage2{
+  height:200px;
+  overflow: scroll;
 }
 
 </style>

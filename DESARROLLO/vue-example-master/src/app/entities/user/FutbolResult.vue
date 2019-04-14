@@ -4,6 +4,7 @@
      
       <h1 class="title">Partido Finalizado</h1> 
 
+
       <div class="information message" v-if="loading==true">
         <h2 class="title1"> Información</h2>  
         <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
@@ -11,10 +12,37 @@
         <h6>Ubicación: {{this.game.location.name}}</h6>
         <h6>Horario: {{this.game.timeStart}} - {{this.game.timeEnd}} </h6>
         <h6>Fecha: {{this.game.date}}</h6>
+         </br>
+        <h2 class="title1"> Goles:</h2>  
+
+        <h6>{{this.golesA}}</h6>
       </div>
-      <div class="information message2">
+      <div class="information message3" v-if="loading==true">
+        <h2 class="title1"> Resultado: {{this.resultado.equipoA.goles}} - {{this.resultado.equipoB.goles}}</h2>  
       </div>
-   </div>
+       <div class="information message2" v-if="loading==true">
+      <div class="info">
+      <h2 class="title2"> Equipo A</h2>  
+        <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
+        <h6 class="w3-large">{{playerG.player.login}}</h6>
+         <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
+        </div>
+        </div>
+      </div>
+
+      <div class="information message2" v-if="loading==true">
+      <div class="info">
+      <h2 class="title2"> Equipo B</h2>  
+        <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
+          
+        <h6 class="w3-large">{{playerG.player.login}}</h6>
+         <img class="foto"src="http://i.pravatar.cc/250?img=48" class="foto" style="width:60px">
+        </div>
+      </div>
+      </div>
+
+
+       </div>
  </div>
 </template>
 
@@ -42,6 +70,7 @@ export default {
       goles:[],
       loading:false,
       resultado:{},
+      golesA:[]
 
 
     }
@@ -49,10 +78,6 @@ export default {
   watch: {
 
     '$route.params.id':'fetchData',
-
-
-
-
     
   },
  
@@ -69,11 +94,40 @@ export default {
           .then(response => { this.game = response.data
                  return response })
           .then(this.jugadoresJuego)
+          .then(this.transformarJSON)
           .then(this.prepararInfo)
           .catch(err => { this.error = err.message})
             
       
     },
+
+  transformarJSON(){
+    var obj={};
+    this.resultado = JSON.parse(this.game.result);
+    for ( var i = 0; i < this.resultado.equipoA.jugadoresA.length; i ++){
+
+     //obj.login=this.nombreJugador(this.resultado.equipoA.jugadoresA[i].id);
+
+     //obj.goles=this.resultado.equipoA.jugadoresA[i].goles;
+     //this.golesA.push(obj)
+      
+
+     }
+  },
+
+  nombreJugador(id){
+
+    var login;
+    for ( var i = 0; i < this.players.length; i ++){
+        if(this.players[i].idPlayer==id){
+          login=this.players[i].login;
+        }
+     
+       }
+
+       return login;
+      
+  },
   
   jugadoresJuego(){
       HTTP.get(`players/${this.game.idGame}`) 
@@ -106,49 +160,7 @@ export default {
       this.$router.replace({ name: 'Game'})
     },
 
-    guardar(){
-      
-      var equipoA={};
-      var equipoB={};
-      var jugadoresA=[];
-      var jugadoresB=[];
-
-
-       for ( var i = 0; i < this.players.length; i ++){
-        if(this.players[i].equipo=='A'){
-          jugadoresA.push({
-            "id":this.players[i].idPlayer,
-            "goles":this.goles[this.players[i].idPlayer]
-        });
-        }
-
-        if(this.players[i].equipo=='B'){
-          jugadoresB.push({
-            "id":this.players[i].idPlayer,
-            "goles":this.goles[this.players[i].idPlayer]
-        });
-        }
-        
-      }
-
-      equipoA.goles=this.resultadoA;
-      equipoB.goles=this.resultadoB;
-      equipoA.jugadoresA=jugadoresA;
-      equipoB.jugadoresB=jugadoresB;
-      this.resultado.equipoA=equipoA;
-      this.resultado.equipoB=equipoB;
-
-      
-       HTTP.put(`games/${this.game.idGame}`,this.resultado)
-              .then(this._successHandler)
-              .catch(this._errorHandler)
-
-      
-    },
-
-     _successHandler(response) {
-      this.$router.replace({ name: 'FutbolResult', params: { id:this.game.idGame}})
-    },
+  
    
       WhatLogin() {
       return auth.user.login
@@ -181,7 +193,7 @@ export default {
     margin-left:120px;
     margin-top:50px;
     margin-bottom:50px;
-    height:70%;
+    height:73%;
     border-radius: 6px;
 }
 
@@ -207,7 +219,8 @@ export default {
     font-family: 'Lato', sans-serif;
     font-size: 20px;
     font-weight: 200;
-    margin-bottom:30px;
+    margin-bottom:10px;
+    text-align:center;
   }
 
  div.message {
@@ -217,10 +230,24 @@ export default {
   background: #fff;
   width:30%;
   float:left;
-  height:70%;
+  height:81%;
   margin-left:20px;
   margin-top:20px;
 
+
+}
+ div.message3 {
+  
+  padding: 2%;
+  box-shadow:0 2px 5px rgba(0,0,0,.3);
+  background: #fff;
+  width:65%;
+  float:left;
+  height:15%;
+  margin-left:20px;
+  margin-top:20px;
+  background: #fb887c;
+  text-align:center;
 
 }
 
@@ -229,15 +256,14 @@ div.message.information{background: #fb887c;}
 
 div.message2 {
   
-  padding: 2%;
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
   background: #fff;
   width:65%;
   float:left;
-  height:70%;
+  height:33%;
   margin-left:20px;
-  margin-top:20px;
+
 
 }
 
@@ -258,11 +284,10 @@ div.message2.information{background: #17a2b8;}
 
 .foto{
     margin-top:5px;
-    float:left;
+ 
     border-radius:10px;
     margin-right:20px;
-
-
+    
     
  }
 
@@ -271,6 +296,7 @@ div.message2.information{background: #17a2b8;}
   height:60%;
   margin-right:25px;
   margin-top:10px;
+
 
  }
 
@@ -299,7 +325,9 @@ fieldset {
   color:grey;
 }
 
- 
+ .bloque{
+  display:inline-block;
+}
 
 .button{
   display: inline-block;
@@ -343,6 +371,12 @@ fieldset {
   right: 0;
 }
 
-
+.button22{
+    background: #17a2b8;
+    border-color: #17a2b8;
+}
+.w3-large{
+  margin-left:10px;
+}
 
 </style>

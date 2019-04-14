@@ -85,14 +85,22 @@ export default {
       if(this.tipo=='proximo'){
         this.$router.replace({ name: 'GameDetail', params: { id:game}})
       }else if(this.tipo=='jugados'){
-         this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
+
+        if(game.result==null){
+          this.$router.replace({ name: 'GameDetail', params: { id:game, bol:true}})
+        }else{
+         this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})}
       } else if(this.tipo=='organizados'){
 
         var f=new Date();
         var cad=f.getHours()+":"+f.getMinutes()+":"+f.getSeconds(); 
         var n = f.toISOString().substring(0,10);
        if((game.date<n)|| (game.date ==n && game.timeStart<cad)){
-        this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
+         if(game.result==null){
+          this.$router.replace({ name: 'GameDetail', params: { id:game, bol:true}})
+        }else{
+         this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})}
+        
       }else{
 
         this.$router.replace({ name: 'GameDetail', params: { id:game}})

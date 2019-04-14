@@ -54,14 +54,15 @@
             <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </form>
       </b-modal>
-     <b-btn class="button3" v-if="this.game.creator.login==WhatLogin()"@click="alertDisplay()"><span>Eliminar</span></b-btn> 
-    <b-btn class="button" v-if="this.bol==false && this.completado==false" v-b-modal.modalPrevent1><span>Apuntarse</span></b-btn> 
-    <b-btn class="button1" v-if="this.bol==true" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
-     <b-btn class="button31" v-if="this.completado==true" ><span>Completo</span></b-btn> 
-     <b-btn class="button2" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
-      <b-btn class="button22" v-if="this.notification==false" @click="notificar()"><font-awesome-icon icon="bell"style="font-size:30px;"/></b-btn>
-       <b-btn class="button22" v-if="this.notification==true" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>
-      <h1 class="title">Detalles Partido</h1>  
+     <b-btn class="button3" v-if="this.game.creator.login==WhatLogin() && this.controlButton==false"@click="alertDisplay()"><span>Eliminar</span></b-btn> 
+    <b-btn class="button" v-if="this.bol==false && this.completado==false && this.controlButton==false" v-b-modal.modalPrevent1><span>Apuntarse</span></b-btn> 
+    <b-btn class="button1" v-if="this.bol==true && this.controlButton==false" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
+     <b-btn class="button31" v-if="this.completado==true && this.controlButton==false" ><span>Completo</span></b-btn> 
+     <b-btn class="button2" v-if="this.controlButton==false" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
+      <b-btn class="button22" v-if="this.notification==false && this.controlButton==false" @click="notificar()"><font-awesome-icon icon="bell"style="font-size:30px;"/></b-btn>
+       <b-btn class="button22" v-if="this.notification==true && this.controlButton==false" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>
+      <h1 class="title" v-if="this.controlButton==false">Detalles Partido</h1>  
+      <h1 class="title" v-if="this.controlButton==true">Partido Finalizado</h1>  
       <div class="information message">
         <h2 class="title1"> Información</h2>  
         <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
@@ -108,6 +109,7 @@ export default {
       playersA:[],
       playersB:[],
       completado:false,
+      controlButton:false,
 
     }
   },
@@ -125,6 +127,11 @@ export default {
     fetchData() {
       this.playersA=[];
       this.playersB=[];
+
+      if(this.$route.params.bol==true){
+        this.controlButton=true;
+        this.$swal('Aviso', "Estamos a la espera de que el creador rellene los resultados", 'info');
+      }
 
       this.game=this.$route.params.id;
       this.playerG.game=this.game;
@@ -354,7 +361,7 @@ export default {
   background: #fff;
   width:30%;
   float:left;
-  height:70%;
+  height:72%;
   margin-left:20px;
   margin-top:20px;
 
@@ -372,9 +379,10 @@ div.message2 {
   background: #fff;
   width:65%;
   float:left;
-  height:70%;
+  height:72%;
   margin-left:20px;
   margin-top:20px;
+  overflow: scroll;
 
 }
 

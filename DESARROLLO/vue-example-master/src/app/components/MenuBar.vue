@@ -215,7 +215,7 @@ fieldset {
   
 }
 .informationmessage2{
-  height:300px;
+  height:200px;
   overflow: scroll;
 }
 </style>

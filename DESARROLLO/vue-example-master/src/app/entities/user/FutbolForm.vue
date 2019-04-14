@@ -205,7 +205,6 @@ export default {
     	this.resultado.equipoA=equipoA;
     	this.resultado.equipoB=equipoB;
 
-    	
     	 HTTP.put(`games/${this.game.idGame}`,this.resultado)
               .then(this._successHandler)
               .catch(this._errorHandler)
@@ -305,6 +304,7 @@ div.message2 {
   height:70%;
   margin-left:20px;
   margin-top:20px;
+  overflow: scroll;
 
 }
 

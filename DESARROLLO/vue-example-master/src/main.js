@@ -30,7 +30,7 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSearch, faMinusSquare , faBrain, faSlidersH, faCalendarAlt,faMapMarkedAlt, faCloud, faBell, faBellSlash, faExclamationCircle} from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faMinusSquare , faBrain, faSlidersH, faCalendarAlt,faMapMarkedAlt, faCloud, faBell, faBellSlash, faExclamationCircle, faFutbol} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faSearch)
 library.add(faMinusSquare)
@@ -42,6 +42,7 @@ library.add(faCloud)
 library.add(faBell)
 library.add(faBellSlash)
 library.add(faExclamationCircle)
+library.add(faFutbol)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
