@@ -184,14 +184,14 @@ export default {
     	 for ( var i = 0; i < this.players.length; i ++){
     	 	if(this.players[i].equipo=='A'){
     	 		jugadoresA.push({
-    	 			"id":this.players[i].idPlayer,
+    	 			"id":this.players[i].player.login,
     	 			"goles":this.goles[this.players[i].idPlayer]
     		});
     	 	}
 
     	 	if(this.players[i].equipo=='B'){
     	 		jugadoresB.push({
-    	 			"id":this.players[i].idPlayer,
+    	 			"id":this.players[i].player.login,
     	 			"goles":this.goles[this.players[i].idPlayer]
     		});
     	 	}
@@ -283,7 +283,7 @@ export default {
   background: #fff;
   width:30%;
   float:left;
-  height:70%;
+  height:73%;
   margin-left:20px;
   margin-top:20px;
 
@@ -301,7 +301,7 @@ div.message2 {
   background: #fff;
   width:65%;
   float:left;
-  height:70%;
+  height:73%;
   margin-left:20px;
   margin-top:20px;
   overflow: scroll;

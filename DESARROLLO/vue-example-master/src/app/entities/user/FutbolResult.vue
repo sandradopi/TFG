@@ -7,15 +7,19 @@
 
       <div class="information message" v-if="loading==true">
         <h2 class="title1"> Información</h2>  
-        <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
         <h6>Deporte: {{this.game.sport.type}}</h6>
         <h6>Ubicación: {{this.game.location.name}}</h6>
-        <h6>Horario: {{this.game.timeStart}} - {{this.game.timeEnd}} </h6>
         <h6>Fecha: {{this.game.date}}</h6>
          </br>
         <h2 class="title1"> Goles:</h2>  
-
-        <h6>{{this.golesA}}</h6>
+        <div class="hola" v-if="gol.goles>0" v-for=" gol in this.resultado.equipoA.jugadoresA" :key="gol.id">
+           <span class="title2">{{gol.goles}}&nbsp<font-awesome-icon icon="futbol"style="font-size:20px;"/><h3></span>&nbsp&nbsp &nbsp{{gol.id}}
+        </div>
+        <h2 class="title1">-----------------------------</h2> 
+         <div class="hola" v-if="gol.goles>0" v-for=" gol in this.resultado.equipoB.jugadoresB" :key="gol.id">
+           <span class="title2">{{gol.goles}}&nbsp<font-awesome-icon icon="futbol"style="font-size:20px;"/><h3></span>&nbsp&nbsp &nbsp{{gol.id}}
+        </div>
+    
       </div>
       <div class="information message3" v-if="loading==true">
         <h2 class="title1"> Resultado: {{this.resultado.equipoA.goles}} - {{this.resultado.equipoB.goles}}</h2>  
@@ -70,7 +74,7 @@ export default {
       goles:[],
       loading:false,
       resultado:{},
-      golesA:[]
+  
 
 
     }
@@ -101,33 +105,7 @@ export default {
       
     },
 
-  transformarJSON(){
-    var obj={};
-    this.resultado = JSON.parse(this.game.result);
-    for ( var i = 0; i < this.resultado.equipoA.jugadoresA.length; i ++){
 
-     //obj.login=this.nombreJugador(this.resultado.equipoA.jugadoresA[i].id);
-
-     //obj.goles=this.resultado.equipoA.jugadoresA[i].goles;
-     //this.golesA.push(obj)
-      
-
-     }
-  },
-
-  nombreJugador(id){
-
-    var login;
-    for ( var i = 0; i < this.players.length; i ++){
-        if(this.players[i].idPlayer==id){
-          login=this.players[i].login;
-        }
-     
-       }
-
-       return login;
-      
-  },
   
   jugadoresJuego(){
       HTTP.get(`players/${this.game.idGame}`) 
@@ -138,6 +116,8 @@ export default {
 
 
    },
+
+
 
   prepararInfo(){
      this.loading=true;
@@ -155,6 +135,15 @@ export default {
        }
 
    },
+
+
+  transformarJSON(){
+    var obj={};
+    this.resultado = JSON.parse(this.game.result);
+
+      
+
+  },
   
      _successHandler(response) {
       this.$router.replace({ name: 'Game'})

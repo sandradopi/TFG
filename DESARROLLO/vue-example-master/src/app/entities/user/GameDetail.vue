@@ -78,7 +78,7 @@
              <img src="http://i.pravatar.cc/250?img=41" class="foto" style="width:85px">
           </b-btn>
           <div class="info">
-              <span class="w3-large">{{playerG.player.name}} {{playerG.player.surname1}}</span><br>
+              <span class="w3-large">{{playerG.player.login}}</span><br>
           </div>
        </div>
       </div>
@@ -521,5 +521,9 @@ fieldset {
     line-height: normal;
     text-align: center;
     margin-bottom: 0;
+}
+
+.w3-large{
+  margin-left:13px;
 }
 </style>
