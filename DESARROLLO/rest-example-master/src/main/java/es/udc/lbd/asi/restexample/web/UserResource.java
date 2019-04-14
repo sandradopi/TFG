@@ -77,6 +77,13 @@ public class UserResource {
     	return games;
     }
     
+    @GetMapping("/{login}/valoration")
+    public List<GameDTO> findAllGamePendingValoration(@PathVariable String login){
+    	 List<GameDTO> games = userService.findByValoration(login);
+    	return games;
+    }
+    
+    
     @PutMapping("/{idUser}")
     public NormalUserDTO update(@PathVariable Long idUser, @RequestBody @Valid NormalUserDTO user, Errors errors)
             throws IdAndBodyNotMatchingOnUpdateException, RequestBodyNotValidException, UserLoginEmailExistsException {

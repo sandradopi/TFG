@@ -32,6 +32,7 @@ public interface UserServiceInterface {
 	public NormalUserDTO updateNotification(String login, Long idGame, Boolean bool);
 	public Boolean getNotification(String login, Long idGame);
 	public List<GameDTO>findByCreatorResultado(String login);
+	public List<GameDTO>findByValoration(String login);
 
   
 

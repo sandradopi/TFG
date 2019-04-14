@@ -75,7 +75,8 @@
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item exact v-if="isLogged" @click="logout()" :to="{ name: ''}">Cerrar Sesión</b-dropdown-item>
             </b-nav-item-dropdown>
-             <b-btn class="button" v-b-modal.modalPrevent2 v-if="isLogged && !isAdmin && this.games.length>0"><div>{{this.games.length}}</div><font-awesome-icon icon="exclamation-circle"style="font-size:35px;"/></b-btn>
+             <b-btn class="button" v-b-modal.modalPrevent2 @click="controlGamesModal(true)" v-if="isLogged && !isAdmin && this.gamesResult.length>0"><div>{{this.gamesResult.length}}</div><font-awesome-icon icon="exclamation-circle"style="font-size:35px;"/></b-btn>
+              <b-btn class="button" v-b-modal.modalPrevent2  @click="controlGamesModal(false)"v-if="isLogged && !isAdmin && this.gamesValor.length>0"><div>{{this.gamesValor.length}}</div><font-awesome-icon icon="bell"style="font-size:35px;"/></b-btn>
             
             
          </b-navbar-nav>
@@ -91,6 +92,10 @@ export default {
 data() {
     return {
       games:[],
+      gamesResult:[],
+      gamesValor:[],
+      control:false,
+      bol:false
 
      
     }
@@ -125,11 +130,30 @@ data() {
     fetchData(){
       if(this.isLogged){
        HTTP.get(`users/${this.WhatLogin1()}/pendingResult`) 
-                .then(response => { this.games= response.data
+                .then(response => { this.gamesResult= response.data
                       return response })
-                .then(this.completarResultados)
-                .catch(err => { this.error = err.message})}
+                .then(this.pendingValoration)
+                .catch(err => { this.error = err.message})
+              }
     },
+
+    pendingValoration(){
+       HTTP.get(`users/${this.WhatLogin1()}/valoration`) 
+                .then(response => { this.gamesValor= response.data
+                      return response })
+                .catch(err => { this.error = err.message})
+    },
+
+    controlGamesModal(bol){
+      if(bol==false){
+        this.games=this.gamesValor;
+        this.bol=false;
+      }else{
+        this.games=this.gamesResult;
+        this.bol=true;
+      }
+    },
+ 
     WhatLogin1() {
       return auth.user.login
     },
@@ -146,7 +170,11 @@ data() {
         this.$refs.modal2.hide();
 
       })
-       this.$router.replace({ name: 'FutbolForm', params: { id:game.idGame}})
+        if(this.bol==true){
+          this.$router.replace({ name: 'FutbolForm', params: { id:game.idGame}})
+     }else{
+          this.$router.replace({ name: 'ValorationGame', params: { id:game.idGame}})
+     }
 
        
     }, 

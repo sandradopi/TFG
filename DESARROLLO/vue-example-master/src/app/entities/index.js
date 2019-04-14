@@ -15,7 +15,8 @@ import Mapa from './admin/Mapa'
 import Calendar from './user/Calendar'
 import FutbolForm from './user/FutbolForm'
 import FutbolResult from './user/FutbolResult'
+import ValorationGame from './user/ValorationGame'
 
 
 
-export {Calendar,FutbolResult,Mapa,FutbolForm,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}
+export {Calendar,ValorationGame,FutbolResult,Mapa,FutbolForm,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}

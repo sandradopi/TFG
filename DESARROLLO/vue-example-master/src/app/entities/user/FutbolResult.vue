@@ -28,8 +28,8 @@
       <div class="info">
       <h2 class="title2"> Equipo A</h2>  
         <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
-        <h6 class="w3-large">{{playerG.player.login}}</h6>
-         <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
+         <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:75px">
+          <h6 class="w3-large">{{playerG.player.login}}</h6>
         </div>
         </div>
       </div>
@@ -38,9 +38,8 @@
       <div class="info">
       <h2 class="title2"> Equipo B</h2>  
         <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
-          
-        <h6 class="w3-large">{{playerG.player.login}}</h6>
-         <img class="foto"src="http://i.pravatar.cc/250?img=48" class="foto" style="width:60px">
+         <img class="foto"src="http://i.pravatar.cc/250?img=48" class="foto" style="width:75px">
+          <h6 class="w3-large">{{playerG.player.login}}</h6>
         </div>
       </div>
       </div>
@@ -208,7 +207,6 @@ export default {
     font-family: 'Lato', sans-serif;
     font-size: 20px;
     font-weight: 200;
-    margin-bottom:10px;
     text-align:center;
   }
 
@@ -272,10 +270,10 @@ div.message2.information{background: #17a2b8;}
  }
 
 .foto{
-    margin-top:5px;
  
     border-radius:10px;
     margin-right:20px;
+
     
     
  }
@@ -365,7 +363,8 @@ fieldset {
     border-color: #17a2b8;
 }
 .w3-large{
-  margin-left:10px;
+  margin-left:15px;
+  margin-bottom:20px;
 }
 
 </style>

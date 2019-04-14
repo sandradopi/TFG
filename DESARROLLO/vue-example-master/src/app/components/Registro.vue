@@ -79,7 +79,7 @@
             v-model="user.city" 
             :options="city" 
             :searchable="true" 
-            :close-on-select="false" 
+            :close-on-select="true" 
             :show-labels="false" 
             placeholder="Ciudad de residencia"></multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
@@ -117,7 +117,7 @@
             :clear-on-select="false" 
             tag-placeholder="Equipo/Deporte"
             :preserve-search="true"
-            :close-on-select="false" 
+            :close-on-select="true" 
             :show-labels="false"
             track-by="idTeam"
             placeholder="Equipos favoritos"
@@ -141,7 +141,7 @@
             tag-placeholder="Equipo/Deporte"
             :clear-on-select="false" 
             :preserve-search="true"
-            :close-on-select="false" 
+            :close-on-select="true" 
             :show-labels="false"
             track-by="idTeam"
             placeholder="Equipos donde juego"
