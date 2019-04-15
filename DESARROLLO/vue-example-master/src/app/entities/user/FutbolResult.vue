@@ -220,6 +220,7 @@ export default {
   height:81%;
   margin-left:20px;
   margin-top:20px;
+   overflow: scroll;
 
 
 }

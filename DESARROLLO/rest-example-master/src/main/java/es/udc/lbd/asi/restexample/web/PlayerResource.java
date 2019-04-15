@@ -58,9 +58,20 @@ public class PlayerResource {
     	return playerService.findAllByGame(idGame);
     }
     
+    @GetMapping("/{idGame}/{login}")
+    public PlayerDTO findPlayer(@PathVariable Long idGame, @PathVariable String login) {
+    	return playerService.findPlayer(idGame,login);
+    }
+    
     @PostMapping
     public PlayerDTO save(@RequestBody PlayerDTO player, Errors errors) throws MaxPlayersException, AddressException, MessagingException, ParseException {
         return playerService.save(player);
+    }
+    
+    @PutMapping("/{idPlayer}/{valorationGame}")
+    public PlayerDTO update(@PathVariable Long idPlayer, @PathVariable Long valorationGame){
+           
+        return playerService.update(idPlayer,valorationGame);
     }
     
     

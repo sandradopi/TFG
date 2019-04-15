@@ -42,7 +42,8 @@
               <span class="w3-large1">{{playerG.player.login}}</span><br>
           <multiselect 
             class="multiselePla"
-            v-model="valorationGame" 
+            v-model="valorationPlayer[playerG.idPlayer]" 
+            @close="valorar(playerG.idPlayer)"
             :options="optionsC" 
             :searchable="true" 
             :close-on-select="true" 
@@ -53,24 +54,25 @@
 	</br>
 	</br>
   <span class="w3-large">Valoraciones Jugadores B:</span><br>
-    <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
+     <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
      <div class="conj">	
               <span class="w3-large1">{{playerG.player.login}}</span><br>
             <multiselect 
             class="multiselePla"
-            v-model="valorationGame" 
+            v-model="valorationPlayer[playerG.idPlayer]" 
+            @close="valorar(playerG.idPlayer)"
             :options="optionsC" 
             :searchable="true" 
             :close-on-select="true" 
             :show-labels="false" 
             placeholder="Valoracion"></multiselect>
 		      </div>
-    </div>
-      </b-form-group>
-     </b-form>
-	</div>
-   </div>
+      </div>
+     </b-form-group>
+    </b-form>
+	 </div>
+  </div>
  </div>
 </template>
 
@@ -99,7 +101,10 @@ export default {
     	loading:false,
     	resultado:{},
       optionsC:['1','2','3','4','5'],
-      valorationGame:''
+      valorationGame:'',
+      player:{},
+      valorationPlayer:[],
+      valoraciones:[]
 
 
     }
@@ -126,12 +131,14 @@ export default {
     	 HTTP.get(`games/${this.$route.params.id}`) 
           .then(response => { this.game = response.data
                  return response })
+          .then(this.recuperarMyPlayer)
           .then(this.jugadoresJuego)
           .then(this.prepararInfo)
           .catch(err => { this.error = err.message})
     	    	
       
     },
+
   
 	jugadoresJuego(){
 		  HTTP.get(`players/${this.game.idGame}`) 
@@ -147,18 +154,43 @@ export default {
 		 this.loading=true;
 
 	 },
+   recuperarMyPlayer(){
+      HTTP.get(`players/${this.game.idGame}/${this.WhatLogin()}`) 
+          .then(response => { this.player = response.data
+                 return response })
+          .catch(err => { this.error = err.message})
+   },
 
 	 DividirEnEquipos(){
 
     	 for ( var i = 0; i < this.players.length; i ++){
-    	 	if(this.players[i].equipo=='A'){
-    	 		this.playersA.push(this.players[i])
-    	 	}else{
-    	 		this.playersB.push(this.players[i])
+    	 	if((this.players[i].equipo=='A')&& (this.players[i].player.login!= this.player.player.login)){
+    	 		this.playersA.push(this.players[i]);
+    	 	}else if ((this.players[i].equipo=='B') && (this.players[i].player.login!= this.player.player.login)){ 
+    	 		this.playersB.push(this.players[i]);
     	 	}
     	 }
 
 	 },
+   valorar(id){
+   
+    var bol=false;
+      for ( var i = 0; i < this.valoraciones.length; i ++){
+        if(this.valoraciones[i].id==id){
+          bol=true;
+          this.valoraciones[i].valor=this.valorationPlayer[id];
+        }
+      }
+      if(bol==false){
+ 
+         var valoracion= new Object();
+         valoracion.id=id;
+         valoracion.valor=this.valorationPlayer[id];
+         this.valoraciones.push(valoracion)
+        
+     }
+      console.log(this.valoraciones)
+   },
   
      _successHandler(response) {
       this.$router.replace({ name: 'Game'})
@@ -166,37 +198,8 @@ export default {
 
     guardar(){
     	
-    	var equipoA={};
-    	var equipoB={};
-    	var jugadoresA=[];
-    	var jugadoresB=[];
 
-
-    	 for ( var i = 0; i < this.players.length; i ++){
-    	 	if(this.players[i].equipo=='A'){
-    	 		jugadoresA.push({
-    	 			"id":this.players[i].player.login,
-    	 			"goles":this.goles[this.players[i].idPlayer]
-    		});
-    	 	}
-
-    	 	if(this.players[i].equipo=='B'){
-    	 		jugadoresB.push({
-    	 			"id":this.players[i].player.login,
-    	 			"goles":this.goles[this.players[i].idPlayer]
-    		});
-    	 	}
-    		
-    	}
-
-    	equipoA.goles=this.resultadoA;
-    	equipoB.goles=this.resultadoB;
-    	equipoA.jugadoresA=jugadoresA;
-    	equipoB.jugadoresB=jugadoresB;
-    	this.resultado.equipoA=equipoA;
-    	this.resultado.equipoB=equipoB;
-
-    	 HTTP.put(`games/${this.game.idGame}`,this.resultado)
+    	 HTTP.put(`players/${this.player.idPlayer}/${this.valorationGame}`)
               .then(this._successHandler)
               .catch(this._errorHandler)
 

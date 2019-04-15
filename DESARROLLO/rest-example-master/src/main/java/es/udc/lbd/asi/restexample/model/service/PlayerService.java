@@ -91,5 +91,18 @@ public List<PlayerDTO> findAllByGame(Long idGame) {
 	return playerDAO.findAllByGame(idGame).stream().map(player -> new PlayerDTO(player)).collect(Collectors.toList());
 }
 
+public PlayerDTO findPlayer(Long idGame, String login) {
+	return new PlayerDTO(playerDAO.findPlayerGame(login, idGame));
+}
+
+@Transactional(readOnly = false)
+@Override
+public PlayerDTO update(Long idPlayer, Long valorationGame) {	
+	Player bdPlayer = (Player) playerDAO.findById(idPlayer);
+	bdPlayer.setValorationGame(valorationGame);
+	
+	    playerDAO.save(bdPlayer);
+	    return new PlayerDTO(bdPlayer);
+	    }
 
 }

@@ -49,7 +49,7 @@ public class PlayerDAOHibernate extends GenericDAOHibernate implements PlayerDAO
 
 	@Override
 	public Player findPlayerGame(String login, Long idGame) {
-		 return (Player) getSession().createQuery("from Player p inner join p.game g ineer join p.player u where g.idGame = :idGame AND u.login= :login").setParameter("login", login).setParameter("idGame", idGame).uniqueResult();
+		 return (Player) getSession().createQuery("select p from Player p inner join p.game g inner join p.player u where g.idGame = :idGame AND u.login= :login").setParameter("login", login).setParameter("idGame", idGame).uniqueResult();
 	}
 
 	

@@ -59,6 +59,10 @@ public class PlayerValoration {
 		this.user = user;
 	}
 
+	public PlayerValoration(@NotNull Long valoration ) {
+		this.valoration = valoration;
+		
+	}
 
 
 	public Long getIdPlayerValoration() {

@@ -11,15 +11,16 @@ import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.PlayerValorationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 
 
-public interface PlayerServiceInterface {
-	  public List<PlayerDTO> findAll();
-	  public PlayerDTO save(PlayerDTO player) throws MaxPlayersException, AddressException, MessagingException, ParseException;
-	  public void deleteById(Long idPlayer) throws AddressException, MessagingException, ParseException;
-	  public PlayerDTO update(Long idPlayer, Long valorationGame);
+public interface PlayerValorationServiceInterface {
+	  public List<PlayerValorationDTO> findAll();
+	  public PlayerValorationDTO save(PlayerValorationDTO player);
+	  public void deleteById(Long idPlayer);
+	
 
 	 
 
