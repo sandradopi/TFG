@@ -1,6 +1,24 @@
 <template>
   <div class="content"> 
-   
+    <b-modal
+        class="formulario"
+        id="modalPrevent"
+        ref="modal"
+        title="Comentario"
+        @ok="handleOk"
+        @shown="clearName">
+         <form @submit.stop.prevent="handleSubmit">
+          
+           <b-form-textarea
+              id="textarea"
+              v-model="comment"
+              placeholder="Sobre este jugador quiero decir..."
+              rows="3"
+              max-rows="6"
+            ></b-form-textarea>
+
+        </form>
+    </b-modal>
      <b-btn class="button" @click="guardar()"><span>Guardar</span></b-btn> 
       <h1 class="title">Valoraciones del Partido</h1> 
 
@@ -15,9 +33,8 @@
       <div class="information message2">
        
 
-     <div class="formulario">
+     <div class="form">
 		  <b-form
-		      v-if="game"
 		      class="app-form"
 		      >
   
@@ -39,7 +56,9 @@
     <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
      <div class="conj">	
+       <b-btn class="button2" @click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
               <span class="w3-large1">{{playerG.player.login}}</span><br>
+
           <multiselect 
             class="multiselePla"
             v-model="valorationPlayer[playerG.idPlayer]" 
@@ -49,6 +68,7 @@
             :close-on-select="true" 
             :show-labels="false" 
             placeholder="Valoracion"></multiselect>
+           
 		      </div>
     </div>
 	</br>
@@ -57,6 +77,7 @@
      <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
      <div class="conj">	
+       <b-btn class="button2" @click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
               <span class="w3-large1">{{playerG.player.login}}</span><br>
             <multiselect 
             class="multiselePla"
@@ -104,7 +125,12 @@ export default {
       valorationGame:'',
       player:{},
       valorationPlayer:[],
-      valoraciones:[]
+      valoraciones:[],
+      comment:'',
+      valoracion:{},
+      login:'',
+      jugador:{},
+      usuario:{}
 
 
     }
@@ -173,41 +199,115 @@ export default {
 
 	 },
    valorar(id){
-   
+   var valoracion=new Object();
     var bol=false;
       for ( var i = 0; i < this.valoraciones.length; i ++){
-        if(this.valoraciones[i].id==id){
+        
+        if(this.valoraciones[i].player==id){
           bol=true;
-          this.valoraciones[i].valor=this.valorationPlayer[id];
+          this.valoraciones[i].valoration=this.valorationPlayer[id];
         }
       }
       if(bol==false){
- 
-         var valoracion= new Object();
-         valoracion.id=id;
-         valoracion.valor=this.valorationPlayer[id];
+         valoracion.player=id;
+         valoracion.valoration=this.valorationPlayer[id];
+         valoracion.user=null;
          this.valoraciones.push(valoracion)
         
      }
-      console.log(this.valoraciones)
+     
    },
-  
-     _successHandler(response) {
-      this.$router.replace({ name: 'Game'})
-    },
 
     guardar(){
-    	
+    	 for ( var i = 0; i < this.valoraciones.length; i ++){
+         HTTP.get(`players/findPlayer/${this.valoraciones[i].player}`) 
+              .then(response => { this.valoraciones[i].player= response.data
+                     return response })
+              .then(response => {this.valoraciones[i].user = response.data.player
+                     return response })
+              .then(this.subirValoracion(this.valoraciones[i]))
+              .catch(err => { this.error = err.message})
+
+       }
 
     	 HTTP.put(`players/${this.player.idPlayer}/${this.valorationGame}`)
               .then(this._successHandler)
               .catch(this._errorHandler)
-
     	
     },
+    subirValoracion(valoracionTotal){
+      console.log(valoracionTotal.user)
+      HTTP.post('playersValoration', valoracionTotal) 
+          .then(this._successHandler1)
+          .catch(this._errorHandler)
+    },
+   
+    activarModal(id){
+     this.login=id;
+     this.$refs.modal.show();
+   },
+
+    _successHandler(response) {
+      this.$router.replace({ name: 'Game'})
+    },
+
+    clearName() {
+        this.comment = "";
+
+      },
+
+      handleOk(evt) {
+        // Prevent modal from closing
+        evt.preventDefault()
+        if (!this.comment) {
+           this.$swal('Alerta!', "Escriba algo referido a este jugador", 'error')
+        }else{ 
+          this.handleSubmit()
+        }
+      },
+
+      handleSubmit() {
+        var valoracion=new Object();
+        var bol=false;
+       for ( var i = 0; i < this.valoraciones.length; i ++){
+       
+        if(this.valoraciones[i].player==this.login){
+          bol=true;
+          this.valoraciones[i].review=this.comment;
+        }
+      }
+      if(bol==false){
+       
+         valoracion.player=this.login;
+         valoracion.review=this.comment;
+         valoracion.user=null;
+         this.valoraciones.push(valoracion)
+         
+        
+     }
+      
+       this.confirmacion();
+
+      },
+
+       confirmacion(){
+        this.clearName()
+        this.$nextTick(() => {
+          // Wrapped in $nextTick to ensure DOM is rendered before closing
+        this.$refs.modal.hide();
+        this.$swal('Listo!', "Su comentario se ha guardado correctamente.", 'success')
+      })
+    
+    }, 
+
 
      _successHandler(response) {
+      this.$swal('Listo!', "Su valoraciones han sido enviadas correctamente", 'success')
+      if(this.game.result==null){
+        this.$router.replace({ name: 'GameDetail', params: { id:this.game, bol:true}})
+      }else{
       this.$router.replace({ name: 'FutbolResult', params: { id:this.game.idGame}})
+    }
     },
    
       WhatLogin() {
@@ -431,7 +531,8 @@ fieldset {
 }
 
 .conj{
-	float:right;
+    float: left;
+    width: 90%;
 }
 
 .multisele{
@@ -443,6 +544,16 @@ fieldset {
 .w3-large1{
   font-size:1.2em;
 
+}
+.button2{
+     margin-top: 5px;
+    float: right;
+    border-radius: 10px;
+    margin-top: 25px;
+
+}
+.formulario{
+  color:#17a2b8;
 }
 
 </style>

@@ -28,11 +28,13 @@ import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.GameService;
 import es.udc.lbd.asi.restexample.model.service.PlayerService;
+import es.udc.lbd.asi.restexample.model.service.PlayerValorationService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.TeamService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.PlayerValorationDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
@@ -42,50 +44,27 @@ import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
 
 
 @RestController
-@RequestMapping("/api/players")
-public class PlayerResource {
+@RequestMapping("/api/playersValoration")
+public class PlayerValorationResource {
 
     @Autowired
-    private PlayerService playerService;
+    private PlayerValorationService playerService;
 
     @GetMapping
-    public List<PlayerDTO> findAll() {
+    public List<PlayerValorationDTO> findAll() {
         return playerService.findAll();
     }
     
-    @GetMapping("/{idGame}")
-    public List<PlayerDTO> findAllByGame(@PathVariable Long idGame) {
-    	return playerService.findAllByGame(idGame);
-    }
-    
-    @GetMapping("/{idGame}/{login}")
-    public PlayerDTO findPlayer(@PathVariable Long idGame, @PathVariable String login) {
-    	return playerService.findPlayer(idGame,login);
-    }
-    
-    @GetMapping("findPlayer/{idPlayer}")
-    public PlayerDTO findPlayer(@PathVariable Long idPlayer) {
-    	return playerService.findPlayerByPlayer(idPlayer);
-    }
-    
-    
+   
+  
     @PostMapping
-    public PlayerDTO save(@RequestBody PlayerDTO player, Errors errors) throws MaxPlayersException, AddressException, MessagingException, ParseException {
+    public PlayerValorationDTO save(@RequestBody PlayerValorationDTO player, Errors errors) {
         return playerService.save(player);
     }
     
-    @PutMapping("/{idPlayer}/{valorationGame}")
-    public PlayerDTO update(@PathVariable Long idPlayer, @PathVariable Long valorationGame){
-           
-        return playerService.update(idPlayer,valorationGame);
-    }
+  
     
-    
-    @DeleteMapping("/{idPlayer}")
-    public void delete(@PathVariable Long idPlayer) throws AddressException, MessagingException, ParseException {
-        playerService.deleteById(idPlayer);
-    }
-    
+ 
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {
         if (errors.hasErrors()) {
             String errorMsg = errors.getFieldErrors().stream()

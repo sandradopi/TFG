@@ -86,13 +86,17 @@ public PlayerDTO save(PlayerDTO player) throws MaxPlayersException, AddressExcep
 		throw new MaxPlayersException("El cupo de participantes ya está cubierto");
 	}
 }
-
+@Override
 public List<PlayerDTO> findAllByGame(Long idGame) {
 	return playerDAO.findAllByGame(idGame).stream().map(player -> new PlayerDTO(player)).collect(Collectors.toList());
 }
-
+@Override
 public PlayerDTO findPlayer(Long idGame, String login) {
 	return new PlayerDTO(playerDAO.findPlayerGame(login, idGame));
+}
+@Override
+public PlayerDTO findPlayerByPlayer(Long idPlayer) {
+	return new PlayerDTO(playerDAO.findById(idPlayer));
 }
 
 @Transactional(readOnly = false)
