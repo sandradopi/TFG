@@ -5,7 +5,7 @@
         id="modalPrevent2"
         ref="modal2"
         class="formulario"
-        title="Completar Resultados"
+        :title=this.titulo
         ok-only ok-variant="secondary" 
         ok-title="Cancelar"
         @ok="handleOk"
@@ -95,7 +95,8 @@ data() {
       gamesResult:[],
       gamesValor:[],
       control:false,
-      bol:false
+      bol:false,
+      titulo:''
 
      
     }
@@ -148,9 +149,11 @@ data() {
       if(bol==false){
         this.games=this.gamesValor;
         this.bol=false;
+        this.titulo="Pendientes de Valorar"
       }else{
         this.games=this.gamesResult;
         this.bol=true;
+        this.titulo="Rellenar resultado finales"
       }
     },
  

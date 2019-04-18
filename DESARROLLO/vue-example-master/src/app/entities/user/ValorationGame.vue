@@ -130,7 +130,8 @@ export default {
       valoracion:{},
       login:'',
       jugador:{},
-      usuario:{}
+      usuario:{},
+      posicion:0
 
 
     }
@@ -195,7 +196,10 @@ export default {
     	 	}else if ((this.players[i].equipo=='B') && (this.players[i].player.login!= this.player.player.login)){ 
     	 		this.playersB.push(this.players[i]);
     	 	}
+
     	 }
+       console.log("A"+this.playersA)
+       console.log("B"+this.playersB)
 
 	 },
    valorar(id){
@@ -219,13 +223,14 @@ export default {
    },
 
     guardar(){
+
     	 for ( var i = 0; i < this.valoraciones.length; i ++){
+        this.posicion;
          HTTP.get(`players/findPlayer/${this.valoraciones[i].player}`) 
-              .then(response => { this.valoraciones[i].player= response.data
-                     return response })
-              .then(response => {this.valoraciones[i].user = response.data.player
-                     return response })
-              .then(this.subirValoracion(this.valoraciones[i]))
+              .then(response => {this.jugador = response.data
+                    return response})
+              .then(response => {this.usuario = response.data.player})
+              .then(this.subirValoracion)
               .catch(err => { this.error = err.message})
 
        }
@@ -235,11 +240,14 @@ export default {
               .catch(this._errorHandler)
     	
     },
-    subirValoracion(valoracionTotal){
-      console.log(valoracionTotal.user)
-      HTTP.post('playersValoration', valoracionTotal) 
-          .then(this._successHandler1)
+    subirValoracion(){
+
+    this.valoraciones[this.posicion].user=this.usuario;
+    this.valoraciones[this.posicion].player=this.jugador;
+    HTTP.post('playersValoration', this.valoraciones[this.posicion]) 
+          .then(this._successHandler)
           .catch(this._errorHandler)
+    this.posicion++;
     },
    
     activarModal(id){
@@ -302,7 +310,7 @@ export default {
 
 
      _successHandler(response) {
-      this.$swal('Listo!', "Su valoraciones han sido enviadas correctamente", 'success')
+       this.$swal('Listo!', "Su valoraciones han sido enviadas correctamente", 'success')
       if(this.game.result==null){
         this.$router.replace({ name: 'GameDetail', params: { id:this.game, bol:true}})
       }else{

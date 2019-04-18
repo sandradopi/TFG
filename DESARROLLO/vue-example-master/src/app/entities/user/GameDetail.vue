@@ -70,6 +70,9 @@
         <h6>Ubicación: {{this.game.location.name}}</h6>
         <h6>Horario: {{this.game.timeStart}} - {{this.game.timeEnd}} </h6>
         <h6>Fecha: {{this.game.date}}</h6>
+         </br>   
+        <h6 v-if="this.controlButton==true">*Pendiente de Resultado*</h6>  
+
       </div>
       <div class="information message2">
         <h2 class="title1"> Participantes</h2>  
