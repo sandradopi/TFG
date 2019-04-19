@@ -68,11 +68,8 @@
         <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
         <h6>Deporte: {{this.game.sport.type}}</h6>
         <h6>Ubicación: {{this.game.location.name}}</h6>
-        <h6>Horario: {{this.game.timeStart}} - {{this.game.timeEnd}} </h6>
+        <h6>Horario: {{custom(this.game.timeStart)}}-{{custom(this.game.timeEnd)}} </h6>
         <h6>Fecha: {{this.game.date}}</h6>
-         </br>   
-        <h6 v-if="this.controlButton==true">*Pendiente de Resultado*</h6>  
-
       </div>
       <div class="information message2">
         <h2 class="title1"> Participantes</h2>  
@@ -318,7 +315,10 @@ export default {
     _errorHandler2(err) {
       this.error = err.response.data.message
       
-    }
+    },
+    custom(hora){
+      return hora.substring(0,5)
+    },
   }
 }
 </script>

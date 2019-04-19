@@ -27,7 +27,7 @@
         <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
         <h6>Deporte: {{this.game.sport.type}}</h6>
         <h6>Ubicación: {{this.game.location.name}}</h6>
-        <h6>Horario: {{this.game.timeStart}} - {{this.game.timeEnd}} </h6>
+        <h6>Horario: {{custom(this.game.timeStart)}}-{{custom(this.game.timeEnd)}} </h6>
         <h6>Fecha: {{this.game.date}}</h6>
       </div>
       <div class="information message2">
@@ -131,7 +131,8 @@ export default {
       login:'',
       jugador:{},
       usuario:{},
-      posicion:0
+      posicion:0,
+     
 
 
     }
@@ -222,8 +223,21 @@ export default {
      
    },
 
-    guardar(){
+   checkForm () {
 
+      if (!this.valorationGame) {
+        this.error="Introduzca la valoracion del partido"
+        return false;
+      }else{
+        return true;
+      }
+       
+
+    },
+
+
+    guardar(){
+      if(this.checkForm()==true){
     	 for ( var i = 0; i < this.valoraciones.length; i ++){
         this.posicion;
          HTTP.get(`players/findPlayer/${this.valoraciones[i].player}`) 
@@ -238,6 +252,9 @@ export default {
     	 HTTP.put(`players/${this.player.idPlayer}/${this.valorationGame}`)
               .then(this._successHandler)
               .catch(this._errorHandler)
+      }else{
+        this.$swal('Alerta!', this.error, 'error')
+      }
     	
     },
     subirValoracion(){
@@ -263,6 +280,9 @@ export default {
         this.comment = "";
 
       },
+       custom(hora){
+      return hora.substring(0,5)
+    },
 
       handleOk(evt) {
         // Prevent modal from closing

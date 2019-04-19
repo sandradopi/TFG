@@ -36,23 +36,15 @@
     </multiselect>
 
 
-
-    <multiselect  
-            v-if="bol==true"
-            v-model="game.location" 
-            :options="this.alllocations"
-            :multiple="false"
-            :searchable="true" 
-            :close-on-select="true" 
-            :show-labels="false"
-            track-by="idLocation"
-            placeholder="Localizaciones"
-            :custom-label="nameCustom"
-            >
-    </multiselect>
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-    <input type='text' class="searchButton" placeholder='Número máximo de jugadores' v-model="game.maxPlayers" autofocus required >
-    <input type='text' class="searchButton" placeholder='Número míximo de jugadores' v-model="game.minPlayers" autofocus required >
+    <v-select 
+          v-if="bol==true"
+          v-model="game.location" 
+          :options="this.alllocations" 
+          label="name"
+          :close-on-select="true"  ></v-select>
+    <input type='text' class="searchButton" placeholder='Número máximo de jugadores' v-model="game.maxPlayers" >
+    <input type='text' class="searchButton" placeholder='Número míximo de jugadores' v-model="game.minPlayers"  >
       <b-btn class="button1" v-b-modal.modalPrevent v-if="this.game.location!=null"><span>Metereología</span></b-btn>
     <b-btn class="button" @click="guardar()"><span>Crear</span></b-btn>
 
@@ -104,13 +96,13 @@ export default {
     },
 
     selectOn(){
+      if(this.game.sport!=null){
 		  this.bol=true;
-      //this.game.location={}
   	 	HTTP.get(`locations/filter/${this.game.sport.idSport}`) 
 		        .then(response => { this.alllocations = response.data
                                 this.game.location=this.alllocations[0]
                                 })
-            .catch(err => { this.error = err.message})
+            .catch(err => { this.error = err.message})}
 		
 
     },
@@ -146,6 +138,11 @@ export default {
 
        if ((this.game.maxPlayers%2) !=0) {
         this.error="Introduzca un número par para poder realizar una mejor gestión de los equipos"
+        return false;
+      }
+
+      if ((this.game.sport.type=="Tennis"||this.game.sport.type=="Paddel")&& (this.game.maxPlayers>4) ) {
+        this.error="El máximo de jugadores permitidos para este deportes son 4"
         return false;
       }
 
@@ -328,6 +325,13 @@ export default {
     text-align: center;
     margin-bottom: 0;
 }
+.v-select.searchable .dropdown-toggle {
+    cursor: text;
+    min-height: 40px;
+    border-radius: 5px;
+    border: 1px solid #e8e8e8;
+    background: #fff;
 
+}
 
 </style>

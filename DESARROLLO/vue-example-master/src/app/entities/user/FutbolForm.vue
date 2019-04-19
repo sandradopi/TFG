@@ -9,7 +9,7 @@
         <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
         <h6>Deporte: {{this.game.sport.type}}</h6>
         <h6>Ubicación: {{this.game.location.name}}</h6>
-        <h6>Horario: {{this.game.timeStart}} - {{this.game.timeEnd}} </h6>
+        <h6>Horario: {{custom(this.game.timeStart)}}-{{custom(this.game.timeEnd)}}</h6>
         <h6>Fecha: {{this.game.date}}</h6>
       </div>
       <div class="information message2">
@@ -109,6 +109,7 @@ export default {
     	goles:[],
     	loading:false,
     	resultado:{},
+   
 
 
     }
@@ -173,8 +174,39 @@ export default {
       this.$router.replace({ name: 'Game'})
     },
 
+    checkForm () {
+      var sumatorioGolesA=0;
+      var sumatorioGolesB=0;
+
+      for ( var i = 0; i < this.players.length; i ++){
+        if(this.players[i].equipo=='A'){
+            if(this.goles[this.players[i].idPlayer]!=null){
+            sumatorioGolesA=parseInt(this.goles[this.players[i].idPlayer]) +sumatorioGolesA;}
+        }else{
+           if(this.goles[this.players[i].idPlayer]!=null){
+            sumatorioGolesB=parseInt(this.goles[this.players[i].idPlayer]) +sumatorioGolesB;}
+        }
+      }
+     
+
+
+      if (sumatorioGolesA!= this.resultadoA) {
+        this.error="Los goles totales del equipo A no coinciden con los goles metidos por sus jugadores, revíselo!"
+        return false;
+      }
+       if (sumatorioGolesB!= this.resultadoB) {
+        this.error="Los goles totales del equipo B no coinciden con los goles metidos por sus jugadores, revíselo!"
+        return false;
+      }
+
+        if ((sumatorioGolesA==this.resultadoA) && (sumatorioGolesB==this.resultadoB)) {
+        return true;
+      }
+     
+    },
+
     guardar(){
-    	
+     if(this.checkForm()==true){
     	var equipoA={};
     	var equipoB={};
     	var jugadoresA=[];
@@ -209,7 +241,9 @@ export default {
               .then(this._successHandler)
               .catch(this._errorHandler)
 
-    	
+    	}else{
+         this.$swal('Alerta!', this.error, 'error')
+      }
     },
 
      _successHandler(response) {
@@ -228,6 +262,9 @@ export default {
     _errorHandler(err) {
       this.error = err.response.data.message
       
+    },
+     custom(hora){
+      return hora.substring(0,5)
     },
 
 

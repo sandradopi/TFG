@@ -2,7 +2,8 @@
   <div v-if="bol"class="information message">
     <div class="half margin-right">
         <h2 class="titulo" v-if=" idDeporte==null">Nuevo Deporte</h2>
-        <input type='text' class="searchButton" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
+        <h2 class="titulo" v-if=" idDeporte!=null">{{this.sport.type}}</h2>
+        <input type='text' class="searchButton" v-if=" idDeporte==null" placeholder='Nombre del deporte' v-model="sport.type" autofocus required >
         <multiselect 
                 class="multi"
                 v-model="sport.locations" 
