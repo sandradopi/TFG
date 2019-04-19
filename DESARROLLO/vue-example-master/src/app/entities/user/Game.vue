@@ -1,5 +1,5 @@
 <template>
- <div>
+ <div class="game">
   <b-btn class="button" v-if="this.calendar==false" v-b-modal.modalPrevent><font-awesome-icon icon="sliders-h"style="font-size:30px;"/></b-btn> 
   <b-btn class="button1" v-if="this.calendar==false" @click="displayCalendar()"><font-awesome-icon icon="calendar-alt"style="font-size:30px;"/></b-btn> 
    <b-btn class="button2" v-if="this.calendar==true" @click="displayMap()"><font-awesome-icon icon="map-marked-alt"style="font-size:30px;"/></b-btn> 
@@ -360,13 +360,17 @@ export default {
     float:left;
 
 }
+
+.game{
+   margin-bottom:7%;
+}
 div.message2 {
   padding: 10px;
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
   width:40%;
   height:500px;
-  margin-top:30px;
+  margin-top:20px;
   float:right;
   background: #AFC7A9;
   margin-right:70px;

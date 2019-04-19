@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user">
       <ol id="lista2">
         <li class="usuarios" type="disc" v-for=" user in this.users" :key="user.idUser"> 
           {{user.name}} {{user.surname1}} {{user.surname2}}
@@ -83,8 +83,13 @@ export default {
     text-shadow: 0 1px 0 rgba(255,255,255,.5);
     margin-left:5%;
     width:35%;
+    margin-top:100px;
 
 
+
+}
+.user{
+  margin-bottom:3%
 }
 
 #lista2 ol {

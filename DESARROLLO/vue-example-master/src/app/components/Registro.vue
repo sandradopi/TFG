@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="all">
 
     <div class="float-right">
       <b-btn class="button"
@@ -467,6 +467,10 @@ export default {
   }
   .titulo{
     margin-left:22px;
+    margin-top:100px;
+  }
+  .all{
+    margin-bottom:4%;
   }
 
   .linea{
@@ -475,11 +479,12 @@ export default {
   position: absolute;
   left: 50%;
 
+
   }
 
   .formulario{
   margin-top:4%;
-  margin-bottom:35%;
+  margin-bottom:37%;
   width:60%;
   margin-left:20%;
   color:#17a2b8;

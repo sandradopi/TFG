@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="evento">
 
     <Calendar class="calendario"></Calendar>
     <b-modal
@@ -43,6 +43,7 @@
           :options="this.alllocations" 
           label="name"
           :close-on-select="true"  ></v-select>
+
     <input type='text' class="searchButton" placeholder='Número máximo de jugadores' v-model="game.maxPlayers" >
     <input type='text' class="searchButton" placeholder='Número míximo de jugadores' v-model="game.minPlayers"  >
       <b-btn class="button1" v-b-modal.modalPrevent v-if="this.game.location!=null"><span>Metereología</span></b-btn>
@@ -221,12 +222,17 @@ export default {
   margin-left:120px;
   margin-top:80px;
   border-radius: 6px;
-  height:80%;
+  height:90%;
   margin-bottom:20px;
   float:left;
 
 
   
+}
+
+dropdown v-select single searchable{}
+.evento{
+  margin-bottom:7%;
 }
 
 .searchButton {
@@ -307,7 +313,7 @@ export default {
     font-size: 0.8em;
     width: 50%;
     float: right;
-    margin-top:120px;
+    margin-top:80px;
     margin-right: 7%;
 }
 
@@ -334,7 +340,8 @@ export default {
 
 
 }
-.v-select.searchable .dropdown-toggle {
+.v-select.searchable {
+    margin-top:3px;
     cursor: text;
     border: none;
 }

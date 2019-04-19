@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="user">
      <div class="float-right">
         <b-btn class="button1" :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}" @click="Editado()"><span>Editar</span></b-btn> 
     </div>
@@ -103,6 +103,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.user{
+  margin-bottom:7%;
+}
 
 .datosUsuario{
   width: 30%;

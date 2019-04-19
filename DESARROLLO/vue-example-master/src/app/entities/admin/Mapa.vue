@@ -305,7 +305,7 @@ export default {
   cursor: pointer;
   border-bottom: 4px solid darken(#AFC7A9, 5%);
   margin-left:60px;
-  margin-top:20px;
+ 
 
 
 
@@ -333,7 +333,7 @@ export default {
 	float:right;
 	background: #f3f3f3;
 	width:40%;
-	height:85%;
+	height:90%;
 	border-radius: 6px;
 
 }
@@ -368,6 +368,10 @@ h1 {
   color:black;
   margin-left:12%;
   margin-top:10px;
+}
+.loc{
+   margin-top:70px;
+  margin-bottom:6%
 }
 
 </style>

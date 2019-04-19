@@ -78,6 +78,7 @@ export default {
   padding:40px;
   margin-left:30%;
   color:#17a2b8;
+  margin-top:160px;
 
 
 }
@@ -136,7 +137,7 @@ export default {
  }
 
 .titulo{
- margin-top:20%;
+
   color:#17a2b8;
 
 }

@@ -150,7 +150,8 @@ export default {
   width:65%;
   margin-left: auto;
   margin-right: auto;
-  margin-top:110px;
+  margin-top:90px;
+  margin-bottom:5%;
  
 }
 fieldset {

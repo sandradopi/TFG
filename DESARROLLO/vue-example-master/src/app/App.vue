@@ -13,7 +13,6 @@
     <router-view class="content">
       <!-- -->
     </router-view>
-
     <footer class="footer-distributed">
 
       <div class="footer-left">
@@ -37,30 +36,7 @@
        
         <p class="footer-company-name">PLAY2GETHER &copy; 2019</p>
       </div>
-
-
-      <div class="footer-right">
-
-        <p class="footer-company-about">
-          <span>Redes Sociales</span>
-          Podrás enterarte de las últimas novedades a través de nuestras redes sociales. Síguenos para no perderte nada!
-        </p>
-
-        <div class="footer-icons">
-        
-
-
-          <i><font-awesome-icon icon="brain"/></i>
-          <i><font-awesome-icon icon="sliders-h"/></i>
-          <a href="#"><i class="fa fa-twitter"></i></a>
-          <a href="#"><i class="fa fa-linkedin"></i></a>
-          <a href="#"><i class="fa fa-github"></i></a>
-
-        </div>
-
-      </div>
-
-    </footer>
+    
   </div>
 </template>
 
@@ -172,51 +148,7 @@ export default {
 }
 
 
-/* Footer Right */
 
-.footer-distributed .footer-right{
-  width: 20%;
-  margin-left:180px;
-}
-
-.footer-distributed .footer-company-about{
-  line-height: 20px;
-  color:  #92999f;
-  font-size: 13px;
-  font-weight: normal;
-  margin: 0;
-}
-
-.footer-distributed .footer-company-about span{
-  display: block;
-  color:  #ffffff;
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.footer-distributed .footer-icons{
-  margin-top: 15px;
-}
-
-.footer-distributed .footer-icons a{
-  display: inline-block;
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
-  background-color:  #33383b;
-  border-radius: 2px;
-
-  font-size: 20px;
-  color: #ffffff;
-  text-align: center;
-  line-height: 35px;
-
-  margin-right: 3px;
-  margin-bottom: 2px;
-}
-
-/* If you don't want the footer to be responsive, remove these media queries */
 
 @media (max-width: 880px) {
 

@@ -305,7 +305,7 @@ export default {
     margin-left:30px;
     margin-top:50px;
     margin-bottom:50px;
-    height:70%;
+    height:66%;
     border-radius: 6px;
 }
 

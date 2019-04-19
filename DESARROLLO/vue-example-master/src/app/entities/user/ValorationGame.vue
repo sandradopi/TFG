@@ -366,7 +366,7 @@ export default {
     font-family: 'Lato', sans-serif;
     margin:0;
     margin-left:120px;
-    margin-top:50px;
+   margin-top:100px;
     margin-bottom:50px;
     height:70%;
     border-radius: 6px;

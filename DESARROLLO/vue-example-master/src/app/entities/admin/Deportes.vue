@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dep">
       <DeportesDetail @Cerrar="reloadPage" v-if= "(idDeporte!=null && nuevo==false)" v-bind:idDeporte="this.idDeporte" v-bind:num="this.num" v-bind:nuevo="this.nuevo"></DeportesDetail> <!--Le pasamos ese numero para que en el caso de cerrae y querer abrir el mismo deporte nos deje, ya que el idDeporte no cambia-->
       <DeportesForm @Cerrar="reloadPage"  v-if= "(idDeporte==null && nuevo||nuevo)" v-bind:idDeporte="this.idDeporte"></DeportesForm>
 
@@ -107,7 +107,9 @@ export default {
 .tittle{
   color:black;
 }
-
+.dep{
+  margin-bottom:3%
+}
 .sport{
   width: 100%;
   background: #fff;
