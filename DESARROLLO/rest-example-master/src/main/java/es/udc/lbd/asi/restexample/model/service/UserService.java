@@ -72,6 +72,11 @@ public class UserService implements UserServiceInterface{
 	}
   
   @Override
+	public List<String> findComentarios(String login) {
+		return userDAO.findComentarios(login);
+	}
+  
+  @Override
  	public List<GameDTO> findByValoration(String login) {
 	  List<GameDTO> games= userDAO.findAllGamesPlayedValoration(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 	  return games;
@@ -220,6 +225,7 @@ public class UserService implements UserServiceInterface{
 		         user.setSurname2(surname2);
 		         user.setBirthday(birthday);
 		         user.setCity(city);
+		         user.setExperience(0);
 		         userDAO.save(user);
 		         }
 

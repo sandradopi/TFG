@@ -33,6 +33,7 @@ public interface UserServiceInterface {
 	public Boolean getNotification(String login, Long idGame);
 	public List<GameDTO>findByCreatorResultado(String login);
 	public List<GameDTO>findByValoration(String login);
+	public List<String> findComentarios(String login);
 
   
 

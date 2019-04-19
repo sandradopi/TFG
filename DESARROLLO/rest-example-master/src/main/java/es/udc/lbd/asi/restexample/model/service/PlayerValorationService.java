@@ -77,8 +77,18 @@ public PlayerValorationDTO save(PlayerValorationDTO playerValoration) {
 	bdPlayerValoration.setPlayer(player);
 	bdPlayerValoration.setUser(user);
 	
-	
 	playerValorationDAO.save(bdPlayerValoration);
+	
+	Integer experienciaTotal=0;
+	Long experience= (playerValoration.getValoration()+user.getExperience());
+	Long valoraciones= playerValorationDAO.countValoration(user.getLogin());
+	experienciaTotal=(int) (experience/valoraciones);
+	System.out.println("acumulado"+experience);
+	System.out.println("totally"+valoraciones);
+	
+	user.setExperience(experienciaTotal);
+	userDAO.save(user);
+	
 	return new PlayerValorationDTO(bdPlayerValoration);
 	
 }

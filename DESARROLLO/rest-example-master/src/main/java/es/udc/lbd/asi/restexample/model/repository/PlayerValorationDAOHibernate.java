@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import es.udc.lbd.asi.restexample.model.domain.Game;
+import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.PlayerValoration;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
@@ -30,6 +31,11 @@ public class PlayerValorationDAOHibernate extends GenericDAOHibernate implements
 	@Override
 	public PlayerValoration findById(Long idPlayerValoration) {
 		 return (PlayerValoration) getSession().createQuery("from PlayerValoration p where p.idPlayerValoration = :idPlayerValoration").setParameter("idPlayerValoration", idPlayerValoration).uniqueResult();
+	}
+	
+	@Override
+	public Long countValoration(String login) {
+		 return (Long) getSession().createQuery("select count(*) from PlayerValoration p inner join p.user u where u.login = :login").setParameter("login", login).uniqueResult();
 	}
 
 	@Override

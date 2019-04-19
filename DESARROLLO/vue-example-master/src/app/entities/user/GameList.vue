@@ -13,6 +13,13 @@
           </div>
         </b-btn>
     </div>
+     <div class="w3-container" v-for="comentario in this.comentarios" >
+        <b-btn class="w3-bar" >
+           <div class="w3-bar-item">
+              <span class="w3-large">{{comentario}}</span><br>
+          </div>
+        </b-btn>
+    </div>
   </div>
 </template>
 
@@ -35,7 +42,8 @@ export default {
       games:null,
       pasado:null,
       bool:false,
-      jugados:null
+      jugados:null,
+      comentarios:null
 
   
     }
@@ -59,6 +67,7 @@ export default {
   methods: {
     fetchData() {
       this.games=null
+      this.comentarios=null
       if (this.tipo=='organizados'){
           HTTP.get(`users/${this.login}/organizados`) 
                 .then(response => { this.games= response.data
@@ -74,6 +83,13 @@ export default {
           HTTP.get(`users/${this.WhatLogin()}/jugados`) 
                 .then(response => { this.games= response.data
                       return response })
+      
+       }else if(this.tipo=='comentarios'){
+
+          HTTP.get(`users/${this.WhatLogin()}/comentarios`) 
+                .then(response => { this.comentarios= response.data
+                      return response })
+
       }
 
     },

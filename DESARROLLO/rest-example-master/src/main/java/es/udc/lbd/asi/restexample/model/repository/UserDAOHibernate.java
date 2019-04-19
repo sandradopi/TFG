@@ -45,6 +45,8 @@ public class UserDAOHibernate extends GenericDAOHibernate implements UserDAO {
 		return getSession().createQuery("from User_ p order by p.name").list();
 	}
 	
+	
+	
 	@Override
 	public List<NormalUser> findAllNoAdmin() {
 		return getSession().createQuery("from User_ p where  p.authority='USER'").list();
@@ -69,6 +71,12 @@ public class UserDAOHibernate extends GenericDAOHibernate implements UserDAO {
 	public List<Game> findAllGamesCreated(String login) {
 		return getSession().createQuery("select g from Game g inner join g.creator c where  c.login= :login").setParameter("login", login).list();
 	}
+	
+	@Override
+	public List<String> findComentarios(String login) {
+		return getSession().createQuery("select v.review from PlayerValoration v inner join v.user u where u.login= :login").setParameter("login", login).list();
+	}
+
 
 	@Override
 	public List<Game> findAllGamesNext(String login) {

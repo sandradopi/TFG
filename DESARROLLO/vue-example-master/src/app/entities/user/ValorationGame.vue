@@ -199,8 +199,7 @@ export default {
     	 	}
 
     	 }
-       console.log("A"+this.playersA)
-       console.log("B"+this.playersB)
+     
 
 	 },
    valorar(id){

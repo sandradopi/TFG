@@ -325,13 +325,18 @@ export default {
     text-align: center;
     margin-bottom: 0;
 }
-.v-select.searchable .dropdown-toggle {
-    cursor: text;
+.v-select {
     min-height: 40px;
+    display: block;
     border-radius: 5px;
     border: 1px solid #e8e8e8;
     background: #fff;
 
+
+}
+.v-select.searchable .dropdown-toggle {
+    cursor: text;
+    border: none;
 }
 
 </style>

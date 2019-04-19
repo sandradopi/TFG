@@ -83,6 +83,12 @@ public class UserResource {
     	return games;
     }
     
+    @GetMapping("/{login}/comentarios")
+    public List<String> findAllComentarios(@PathVariable String login){
+    	 List<String> comentarios = userService.findComentarios(login);
+    	return comentarios;
+    }
+    
     
     @PutMapping("/{idUser}")
     public NormalUserDTO update(@PathVariable Long idUser, @RequestBody @Valid NormalUserDTO user, Errors errors)

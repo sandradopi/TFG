@@ -95,7 +95,8 @@ export default {
     	}else if (tipo=='recomendados'){
     		this.tipo='recomendados';
     	}else if (tipo=='comentarios'){
-    		this.tipo='comentarios';}
+    		this.tipo='comentarios';
+      }
     },
    
     _successHandler(response) {
