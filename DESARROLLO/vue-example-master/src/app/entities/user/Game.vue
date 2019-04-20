@@ -352,7 +352,7 @@ export default {
 #mymap {
 	 margin-left:50px;
 	  margin-top:30px;
-  	margin-bottom:30px;
+  	margin-bottom:35px;
     position: relative;
     padding: 0;
     width: 49%;
@@ -362,7 +362,7 @@ export default {
 }
 
 .game{
-   margin-bottom:7%;
+   margin-bottom:8%;
 }
 div.message2 {
   padding: 10px;

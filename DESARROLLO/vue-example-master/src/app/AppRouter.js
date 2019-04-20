@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
 import { Home, Login, NotFound,Registro } from './components'
-import {FutbolResult,ValorationGame,Calendar,Weather,Mapa,FutbolForm,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
+import {TennisResult,FutbolResult,TennisForm,ValorationGame,Calendar,Weather,Mapa,FutbolForm,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },
@@ -20,8 +20,10 @@ const routes = [
   { name: 'GameCreate', path: '/games/new', component: GameCreate,meta: { authority: 'USER' }},
   { name: 'GameDetail', path: '/games/:id', component: GameDetail,meta: { authority: 'USER' }},
   { name: 'ValorationGame', path: '/games/:id/valoraciones', component: ValorationGame,meta: { authority: 'USER' }},
-  { name: 'FutbolForm', path: '/games/:id/completeResultado', component: FutbolForm,meta: { authority: 'USER' }},
-  { name: 'FutbolResult', path: '/games/:id/resultado', component: FutbolResult,meta: { authority: 'USER' }},
+  { name: 'FutbolForm', path: '/games/:id/futbol/completeResultado', component: FutbolForm,meta: { authority: 'USER' }},
+  { name: 'TennisForm', path: '/games/:id/tennis/completeResultado', component: TennisForm,meta: { authority: 'USER' }},
+  { name: 'FutbolResult', path: '/games/:id/futbol/resultado', component: FutbolResult,meta: { authority: 'USER' }},
+  { name: 'TennisResult', path: '/games/:id/tennis/resultado', component: TennisResult,meta: { authority: 'USER' }},
   { name: 'GameUser', path: '/users/:id/perfilPublico', component: GameUser,meta: { authority: 'USER' }},
   { name: 'GameList', path: '/games/organizados/user/:id', component: GameList,meta: { authority: 'USER' }},
   { name: 'Game', path: '/games', component: Game,meta: { authority: 'USER' }},

@@ -174,7 +174,11 @@ data() {
 
       })
         if(this.bol==true){
+          if(game.sport.type=="Futbol"){
           this.$router.replace({ name: 'FutbolForm', params: { id:game.idGame}})
+        }else if(game.sport.type=="Tennis"){
+          this.$router.replace({ name: 'TennisForm', params: { id:game.idGame}})
+        }
      }else{
           this.$router.replace({ name: 'ValorationGame', params: { id:game.idGame}})
      }

@@ -105,7 +105,13 @@ export default {
         if(game.result==null){
           this.$router.replace({ name: 'GameDetail', params: { id:game, bol:true}})
         }else{
-         this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})}
+          if(game.sport.type=='Futbol'){
+              this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
+            }else if (game.sport.type=='Tennis'){
+              this.$router.replace({ name: 'TennisResult', params: { id:game.idGame}})}
+            }
+
+       
       } else if(this.tipo=='organizados'){
 
         var f=new Date();
@@ -115,7 +121,11 @@ export default {
          if(game.result==null){
           this.$router.replace({ name: 'GameDetail', params: { id:game, bol:true}})
         }else{
-         this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})}
+          if(game.sport.type=='Futbol'){
+              this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
+            }else if (game.sport.type=='Tennis'){
+              this.$router.replace({ name: 'TennisResult', params: { id:game.idGame}})}
+            }
         
       }else{
 

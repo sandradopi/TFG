@@ -16,67 +16,81 @@
        
 
      <div class="formulario">
-		  <b-form
-		      v-if="game"
-		      class="app-form"
-		      >
-		 <b-form-group>
-		 <span class="w3-large">Resultado Final:</span><br>
-		 <div class="bloque2">
-		  <span class="letra">A</span><br>
-		        <b-form-input
-		          id="nombre"
-		          v-model="resultadoA"
+		   
+	 <b-form-group>
+	<div class="info">
+	<span class="w3-large">Sets Equipo A:</span><br>
+    <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
+     <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
+     <div class="conj">	
+     <span class="w3-large">{{playerG.player.login}}</span><br>
+            <b-form-group class="conj1">
+                 <b-form-input
+		          id="players"
+		          v-model="setsA[0]"
 		          type="text"
 		          autocomplete="off"
 		          required
 		          placeholder=""></b-form-input>
-		</div>
 
-		<div class="bloque3">
-  		 <span class="letra">B</span><br>
 		        <b-form-input
-		          id="nombre"
-		          v-model="resultadoB"
-		          type="text"
-		          autocomplete="off"
-		          required
-		          placeholder="">
-		      	</b-form-input>
-		
-     </div>
-   	 </b-form-group>     
-	 <b-form-group>
-	<div class="info">
-	<span class="w3-large">Goles Jugadores A:</span><br>
-    <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
-     <div class="conj">	
-              <span class="w3-large">{{playerG.player.login}}</span><br>
-                 <b-form-input
 		          id="players"
-		          v-model="goles[playerG.idPlayer]"
+		          v-model="setsA[1]"
 		          type="text"
 		          autocomplete="off"
 		          required
-		          placeholder=""/>
-		      </div>
+		          placeholder=""></b-form-input>
+
+		          <b-form-input
+		          id="players"
+		          v-model="setsA[2]"
+		          type="text"
+		          autocomplete="off"
+		          required
+		          placeholder=""></b-form-input>
+
+		         
+		    </b-form-group>
+
+	</div>
+
     </div>
 	</br>
-  <span class="w3-large">--------------------------------------------------------------------------------------------------------------</span><br>
+	<span class="w3-large">--------------------------------------------------------------------------------------------------------------</span><br>
 	</br>
-  <span class="w3-large">Goles Jugadores B:</span><br>
+  <span class="w3-large">Sets Equipo B:</span><br>
     <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
      <div class="conj">	
               <span class="w3-large">{{playerG.player.login}}</span><br>
+                <b-form-group class="conj1">
                  <b-form-input
 		          id="players"
-		          v-model="goles[playerG.idPlayer]"
+		          v-model="setsB[0]"
 		          type="text"
 		          autocomplete="off"
 		          required
-		          placeholder=""/>
+		          placeholder=""></b-form-input>
+
+		        <b-form-input
+		          id="players"
+		          v-model="setsB[1]"
+		          type="text"
+		          autocomplete="off"
+		          required
+		          placeholder=""></b-form-input>
+
+		          <b-form-input
+		          id="players"
+		          v-model="setsB[2]"
+		          type="text"
+		          autocomplete="off"
+		          required
+		          placeholder=""></b-form-input>
+
+		         
+		    </b-form-group>
+
 		      </div>
     </div>
       </b-form-group>
@@ -105,11 +119,11 @@ export default {
     	players:null,
     	playersA:[],
     	playersB:[],
-    	resultadoA:'0',
-    	resultadoB:'0',
-    	goles:[],
+    	setsA:[],
+    	setsB:[],
     	loading:false,
     	resultado:{},
+    	error:''
    
 
 
@@ -176,33 +190,66 @@ export default {
     },
 
     checkForm () {
-      var sumatorioGolesA=0;
-      var sumatorioGolesB=0;
+     this.error='';
+	 if(this.setsA.length!=3){
+      		this.error="Le falta por rellenar los resultados de algun set del equipo A"
+        	return false;
+       }
 
-      for ( var i = 0; i < this.players.length; i ++){
-        if(this.players[i].equipo=='A'){
-            if(this.goles[this.players[i].idPlayer]!=null){
-            sumatorioGolesA=parseInt(this.goles[this.players[i].idPlayer]) +sumatorioGolesA;}
-        }else{
-           if(this.goles[this.players[i].idPlayer]!=null){
-            sumatorioGolesB=parseInt(this.goles[this.players[i].idPlayer]) +sumatorioGolesB;}
+      if(this.setsB.length!=3){
+      		this.error="Le falta por rellenar los resultados de algun set del equipo B"
+        	return false;
+       }
+
+
+      for ( var i = 0; i < this.setsA.length; i ++){
+      	if(this.setsA[i]>7){
+      		var set=i+1;
+        	this.error="Revise los puntos del set "+set+" del equipo A, no pueden se superior a 7"
+        	return false;
+
+        }else if(this.setsA[i]==7){
+        	var set=i+1;
+        	if((7-this.setsB[i])>2){
+				console.log(this.setsB[i])
+        		console.log(7-this.setsB[i])
+        		this.error="Revise los puntos del set "+set+" del equipo A y B, si se ha llegado a 7 puntos la diferencia con el equipo contrincante a de ser de 2 o 1 en caso de timeBreak"
+        	return false;
+
+        	}
+        }else if((this.setsA[i]<6) && (this.setsB[i]<6)){
+        	var set=i+1;
+        	this.error="Revise los puntos del set "+set+" del equipo A y B, ninguno a llegado a 6 puntos, los necesarios para acabar ese set"
+        	return false;
+
         }
       }
-     
-      
 
-      if (sumatorioGolesA!= this.resultadoA) {
-        this.error="Los goles totales del equipo A no coinciden con los goles metidos por sus jugadores, revíselo!"
-        return false;
-      }
-       if (sumatorioGolesB!= this.resultadoB) {
-        this.error="Los goles totales del equipo B no coinciden con los goles metidos por sus jugadores, revíselo!"
-        return false;
+       for ( var i = 0; i < this.setsB.length; i ++){
+       	
+        if(this.setsB[i]>7){
+        	var set=i+1;
+        	this.error="Revise los puntos del set "+set+" del equipo B, no pueden se superior a 7"
+        	return false;
+        }else if(this.setsB[i]==7){
+        	var set=i+1;
+        	if((7-this.setsA[i]) >2){
+        		this.error="Revise los puntos del set "+set+" del equipo A y B, si se ha llegado a 7 puntos la diferencia con el equipo contrincante a de ser de 2 o 1 en caso de timeBreak"
+        	return false;
+
+        	}
+        } else if((this.setsB[i]<6) && (this.setsA[i]<6)){
+        	var set=i+1;
+        	this.error="Revise los puntos del set "+set+" del equipo A y B, ninguno a llegado a 6 puntos, los necesarios para acabar ese set"
+        	return false;
+
+        }
       }
 
-        if ((sumatorioGolesA==this.resultadoA) && (sumatorioGolesB==this.resultadoB)) {
-        return true;
+      if(this.error.length==0){
+      	return true;
       }
+
      
     },
 
@@ -210,31 +257,10 @@ export default {
      if(this.checkForm()==true){
     	var equipoA={};
     	var equipoB={};
-    	var jugadoresA=[];
-    	var jugadoresB=[];
 
 
-    	 for ( var i = 0; i < this.players.length; i ++){
-    	 	if(this.players[i].equipo=='A'){
-    	 		jugadoresA.push({
-    	 			"id":this.players[i].player.login,
-    	 			"goles":this.goles[this.players[i].idPlayer]
-    		});
-    	 	}
-
-    	 	if(this.players[i].equipo=='B'){
-    	 		jugadoresB.push({
-    	 			"id":this.players[i].player.login,
-    	 			"goles":this.goles[this.players[i].idPlayer]
-    		});
-    	 	}
-    		
-    	}
-
-    	equipoA.goles=this.resultadoA;
-    	equipoB.goles=this.resultadoB;
-    	equipoA.jugadoresA=jugadoresA;
-    	equipoB.jugadoresB=jugadoresB;
+    	equipoA.sets=this.setsA;
+    	equipoB.sets=this.setsB;
     	this.resultado.equipoA=equipoA;
     	this.resultado.equipoB=equipoB;
 
@@ -249,7 +275,7 @@ export default {
 
      _successHandler(response) {
       this.$swal('Listo!', "Sus resultados han sido añadidos correctamente", 'success')
-      this.$router.replace({ name: 'FutbolResult', params: { id:this.game.idGame}})
+      this.$router.replace({ name: 'TennisResult', params: { id:this.game.idGame}})
     },
    
       WhatLogin() {
@@ -382,6 +408,8 @@ div.message2.information{background: #17a2b8;}
 
  #players{
  	width:50px;
+ 	display: inline-block;
+ 	margin-right:20px;
 
  }
 
@@ -389,7 +417,6 @@ div.message2.information{background: #17a2b8;}
  .info{
   color:white;
   margin-bottom:10px;
-  margin-top:30px;
 
 
  }
@@ -466,17 +493,19 @@ fieldset {
 .bloque2{
 
 	float:left;
-	display:inline-block;
+
 }
 .letra{
 	margin-left:20px;
 }
-.bloque{
+
+.form-group conj1{
 	display:inline-block;
 }
 
-.conj{
-	float:right;
+.w3-large {
+    font-size: 18px!important;
+    margin-left: 10px;
 }
 
 </style>

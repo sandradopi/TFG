@@ -14,9 +14,11 @@ import LocalizacionesDetail from './admin/LocalizacionesDetail'
 import Mapa from './admin/Mapa'
 import Calendar from './user/Calendar'
 import FutbolForm from './user/FutbolForm'
+import TennisForm from './user/TennisForm'
 import FutbolResult from './user/FutbolResult'
+import TennisResult from './user/TennisResult'
 import ValorationGame from './user/ValorationGame'
 
 
 
-export {Calendar,ValorationGame,FutbolResult,Mapa,FutbolForm,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}
+export {TennisResult,TennisForm,Calendar,ValorationGame,FutbolResult,Mapa,FutbolForm,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}

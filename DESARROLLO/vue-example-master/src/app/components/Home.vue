@@ -116,9 +116,11 @@ export default {
 
     },
      confirmacion(game){
-        
-       this.$router.replace({ name: 'FutbolForm', params: { id:game.idGame}})
-       
+       if(game.sport.type=="Futbol"){
+          this.$router.replace({ name: 'FutbolForm', params: { id:game.idGame}})
+        }else if(game.sport.type=="Tennis"){
+          this.$router.replace({ name: 'TennisForm', params: { id:game.idGame}})
+        }
     }, 
      WhatLogin() {
       return auth.user.login
