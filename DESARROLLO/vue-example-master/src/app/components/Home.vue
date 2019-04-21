@@ -116,9 +116,9 @@ export default {
 
     },
      confirmacion(game){
-       if(game.sport.type=="Futbol"){
+       if(game.sport.type=="Futbol"|| game.sport.type=='Baloncesto'){
           this.$router.replace({ name: 'FutbolForm', params: { id:game.idGame}})
-        }else if(game.sport.type=="Tennis"){
+        }else if(game.sport.type=="Tennis"|| game.sport.type=='Paddel'){
           this.$router.replace({ name: 'TennisForm', params: { id:game.idGame}})
         }
     }, 

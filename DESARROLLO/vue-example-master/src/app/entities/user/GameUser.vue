@@ -19,9 +19,12 @@
 			        <h4 class="profile__username1"> ({{this.user.city}})</h4>
 			      </div>
 
+
 			      <div class="profile__edit"><b-btn class="profile__button" :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}" @click="Editado()">Editar Perfil</b-btn ></div>
 			    </div>
+          <star-rating class="star" v-model="this.user.experience" v-bind:star-size="25" :read-only="true"></star-rating></p>
 			    <div class="profile__stats">
+
 			      <div class="profile__stat1">
 			        <div class="profile__icon profile__icon--gold"><i class="fas fa-wallet"></i></div>
 			        <div class="profile__value">47
@@ -53,10 +56,11 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import GameList from '../../entities/user/GameList'
+import StarRating from 'vue-star-rating'
 
 
 export default {
-  components: {GameList},
+  components: {GameList, StarRating},
   data() {
     return {
       game:{},
@@ -218,7 +222,8 @@ export default {
 }
 .profile__header {
   display: flex;
-  margin-bottom: 2px;
+  height:35px;
+
 }
 
 
@@ -352,6 +357,11 @@ div.message2.information{background: #fb887c;}
     line-height: normal;
     text-align: center;
     margin-bottom: 0;
+}
+
+.star{
+  margin-left:40px;
+
 }
 
 </style>

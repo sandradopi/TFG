@@ -6,24 +6,32 @@
 
 
       <div class="information message" v-if="loading==true">
-        <h2 class="title1"> Información</h2>  
+        <h2 class="title1"> Resultado: {{this.resultado.equipoA.goles}} - {{this.resultado.equipoB.goles}}</h2> 
+         <h5>-------------------------------------------------</h5>  
         <h6>Deporte: {{this.game.sport.type}}</h6>
         <h6>Ubicación: {{this.game.location.name}}</h6>
         <h6>Fecha: {{this.game.date}}</h6>
+        <h6>Horario: {{custom(this.game.timeStart)}}-{{custom(this.game.timeEnd)}}</h6>
          </br>
-        <h2 class="title1"> Goles:</h2>  
-        <div class="hola" v-if="gol.goles>0" v-for=" gol in this.resultado.equipoA.jugadoresA" :key="gol.id">
+         
+        <div class="hola" v-if="gol.goles>0 && game.sport.type=='Futbol'" v-for=" gol in this.resultado.equipoA.jugadoresA" :key="gol.id">
            <span class="title2">{{gol.goles}}&nbsp<font-awesome-icon icon="futbol"style="font-size:20px;"/><h3></span>&nbsp&nbsp &nbsp{{gol.id}}
         </div>
-        <h2 class="title1">-----------------------------</h2> 
-         <div class="hola" v-if="gol.goles>0" v-for=" gol in this.resultado.equipoB.jugadoresB" :key="gol.id">
+
+        <div class="hola" v-if="gol.goles>0 && game.sport.type=='Baloncesto'" v-for=" gol in this.resultado.equipoA.jugadoresA" :key="gol.id">
+           <span class="title2">{{gol.goles}}&nbsp<font-awesome-icon icon="basketball-ball"style="font-size:20px;"/><h3></span>&nbsp&nbsp &nbsp{{gol.id}}
+        </div>
+        <h5>-------------------------------------------------</h5> 
+         <div class="hola" v-if="gol.goles>0 && game.sport.type=='Futbol'" v-for=" gol in this.resultado.equipoB.jugadoresB" :key="gol.id">
            <span class="title2">{{gol.goles}}&nbsp<font-awesome-icon icon="futbol"style="font-size:20px;"/><h3></span>&nbsp&nbsp &nbsp{{gol.id}}
+        </div>
+
+         <div class="hola" v-if="gol.goles>0 && game.sport.type=='Baloncesto'" v-for=" gol in this.resultado.equipoB.jugadoresB" :key="gol.id">
+           <span class="title2">{{gol.goles}}&nbsp<font-awesome-icon icon="basketball-ball"style="font-size:20px;"/><h3></span>&nbsp&nbsp &nbsp{{gol.id}}
         </div>
     
       </div>
-      <div class="information message3" v-if="loading==true">
-        <h2 class="title1"> Resultado: {{this.resultado.equipoA.goles}} - {{this.resultado.equipoB.goles}}</h2>  
-      </div>
+      
        <div class="information message2" v-if="loading==true">
       <div class="info">
       <h2 class="title2"> Equipo A</h2>  
@@ -31,11 +39,9 @@
          <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:75px">
           <h6 class="w3-large">{{playerG.player.login}}</h6>
         </div>
-        </div>
-      </div>
 
-      <div class="information message2" v-if="loading==true">
-      <div class="info">
+       <div id="caja1"></div>
+     
       <h2 class="title2"> Equipo B</h2>  
         <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
          <img class="foto"src="http://i.pravatar.cc/250?img=48" class="foto" style="width:75px">
@@ -122,6 +128,9 @@ export default {
      this.loading=true;
 
    },
+    custom(hora){
+      return hora.substring(0,5)
+    },
 
    DividirEnEquipos(){
 
@@ -198,9 +207,9 @@ export default {
 
   .title1{
     font-family: 'Lato', sans-serif;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 200;
-    margin-bottom:30px;
+     margin-left:40px;
   }
 
     .title2{
@@ -208,6 +217,7 @@ export default {
     font-size: 20px;
     font-weight: 200;
     text-align:center;
+    margin-top:20px;
   }
 
  div.message {
@@ -217,10 +227,9 @@ export default {
   background: #fff;
   width:30%;
   float:left;
-  height:81%;
+  height:69%;
   margin-left:20px;
-  margin-top:20px;
-   overflow: scroll;
+  overflow: scroll;
 
 
 }
@@ -244,12 +253,12 @@ div.message.information{background: #fb887c;}
 
 div.message2 {
   
-  padding-left: 20px;
+
   box-shadow:0 2px 5px rgba(0,0,0,.3);
   background: #fff;
   width:65%;
   float:left;
-  height:33%;
+  height:69%;
   margin-left:20px;
 
 
@@ -273,7 +282,7 @@ div.message2.information{background: #17a2b8;}
 .foto{
  
     border-radius:10px;
-    margin-right:20px;
+    margin-left:20px;
 
     
     
@@ -298,6 +307,7 @@ div.message2.information{background: #17a2b8;}
   color:white;
   margin-bottom:10px;
   margin-top:30px;
+  width:100%;
 
 
  }
@@ -364,8 +374,18 @@ fieldset {
     border-color: #17a2b8;
 }
 .w3-large{
-  margin-left:15px;
+  margin-left:30px;
   margin-bottom:20px;
 }
+#caja1 {
+border: solid 2px white;
+}
+.hola{
+  font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 200;
+}
+
+
 
 </style>

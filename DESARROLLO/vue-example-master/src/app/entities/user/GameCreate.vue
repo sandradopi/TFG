@@ -9,8 +9,6 @@
         ok-only no-stacking>
         <Weather v-if="this.game.location!=null" v-bind:location="this.game.location"></Weather>
 
-
-
       </b-modal>
 
   <div class="shopping-list">
@@ -38,6 +36,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
     <v-select 
+         
           v-if="bol==true"
           v-model="game.location" 
           :options="this.alllocations" 
@@ -235,7 +234,7 @@ dropdown v-select single searchable{}
   margin-bottom:7%;
 }
 
-.searchButton {
+.searchButton, {
   width: 100%;
   background: #fff;
   padding: 0.6em; 
@@ -270,7 +269,7 @@ dropdown v-select single searchable{}
   transition: all 0.5s;
   cursor: pointer;
   margin: 5px;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-left: 40%;
 
 }
@@ -331,19 +330,26 @@ dropdown v-select single searchable{}
     text-align: center;
     margin-bottom: 0;
 }
+
+
+
 .v-select {
-    min-height: 40px;
-    display: block;
-    border-radius: 5px;
-    border: 1px solid #e8e8e8;
-    background: #fff;
+  cursor: text;
+  background: #fff;
+  padding: 0.4em; 
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  border-color:none !important;
+  font-size:1em;
 
+    
+}
+
+.v-select .dropdown-toggle {
+    
+    border:none !important;
 
 }
-.v-select.searchable {
-    margin-top:3px;
-    cursor: text;
-    border: none;
-}
+
 
 </style>

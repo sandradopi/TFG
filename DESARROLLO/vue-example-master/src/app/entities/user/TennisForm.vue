@@ -191,14 +191,21 @@ export default {
 
     checkForm () {
      this.error='';
-	 if(this.setsA.length!=3){
+	 if(this.setsA.length<2){
       		this.error="Le falta por rellenar los resultados de algun set del equipo A"
         	return false;
        }
 
-      if(this.setsB.length!=3){
+      if(this.setsB.length<2){
       		this.error="Le falta por rellenar los resultados de algun set del equipo B"
         	return false;
+       }
+
+       if(this.setsB.length==2){
+        if((this.setsA[0]>this.setsB[0] && this.setsA[1]<this.setsB[1]) || (this.setsA[0]<this.setsB[0] && this.setsA[1]>this.setsB[1])){
+          this.error="Revise los puntos se los sets, si solo jugaron 2 sets, ambos sets tuvieron que haber sido ganados por el mismo equipo"
+          return false;
+        }
        }
 
 
@@ -257,8 +264,19 @@ export default {
      if(this.checkForm()==true){
     	var equipoA={};
     	var equipoB={};
+      var ganadosA=0;
+      var ganadosB=0;
 
+      for ( var i = 0; i < this.setsA.length; i ++){
+        if(this.setsA[i]> this.setsB){
+          ganadosA++;
+        }else{
+          ganadosB++;
+        }
 
+      }
+      equipoA.setsGanados=ganadosA;
+      equipoB.setsGanados=ganadosB;
     	equipoA.sets=this.setsA;
     	equipoB.sets=this.setsB;
     	this.resultado.equipoA=equipoA;

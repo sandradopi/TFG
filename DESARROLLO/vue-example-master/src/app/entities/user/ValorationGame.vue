@@ -27,8 +27,9 @@
         <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
         <h6>Deporte: {{this.game.sport.type}}</h6>
         <h6>Ubicación: {{this.game.location.name}}</h6>
-        <h6>Horario: {{custom(this.game.timeStart)}}-{{custom(this.game.timeEnd)}} </h6>
         <h6>Fecha: {{this.game.date}}</h6>
+        <h6>Horario: {{custom(this.game.timeStart)}}-{{custom(this.game.timeEnd)}} </h6>
+      
       </div>
       <div class="information message2">
        
@@ -333,7 +334,11 @@ export default {
       if(this.game.result==null){
         this.$router.replace({ name: 'GameDetail', params: { id:this.game, bol:true}})
       }else{
-      this.$router.replace({ name: 'FutbolResult', params: { id:this.game.idGame}})
+      if(this.game.sport.type=="Futbol"|| this.game.sport.type=='Baloncesto'){
+          this.$router.replace({ name: 'FutbolResult', params: { id:this.game.idGame}})
+        }else if(this.game.sport.type=="Tennis"|| this.game.sport.type=='Paddel'){
+          this.$router.replace({ name: 'TennisResult', params: { id:this.game.idGame}})
+        }
     }
     },
    
@@ -404,7 +409,7 @@ export default {
   background: #fff;
   width:30%;
   float:left;
-  height:73%;
+  height:43%;
   margin-left:20px;
   margin-top:20px;
 

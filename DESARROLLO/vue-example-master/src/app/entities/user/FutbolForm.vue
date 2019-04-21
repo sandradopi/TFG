@@ -48,7 +48,8 @@
    	 </b-form-group>     
 	 <b-form-group>
 	<div class="info">
-	<span class="w3-large">Goles Jugadores A:</span><br>
+	<span class="w3-large" v-if="this.game.sport.type=='Futbol'">Goles Jugadores A:</span><br>
+  <span class="w3-large" v-if="this.game.sport.type=='Baloncesto'">Puntos Jugadores A:</span><br>
     <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
      <div class="conj">	
@@ -65,7 +66,8 @@
 	</br>
   <span class="w3-large">--------------------------------------------------------------------------------------------------------------</span><br>
 	</br>
-  <span class="w3-large">Goles Jugadores B:</span><br>
+ <span class="w3-large" v-if="this.game.sport.type=='Futbol'">Goles Jugadores A:</span><br>
+  <span class="w3-large" v-if="this.game.sport.type=='Baloncesto'">Puntos Jugadores A:</span><br>
     <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
      <div class="conj">	
@@ -192,11 +194,20 @@ export default {
       
 
       if (sumatorioGolesA!= this.resultadoA) {
-        this.error="Los goles totales del equipo A no coinciden con los goles metidos por sus jugadores, revíselo!"
+        if(this.game.sport.type=='Futbol'){
+           this.error="Los goles totales del equipo A no coinciden con los goles metidos por sus jugadores, revíselo!"
+         }else if (this.game.sport.type=='Baloncesto'){
+           this.error="Los puntos totales del equipo A no coinciden con los puntos conseguidos por sus jugadores, revíselo!"
+         }
+       
         return false;
       }
        if (sumatorioGolesB!= this.resultadoB) {
-        this.error="Los goles totales del equipo B no coinciden con los goles metidos por sus jugadores, revíselo!"
+       if(this.game.sport.type=='Futbol'){
+           this.error="Los goles totales del equipo A no coinciden con los goles metidos por sus jugadores, revíselo!"
+         }else if (this.game.sport.type=='Baloncesto'){
+           this.error="Los puntos totales del equipo B no coinciden con los puntos conseguidos por sus jugadores, revíselo!"
+         }
         return false;
       }
 
