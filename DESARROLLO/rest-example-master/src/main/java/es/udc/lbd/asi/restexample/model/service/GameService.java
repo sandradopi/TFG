@@ -71,11 +71,17 @@ public List<GameDTO> findAll() {
 }
 @PreAuthorize("hasAuthority('USER')")
 @Override
-public List<GameDTO> findAllFiltros(String sport, String user) {
+public List<GameDTO> findAllFiltros(String sport, String user, String edad) {
 	Integer sportEv=0;
 	Integer userEv=0;
+	Integer edadEv=0;
+	Double edadMin=new Double(0);
+	Double edadMax=new Double(0);
 	List<String> deportes =new ArrayList<String>();
-	NormalUser usuario= new NormalUser();
+	List<Long> gamesRange =new ArrayList<Long>();
+	List<GameDTO> gamesFiltros =new ArrayList<GameDTO>();
+	List<GameDTO> gamesPreFiltros =new ArrayList<GameDTO>();
+
 	
 		if(!(sport.equals("vacio"))){
 		sportEv=1;
@@ -94,7 +100,47 @@ public List<GameDTO> findAllFiltros(String sport, String user) {
 			userEv=1;
 		}
 		
-		return gameDAO.findAllFiltros(deportes,user,sportEv,userEv).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());		
+		if(!(edad.equals("vacio"))){
+			edadEv=1;
+			
+			if(edad.equals("<18")){
+				edadMin=new Double(10);
+				edadMax=new Double(18);
+				System.out.println("hola");
+				
+			}else if(edad.equals("18<edad<25")){
+				edadMin=new Double(18);
+				edadMax=new Double(25);
+				System.out.println("hola1");
+			}else if(edad.equals("25<edad<40")){
+				edadMin=new Double(25);
+				edadMax=new Double(40);
+				System.out.println("hola2");
+				
+			}else{
+				edadMin=new Double(40);
+				edadMax=new Double(100);
+				System.out.println("hola3");
+			}
+		}
+		gamesRange=gameDAO.findByAgeRange(edadMin, edadMax);
+	
+
+		
+		if(edadEv==1){
+			gamesPreFiltros=gameDAO.findAllFiltros(deportes,user,sportEv,userEv).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+			for(GameDTO g:gamesPreFiltros){
+				for(Long a:gamesRange){
+				if(g.getIdGame()==a){
+					System.out.println("bucle"+g.getIdGame()+ " "+a);
+					gamesFiltros.add(g);
+				}
+			  }
+			}
+			return gamesFiltros;
+		}else{
+		return gameDAO.findAllFiltros(deportes,user,sportEv,userEv).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());	
+		}	
 		
 	}
 	

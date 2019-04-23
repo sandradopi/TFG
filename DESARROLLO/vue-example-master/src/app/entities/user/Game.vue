@@ -26,8 +26,8 @@
                 :custom-label="nameCustom1"
                 >
               </multiselect>
-            </b-form-group>
-            <b-form-group>
+           
+            
             <multiselect 
                 v-model="usuario" 
                 :options="this.users"
@@ -39,6 +39,19 @@
                 track-by="idUser"
                 placeholder="Creador"
                 :custom-label="nameCustom2"
+                >
+              </multiselect>
+
+               <multiselect 
+                v-model="edad" 
+                :options="this.edades"
+                :multiple="false"
+                :searchable="true" 
+                :preserve-search="true"
+                :close-on-select="true" 
+                :show-labels="false"
+                placeholder="Edad"
+                
                 >
               </multiselect>
               </b-form-group>
@@ -136,8 +149,9 @@ export default {
       users:[],
       usuario:null,
       edad:null,
-      edades:['< 18','18 < edad < 25','25 < edad < 40', '> 40'],
+      edades:['<18','18<edad<25','25<edad<40', '>40'],
       login:"",
+      edadAux:"",
       calendar:false
 
   
@@ -239,7 +253,7 @@ export default {
         }
       },
       handleSubmit() {
-        var url=`games/filtro?creator=${this.login}&sport=$`
+        var url=`games/filtro?creator=${this.login}&edad=${this.edadAux}&sport=$`
         var deportes;
 
         if (!this.usuario){
@@ -249,18 +263,25 @@ export default {
           this.login=this.usuario.login
         }
 
+         if (!this.edad){
+          this.edadAux="vacio"
+        }
+        else{
+          this.edadAux=this.edad
+        }
+
 
          if (!this.deporte){
-          url= `games/filtro?creator=${this.login}&sport=vacio`
+          url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&sport=vacio`
           
          }else{
 
             //Obtener la URL segun el numero de deportes que me vengan
             if(this.deporte.length==1){
-              url= `games/filtro?creator=${this.login}&sport=${this.deporte[0].type}`
+              url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&sport=${this.deporte[0].type}`
        
             }else{
-              url= `games/filtro?creator=${this.login}&sport=${this.deporte[0].type}`
+              url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&sport=${this.deporte[0].type}`
               for ( var i = 1; i < this.deporte.length; i ++){
                 url= url+ `,${this.deporte[i].type}`;
              
@@ -546,5 +567,10 @@ div.entertainment p {
     line-height: normal;
     text-align: center;
     margin-bottom: 0;
+}
+
+.multiselect{
+  
+    margin-bottom: 10px;
 }
 </style>
