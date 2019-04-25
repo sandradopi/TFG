@@ -71,12 +71,15 @@ public List<GameDTO> findAll() {
 }
 @PreAuthorize("hasAuthority('USER')")
 @Override
-public List<GameDTO> findAllFiltros(String sport, String user, String edad) {
+public List<GameDTO> findAllFiltros(String sport, String user, String edad, String dificultad) {
 	Integer sportEv=0;
 	Integer userEv=0;
 	Integer edadEv=0;
+	Integer dificultadEv=0;
 	Double edadMin=new Double(0);
-	Double edadMax=new Double(0);
+	Double edadMax=new Double(100);
+	Double expMin=new Double(0);
+	Double expMax=new Double(5);
 	List<String> deportes =new ArrayList<String>();
 	List<Long> gamesRange =new ArrayList<Long>();
 	List<GameDTO> gamesFiltros =new ArrayList<GameDTO>();
@@ -106,28 +109,48 @@ public List<GameDTO> findAllFiltros(String sport, String user, String edad) {
 			if(edad.equals("<18")){
 				edadMin=new Double(10);
 				edadMax=new Double(18);
-				System.out.println("hola");
+		
 				
 			}else if(edad.equals("18<edad<25")){
 				edadMin=new Double(18);
 				edadMax=new Double(25);
-				System.out.println("hola1");
+			
 			}else if(edad.equals("25<edad<40")){
 				edadMin=new Double(25);
 				edadMax=new Double(40);
-				System.out.println("hola2");
+		
 				
 			}else{
 				edadMin=new Double(40);
 				edadMax=new Double(100);
-				System.out.println("hola3");
+		
 			}
 		}
-		gamesRange=gameDAO.findByAgeRange(edadMin, edadMax);
-	
-
 		
-		if(edadEv==1){
+		if(!(dificultad.equals("vacio"))){
+			dificultadEv=1;
+			
+			if(dificultad.equals("Principiante")){
+				expMin=new Double(0);
+				expMax=new Double(1);
+		
+				
+			}else if(dificultad.equals("Aficionado")){
+				expMin=new Double(2);
+				expMax=new Double(3);
+			
+		
+				
+			}else if(dificultad.equals("Profesional")){
+				expMin=new Double(4);
+				expMax=new Double(5);
+		
+			}
+		}
+		
+		
+		if(edadEv==1||dificultadEv==1){
+			gamesRange=gameDAO.findByAgeRange(edadMin, edadMax, expMin,expMax);
 			gamesPreFiltros=gameDAO.findAllFiltros(deportes,user,sportEv,userEv).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 			for(GameDTO g:gamesPreFiltros){
 				for(Long a:gamesRange){

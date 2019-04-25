@@ -39,7 +39,7 @@
 			      </div>
 			      <div class="profile__stat">
 			        <div class="profile__icon profile__icon--pink"><i class="fas fa-heart"></i></div>
-			        <div class="profile__value">4/5
+			        <div class="profile__value">{{this.user.experience}}/5
 			          <div class="profile__key">Experiencia</div>
 			        </div>
 			      </div>

@@ -21,7 +21,7 @@ public interface GameServiceInterface {
 	  public List<GameDTO> findAll();
 	  public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException;
 	  public void deleteById(Long idGame) throws AddressException, MessagingException, ParseException;
-	  public List<GameDTO> findAllFiltros(String sport, String user, String edad);
+	  public List<GameDTO> findAllFiltros(String sport, String user, String edad,String dificultad);
 	  public GameDTO findById(Long idGame);
 	  public GameDTO update(Long idGame, String resultado);
 	  

@@ -56,8 +56,8 @@ public class GameResource {
     }
     
     @GetMapping("/filtro")
-    public List<GameDTO> findAllFiltros(@RequestParam String creator,@RequestParam String edad, @RequestParam String sport) {
-        return gameService.findAllFiltros(sport, creator,edad);
+    public List<GameDTO> findAllFiltros(@RequestParam String creator,@RequestParam String edad,@RequestParam String dificultad, @RequestParam String sport) {
+        return gameService.findAllFiltros(sport, creator,edad,dificultad);
     }
     
    

@@ -54,6 +54,18 @@
                 
                 >
               </multiselect>
+               <multiselect 
+                v-model="dificultad" 
+                :options="this.dificultades"
+                :multiple="false"
+                :searchable="true" 
+                :preserve-search="true"
+                :close-on-select="true" 
+                :show-labels="false"
+                placeholder="Dificultad"
+                
+                >
+              </multiselect>
               </b-form-group>
 
                <b-form-group>
@@ -150,9 +162,12 @@ export default {
       usuario:null,
       edad:null,
       edades:['<18','18<edad<25','25<edad<40', '>40'],
+      dificultades:['Principiante','Aficionado','Profesional'],
       login:"",
       edadAux:"",
-      calendar:false
+      calendar:false,
+      dificultad:null,
+      dificultadAux:"",
 
   
     }
@@ -226,6 +241,7 @@ export default {
         this.deporte = null;
         this.usuario=null;
         this.edad=null;
+        this.dificultad=null;
       },
 
     nameCustom1 ({ type }) {
@@ -245,7 +261,7 @@ export default {
       handleOk(evt) {
         // Prevent modal from closing
         evt.preventDefault()
-        if ((!this.deporte) &&(!this.usuario)&& (!this.edad)) {
+        if ((!this.deporte) &&(!this.usuario)&& (!this.edad)&&(!this.dificultad)) {
            this.$swal('Alerta!', "Seleccione por lo menos un filtro!", 'error')
           
         }else{
@@ -253,7 +269,7 @@ export default {
         }
       },
       handleSubmit() {
-        var url=`games/filtro?creator=${this.login}&edad=${this.edadAux}&sport=$`
+        var url=`games/filtro?creator=${this.login}&edad=${this.edadAux}&dificultad=${this.dificultadAux}&sport=$`
         var deportes;
 
         if (!this.usuario){
@@ -270,18 +286,25 @@ export default {
           this.edadAux=this.edad
         }
 
+         if (!this.dificultad){
+          this.dificultadAux="vacio"
+        }
+        else{
+          this.dificultadAux=this.dificultad
+        }
+
 
          if (!this.deporte){
-          url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&sport=vacio`
+          url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&dificultad=${this.dificultadAux}&sport=vacio`
           
          }else{
 
             //Obtener la URL segun el numero de deportes que me vengan
             if(this.deporte.length==1){
-              url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&sport=${this.deporte[0].type}`
+              url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&dificultad=${this.dificultadAux}&sport=${this.deporte[0].type}`
        
             }else{
-              url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&sport=${this.deporte[0].type}`
+              url= `games/filtro?creator=${this.login}&edad=${this.edadAux}&dificultad=${this.dificultadAux}&sport=${this.deporte[0].type}`
               for ( var i = 1; i < this.deporte.length; i ++){
                 url= url+ `,${this.deporte[i].type}`;
              
@@ -303,7 +326,6 @@ export default {
         this.$swal('', 'Se han aplicado los filtros seleccionados', 'success')
         this.clearName()
         this.$nextTick(() => {
-          // Wrapped in $nextTick to ensure DOM is rendered before closing
           this.$refs.modal.hide();
           this.bol=false;
         })
@@ -341,10 +363,7 @@ export default {
                 if(this.games[i].location.name==this.idLocName)
                   this.gamesLoc.push(this.games[i])
               }
-             /* HTTP.get(`games/locations/${this.idLoc}`)
-                  .then(response => { this.gamesLoc = response.data
-                        return response.data})
-                  .catch(err => { this.error = err.message})*/
+            
            }
                  
         this.locations.push(this.games[i].location.name)

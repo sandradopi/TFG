@@ -78,8 +78,8 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 
 	
 	@Override
-	public List<Long> findByAgeRange(Double min, Double max) {
-		return getSession().createQuery("select distinct g.idGame from Player p inner join p.player u inner join p.game g group by g.idGame having AVG(YEAR(current_date)-YEAR(u.birthday)) BETWEEN :min AND :max ").setParameter("min", min).setParameter("max", max).list();
+	public List<Long> findByAgeRange(Double min, Double max, Double emin, Double emax) {
+		return getSession().createQuery("select distinct g.idGame from Player p inner join p.player u inner join p.game g group by g.idGame having (AVG(YEAR(current_date)-YEAR(u.birthday)) BETWEEN :min AND :max) AND(AVG(u.experience)  BETWEEN :emin AND :emax) ").setParameter("min", min).setParameter("max", max).setParameter("emin", emin).setParameter("emax", emax).list();
 	}
 
 
