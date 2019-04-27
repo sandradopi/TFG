@@ -12,7 +12,7 @@
               <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
 
           </div>
-          <span class="recomendacion" v-if="mensaje!=null">{{mensaje}}</span>
+          <span class="recomendacion" v-if="mensaje!=null">{{mensaje[index]}}</span>
         </b-btn>
     </div>
      <div class="w3-container" v-for="comentario in this.comentarios" >
@@ -106,17 +106,26 @@ export default {
 
     },
     unionGamesRecomendados(){ 
-     var gameR=[];
-     var msg=[];
+     var gameR=new Array();
+     var msg=new Array();
 
    
        for ( var i = 0; i < this.gamesRecomendados.length; i ++){
-         gameR=this.gamesRecomendados[i].games;
-         msg=this.gamesRecomendados[i].mensaje;
+        for ( var x = 0; x < this.gamesRecomendados[i].games.length; x ++){
+         gameR.push(this.gamesRecomendados[i].games[x]);
+         msg.push(this.gamesRecomendados[i].mensaje);
+         
+        
        }
-       
+         //msg.push(this.gamesRecomendados[i].mensaje);
+       }
+     
       this.games=gameR;
       this.mensaje=msg;
+
+      
+      
+      //console.log(this.mensaje)
 
       
 
