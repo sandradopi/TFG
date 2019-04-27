@@ -33,6 +33,7 @@ import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerValorationDAO;
+import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
@@ -50,6 +51,8 @@ public class UserService implements UserServiceInterface{
 
   @Autowired
   private UserDAO userDAO;
+  @Autowired
+  private SportDAO sportDAO;
   @Autowired
   private TeamDAO teamDAO;
   @Autowired
@@ -77,13 +80,14 @@ public class UserService implements UserServiceInterface{
   
   @PreAuthorize("hasAuthority('USER')")
   @Override
-	public RecomendacionDTO findGamesRecomendados(String login) {
+	public List<RecomendacionDTO> findGamesRecomendados(String login) {
 	  List<Game> jugados=userDAO.findAllGamesPlayed(login);
 	  List<Player> jugadoresJugados= new ArrayList<>();
 	  List<Player> jugadoresValoradosBien= new ArrayList<>();
 	  List<GameDTO> recomendados=new ArrayList<>();
 	  List<GameDTO> recomendadosLimpia=new ArrayList<>();
-	  RecomendacionDTO recomendadosFinal= new RecomendacionDTO();
+	  List<RecomendacionDTO> recomendadosFinal= new ArrayList<RecomendacionDTO>();
+	  List<Integer> sports= new ArrayList<Integer>();
 	  
 
 	 
@@ -115,13 +119,15 @@ public class UserService implements UserServiceInterface{
 				
 				}
 			
-			
-			recomendadosFinal.setMensaje("En este partido juegan jugadores con los que ya jugó previamente y poseen buenas valoraciones");
-			recomendadosFinal.setGames(recomendadosLimpia);
+			RecomendacionDTO recomendacion=new RecomendacionDTO();
+			recomendacion.setMensaje("En este partido juegan jugadores con los que ya jugó previamente y poseen buenas valoraciones");
+			recomendacion.setGames(recomendadosLimpia);
+			recomendadosFinal.add(0, recomendacion);
 		  
+	  
+	  //Recomendar partido por el deporte que más juega
+	
 	  }
-	  
-	  
 	  return recomendadosFinal;
 	  }
   

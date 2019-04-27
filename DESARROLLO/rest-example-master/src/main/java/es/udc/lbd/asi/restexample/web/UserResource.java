@@ -61,7 +61,7 @@ public class UserResource {
     }
     
     @GetMapping("/{login}/recomendados")
-    public RecomendacionDTO findAllPartidosRecomendados(@PathVariable String login){
+    public List<RecomendacionDTO> findAllPartidosRecomendados(@PathVariable String login){
     	 return userService.findGamesRecomendados(login);
     	
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="information message2">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
+    <div class="w3-container" v-for=" (game,index) in this.games" :key="game.idGame">
         <b-btn class="w3-bar" @click="verDetallePartido(game)">
            <img v-if="game.sport.type=='Futbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
            <img v-if="game.sport.type=='Tennis'"src="ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
@@ -41,12 +41,14 @@ export default {
   },
   data() {
     return {
-      games:null,
+      games:[],
+      gamesRecomendados:null,
       pasado:null,
       bool:false,
       jugados:null,
       comentarios:null,
-      mensaje:""
+      mensaje:null,
+
 
   
     }
@@ -76,6 +78,7 @@ export default {
                 .then(response => { this.games= response.data
                       return response })
                 .catch(err => { this.error = err.message})
+
       }
       else if (this.tipo=='proximo'){
           HTTP.get(`users/${this.WhatLogin()}/proximos`) 
@@ -96,13 +99,29 @@ export default {
        }else if(this.tipo=='recomendados'){
 
           HTTP.get(`users/${this.WhatLogin()}/recomendados`) 
-                .then(response => { this.games= response.data.games
-                      return response })
-                .then(response => { this.mensaje= response.data.mensaje
-                      return response })
-
+                .then(response => { this.gamesRecomendados = response.data
+                        return response.data})
+                  .then(this.unionGamesRecomendados)
       }
 
+    },
+    unionGamesRecomendados(){ 
+     var gameR=[];
+     var msg=[];
+
+   
+       for ( var i = 0; i < this.gamesRecomendados.length; i ++){
+         gameR=this.gamesRecomendados[i].games;
+         msg=this.gamesRecomendados[i].mensaje;
+       }
+       
+      this.games=gameR;
+      this.mensaje=msg;
+
+      
+
+
+     
     },
 
     custom(hora){
