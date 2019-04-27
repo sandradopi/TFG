@@ -15,6 +15,7 @@ public interface PlayerValorationDAO {
 	 public void save(PlayerValoration player);
 	 public List <PlayerValoration> findAll();
 	 public PlayerValoration findById(Long idPlayerValoration) ;
+	 public PlayerValoration findByIdPlayer(Long idPlayer) ;
 	 public void deleteById(Long idPlayerValoration) ;
 	 public Long countValoration(String login);
 

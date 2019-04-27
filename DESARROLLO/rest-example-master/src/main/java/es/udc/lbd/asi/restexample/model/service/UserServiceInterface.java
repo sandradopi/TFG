@@ -15,6 +15,7 @@ import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 
 
@@ -25,6 +26,7 @@ public interface UserServiceInterface {
     public NormalUserDTO update(NormalUserDTO user) throws UserLoginEmailExistsException;
 	public List<UserDTO> findAll();
 	public List<GameDTO> findGamesCreated(String login);
+	public RecomendacionDTO findGamesRecomendados(String login);
 	public void deleteById(Long idUser) throws SportDeleteException;
 	public List<GameDTO> findGamesNext(String login);
 	public List<GameDTO> findGamesPlayed(String login);

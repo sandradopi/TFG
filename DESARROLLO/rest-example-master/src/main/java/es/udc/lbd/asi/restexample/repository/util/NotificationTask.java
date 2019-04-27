@@ -5,13 +5,16 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import org.apache.commons.logging.Log;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 
 import javax.mail.Message;
@@ -32,6 +35,7 @@ import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.GameService;
+import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 
 
 
@@ -66,6 +70,7 @@ public class NotificationTask {
     	List<NormalUser> usuarios =userDAO.findAllNoAdmin();
     	List<NormalUser> notificados= new ArrayList();
     	List<NormalUser> playersGame= new ArrayList();
+    	List<NormalUser> usuariosAavisar= new ArrayList();
     	for(NormalUser user: usuarios){
     		Set<Game> games= user.getNotifications();
     		for (Game game:games){
@@ -74,19 +79,25 @@ public class NotificationTask {
     			}
     		}
     	}
+    	
     	if(bol==true){//Si se va a eliminar un partido, avisamos tanto a los que tienen las notificaciones activadas como a los que están apuntados
     		List<Player> players= playerDAO.findAllByGame(idGame);
     		for(Player player:players){
-    			for(NormalUser notificado:notificados){
-    				if(notificado.getIdUser()!=player.getPlayer().getIdUser()){
     					playersGame.add(player.getPlayer());
-    				}
-    			}
     			
     		}
     	}
     	notificados.addAll(playersGame);
-    	for(NormalUser usuario : notificados){
+    	 Map<Long,NormalUser> mapUser=new HashMap<Long, NormalUser>(notificados.size());
+			for(NormalUser g : notificados) {
+				mapUser.put(g.getIdUser(), g);
+			}
+			for(Entry<Long, NormalUser> g : mapUser.entrySet()) {
+				usuariosAavisar.add(g.getValue());
+				
+				}
+    	for(NormalUser usuario : usuariosAavisar){
+    		
 		    	    	try{
 			    	    		MimeMessage message = new MimeMessage(session);
 			    	    		message.setFrom(new InternetAddress("marsusanez@gmail.com"));

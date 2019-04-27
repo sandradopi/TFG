@@ -23,6 +23,7 @@ import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.lbd.asi.restexample.web.exception.InstanceNotFoundExceptionHIB;
@@ -57,6 +58,12 @@ public class UserResource {
     public List<GameDTO> findAllPartidosOrganizados(@PathVariable String login){
     	 List<GameDTO> games = userService.findGamesCreated(login);
     	return games;
+    }
+    
+    @GetMapping("/{login}/recomendados")
+    public RecomendacionDTO findAllPartidosRecomendados(@PathVariable String login){
+    	 return userService.findGamesRecomendados(login);
+    	
     }
     
     @GetMapping("/{login}/proximos")

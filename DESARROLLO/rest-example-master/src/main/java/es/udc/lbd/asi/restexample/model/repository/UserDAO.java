@@ -23,6 +23,7 @@ public interface UserDAO {
 	public List<Game> findAllGamesNext(String login);
 	public List<User_> findAllNoAdminU();
 	public List<Game> findByCreatorResultado(String login);
+	public List<Game> findRecomendadosPlayers(String login);
 	public List<Game> findAllGamesPlayed(String login);
 	public List<Game> findAllGamesPlayedValoration(String login);
 	public List<String> findComentarios(String login);

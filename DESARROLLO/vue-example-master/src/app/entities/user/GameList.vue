@@ -10,7 +10,9 @@
            <div class="w3-bar-item">
               <span class="w3-large">{{game.location.name}}</span><br>
               <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
+
           </div>
+          <span class="recomendacion" v-if="mensaje!=null">{{mensaje}}</span>
         </b-btn>
     </div>
      <div class="w3-container" v-for="comentario in this.comentarios" >
@@ -43,7 +45,8 @@ export default {
       pasado:null,
       bool:false,
       jugados:null,
-      comentarios:null
+      comentarios:null,
+      mensaje:""
 
   
     }
@@ -90,6 +93,14 @@ export default {
                 .then(response => { this.comentarios= response.data
                       return response })
 
+       }else if(this.tipo=='recomendados'){
+
+          HTTP.get(`users/${this.WhatLogin()}/recomendados`) 
+                .then(response => { this.games= response.data.games
+                      return response })
+                .then(response => { this.mensaje= response.data.mensaje
+                      return response })
+
       }
 
     },
@@ -98,7 +109,7 @@ export default {
       return hora.substring(0,5)
     },
     verDetallePartido(game){
-      if(this.tipo=='proximo'){
+      if(this.tipo=='proximo'||this.tipo=='recomendados'){
         this.$router.replace({ name: 'GameDetail', params: { id:game}})
       }else if(this.tipo=='jugados'){
 
@@ -209,4 +220,14 @@ ul.w3-ul.w3-card-4{
     margin-bottom: 0;
 }
 
+.recomendacion {
+    color: #17a2b8;
+    font-size: 0.65em;
+    /* margin-top: 100px; */
+    /* padding: 10px; */
+    /* padding-top: 20px; */
+    float: right;
+    margin-right: 20px;
+    margin-top: 40px;
+}
 </style>

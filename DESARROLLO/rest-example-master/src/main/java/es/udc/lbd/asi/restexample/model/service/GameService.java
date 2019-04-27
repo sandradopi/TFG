@@ -87,6 +87,7 @@ public List<GameDTO> findAllFiltros(String sport, String user, String edad, Stri
 
 	
 		if(!(sport.equals("vacio"))){
+		System.out.println("aqui hay deporte");
 		sportEv=1;
 		String[] sports=sport.split(",");
 		
@@ -95,15 +96,18 @@ public List<GameDTO> findAllFiltros(String sport, String user, String edad, Stri
 				deportes.add(Sportbd.getType());
 			}
 		}else{
+			System.out.println("aqui no hay deporte");
 			deportes.add("vacio");
 		}
 	
 		
 		if(!(user.equals("vacio"))){
+			System.out.println("aqui hay creador");
 			userEv=1;
 		}
 		
 		if(!(edad.equals("vacio"))){
+			System.out.println("aqui hay edad");
 			edadEv=1;
 			
 			if(edad.equals("<18")){
@@ -128,6 +132,7 @@ public List<GameDTO> findAllFiltros(String sport, String user, String edad, Stri
 		}
 		
 		if(!(dificultad.equals("vacio"))){
+			System.out.println("aqui hay dificultad");
 			dificultadEv=1;
 			
 			if(dificultad.equals("Principiante")){
@@ -150,12 +155,12 @@ public List<GameDTO> findAllFiltros(String sport, String user, String edad, Stri
 		
 		
 		if(edadEv==1||dificultadEv==1){
+			System.out.println("Edad y dificultad");
 			gamesRange=gameDAO.findByAgeRange(edadMin, edadMax, expMin,expMax);
 			gamesPreFiltros=gameDAO.findAllFiltros(deportes,user,sportEv,userEv).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 			for(GameDTO g:gamesPreFiltros){
 				for(Long a:gamesRange){
 				if(g.getIdGame()==a){
-					System.out.println("bucle"+g.getIdGame()+ " "+a);
 					gamesFiltros.add(g);
 				}
 			  }
@@ -249,6 +254,7 @@ public List<GameDTO> findAllLocation(Long idLocation) {
 @Transactional(readOnly = false)
 @Override
 public void deleteById(Long idGame) throws AddressException, MessagingException, ParseException {
+	
 	List<Player> players= playerDAO.findAllByGame(idGame);
 	String mensaje="El partido ha sido cancelado por motivos personales del creador o por que no ha llegado "
 			+ "al mínimo de personas requeridas para poderse llevar a cabo. Sentimos las molestias...";

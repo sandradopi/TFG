@@ -44,6 +44,12 @@ public class PlayerValorationDAOHibernate extends GenericDAOHibernate implements
 		
 	}
 
+	@Override
+	public PlayerValoration findByIdPlayer(Long idPlayer) {
+		return (PlayerValoration) getSession().createQuery("from PlayerValoration v inner join v.player p where p.idPlayer= :idPlayer ").setParameter("idPlayer", idPlayer).uniqueResult();
+	}
+
+
 	
 	
 

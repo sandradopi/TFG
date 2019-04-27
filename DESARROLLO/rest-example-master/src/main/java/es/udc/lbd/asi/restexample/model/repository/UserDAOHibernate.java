@@ -98,5 +98,8 @@ public class UserDAOHibernate extends GenericDAOHibernate implements UserDAO {
 		return getSession().createQuery("select g from Player p inner join p.game g inner join p.player u where (u.login=:login) AND (p.valorationGame= null) AND ((g.date < current_date) OR (g.date = current_date AND g.timeEnd <= current_time))").setParameter("login", login).list();
 	}
 	
-
+	@Override
+	public List<Game> findRecomendadosPlayers(String login) {
+		return getSession().createQuery("select g from Player p inner join p.player u inner join p.game g where ((u.login= :login) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time)))").setParameter("login", login).list();
+	}
 }

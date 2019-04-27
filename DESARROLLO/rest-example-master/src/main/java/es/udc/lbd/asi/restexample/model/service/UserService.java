@@ -1,8 +1,12 @@
 package es.udc.lbd.asi.restexample.model.service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -17,6 +21,7 @@ import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Player;
+import es.udc.lbd.asi.restexample.model.domain.PlayerValoration;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 import es.udc.lbd.asi.restexample.model.domain.User_;
@@ -27,12 +32,14 @@ import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
+import es.udc.lbd.asi.restexample.model.repository.PlayerValorationDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.security.SecurityUtils;
@@ -49,6 +56,8 @@ public class UserService implements UserServiceInterface{
   private GameDAO gameDAO;
   @Autowired
   private PlayerDAO playerDAO;
+  @Autowired
+  private PlayerValorationDAO playerValorationDAO;
   
   
   @Autowired
@@ -64,6 +73,56 @@ public class UserService implements UserServiceInterface{
   @Override
 	public List<GameDTO> findGamesCreated(String login) {
 	  return userDAO.findAllGamesCreated(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+	  }
+  
+  @PreAuthorize("hasAuthority('USER')")
+  @Override
+	public RecomendacionDTO findGamesRecomendados(String login) {
+	  List<Game> jugados=userDAO.findAllGamesPlayed(login);
+	  List<Player> jugadoresJugados= new ArrayList<>();
+	  List<Player> jugadoresValoradosBien= new ArrayList<>();
+	  List<GameDTO> recomendados=new ArrayList<>();
+	  List<GameDTO> recomendadosLimpia=new ArrayList<>();
+	  RecomendacionDTO recomendadosFinal= new RecomendacionDTO();
+	  
+
+	 
+	  if(jugados.size()!=0){
+		  //Recomedar partidos en los que jueguen jugadores buenos con los que ya jugó
+		  for(Game game:jugados){
+			  jugadoresJugados.addAll(playerDAO.findAllByGame(game.getIdGame()));
+			 
+		  }
+		  for(Player j :jugadoresJugados ){
+			if((j.getPlayer().getExperience()>new Double(3))&&(j.getPlayer().getLogin()!=getCurrentUserWithoutAuthority().getLogin())){
+				jugadoresValoradosBien.add(j);
+			
+				
+			}
+			
+		  }
+		  for(Player j:jugadoresValoradosBien){
+			  recomendados.addAll(userDAO.findRecomendadosPlayers(j.getPlayer().getLogin()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList()));
+			  
+		  }
+		  
+		  Map<Long,GameDTO> mapGames=new HashMap<Long, GameDTO>(recomendados.size());
+			for(GameDTO g : recomendados) {
+				mapGames.put(g.getIdGame(), g);
+			}
+			for(Entry<Long, GameDTO> g : mapGames.entrySet()) {
+				recomendadosLimpia.add(g.getValue());
+				
+				}
+			
+			
+			recomendadosFinal.setMensaje("En este partido juegan jugadores con los que ya jugó previamente y poseen buenas valoraciones");
+			recomendadosFinal.setGames(recomendadosLimpia);
+		  
+	  }
+	  
+	  
+	  return recomendadosFinal;
 	  }
   
   @Override
