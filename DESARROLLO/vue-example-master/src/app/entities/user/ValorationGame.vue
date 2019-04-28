@@ -57,7 +57,8 @@
     <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
      <div class="conj">	
-       <b-btn class="button2" @click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
+       <b-btn class="button2" v-if="bolComment[playerG.idPlayer]==false"@click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
+       <b-btn class="button25" v-if="bolComment[playerG.idPlayer]==true"><font-awesome-icon icon="check"style="font-size:30px;"/></b-btn>
               <span class="w3-large1">{{playerG.player.login}}</span><br>
 
           <multiselect 
@@ -78,7 +79,8 @@
      <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
      <div class="conj">	
-       <b-btn class="button2" @click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
+       <b-btn class="button2" v-if="bolComment[playerG.idPlayer]==false"@click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
+        <b-btn class="button25" v-if="bolComment[playerG.idPlayer]==true"><font-awesome-icon icon="check"style="font-size:30px;"/></b-btn>
               <span class="w3-large1">{{playerG.player.login}}</span><br>
             <multiselect 
             class="multiselePla"
@@ -133,6 +135,8 @@ export default {
       jugador:{},
       usuario:{},
       posicion:0,
+      bolComment:[],
+
      
 
 
@@ -203,6 +207,11 @@ export default {
     	 	}
 
     	 }
+
+       for(var i = 0; i < this.players.length; i ++){
+          this.bolComment[this.players[i].idPlayer]=false;
+       }
+       
      
 
 	 },
@@ -293,7 +302,19 @@ export default {
         if (!this.comment) {
            this.$swal('Alerta!', "Escriba algo referido a este jugador", 'error')
         }else{ 
-          this.handleSubmit()
+          this.$swal("¿Estás seguro de quierer dejar de editar tu comentario? Luego no podrás cambiarlo", {
+          dangerMode: true,
+          buttons: true
+        }).then((result) => {
+            if(result) {
+                this.bolComment[this.login]=true;
+                this.handleSubmit()
+          } else {
+                this.$refs.modal.show();
+          }
+        })
+    
+          
         }
       },
 
@@ -580,12 +601,17 @@ fieldset {
   font-size:1.2em;
 
 }
-.button2{
+.button2, .button25{
      margin-top: 5px;
     float: right;
     border-radius: 10px;
     margin-top: 25px;
 
+}
+.button25{
+  background-color:green;
+  border-color:green;
+  pointer-events: none;
 }
 .formulario{
   color:#17a2b8;

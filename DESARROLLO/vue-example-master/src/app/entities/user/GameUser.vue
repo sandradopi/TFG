@@ -5,8 +5,8 @@
     		<div class="botones">
       	  	<b-btn class="b1" @click="TipoPatidos('proximo')">Próximos Partidos</b-btn>
       			<b-btn class="b1" @click="TipoPatidos('organizados')">Partidos Organizados</b-btn>
-      			<b-btn class="b1" @click="TipoPatidos('jugados')">Partidos Jugados</b-btn>
-      			<b-btn class="b1" @click="TipoPatidos('recomendados')">Partidos Recomendados</b-btn>
+      			<b-btn class="b1" v-if="this.user.login==WhatLogin()"@click="TipoPatidos('jugados')">Partidos Jugados</b-btn>
+      			<b-btn class="b1" v-if="this.user.login==WhatLogin()"@click="TipoPatidos('recomendados')">Partidos Recomendados</b-btn>
       			<b-btn class="b1" @click="TipoPatidos('comentarios')">Comentarios</b-btn>
     		</div>
 	   </div>
@@ -133,6 +133,9 @@ export default {
 
     back() {
       this.$router.go(-1)
+    },
+     WhatLogin() {
+      return auth.user.login
     },
     
     _errorHandler(err) {
