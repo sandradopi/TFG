@@ -16,4 +16,5 @@ public interface LocationDAO {
 	 public List<Location> findAllSport(Long idSport);
      public Location findByName(String name);
 	 public Location findByUbicacion(Double latitud, Double longitud);
+	 public Long countLocations();
 }

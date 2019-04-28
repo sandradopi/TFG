@@ -111,7 +111,7 @@ export default {
 
      var gameR=new Array();
      var msg=new Array();
-
+    if(this.gamesRecomendados.length>0){
     if(this.typeR=='jugadores'){
       for ( var x = 0; x < this.gamesRecomendados[0].games.length; x ++){
          gameR.push(this.gamesRecomendados[0].games[x]);
@@ -136,10 +136,20 @@ export default {
           this.games=gameR;
           this.mensaje=msg;
        
+      
+       }else if(this.typeR=='localizaciones'){
+      for ( var x = 0; x < this.gamesRecomendados[2].games.length; x ++){
+         gameR.push(this.gamesRecomendados[2].games[x]);
+         msg.push(this.gamesRecomendados[2].mensaje);
+         
+        
+       }
+          this.games=gameR;
+          this.mensaje=msg;
+       
       }
-      
 
-      
+      }
 
 
      

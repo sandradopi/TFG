@@ -31,6 +31,7 @@ import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
+import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerValorationDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
@@ -61,6 +62,8 @@ public class UserService implements UserServiceInterface{
   private PlayerDAO playerDAO;
   @Autowired
   private PlayerValorationDAO playerValorationDAO;
+  @Autowired
+  private LocationDAO locationDAO;
   
   
   @Autowired
@@ -88,6 +91,7 @@ public class UserService implements UserServiceInterface{
 	  List<GameDTO> recomendadosLimpia=new ArrayList<>();
 	  List<RecomendacionDTO> recomendadosFinal= new ArrayList<RecomendacionDTO>();
 	  int[] sports = new int[sportDAO.countSports().intValue()];    
+	  int[] locations = new int[locationDAO.countLocations().intValue()];    
 	  
 
 	 
@@ -146,6 +150,28 @@ public class UserService implements UserServiceInterface{
 				  recomendacion1.setMensaje("Por que te gusta este Deporte");
 				  recomendacion1.setGames(gamesDeportes);
 				  recomendadosFinal.add(1, recomendacion1);
+				  
+				//Recomendar partido por la ubicacion donde  más juega
+					 for(Game game:jugados){
+						 locations[game.getLocation().getIdLocation().intValue()]= locations[game.getLocation().getIdLocation().intValue()]+1;
+						  }
+					 	
+						  Integer iNumeroMayorL = sports[1];
+						  Integer iPosicionL = 0;
+						  
+						  for (int x=1;x<locations.length;x++){
+							  if (locations[x]>iNumeroMayorL){
+								  iNumeroMayorL = locations[x];
+								  iPosicionL = x;
+								} 
+						  }
+						 
+						  
+						  List<GameDTO> gamesLocations= gameDAO.findAllLocation(iPosicionL.longValue()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+						  RecomendacionDTO recomendacion2=new RecomendacionDTO();
+						  recomendacion2.setMensaje("Por que te gusta esta ubicación");
+						  recomendacion2.setGames(gamesLocations);
+						  recomendadosFinal.add(2, recomendacion2);
 				 
 				  
 	  }

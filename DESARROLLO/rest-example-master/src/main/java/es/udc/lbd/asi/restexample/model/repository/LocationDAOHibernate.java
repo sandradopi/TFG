@@ -56,4 +56,10 @@ public class LocationDAOHibernate extends GenericDAOHibernate implements Locatio
 		return (Location) getSession().createQuery("from Location t where t.latitud = :latitud AND t.longitud = :longitud").setParameter("latitud", latitud).setParameter("longitud", longitud).uniqueResult();
 	}
 
+	@Override
+	public Long countLocations() {
+		return (Long) getSession().createQuery("select count(*) from Location").uniqueResult();
+		
+	}
+
 }
