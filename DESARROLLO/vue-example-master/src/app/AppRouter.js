@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
 import { Home, Login, NotFound,Registro } from './components'
-import {TennisResult,FutbolResult,TennisForm,ValorationGame,Calendar,Weather,Mapa,FutbolForm,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
+import {Recomendations,TennisResult,FutbolResult,TennisForm,ValorationGame,Calendar,Weather,Mapa,FutbolForm,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },
@@ -26,6 +26,7 @@ const routes = [
   { name: 'TennisResult', path: '/games/:id/tennis/resultado', component: TennisResult,meta: { authority: 'USER' }},
   { name: 'GameUser', path: '/users/:id/perfilPublico', component: GameUser,meta: { authority: 'USER' }},
   { name: 'GameList', path: '/games/organizados/user/:id', component: GameList,meta: { authority: 'USER' }},
+  { name: 'Recomendations', path: '/games/recomendados', component: Recomendations,meta: { authority: 'USER' }},
   { name: 'Game', path: '/games', component: Game,meta: { authority: 'USER' }},
   { name: 'Weather', path: '/games/weather', component: Weather,meta: { authority: 'USER' }},
   { name: 'Calendar', path: '/games/calendar', component: Calendar,meta: { authority: 'USER' }},

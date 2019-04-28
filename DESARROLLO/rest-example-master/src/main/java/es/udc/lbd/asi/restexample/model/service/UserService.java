@@ -109,6 +109,7 @@ public class UserService implements UserServiceInterface{
 			  recomendados.addAll(userDAO.findRecomendadosPlayers(j.getPlayer().getLogin()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList()));
 			  
 		  }
+		 
 		  
 		  Map<Long,GameDTO> mapGames=new HashMap<Long, GameDTO>(recomendados.size());
 			for(GameDTO g : recomendados) {
@@ -120,16 +121,15 @@ public class UserService implements UserServiceInterface{
 				}
 			
 			RecomendacionDTO recomendacion=new RecomendacionDTO();
-			recomendacion.setMensaje("En este partido juegan jugadores con los que ya jugó previamente y poseen buenas valoraciones");
+			recomendacion.setMensaje("Por que jugaste con ellos");
 			recomendacion.setGames(recomendadosLimpia);
 			recomendadosFinal.add(0, recomendacion);
-		  
-	  
+			
 	  //Recomendar partido por el deporte que más juega
 			 for(Game game:jugados){
 					sports[game.getSport().getIdSport().intValue()]= sports[game.getSport().getIdSport().intValue()]+1;
 				  }
-			 	 System.out.println("LULA"+sports);	
+			 	
 				  Integer iNumeroMayor = sports[1];
 				  Integer iPosicion = 0;
 				  
@@ -139,12 +139,11 @@ public class UserService implements UserServiceInterface{
 						   iPosicion = x;
 						} 
 				  }
-				  System.out.println("LULA1"+iPosicion);
+				 
 				  
 				  List<GameDTO> gamesDeportes= gameDAO.findAllSport(iPosicion.longValue()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
-				  System.out.println("LULA2"+gamesDeportes.size());
 				  RecomendacionDTO recomendacion1=new RecomendacionDTO();
-				  recomendacion1.setMensaje("Los partidos a los que ha jugado ultimamente son sobre este Deporte");
+				  recomendacion1.setMensaje("Por que te gusta este Deporte");
 				  recomendacion1.setGames(gamesDeportes);
 				  recomendadosFinal.add(1, recomendacion1);
 				 

@@ -156,6 +156,9 @@ export default {
   methods: {
     fetchData() {
     	 this.game={}
+       this.players=[]
+       this.playersA=[]
+        this.playersB=[]
     	 this.loading=false;
     	 HTTP.get(`games/${this.$route.params.id}`) 
           .then(response => { this.game = response.data

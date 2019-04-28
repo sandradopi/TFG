@@ -37,7 +37,8 @@ export default {
   components: {vueCustomScrollbar},
   props:{
     tipo:null,
-    login:null
+    login:null,
+    typeR:''
   },
   data() {
     return {
@@ -72,6 +73,7 @@ export default {
   methods: {
     fetchData() {
       this.games=null
+      this.mensaje=null
       this.comentarios=null
       if (this.tipo=='organizados'){
           HTTP.get(`users/${this.login}/organizados`) 
@@ -97,7 +99,7 @@ export default {
                       return response })
 
        }else if(this.tipo=='recomendados'){
-
+         
           HTTP.get(`users/${this.WhatLogin()}/recomendados`) 
                 .then(response => { this.gamesRecomendados = response.data
                         return response.data})
@@ -106,26 +108,36 @@ export default {
 
     },
     unionGamesRecomendados(){ 
+
      var gameR=new Array();
      var msg=new Array();
 
-   
-       for ( var i = 0; i < this.gamesRecomendados.length; i ++){
-        for ( var x = 0; x < this.gamesRecomendados[i].games.length; x ++){
-         gameR.push(this.gamesRecomendados[i].games[x]);
-         msg.push(this.gamesRecomendados[i].mensaje);
+    if(this.typeR=='jugadores'){
+      for ( var x = 0; x < this.gamesRecomendados[0].games.length; x ++){
+         gameR.push(this.gamesRecomendados[0].games[x]);
+         msg.push(this.gamesRecomendados[0].mensaje);
          
         
        }
-         //msg.push(this.gamesRecomendados[i].mensaje);
-       }
+          this.games=gameR;
+          this.mensaje=msg;
+       
      
-      this.games=gameR;
-      this.mensaje=msg;
+     
 
+
+      }else if(this.typeR=='deportes'){
+      for ( var x = 0; x < this.gamesRecomendados[1].games.length; x ++){
+         gameR.push(this.gamesRecomendados[1].games[x]);
+         msg.push(this.gamesRecomendados[1].mensaje);
+         
+        
+       }
+          this.games=gameR;
+          this.mensaje=msg;
+       
+      }
       
-      
-      //console.log(this.mensaje)
 
       
 

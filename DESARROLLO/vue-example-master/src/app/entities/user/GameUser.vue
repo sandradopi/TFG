@@ -46,8 +46,10 @@
 			    </div>
 			  </div>
 		</div>
-    <GameList v-bind:tipo="this.tipo" v-bind:login="this.user.login">>
+    <GameList  v-if="this.recomendado==true && this.tipo=='recomendados'||this.recomendado==false && this.tipo!='recomendados'" v-bind:tipo="this.tipo" v-bind:typeR="this.typeR" v-bind:login="this.user.login">
     </GameList>
+     <Recomendations @Cerrar="reloadRecomendations" v-if="this.tipo=='recomendados' && this.recomendado==false">
+    </Recomendations>
   </div>
 </template>
 
@@ -56,11 +58,12 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import GameList from '../../entities/user/GameList'
+import Recomendations from '../../entities/user/Recomendations'
 import StarRating from 'vue-star-rating'
 
 
 export default {
-  components: {GameList, StarRating},
+  components: {GameList, StarRating,Recomendations},
   data() {
     return {
       game:{},
@@ -68,11 +71,14 @@ export default {
       user:{},
       tipo:'proximo',
       bol:false,
+      recomendado:false,
+      typeR:''
     }
   },
   watch: {
     '$route': 'fetchData',
     'tipo': 'fetchData',
+
     
   },
  
@@ -82,10 +88,24 @@ export default {
   
   methods: {
     fetchData() {
+      this.recomendado=false;
      HTTP.get(`users/${this.$route.params.id}`) 
           .then(response => { this.user = response.data
                  return response })
           .catch(err => { this.error = err.message})
+
+    },
+    reloadRecomendations(type){
+     
+      if(type=='jugadores'){
+        this.typeR='jugadores';
+
+      }else if(type=='localizaciones'){
+         this.typeR='localizaciones';
+      }else if(type=='deportes'){
+         this.typeR='deportes';
+      }
+       this.recomendado=true;
 
     },
 
@@ -98,6 +118,7 @@ export default {
     		this.tipo='jugados';
     	}else if (tipo=='recomendados'){
     		this.tipo='recomendados';
+        this.recomendado=false;
     	}else if (tipo=='comentarios'){
     		this.tipo='comentarios';
       }
