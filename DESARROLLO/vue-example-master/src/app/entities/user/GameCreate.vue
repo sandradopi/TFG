@@ -228,6 +228,11 @@ export default {
 
   
 }
+body {
+    /* font-family: Verdana,sans-serif; */
+    font-size: 15px;
+    line-height: 1.5;
+}
 
 dropdown v-select single searchable{}
 .evento{
@@ -346,10 +351,21 @@ dropdown v-select single searchable{}
 }
 
 .v-select .dropdown-toggle {
-    
-    border:none !important;
+   
+    -moz-appearance: none;
+    appearance: none;
+    display: flex;
+   border:none;
+   
 
 }
-
+.v-select {
+    position: relative;
+    font-family: inherit;
+    border: none;
+    border-color: white;
+    height: 12%;
+    border-radius: 5px;
+}
 
 </style>

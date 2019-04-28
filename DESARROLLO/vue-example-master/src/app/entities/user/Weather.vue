@@ -75,5 +75,7 @@ export default {
 
 <style scoped lang="scss">
 
-
+.fe_currently{
+  
+}
 </style>
