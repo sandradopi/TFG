@@ -6,13 +6,13 @@ const store = {
     authority: '',
     login: '',
     logged: false
-    // token: null
+    
   },
   login,
   logout,
   getToken,
   isAdmin,
-  authenticate
+  isAuthenticationChecked: _checkAuthentication()
 }
 
 // usamos localStorage para guardar el token, de forma
@@ -59,6 +59,15 @@ function logout() {
 
 function isAdmin() {
   return store.user.authority == 'ADMIN'
+}
+function _checkAuthentication() {
+  return new Promise(res => {
+    if (getToken()) {
+      authenticate().catch(() => logout()).finally(() => res(true))
+    } else {
+      res(true)
+    }
+  })
 }
 
 export default store

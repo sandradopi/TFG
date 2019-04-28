@@ -55,12 +55,7 @@ export default {
        // propiedades públicas en los componentes
        storeAuth: auth
      }
-   },
-   created() {
-     // nada más ejecutar la aplicación comprobamos si estamos autenticados
-     if (auth.getToken()) {
-       auth.authenticate().catch(() => auth.logout())
-     }
+  
    }
 }
 </script>
