@@ -1,6 +1,5 @@
 <template>
   <div v-if="this.loading==true"class="content"> 
-   
     <b-modal
         id="modalPrevent"
         ref="modal"
@@ -9,7 +8,7 @@
         <Weather v-bind:location="this.game.location"></Weather>
     </b-modal>
 
-      <b-modal
+    <b-modal
         class="formulario"
         id="modalPrevent1"
         ref="modal"
@@ -37,7 +36,7 @@
                <li class="jugadores" v-if="this.playersB.length==0">Equipo sin jugadores</li> 
           </b-form-group> 
            
-           </b-form-group>  
+          </b-form-group>  
           <b-form-group class="equipos">
               <multiselect 
                 v-model="equipo" 
@@ -54,14 +53,16 @@
             <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         </form>
       </b-modal>
-     <b-btn class="button3" v-if="this.game.creator.login==WhatLogin() && this.controlButton==false"@click="alertDisplay()"><span>Eliminar</span></b-btn> 
-    <b-btn class="button" v-if="this.bol==false && this.completado==false && this.controlButton==false" v-b-modal.modalPrevent1><span>Apuntarse</span></b-btn> 
-    <b-btn class="button1" v-if="this.bol==true && this.controlButton==false" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
-     <b-btn class="button31" v-if="this.completado==true && this.controlButton==false" ><span>Completo</span></b-btn> 
+
+      <b-btn class="button3" v-if="this.game.creator.login==WhatLogin() && this.controlButton==false"@click="alertDisplay()"><span>Eliminar</span></b-btn> 
+      <b-btn class="button" v-if="this.bol==false && this.completado==false && this.controlButton==false" v-b-modal.modalPrevent1><span>Apuntarse</span></b-btn> 
+      <b-btn class="button1" v-if="this.bol==true && this.controlButton==false" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
+      <b-btn class="button31" v-if="this.completado==true && this.controlButton==false" ><span>Completo</span></b-btn> 
       <b-btn class="button32" @click="back()"><font-awesome-icon icon="backward"style="font-size:30px;"/></b-btn>
-     <b-btn class="button2" v-if="this.controlButton==false" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
+      <b-btn class="button2" v-if="this.controlButton==false" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
       <b-btn class="button22" v-if="this.notification==false && this.controlButton==false" @click="notificar()"><font-awesome-icon icon="bell"style="font-size:30px;"/></b-btn>
-       <b-btn class="button22" v-if="this.notification==true && this.controlButton==false" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>
+      <b-btn class="button22" v-if="this.notification==true && this.controlButton==false" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>
+
       <h1 class="title" v-if="this.controlButton==false">Detalles Partido</h1>  
       <h1 class="title" v-if="this.controlButton==true">Partido Finalizado</h1>  
       <div class="information message">

@@ -94,13 +94,13 @@ export default {
       
        }else if(this.tipo=='comentarios'){
 
-          HTTP.get(`users/${this.WhatLogin()}/comentarios`) 
+          HTTP.get(`users/${this.login}/comentarios`) 
                 .then(response => { this.comentarios= response.data
                       return response })
 
        }else if(this.tipo=='recomendados'){
          
-          HTTP.get(`users/${this.login}/recomendados`) 
+          HTTP.get(`users/${this.WhatLogin()}/recomendados`) 
                 .then(response => { this.gamesRecomendados = response.data
                         return response.data})
                   .then(this.unionGamesRecomendados)
