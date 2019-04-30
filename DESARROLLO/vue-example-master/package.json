@@ -54,14 +54,15 @@
     "weather.js": "^0.1.0"
   },
   "devDependencies": {
-    "@vue/component-compiler-utils": "2.5.2",
+    "@vue/component-compiler-utils": "^2.5.2",
     "eslint": "5.14.0",
     "eslint-plugin-vue": "5.2.2",
     "eslint-watch": "4.0.2",
     "node-sass": "4.11.0",
     "parcel-bundler": "1.11.0",
     "parcel-plugin-eslint": "1.0.6",
-    "vue-template-compiler": "2.6.10"
+    "sass": "^1.19.0",
+    "vue-template-compiler": "^2.6.10"
   },
   "scripts": {
     "prebuild": "npm run eslint",
