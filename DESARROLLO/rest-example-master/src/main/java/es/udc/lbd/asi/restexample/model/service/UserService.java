@@ -93,7 +93,7 @@ public class UserService implements UserServiceInterface{
 	  int[] sports = new int[sportDAO.countSports().intValue()];    
 	  int[] locations = new int[locationDAO.countLocations().intValue()];    
 	  
-
+	
 	 
 	  if(jugados.size()!=0){
 		  //Recomedar partidos en los que jueguen jugadores buenos con los que ya jugó
@@ -132,19 +132,22 @@ public class UserService implements UserServiceInterface{
 	  //Recomendar partido por el deporte que más juega
 			 for(Game game:jugados){
 					sports[game.getSport().getIdSport().intValue()]= sports[game.getSport().getIdSport().intValue()]+1;
+				
+					
 				  }
 			 	
 				  Integer iNumeroMayor = sports[1];
 				  Integer iPosicion = 0;
-				  
+					
 				  for (int x=1;x<sports.length;x++){
-					  if (sports[x]>iNumeroMayor){
+				
+					  if (sports[x]>=iNumeroMayor){
+						 
 						   iNumeroMayor = sports[x];
 						   iPosicion = x;
 						} 
 				  }
-				 
-				  
+				
 				  List<GameDTO> gamesDeportes= gameDAO.findAllSport(iPosicion.longValue()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 				  RecomendacionDTO recomendacion1=new RecomendacionDTO();
 				  recomendacion1.setMensaje("Por que te gusta este Deporte");
@@ -154,18 +157,20 @@ public class UserService implements UserServiceInterface{
 				//Recomendar partido por la ubicacion donde  más juega
 					 for(Game game:jugados){
 						 locations[game.getLocation().getIdLocation().intValue()]= locations[game.getLocation().getIdLocation().intValue()]+1;
+						
 						  }
+					
 					 	
 						  Integer iNumeroMayorL = sports[1];
 						  Integer iPosicionL = 0;
 						  
 						  for (int x=1;x<locations.length;x++){
-							  if (locations[x]>iNumeroMayorL){
+							  if (locations[x]>=iNumeroMayorL){
 								  iNumeroMayorL = locations[x];
 								  iPosicionL = x;
 								} 
 						  }
-						 
+						
 						  
 						  List<GameDTO> gamesLocations= gameDAO.findAllLocation(iPosicionL.longValue()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 						  RecomendacionDTO recomendacion2=new RecomendacionDTO();
