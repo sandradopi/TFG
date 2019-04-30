@@ -100,7 +100,7 @@ export default {
 
        }else if(this.tipo=='recomendados'){
          
-          HTTP.get(`users/${this.WhatLogin()}/recomendados`) 
+          HTTP.get(`users/${this.login}/recomendados`) 
                 .then(response => { this.gamesRecomendados = response.data
                         return response.data})
                   .then(this.unionGamesRecomendados)

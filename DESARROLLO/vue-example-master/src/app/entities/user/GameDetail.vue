@@ -548,4 +548,7 @@ fieldset {
 .w3-large{
   margin-left:13px;
 }
+.swal-button--danger {
+    background-color: #12b6ce !important;
+}
 </style>

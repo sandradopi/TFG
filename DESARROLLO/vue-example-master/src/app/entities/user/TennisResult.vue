@@ -1,7 +1,7 @@
 <template>
   <div class="content"> 
    
-     
+     <b-btn class="button32" @click="back()"><font-awesome-icon icon="backward"style="font-size:30px;"/></b-btn>
       <h1 class="title">Partido Finalizado</h1> 
 
 

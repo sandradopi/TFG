@@ -356,7 +356,7 @@ export default {
      _successHandler(response) {
        this.$swal('Listo!', "Su valoraciones han sido enviadas correctamente", 'success')
       if(this.game.result==null){
-        this.$router.replace({ name: 'GameDetail', params: { id:this.game, bol:true}})
+        this.$router.replace({ name: 'GameDetail', params: { id:this.game.idGame, bol:true}})
       }else{
       if(this.game.sport.type=="Futbol"|| this.game.sport.type=='Baloncesto'){
           this.$router.replace({ name: 'FutbolResult', params: { id:this.game.idGame}})

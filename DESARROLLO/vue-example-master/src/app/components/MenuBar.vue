@@ -14,13 +14,13 @@
         <form @submit.stop.prevent="handleSubmit">
           <b-form-group>
              <div class="informationmessage2">
-             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
              <b-btn class="w3-bar" @click="confirmacion(game)">
-               <img v-if="game.sport.type=='Futbol'"src="../entities/user/futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-               <img v-if="game.sport.type=='Tennis'"src="../entities/user/ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-               <img v-if="game.sport.type=='Paddel'"src="../entities/user/paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-               <img v-if="game.sport.type=='Baloncesto'"src="../entities/user/bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-if="game.sport.type=='Futbol'"src="../entities/user/futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
+               <img v-if="game.sport.type=='Tennis'"src="../entities/user/ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
+               <img v-if="game.sport.type=='Paddel'"src="../entities/user/paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
+               <img v-if="game.sport.type=='Baloncesto'"src="../entities/user/bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
               <div class="w3-bar-item">
                 <span class="w3-large">{{game.location.name}}</span><br>
                 <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
@@ -61,7 +61,7 @@
          </b-navbar-nav>
           
 
-          <b-navbar-nav class="ml-auto" >
+          <b-navbar-nav class="ml-auto">
             <b-nav-item
                 v-if="!isLogged"
                 :to="{ name: 'Login' }"
@@ -78,8 +78,6 @@
             </b-nav-item-dropdown>
              <b-btn class="button" v-b-modal.modalPrevent2 @click="controlGamesModal(true)" v-if="isLogged && !isAdmin && this.gamesResult.length>0"><div>{{this.gamesResult.length}}</div><font-awesome-icon icon="exclamation-circle"style="font-size:35px;"/></b-btn>
               <b-btn class="button" v-b-modal.modalPrevent2  @click="controlGamesModal(false)"v-if="isLogged && !isAdmin && this.gamesValor.length>0"><div>{{this.gamesValor.length}}</div><font-awesome-icon icon="bell"style="font-size:35px;"/></b-btn>
-            
-            
          </b-navbar-nav>
        </b-collapse>
     </b-navbar>
