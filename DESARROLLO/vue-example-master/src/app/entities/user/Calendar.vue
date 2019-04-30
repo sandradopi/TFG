@@ -80,7 +80,7 @@ export default {
     },
     details(){
 
-      this.$router.replace({ name: 'GameDetail', params: { id: this.game}})
+      this.$router.replace({ name: 'GameDetail', params: { id: this.game.idGame}})
     },
   
     refreshEvents() {

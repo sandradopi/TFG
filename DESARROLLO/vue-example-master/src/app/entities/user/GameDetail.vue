@@ -1,6 +1,6 @@
 <template>
-  <div class="content"> 
-    
+  <div v-if="this.loading==true"class="content"> 
+   
     <b-modal
         id="modalPrevent"
         ref="modal"
@@ -58,6 +58,7 @@
     <b-btn class="button" v-if="this.bol==false && this.completado==false && this.controlButton==false" v-b-modal.modalPrevent1><span>Apuntarse</span></b-btn> 
     <b-btn class="button1" v-if="this.bol==true && this.controlButton==false" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
      <b-btn class="button31" v-if="this.completado==true && this.controlButton==false" ><span>Completo</span></b-btn> 
+      <b-btn class="button32" @click="back()"><font-awesome-icon icon="backward"style="font-size:30px;"/></b-btn>
      <b-btn class="button2" v-if="this.controlButton==false" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
       <b-btn class="button22" v-if="this.notification==false && this.controlButton==false" @click="notificar()"><font-awesome-icon icon="bell"style="font-size:30px;"/></b-btn>
        <b-btn class="button22" v-if="this.notification==true && this.controlButton==false" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>
@@ -65,11 +66,11 @@
       <h1 class="title" v-if="this.controlButton==true">Partido Finalizado</h1>  
       <div class="information message">
         <h2 class="title1"> Información</h2>  
-        <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
-        <h6>Deporte: {{this.game.sport.type}}</h6>
-        <h6>Ubicación: {{this.game.location.name}}</h6>
-        <h6>Horario: {{custom(this.game.timeStart)}}-{{custom(this.game.timeEnd)}} </h6>
-        <h6>Fecha: {{this.game.date}}</h6>
+        <h6 >Creador: {{game.creator.name}} {{game.creator.surname1}} {{game.creator.surname2}}</h6>
+        <h6>Deporte: {{game.sport.type}}</h6>
+        <h6>Ubicación: {{game.location.name}}</h6>
+        <h6>Horario: {{custom(game.timeStart)}}-{{custom(game.timeEnd)}} </h6>
+        <h6>Fecha: {{game.date}}</h6>
       </div>
       <div class="information message2">
         <h2 class="title1"> Participantes</h2>  
@@ -110,6 +111,7 @@ export default {
       playersB:[],
       completado:false,
       controlButton:false,
+      loading:false
 
     }
   },
@@ -132,11 +134,14 @@ export default {
         this.controlButton=true;
         this.$swal('Aviso', "Estamos a la espera de que el creador rellene los resultados", 'info');
       }
+       HTTP.get(`games/${this.$route.params.id}`) 
+          .then(response => { this.game = response.data
+                 return response })
+          .then(this.loadingChange)
+          .catch(err => { this.error = err.message})
 
-      this.game=this.$route.params.id;
-      this.playerG.game=this.game;
 
-      HTTP.get(`players/${this.game.idGame}`) 
+      HTTP.get(`players/${this.$route.params.id}`) 
           .then(response => { this.players = response.data
                  return response })
           .then(this.comprobarApuntamiento)
@@ -149,7 +154,7 @@ export default {
                 return response })
           .catch(err => { this.error = err.message})
 
-          HTTP.get(`users/notifications/${this.WhatLogin()}/${this.game.idGame}`) 
+          HTTP.get(`users/notifications/${this.WhatLogin()}/${this.$route.params.id}`) 
           .then(response => {this.notification = response.data
                 return response })
           .catch(err => { this.error = err.message})
@@ -159,13 +164,18 @@ export default {
 
     },
     comprobarApuntamiento(){
-       for ( var i = 0; i < this.players.length; i ++){
+        for ( var i = 0; i < this.players.length; i ++){
           if(this.players[i].player.login==this.WhatLogin()){
             this.bol=true;
+  
           }
 
        }
 
+    },
+    loadingChange(){
+      this.playerG.game=this.game;
+      this.loading=true;
     },
 
     comprobarCompleto(){
@@ -303,10 +313,7 @@ export default {
       return auth.user.login
     },
 
-    back() {
-      this.$router.go(-1)
-    },
-    
+   
     _errorHandler(err) {
       this.error = err.response.data.message
        this.$swal('Lo sentimos...', 'El partido ya tiene cubierto su cupo máximo de participantes', 'error')
@@ -318,6 +325,14 @@ export default {
     },
     custom(hora){
       return hora.substring(0,5)
+    },
+    back() {
+      if(this.$route.params.back==true){
+      
+        this.$router.replace({ name: 'GameUser', params: { id:this.WhatLogin()}})
+      }else{
+       
+      this.$router.go(-1)}
     },
   }
 }
@@ -392,7 +407,7 @@ div.message2 {
 
 div.message2.information{background: #17a2b8;}
 
-.button, .button1, .button3 , .button2, .button22, .button31{
+.button, .button1, .button3 , .button2, .button22, .button31, .button32{
   display: inline-block;
   border-radius: 4px;
   background-color: #17a2b8;
@@ -446,20 +461,24 @@ div.message2.information{background: #17a2b8;}
    
  }
 
- .button2, .button22{
+ .button2, .button22, .button32{
   float:left;
   width:6%;
   margin-left:20px;
 
  }
 
- .button22{
+ .button22, .button32{
     background-color: green;
     width:6%;
  }
 
  .button31{
     background-color: green;
+ }
+
+  .button32{
+    background-color: grey;
  }
 
  .user{

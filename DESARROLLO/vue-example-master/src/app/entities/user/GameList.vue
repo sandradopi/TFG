@@ -160,11 +160,11 @@ export default {
     },
     verDetallePartido(game){
       if(this.tipo=='proximo'||this.tipo=='recomendados'){
-        this.$router.replace({ name: 'GameDetail', params: { id:game}})
+        this.$router.replace({ name: 'GameDetail', params: { id:game.idGame, back:true}})
       }else if(this.tipo=='jugados'){
 
         if(game.result==null){
-          this.$router.replace({ name: 'GameDetail', params: { id:game, bol:true}})
+          this.$router.replace({ name: 'GameDetail', params: { id:game.idGame, bol:true,back:true}})
         }else{
           if(game.sport.type=='Futbol'|| game.sport.type=='Baloncesto'){
               this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
@@ -180,7 +180,7 @@ export default {
         var n = f.toISOString().substring(0,10);
        if((game.date<n)|| (game.date ==n && game.timeStart<cad)){
          if(game.result==null){
-          this.$router.replace({ name: 'GameDetail', params: { id:game, bol:true}})
+          this.$router.replace({ name: 'GameDetail', params: { id:game.idGame, bol:true,back:true}})
         }else{
           if(game.sport.type=='Futbol'|| game.sport.type=='Baloncesto'){
               this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
@@ -190,7 +190,7 @@ export default {
         
       }else{
 
-        this.$router.replace({ name: 'GameDetail', params: { id:game}})
+        this.$router.replace({ name: 'GameDetail', params: { id:game.idGame,back:true}})
       }
       
     }

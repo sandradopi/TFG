@@ -193,7 +193,7 @@ export default {
     },
      
     _successHandler(response) {
-       this.$router.replace({ name: 'GameDetail', params: { id: this.game}})
+       this.$router.replace({ name: 'GameDetail', params: { id: this.game.idGame}})
 
     },
     
@@ -228,13 +228,11 @@ export default {
 
   
 }
-body {
-    /* font-family: Verdana,sans-serif; */
-    font-size: 15px;
-    line-height: 1.5;
+.modal-open {
+    font-size: 15px !important; 
+    line-height: 1.5 !important;
 }
 
-dropdown v-select single searchable{}
 .evento{
   margin-bottom:7%;
 }
