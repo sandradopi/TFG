@@ -1,7 +1,7 @@
 <template>
   <div class="evento">
 
-    <Calendar v-bind:filterLocation="this.filterLocation" v-bind:filterSport="this.filterSport"class="calendario"></Calendar>
+    <Calendar v-bind:filterLocation="this.filterLocation" v-bind:filterSport="this.filterSport"class="calendario" @SelectDate="ChangeDateSelect"></Calendar>
     <b-modal
         id="modalPrevent"
         ref="modal"
@@ -118,6 +118,13 @@ export default {
     selectOnLocation(){
       this.filterLocation=this.game.location.idLocation;
       
+
+    },
+    ChangeDateSelect(date){
+      this.game.date=date.dateInicio;
+      this.game.timeStart=date.startHour;
+      this.game.timeEnd=date.startEnd;
+
 
     },
     checkForm () {

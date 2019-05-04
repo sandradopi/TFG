@@ -48,12 +48,21 @@ export default {
 
         },
       select: (startDate, endDate, jsEvent, view, resource) => {
-          console.log( startDate.format() + ' - ' + endDate.format() );
-          var DateInicio= this.formato(startDate.format().substring(0,10));
-          var DateFinal= this.formato(endDate.format().substring(0,10));
-          var StartHour=startDate.format().substring(11,19);
-          var StartEnd=startDate.format().substring(11,19);
          
+          var dateO= new Object();
+           if(startDate.format().substring(0,10)!=endDate.format().substring(0,10)){
+            dateO.dateInicio= startDate.format().substring(0,10);
+            dateO.dateFinal= startDate.format().substring(0,10);
+            dateO.startHour='00:00:00';
+            dateO.startEnd='23:59:00';
+           }else{
+           dateO.dateInicio= startDate.format().substring(0,10);
+           dateO.dateFinal= endDate.format().substring(0,10);
+           dateO.startHour=startDate.format().substring(11,19);
+           dateO.startEnd=endDate.format().substring(11,19);
+         }
+
+           this.$emit('SelectDate', dateO);
          
         },
       selected: {},
