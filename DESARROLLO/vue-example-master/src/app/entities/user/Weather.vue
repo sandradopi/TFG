@@ -3,7 +3,7 @@
   <weather 
         class="weather"
         api-key="7dcc22ed4c6cefe78baa7f2dd9b7a944"
-        title="El tiempo"
+        :title="this.titulo"
         :latitude="this.latitud.toString()"
         :longitude="this.longitud.toString()"
         language="es"
@@ -29,7 +29,8 @@ export default {
     return {
       latitud:null,
       longitud:null,
-      name:null
+      name:null,
+      titulo:''
     }
   },
   watch: {
@@ -49,7 +50,16 @@ export default {
 
       this.latitud=this.location.latitud;
       this.longitud=this.location.longitud;
-      this.name=this.location.name;
+
+      var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+      var diasSemana = new Array("Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sáb");
+      var f=new Date();
+      var f2=new Date();
+      f2.setDate(f.getDate()+parseInt(7));
+
+      this.titulo=this.location.name+": "+diasSemana[f.getDay()] + ", " + f.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear()+" - "+diasSemana[f.getDay()] + ", " + f2.getDate() + " de " + meses[f.getMonth()] + " de " + f.getFullYear();
+   
+
 
     },
     

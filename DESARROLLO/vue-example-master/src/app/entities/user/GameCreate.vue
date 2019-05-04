@@ -12,12 +12,7 @@
       </b-modal>
 
   <div class="shopping-list">
-    <h1 class="title"> Crear Partido</h1>  
-    <input type='date' class="searchButton" placeholder='Fecha' v-model="game.date" autofocus required >
-    <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeStart" autofocus required >
-    <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeEnd" autofocus required >
-
-     
+    <h1 class="title"> Crear Partido</h1>      
     <multiselect 
             v-model="game.sport" 
             :options="this.allsports"
@@ -36,13 +31,15 @@
 
     <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
     <v-select 
-         
+          class="selectEdit"
           v-if="bol==true"
           v-model="game.location" 
           :options="this.alllocations" 
           label="name"
           :close-on-select="true"  ></v-select>
-
+    <input type='date' class="searchButton" placeholder='Fecha' v-model="game.date" autofocus required >
+    <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeStart" autofocus required >
+    <input type='time' class="searchButton" placeholder='Hora inicio' v-model="game.timeEnd" autofocus required >
     <input type='text' class="searchButton" placeholder='Número máximo de jugadores' v-model="game.maxPlayers" >
     <input type='text' class="searchButton" placeholder='Número míximo de jugadores' v-model="game.minPlayers"  >
       <b-btn class="button1" v-b-modal.modalPrevent v-if="this.game.location!=null"><span>Metereología</span></b-btn>
@@ -89,7 +86,7 @@ export default {
   },
   methods: {
     fetchData() {
-    	 HTTP.get(`users/${this.$route.params.id}`) 
+    	 HTTP.get(`users/${this.WhatLogin()}`) 
 		        .then(response => { this.game.creator = response.data
 		              return response })
             .catch(err => { this.error = err.message})
@@ -137,7 +134,11 @@ export default {
       }
 
        if ((this.game.maxPlayers%2) !=0) {
-        this.error="Introduzca un número par para poder realizar una mejor gestión de los equipos"
+        this.error="Introduzca en el máximo de jugadores un número par para poder realizar una mejor gestión de los equipos"
+        return false;
+      }
+       if ((this.game.minPlayers%2) !=0) {
+        this.error="Introduzca en el mínimo de jugadores un número par para poder realizar una mejor gestión de los equipos"
         return false;
       }
 
@@ -195,6 +196,9 @@ export default {
     _successHandler(response) {
        this.$router.replace({ name: 'GameDetail', params: { id: this.game.idGame}})
 
+    },
+    WhatLogin() {
+      return auth.user.login
     },
     
     back() {
@@ -336,7 +340,7 @@ export default {
 
 
 
-.v-select {
+.selectEdit{
   cursor: text;
   background: #fff;
   padding: 0.4em; 
@@ -344,26 +348,6 @@ export default {
   margin-bottom: 0.25em;
   border-color:none !important;
   font-size:1em;
-
-    
-}
-
-.v-select .dropdown-toggle {
-   
-    -moz-appearance: none;
-    appearance: none;
-    display: flex;
-   border:none;
-   
-
-}
-.v-select {
-    position: relative;
-    font-family: inherit;
-    border: none;
-    border-color: white;
-    height: 12%;
-    border-radius: 5px;
 }
 
 </style>

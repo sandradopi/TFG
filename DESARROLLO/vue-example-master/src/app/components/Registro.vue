@@ -255,9 +255,15 @@ export default {
    methods: {
      fetchData() {
      if(this.$route.params.id != null){
-      this.user=this.$route.params.id;
-       this.getTeams();
-        this.getSports();
+       this.login=this.$route.params.id;
+       HTTP.get(`users/${this.$route.params.id}`) 
+          .then(response => { this.user = response.data
+                 return response })
+          .then(this.getTeams)
+          .then(this.getSports)
+          .catch(err => { this.error = err.message})
+       
+        
      }
     
       
@@ -448,6 +454,9 @@ export default {
     back() {
       this.$router.go(-1)
     },
+    WhatLogin() {
+      return auth.user.login
+    },
     _successHandler(response) {
       this.$swal('Guardado', 'Los cambios se han guardado correctamente', 'success')
       this.$router.replace({ name: 'UserDetail', params: { id: this.user.login}})
@@ -455,7 +464,8 @@ export default {
       _errorHandler(err) {
       this.error = err.response.data.message
       this.notification()
-     }
+     },
+
   }
 }
 </script>

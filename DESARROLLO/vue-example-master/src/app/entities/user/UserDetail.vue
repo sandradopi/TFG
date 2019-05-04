@@ -1,7 +1,7 @@
 <template>
   <div class="user">
      <div class="float-right">
-        <b-btn class="button1" :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}" @click="Editado()"><span>Editar</span></b-btn> 
+        <b-btn class="button1" :to="{ name: 'UserUpdate', params: { id: this.user.login, boleano:this.bol}}" @click="Editado()"><span>Editar</span></b-btn> 
     </div>
     <div class="equipo">
         <div class="equipo2">

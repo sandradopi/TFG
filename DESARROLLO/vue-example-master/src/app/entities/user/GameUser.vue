@@ -20,7 +20,7 @@
 			      </div>
 
 
-			      <div class="profile__edit"><b-btn class="profile__button" :to="{ name: 'UserUpdate', params: { id: this.user, boleano:this.bol}}" @click="Editado()">Editar Perfil</b-btn ></div>
+			      <div class="profile__edit"><b-btn class="profile__button" :to="{ name: 'UserUpdate', params: { id:this.user.login,boleano:this.bol}}" @click="Editado()">Editar Perfil</b-btn ></div>
 			    </div>
           <star-rating class="star" v-model="this.user.experience" v-bind:star-size="25" :read-only="true"></star-rating></p>
 			    <div class="profile__stats">
