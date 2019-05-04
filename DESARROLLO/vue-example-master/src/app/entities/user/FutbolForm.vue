@@ -66,8 +66,8 @@
 	</br>
   <span class="w3-large">--------------------------------------------------------------------------------------------------------------</span><br>
 	</br>
- <span class="w3-large" v-if="this.game.sport.type=='Futbol'">Goles Jugadores A:</span><br>
-  <span class="w3-large" v-if="this.game.sport.type=='Baloncesto'">Puntos Jugadores A:</span><br>
+ <span class="w3-large" v-if="this.game.sport.type=='Futbol'">Goles Jugadores B:</span><br>
+  <span class="w3-large" v-if="this.game.sport.type=='Baloncesto'">Puntos Jugadores B:</span><br>
     <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
      <div class="conj">	
@@ -147,7 +147,7 @@ export default {
     },
   
 	jugadoresJuego(){
-		  HTTP.get(`players/${this.game.idGame}`) 
+		  HTTP.get(`players/${this.$route.params.id}`) 
 		          .then(response => { this.players = response.data
 		                 return response })
 		          .then(this.DividirEnEquipos)

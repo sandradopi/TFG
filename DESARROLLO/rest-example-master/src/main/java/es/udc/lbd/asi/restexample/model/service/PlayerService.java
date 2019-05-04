@@ -108,7 +108,7 @@ public PlayerDTO update(Long idPlayer, Long valorationGame) {
 	    playerDAO.save(bdPlayer);
 	    return new PlayerDTO(bdPlayer);
 	    }
-
+@Transactional(readOnly = false)
 @Override
 public PlayerDTO updateTeam(Long idPlayer, String equipo) {
 	

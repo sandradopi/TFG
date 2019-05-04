@@ -1,5 +1,5 @@
 <template>
-  <div v-if="this.loading==true"class="content"> 
+  <div class="content"> 
     <b-modal
         id="modalPrevent"
         ref="modal"
@@ -112,7 +112,7 @@ export default {
       playersB:[],
       completado:false,
       controlButton:false,
-      loading:false
+      
 
     }
   },
@@ -135,50 +135,45 @@ export default {
         this.controlButton=true;
         this.$swal('Aviso', "Estamos a la espera de que el creador rellene los resultados", 'info');
       }
+
        HTTP.get(`games/${this.$route.params.id}`) 
           .then(response => { this.game = response.data
                  return response })
-          .then(this.loadingChange)
+          .then(response => { this.playerG.game = response.data
+                 return response })
+          .then(this.getMyPlayer)
+          .then(this.getPlayers)
+          .then(this.getNotifications)
           .catch(err => { this.error = err.message})
-
-
-      HTTP.get(`players/${this.$route.params.id}`) 
+    },
+    getMyPlayer(){
+        HTTP.get(`users/${this.WhatLogin()}`) 
+          .then(response => {this.jugador = response.data
+                return response })
+          .catch(err => { this.error = err.message})
+    },
+    getPlayers(){
+      HTTP.get(`players/${this.game.idGame}`) 
           .then(response => { this.players = response.data
                  return response })
           .then(this.comprobarApuntamiento)
           .then(this.comprobarCompleto)
           .then(this.listarPorEquipos)
           .catch(err => { this.error = err.message})
-
-       HTTP.get(`users/${this.WhatLogin()}`) 
-          .then(response => {this.jugador = response.data
-                return response })
-          .catch(err => { this.error = err.message})
-
-          HTTP.get(`users/notifications/${this.WhatLogin()}/${this.$route.params.id}`) 
+    },
+    getNotifications(){
+       HTTP.get(`users/notifications/${this.WhatLogin()}/${this.game.idGame}`) 
           .then(response => {this.notification = response.data
                 return response })
           .catch(err => { this.error = err.message})
-
-
-
-
     },
     comprobarApuntamiento(){
         for ( var i = 0; i < this.players.length; i ++){
           if(this.players[i].player.login==this.WhatLogin()){
             this.bol=true;
-  
           }
-
        }
-
     },
-    loadingChange(){
-      this.playerG.game=this.game;
-      this.loading=true;
-    },
-
     comprobarCompleto(){
       if((this.bol==false) && (this.players.length== this.game.maxPlayers)){
         this.completado=true;
@@ -191,9 +186,7 @@ export default {
          }else{
           this.playersB.push(this.players[i])
          }
-
        }
-
     },
     clearName() {
         this.equipo = "";

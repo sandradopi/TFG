@@ -20,6 +20,12 @@ import 'fullcalendar/dist/fullcalendar.css';
 
 export default {
   name: 'app',
+  props:{
+    filterLocation:null,
+    filterSport:null,
+    
+  },
+
   data() {
     return {
       games:null,
@@ -41,6 +47,8 @@ export default {
   },
   watch: {
     '$route': 'fetchData',
+     filterLocation: 'fetchData',
+
     
   },
  
@@ -51,15 +59,24 @@ export default {
   },
   methods: {
     fetchData(){
+      this.events=[];
+      if(this.filterSport==null && this.filterLocation==null){
       HTTP.get('games')
                   .then(response => { this.games = response.data
                         return response.data})
                   .then(this.crearEventos)
                   .catch(err => { this.error = err.message})
+      }else{
+         HTTP.get(`games/sportsLocation/${this.filterSport}/${this.filterLocation}`) 
+            .then(response => { this.games = response.data
+                  return response })
+             .then(this.crearEventos)
+            .catch(err => { this.error = err.message})
+      }
     },
 
     crearEventos(){
-
+     
 
       for ( var i = 0; i < this.games.length; i ++){
         var evento ={
@@ -75,8 +92,9 @@ export default {
 
         this.events.push(evento);
       }
-      console.log(this.events)
-
+     
+      
+       this.refreshEvents()
     },
     details(){
 
@@ -92,10 +110,10 @@ export default {
     },
     eventSelected(event) {
       this.selected = event;
-      console.log(this.selected)
+      
     },
     eventCreated(...test) {
-      console.log(test);
+     
     },
   },
   computed: {

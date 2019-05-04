@@ -57,9 +57,20 @@ export default {
     },
     
     eliminar(idUser){
-       HTTP.delete(`users/${idUser}`)
-          .then(this._successHandler)
-          .catch(this._errorHandler)
+       this.$swal("¿Estás seguro de querer borrar este usuario?", {
+          dangerMode: true,
+          buttons: true
+        }).then((result) => {
+            if(result) {
+                this.$swal('Eliminado', 'Se ha borrado correctamente el usuario', 'success')
+               HTTP.delete(`users/${idUser}`)
+              .then(this._successHandler)
+              .catch(this._errorHandler)
+          } else {
+                this.$swal('Cancelado', 'No se ha realizado ningún cambio', 'info')
+          }
+        })
+       
     },
 
     _errorHandler(err) {

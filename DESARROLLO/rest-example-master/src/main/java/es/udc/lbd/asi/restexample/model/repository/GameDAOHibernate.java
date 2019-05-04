@@ -64,6 +64,11 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 	public List<Game> findAllLocation(Long idLocation) {
 		return getSession().createQuery("select g from Game g inner join g.location l where (l.idLocation= :idLocation) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameter("idLocation", idLocation).list();
 	}
+	
+	@Override
+	public List<Game> findAllLocationSport(Long idLocation, Long idSport) {
+		return getSession().createQuery("select g from Game g inner join g.location l inner join g.sport s where (l.idLocation= :idLocation) AND (s.idSport= :idSport) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameter("idLocation", idLocation).setParameter("idSport", idSport).list();
+	}
 	@Override
 	public List<Game> findAllSport(Long idSport) {
 		return getSession().createQuery("select g from Game g inner join g.sport s where (s.idSport= :idSport) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameter("idSport", idSport).list();

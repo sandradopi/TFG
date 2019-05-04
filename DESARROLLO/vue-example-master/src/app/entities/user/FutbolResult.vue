@@ -109,8 +109,6 @@ export default {
             
       
     },
-
-
   
   jugadoresJuego(){
       HTTP.get(`players/${this.game.idGame}`) 

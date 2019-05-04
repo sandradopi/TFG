@@ -6,6 +6,8 @@ import java.util.List;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 
+import org.springframework.web.bind.annotation.PathVariable;
+
 import es.udc.lbd.asi.restexample.model.exception.EventBeforeDayException;
 import es.udc.lbd.asi.restexample.model.exception.GameColapseException;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
@@ -24,6 +26,9 @@ public interface GameServiceInterface {
 	  public List<GameDTO> findAllFiltros(String sport, String user, String edad,String dificultad);
 	  public GameDTO findById(Long idGame);
 	  public GameDTO update(Long idGame, String resultado);
+	  public List<GameDTO> findAllLocation(Long idLocation);
+	  public List<GameDTO> findAllSport(Long idSport);
+	  public List <GameDTO> findAllSportLocation(@PathVariable Long idSport, @PathVariable Long idLocation);
 	  
 	 
 

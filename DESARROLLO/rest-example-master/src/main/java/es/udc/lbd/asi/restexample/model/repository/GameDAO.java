@@ -31,5 +31,6 @@ public interface GameDAO {
 	 public Long findColapso(LocalDate date, LocalTime timeStart, LocalTime timeEnd);
 	 public List<Game> findAllTomorrow(LocalDate data);
 	 public List<Long> findByAgeRange(Double min, Double max, Double emin, Double emax);
+	 public List<Game> findAllLocationSport(Long idLocation, Long idSport);
 
 }

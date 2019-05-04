@@ -201,22 +201,35 @@ data() {
       handleOk(evt) {
       
       },
+      updateTeams(){
+      for ( var i = 0; i < this.playersChange.length; i ++){
+          if(this.playersChange[i].equipo!=this.equiposJugadores[i]){
+            HTTP.put(`players/${this.playersChange[i].idPlayer}/team/${this.playersChange[i].equipo}`)
+              .catch(this._errorHandler)
+          }
+          
+          
+        }
+
+     },
       handleOk1(evt) {
        evt.preventDefault()
+       var bol=false;
          for ( var i = 0; i < this.playersChange.length; i ++){
           if (!this.playersChange[i].equipo) {
            this.$swal('Alerta!', "Todos los jugadores han de estar en un equipo", 'error')
-          }else{
-         
-          if(this.playersChange[i].equipo!=this.equiposJugadores[i]){
-            HTTP.put(`players/${this.playersChange[i].idPlayer}/team/${this.playersChange[i].equipo}`)
-              .then(this.ChangePage)
-              .catch(this._errorHandler)
+           bol=true;
           }
         }
+        if(bol==false){
+          this.updateTeams().then(() => {
+            this.ChangePage();
+          });
         }
+       
       
       },
+     
      confirmacion(game){
         this.gameSelect=game;
         this.$nextTick(() => {
@@ -248,7 +261,9 @@ data() {
     ChangePage(){
        this.$nextTick(() => {
           // Wrapped in $nextTick to ensure DOM is rendered before closing
-        this.$refs.modal3.hide();})
+        this.$refs.modal3.hide();
+
+      })
        if(this.bol==true){
           if(this.gameSelect.sport.type=="Futbol"|| this.gameSelect.sport.type=='Baloncesto'){
           this.$router.replace({ name: 'FutbolForm', params: { id:this.gameSelect.idGame}})

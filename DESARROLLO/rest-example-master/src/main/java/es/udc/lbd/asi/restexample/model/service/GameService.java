@@ -245,10 +245,16 @@ public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseExc
 	gameDAO.save(bdGame);
     return new GameDTO(bdGame);
 }
-
+@Override
 public List<GameDTO> findAllLocation(Long idLocation) {
 	return gameDAO.findAllLocation(idLocation).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
 }
+@Override
+public List<GameDTO> findAllSportLocation(Long idSport, Long idLocation) {
+	return gameDAO.findAllLocationSport(idLocation, idSport).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+}
+
+
 
 @PreAuthorize("hasAuthority('USER')")
 @Transactional(readOnly = false)
@@ -300,7 +306,10 @@ public void deleteById(Long idGame) throws AddressException, MessagingException,
 		    gameDAO.save(bdGame);
 		    return new GameDTO(bdGame);
 		    }
-		
+	@Override
+	public List<GameDTO> findAllSport(Long idSport) {
+		return gameDAO.findAllSport(idSport).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+	}
 	     
    
 

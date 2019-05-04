@@ -4,7 +4,7 @@
      <b-btn class="button" @click="guardar()"><span>Guardar</span></b-btn> 
       <h1 class="title">Resultado Partido</h1> 
 
-      <div class="information message" v-if="loading==true">
+      <div class="information message" >
         <h2 class="title1"> Información</h2>  
         <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
         <h6>Deporte: {{this.game.sport.type}}</h6>
@@ -121,7 +121,6 @@ export default {
     	playersB:[],
     	setsA:[],
     	setsB:[],
-    	loading:false,
     	resultado:{},
     	error:''
    
@@ -147,19 +146,17 @@ export default {
   methods: {
     fetchData() {
     	 this.game={}
-    	 this.loading=false;
     	 HTTP.get(`games/${this.$route.params.id}`) 
           .then(response => { this.game = response.data
                  return response })
           .then(this.jugadoresJuego)
-          .then(this.prepararInfo)
           .catch(err => { this.error = err.message})
     	    	
       
     },
   
 	jugadoresJuego(){
-		  HTTP.get(`players/${this.game.idGame}`) 
+		  HTTP.get(`players/${this.$route.params.id}`) 
 		          .then(response => { this.players = response.data
 		                 return response })
 		          .then(this.DividirEnEquipos)
@@ -168,10 +165,7 @@ export default {
 
 	 },
 
-	prepararInfo(){
-		 this.loading=true;
-
-	 },
+	
 
 	 DividirEnEquipos(){
 
@@ -201,11 +195,17 @@ export default {
         	return false;
        }
 
-       if(this.setsB.length==2){
+       if(this.setsB.length==2 && this.setsB.length==2){
         if((this.setsA[0]>this.setsB[0] && this.setsA[1]<this.setsB[1]) || (this.setsA[0]<this.setsB[0] && this.setsA[1]>this.setsB[1])){
           this.error="Revise los puntos se los sets, si solo jugaron 2 sets, ambos sets tuvieron que haber sido ganados por el mismo equipo"
           return false;
         }
+       }
+
+        if(this.setsB.length!=this.setsB.length){
+          this.error="Revise los sets, un equipo tiene un set más que el otro"
+          return false;
+        
        }
 
 

@@ -66,6 +66,11 @@ public class GameResource {
     	 return gameService.findAllLocation(idLocation);
     }
     
+    @GetMapping("/sportsLocation/{idSport}/{idLocation}")
+    public List <GameDTO> findSportLocation(@PathVariable Long idSport, @PathVariable Long idLocation) {
+    	 return gameService.findAllSportLocation(idSport,idLocation);
+    }
+    
     @GetMapping("/{idGame}")
     public GameDTO findOne(@PathVariable Long idGame) throws InstanceNotFoundExceptionHIB{
         GameDTO game = gameService.findById(idGame);

@@ -1,7 +1,7 @@
 <template>
   <div class="evento">
 
-    <Calendar class="calendario"></Calendar>
+    <Calendar v-bind:filterLocation="this.filterLocation" v-bind:filterSport="this.filterSport"class="calendario"></Calendar>
     <b-modal
         id="modalPrevent"
         ref="modal"
@@ -14,6 +14,7 @@
   <div class="shopping-list">
     <h1 class="title"> Crear Partido</h1>      
     <multiselect 
+
             v-model="game.sport" 
             :options="this.allsports"
             :multiple="false"
@@ -35,6 +36,7 @@
           v-if="bol==true"
           v-model="game.location" 
           :options="this.alllocations" 
+           @change="selectOnLocation()"
           label="name"
           :close-on-select="true"  ></v-select>
     <input type='date' class="searchButton" placeholder='Fecha' v-model="game.date" autofocus required >
@@ -71,7 +73,9 @@ export default {
      allsports:[],
      bol:false,
      showModal:false,
-     error:""
+     error:"",
+     filterLocation:null,
+     filterSport:null
     }
   },
   watch: {
@@ -93,14 +97,27 @@ export default {
     },
 
     selectOn(){
+      this.bol=false     
       if(this.game.sport!=null){
+      this.filterSport=this.game.sport.idSport;
 		  this.bol=true;
   	 	HTTP.get(`locations/filter/${this.game.sport.idSport}`) 
 		        .then(response => { this.alllocations = response.data
                                 this.game.location=this.alllocations[0]
                                 })
-            .catch(err => { this.error = err.message})}
+            .then(response => { this.filterLocation = this.alllocations[0].idLocation
+                                })
+            .catch(err => { this.error = err.message})
+     }else{
+       this.filterSport=null;
+       this.filterLocation=null;
+     }
 		
+
+    },
+    selectOnLocation(){
+      this.filterLocation=this.game.location.idLocation;
+      
 
     },
     checkForm () {
