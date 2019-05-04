@@ -109,4 +109,13 @@ public PlayerDTO update(Long idPlayer, Long valorationGame) {
 	    return new PlayerDTO(bdPlayer);
 	    }
 
+@Override
+public PlayerDTO updateTeam(Long idPlayer, String equipo) {
+	
+	Player bdPlayer = (Player) playerDAO.findById(idPlayer);
+	bdPlayer.setEquipo(equipo);
+	playerDAO.save(bdPlayer);
+	return new PlayerDTO(bdPlayer);
+}
+
 }

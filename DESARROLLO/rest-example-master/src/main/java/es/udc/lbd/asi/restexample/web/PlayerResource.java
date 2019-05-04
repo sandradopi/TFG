@@ -80,6 +80,12 @@ public class PlayerResource {
         return playerService.update(idPlayer,valorationGame);
     }
     
+    @PutMapping("/{idPlayer}/team/{equipo}")
+    public PlayerDTO updateTeam(@PathVariable Long idPlayer, @PathVariable String equipo){
+           
+        return playerService.updateTeam(idPlayer,equipo);
+    }
+    
     
     @DeleteMapping("/{idPlayer}")
     public void delete(@PathVariable Long idPlayer) throws AddressException, MessagingException, ParseException {

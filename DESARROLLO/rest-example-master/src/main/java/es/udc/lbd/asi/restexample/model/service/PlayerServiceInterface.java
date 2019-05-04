@@ -20,6 +20,7 @@ public interface PlayerServiceInterface {
 	  public PlayerDTO save(PlayerDTO player) throws MaxPlayersException, AddressException, MessagingException, ParseException;
 	  public void deleteById(Long idPlayer) throws AddressException, MessagingException, ParseException;
 	  public PlayerDTO update(Long idPlayer, Long valorationGame);
+	  public PlayerDTO updateTeam(Long idPlayer, String equipo);
 	  public PlayerDTO findPlayerByPlayer(Long idPlayer);
 	  public PlayerDTO findPlayer(Long idGame, String login);
 	  public List<PlayerDTO> findAllByGame(Long idGame);

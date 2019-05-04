@@ -45,6 +45,35 @@
         </p>
       </b-carousel-slide>
     </b-carousel>
+    <b-modal
+        class="formulario"
+        id="modal3"
+        ref="modal3"
+        title="Jugadores del Equipo"
+        
+        @ok="handleOk1"
+       >
+
+        <form @submit.stop.prevent="handleSubmit">
+           <b-form-group class="jugadores">
+              <h6>¿Algún jugador cambió finalmente de equipo?</h6>
+               <div v-for=" playerG in this.playersChange" :key="playerG.idPlayer">
+                   <li class="jugadores">{{playerG.player.name}} {{playerG.player.surname1}}</li>
+              <multiselect 
+                v-model="playerG.equipo" 
+                :options="equipos"
+                :multiple="false"
+                :preserve-search="false"
+                :close-on-select="true" 
+                :show-labels="false"
+                placeholder="Equipo"
+                >
+              </multiselect>
+                <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+               </div>
+            </b-form-group>            
+        </form>
+      </b-modal>
 <b-modal
         id="modalPrevent22"
         ref="modal"
@@ -82,15 +111,21 @@ import { Carousel, Slide } from 'vue-carousel'
 import { HTTP } from '../common/http-common'
 import auth from '../common/auth'
 import Swal from 'sweetalert2';
+import Multiselect from 'vue-multiselect'
 
 
 
 
 export default {
-  components: { Carousel, Slide},
+  components: { Carousel, Slide,Multiselect},
   data() {
     return {
       games:[],
+      equipos:['A','B'],
+      playersChange:null,
+      gameSelect:null,
+      playersBefore:null,
+      equiposJugadores:[]
      
     }
   },
@@ -115,13 +150,55 @@ export default {
 
 
     },
-     confirmacion(game){
-       if(game.sport.type=="Futbol"|| game.sport.type=='Baloncesto'){
-          this.$router.replace({ name: 'FutbolForm', params: { id:game.idGame}})
-        }else if(game.sport.type=="Tennis"|| game.sport.type=='Paddel'){
-          this.$router.replace({ name: 'TennisForm', params: { id:game.idGame}})
+     handleOk1(evt) {
+      evt.preventDefault()
+         for ( var i = 0; i < this.playersChange.length; i ++){
+          if (!this.playersChange[i].equipo) {
+           this.$swal('Alerta!', "Todos los jugadores han de estar en un equipo", 'error')
+          }else{
+          if(this.playersChange[i].equipo!=this.equiposJugadores[i]){
+            HTTP.put(`players/${this.playersChange[i].idPlayer}/team/${this.playersChange[i].equipo}`)
+              .then(this.ChangePage)
+              .catch(this._errorHandler)
+          }
         }
+        }
+      
+      },
+     confirmacion(game){
+       this.gameSelect=game;
+        this.$nextTick(() => {
+          // Wrapped in $nextTick to ensure DOM is rendered before closing
+        this.$refs.modal.hide();
+
+      })
+       
+         HTTP.get(`players/${game.idGame}`) 
+          .then(response => { this.playersChange = response.data
+                 return response })
+          .then(this.copyTeams)
+          .then(this.$refs.modal3.show())
+          .catch(err => { this.error = err.message})
+
     }, 
+    ChangePage(){
+
+       if(this.gameSelect.sport.type=="Futbol"||this.gameSelect.sport.type=='Baloncesto'){
+          this.$router.replace({ name: 'FutbolForm', params: { id:this.gameSelectidGame}})
+        }else if(this.gameSelect.sport.type=="Tennis"|| this.gameSelect.sport.type=='Paddel'){
+          this.$router.replace({ name: 'TennisForm', params: { id:this.gameSelect.idGame}})
+        }
+
+    },
+
+    copyTeams(){
+
+      for ( var i = 0; i < this.playersChange.length; i ++){
+          this.equiposJugadores.push(this.playersChange[i].equipo)
+        }
+
+
+    },
      WhatLogin() {
       return auth.user.login
     },
