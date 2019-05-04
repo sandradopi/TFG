@@ -18,6 +18,8 @@ import 'fullcalendar/dist/fullcalendar.css';
 
 
 
+
+
 export default {
   name: 'app',
   props:{
@@ -32,6 +34,8 @@ export default {
       game:{},
       events: [],
       config: {
+        
+        
         eventClick: (event) => {
            for ( var i = 0; i < this.games.length; i ++){
               if(this.games[i].idGame==event.id){
@@ -40,10 +44,21 @@ export default {
            }
            this.details();
 
+
+
         },
-      },
+      select: (startDate, endDate, jsEvent, view, resource) => {
+          console.log( startDate.format() + ' - ' + endDate.format() );
+          var DateInicio= this.formato(startDate.format().substring(0,10));
+          var DateFinal= this.formato(endDate.format().substring(0,10));
+          var StartHour=startDate.format().substring(11,19);
+          var StartEnd=startDate.format().substring(11,19);
+         
+         
+        },
       selected: {},
     }
+  }
   },
   watch: {
     '$route': 'fetchData',
@@ -110,11 +125,16 @@ export default {
     },
     eventSelected(event) {
       this.selected = event;
+      console.log(event)
       
     },
-    eventCreated(...test) {
-     
+    formato(texto){
+      return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
     },
+    eventCreated(...test) {
+     console.log(event)
+    },
+    
   },
   computed: {
     eventSources() {
