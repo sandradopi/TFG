@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 
 
 @Entity
-@Table(name="Coment")
+@Table(name="Comment")
 @Inheritance(strategy=InheritanceType.JOINED)
 public class Comment {
 

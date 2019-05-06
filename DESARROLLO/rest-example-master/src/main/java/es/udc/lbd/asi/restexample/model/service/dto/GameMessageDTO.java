@@ -35,7 +35,7 @@ public class GameMessageDTO {
     @NotNull
     private NormalUserDTO fromUser;
     @NotNull
-    private Game toGame;
+    private GameDTO toGame;
 
 
 
@@ -83,11 +83,11 @@ public class GameMessageDTO {
 		this.fromUser = fromUser;
 	}
 
-	public Game getToGame() {
+	public GameDTO getToGame() {
 		return toGame;
 	}
 
-	public void setToGame(Game toGame) {
+	public void setToGame(GameDTO toGame) {
 		this.toGame = toGame;
 	}
 

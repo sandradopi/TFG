@@ -202,14 +202,16 @@ data() {
       
       },
       updateTeams(){
+        var promises=[];
       for ( var i = 0; i < this.playersChange.length; i ++){
           if(this.playersChange[i].equipo!=this.equiposJugadores[i]){
-            HTTP.put(`players/${this.playersChange[i].idPlayer}/team/${this.playersChange[i].equipo}`)
-              .catch(this._errorHandler)
+            promises.push(HTTP.put(`players/${this.playersChange[i].idPlayer}/team/${this.playersChange[i].equipo}`)
+              .catch(this._errorHandler))
           }
           
           
         }
+        return Promise.all(promises);
 
      },
       handleOk1(evt) {
@@ -242,7 +244,6 @@ data() {
           .then(response => { this.playersChange = response.data
                  return response })
           .then(this.copyTeams)
-          .then(this.$refs.modal3.show())
           .catch(err => { this.error = err.message})
         }else{
           this.ChangePage();
@@ -251,14 +252,15 @@ data() {
        
     }, 
     copyTeams(){
-
       for ( var i = 0; i < this.playersChange.length; i ++){
           this.equiposJugadores.push(this.playersChange[i].equipo)
         }
-
+        console.log(this.equiposJugadores)
+        this.$refs.modal3.show()
 
     },
     ChangePage(){
+      this.equiposJugadores=[]
        this.$nextTick(() => {
           // Wrapped in $nextTick to ensure DOM is rendered before closing
         this.$refs.modal3.hide();

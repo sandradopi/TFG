@@ -147,13 +147,13 @@ export default {
           .catch(err => { this.error = err.message})
     },
     getMyPlayer(){
-        HTTP.get(`users/${this.WhatLogin()}`) 
+        return HTTP.get(`users/${this.WhatLogin()}`) 
           .then(response => {this.jugador = response.data
                 return response })
           .catch(err => { this.error = err.message})
     },
     getPlayers(){
-      HTTP.get(`players/${this.game.idGame}`) 
+      return HTTP.get(`players/${this.game.idGame}`) 
           .then(response => { this.players = response.data
                  return response })
           .then(this.comprobarApuntamiento)
@@ -162,7 +162,7 @@ export default {
           .catch(err => { this.error = err.message})
     },
     getNotifications(){
-       HTTP.get(`users/notifications/${this.WhatLogin()}/${this.game.idGame}`) 
+       return HTTP.get(`users/notifications/${this.WhatLogin()}/${this.game.idGame}`) 
           .then(response => {this.notification = response.data
                 return response })
           .catch(err => { this.error = err.message})

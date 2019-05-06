@@ -35,7 +35,7 @@ public class UserMessageDTO {
     @NotNull
     private NormalUserDTO fromUser;
     @NotNull
-    private NormalUser toUser;
+    private NormalUserDTO toUser;
 
 
 
@@ -83,11 +83,11 @@ public class UserMessageDTO {
 		this.fromUser = fromUser;
 	}
 
-	public NormalUser getToUser() {
+	public NormalUserDTO getToUser() {
 		return toUser;
 	}
 
-	public void setToUser(NormalUser toUser) {
+	public void setToUser(NormalUserDTO toUser) {
 		this.toUser = toUser;
 	}
 

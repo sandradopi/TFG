@@ -22,7 +22,7 @@
      <b-btn class="button" @click="guardar()"><span>Guardar</span></b-btn> 
       <h1 class="title">Valoraciones del Partido</h1> 
 
-      <div class="information message" v-if="loading==true">
+      <div class="information message" >
         <h2 class="title1"> Información</h2>  
         <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
         <h6>Deporte: {{this.game.sport.type}}</h6>
@@ -122,7 +122,6 @@ export default {
     	resultadoA:'0',
     	resultadoB:'0',
     	goles:[],
-    	loading:false,
     	resultado:{},
       optionsC:['1','2','3','4','5'],
       valorationGame:'',
@@ -169,7 +168,6 @@ export default {
                  return response })
           .then(this.recuperarMyPlayer)
           .then(this.jugadoresJuego)
-          .then(this.prepararInfo)
           .catch(err => { this.error = err.message})
     	    	
       
@@ -177,7 +175,7 @@ export default {
 
   
 	jugadoresJuego(){
-		  HTTP.get(`players/${this.game.idGame}`) 
+		  return HTTP.get(`players/${this.game.idGame}`) 
 		          .then(response => { this.players = response.data
 		                 return response })
 		          .then(this.DividirEnEquipos)
@@ -186,14 +184,10 @@ export default {
 
 	 },
 
-	prepararInfo(){
-		 this.loading=true;
 
-	 },
    recuperarMyPlayer(){
-      HTTP.get(`players/${this.game.idGame}/${this.WhatLogin()}`) 
-          .then(response => { this.player = response.data
-                 return response })
+     return HTTP.get(`players/${this.game.idGame}/${this.WhatLogin()}`) 
+          .then(response => { this.player = response.data})
           .catch(err => { this.error = err.message})
    },
 
