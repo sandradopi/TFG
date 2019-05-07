@@ -26,7 +26,7 @@ public class GameMessage extends Comment{
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name = "idGame")
     @NotNull
-    private Game toGame;
+    private Game gameComment;
 
 	
 	
@@ -36,21 +36,23 @@ public class GameMessage extends Comment{
 			}
 
 
-	public GameMessage(@NotEmpty String content, @NotNull LocalDateTime date, @NotNull NormalUser fromUser, @NotNull Game toGame) {
+	public GameMessage(@NotEmpty String content, @NotNull LocalDateTime date, @NotNull NormalUser fromUser, @NotNull Game gameComment) {
 		super(content, date, fromUser);
-		this.toGame = toGame;
+		this.gameComment = gameComment;
 	}
 
 
-	public Game getToGame() {
-		return toGame;
+	public Game getGameComment() {
+		return gameComment;
 	}
 
 
-	public void setToGame(Game toGame) {
-		this.toGame = toGame;
+	public void setGameComment(Game gameComment) {
+		this.gameComment = gameComment;
 	}
 
+
+	
 
 
 

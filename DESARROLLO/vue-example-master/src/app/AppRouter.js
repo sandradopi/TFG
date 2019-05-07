@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
 import { Home, Login, NotFound,Registro } from './components'
-import {Recomendations,TennisResult,FutbolResult,TennisForm,ValorationGame,Calendar,Weather,Mapa,FutbolForm,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
+import {CommentGame,Recomendations,TennisResult,FutbolResult,TennisForm,ValorationGame,Calendar,Weather,Mapa,FutbolForm,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },
@@ -19,6 +19,7 @@ const routes = [
   { name: 'DeportesUpdate', path: '/deportes/:id/editar', component: DeportesForm,meta: { authority: 'ADMIN' }},
   { name: 'GameCreate', path: '/games/new', component: GameCreate,meta: { authority: 'USER' }},
   { name: 'GameDetail', path: '/games/:id', component: GameDetail,meta: { authority: 'USER' }},
+  { name: 'CommentGame', path: '/games/:id/comments', component: CommentGame,meta: { authority: 'USER' }},
   { name: 'ValorationGame', path: '/games/:id/valoraciones', component: ValorationGame,meta: { authority: 'USER' }},
   { name: 'FutbolForm', path: '/games/:id/futbol/completeResultado', component: FutbolForm,meta: { authority: 'USER' }},
   { name: 'TennisForm', path: '/games/:id/tennis/completeResultado', component: TennisForm,meta: { authority: 'USER' }},

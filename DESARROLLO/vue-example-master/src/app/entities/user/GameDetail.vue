@@ -62,6 +62,8 @@
       <b-btn class="button2" v-if="this.controlButton==false" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
       <b-btn class="button22" v-if="this.notification==false && this.controlButton==false" @click="notificar()"><font-awesome-icon icon="bell"style="font-size:30px;"/></b-btn>
       <b-btn class="button22" v-if="this.notification==true && this.controlButton==false" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>
+      <b-btn class="button2 colorComment" v-if="this.controlButton==false" :to="{ name: 'CommentGame', params: { id: game.idGame}}"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
+
 
       <h1 class="title" v-if="this.controlButton==false">Detalles Partido</h1>  
       <h1 class="title" v-if="this.controlButton==true">Partido Finalizado</h1>  
@@ -425,6 +427,9 @@ div.message2.information{background: #17a2b8;}
   float:left;
   width:6%;
   margin-left:20px;
+ }
+ .colorComment{
+  background-color: #e2bc27;
  }
  .button22, .button32{
     background-color: green;

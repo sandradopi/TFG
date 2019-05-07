@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import es.udc.lbd.asi.restexample.model.domain.Comment;
 import es.udc.lbd.asi.restexample.model.domain.Game;
+import es.udc.lbd.asi.restexample.model.domain.GameMessage;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
@@ -23,6 +24,11 @@ public class CommentDAOHibernate extends GenericDAOHibernate implements CommentD
 	public void save(Comment comment) {
 		getSession().saveOrUpdate(comment);
 		
+	}
+
+	@Override
+	public List<Comment> findAllByGame(Long idGame) {
+		return getSession().createQuery("select c from Comment c inner join c.gameComment g where g.idGame = :idGame order by c.date ").setParameter("idGame", idGame).list();
 	}
 
 	

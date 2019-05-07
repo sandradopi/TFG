@@ -22,6 +22,13 @@
           </div>
         </b-btn>
     </div>
+    <div class="w3-container" v-for="comentario in this.comentariosGame" >
+        <b-btn class="w3-bar" v-if="comentario!=null">
+           <div class="w3-bar-item">
+              <span class="w3-large">{{comentario.contentComment}}</span><br>
+          </div>
+        </b-btn>
+    </div>
   </div>
 </template>
 
@@ -38,7 +45,8 @@ export default {
   props:{
     tipo:null,
     login:null,
-    typeR:''
+    typeR:'',
+    game:null
   },
   data() {
     return {
@@ -49,6 +57,7 @@ export default {
       jugados:null,
       comentarios:null,
       mensaje:null,
+      comentariosGame:null
 
 
   
@@ -72,6 +81,7 @@ export default {
   },
   methods: {
     fetchData() {
+
       this.games=null
       this.mensaje=null
       this.comentarios=null
@@ -81,6 +91,12 @@ export default {
                       return response })
                 .catch(err => { this.error = err.message})
 
+      }
+      else if (this.tipo=='commentGame'){
+          HTTP.get(`comments/game/${this.game}`) 
+                .then(response => { this.comentariosGame= response.data
+                      return response })
+                .catch(err => { this.error = err.message})
       }
       else if (this.tipo=='proximo'){
           HTTP.get(`users/${this.WhatLogin()}/proximos`) 

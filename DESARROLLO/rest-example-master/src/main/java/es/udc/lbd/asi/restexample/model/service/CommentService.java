@@ -11,7 +11,6 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -67,13 +66,7 @@ public class CommentService implements CommentServiceInterface{
 	     @Transactional(readOnly = false)
 	     @Override
 		 public UserMessageDTO saveComment(UserMessageDTO user){
-	    	   LocalDateTime ahora = LocalDateTime.now();
-	    	   UserMessage commentMen =new UserMessage();
-	    	   commentMen.setContent(user.getContent());
-	    	   commentMen.setDate(ahora);
-	    	   commentMen.setFromUser(userDAO.findByLoginNormal(user.getFromUser().getLogin()));
-	    	   commentMen.setToUser(userDAO.findByLoginNormal(user.getToUser().getLogin()));
-		       return new UserMessageDTO(commentMen);
+	    	  return null;
 			         
 	    	 
 	     }
@@ -81,18 +74,23 @@ public class CommentService implements CommentServiceInterface{
 	     @Transactional(readOnly = false)
 	     @Override
 	     public GameMessageDTO saveComment(GameMessageDTO game){
-	    LocalDateTime ahora = LocalDateTime.now();
+	       LocalDateTime ahora = LocalDateTime.now();
 	       GameMessage gameMen =new GameMessage();
-	       gameMen.setContent(game.getContent());
+	       gameMen.setContentComment(game.getContentComment());
 	       gameMen.setDate(ahora);
 	       gameMen.setFromUser(userDAO.findByLoginNormal(game.getFromUser().getLogin()));
-	       gameMen.setToGame(gameDAO.findById(game.getToGame().getIdGame()));
+	       gameMen.setGameComment(gameDAO.findById(game.getGameComment().getIdGame()));
+	       commentDAO.save(gameMen);
 	       return new GameMessageDTO(gameMen);
 		         
 		     
 
 	         
 	     }
+
+		public List<GameMessageDTO> findAllByGame(Long idGame) {
+			return commentDAO.findAllByGame(idGame).stream().map(game -> new GameMessageDTO(game)).collect(Collectors.toList());
+		}
 	     
 	    
 

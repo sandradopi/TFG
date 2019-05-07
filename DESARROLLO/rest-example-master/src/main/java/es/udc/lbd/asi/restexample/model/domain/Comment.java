@@ -27,9 +27,9 @@ public class Comment {
 	@Column(name="idComent")
 	private Long idComent;
 	
-	@Column(name = "content")
+	@Column(name = "contentComment")
 	@NotEmpty
-	private String content;
+	private String contentComment;
 	
 	@Column(name = "date")
 	@NotNull
@@ -51,9 +51,9 @@ public class Comment {
 
 
 
-	public Comment(@NotEmpty String content, @NotNull LocalDateTime date, @NotNull NormalUser fromUser) {
+	public Comment(@NotEmpty String contentComment, @NotNull LocalDateTime date, @NotNull NormalUser fromUser) {
 		super();
-		this.content = content;
+		this.contentComment = contentComment;
 		this.date = date;
 		this.fromUser = fromUser;
 	}
@@ -95,16 +95,19 @@ public class Comment {
 
 
 
-	public String getContent() {
-		return content;
+
+	public String getContentComment() {
+		return contentComment;
 	}
 
 
 
 
-	public void setContent(String content) {
-		this.content = content;
+
+	public void setContentComment(String contentComment) {
+		this.contentComment = contentComment;
 	}
+
 
 
 

@@ -46,7 +46,7 @@
 			    </div>
 			  </div>
 		</div>
-    <GameList  v-if="this.recomendado==true && this.tipo=='recomendados'||this.recomendado==false && this.tipo!='recomendados'" v-bind:tipo="this.tipo" v-bind:typeR="this.typeR" v-bind:login="this.user.login">
+    <GameList  v-if="this.recomendado==true && this.tipo=='recomendados'||this.recomendado==false && this.tipo!='recomendados'"v-bind:game="this.game.idGame" v-bind:tipo="this.tipo" v-bind:typeR="this.typeR" v-bind:login="this.user.login">
     </GameList>
      <Recomendations @Cerrar="reloadRecomendations" v-if="this.tipo=='recomendados' && this.recomendado==false">
     </Recomendations>

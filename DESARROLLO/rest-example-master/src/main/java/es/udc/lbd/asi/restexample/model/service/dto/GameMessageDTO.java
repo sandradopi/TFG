@@ -29,13 +29,12 @@ public class GameMessageDTO {
 
 	private Long idComent;
 	@NotEmpty
-	private String content;
-	@NotNull
+	private String contentComment;
 	private LocalDateTime date;
     @NotNull
     private NormalUserDTO fromUser;
     @NotNull
-    private GameDTO toGame;
+    private GameDTO gameComment;
 
 
 
@@ -45,11 +44,13 @@ public class GameMessageDTO {
     
 	public GameMessageDTO(Comment comment) {
 		this.idComent = comment.getIdComent();
-		this.content = comment.getContent();
+		this.contentComment = comment.getContentComment();
 		this.date = comment.getDate();
 		this.fromUser =  new NormalUserDTO(comment.getFromUser());
+		
 
 	}
+
 
 	public Long getIdComent() {
 		return idComent;
@@ -59,12 +60,14 @@ public class GameMessageDTO {
 		this.idComent = idComent;
 	}
 
-	public String getContent() {
-		return content;
+	
+
+	public String getContentComment() {
+		return contentComment;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setContentComment(String contentComment) {
+		this.contentComment = contentComment;
 	}
 
 	public LocalDateTime getDate() {
@@ -83,13 +86,17 @@ public class GameMessageDTO {
 		this.fromUser = fromUser;
 	}
 
-	public GameDTO getToGame() {
-		return toGame;
+	public GameDTO getGameComment() {
+		return gameComment;
 	}
 
-	public void setToGame(GameDTO toGame) {
-		this.toGame = toGame;
+	public void setGameComment(GameDTO gameComment) {
+		this.gameComment = gameComment;
 	}
+
+	
+
+	
 
 	
 

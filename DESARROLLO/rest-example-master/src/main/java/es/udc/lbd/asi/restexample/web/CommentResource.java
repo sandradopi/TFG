@@ -49,7 +49,7 @@ public class CommentResource {
   
     @GetMapping("/game/{idGame}")
     public List<GameMessageDTO> findAllByGame(@PathVariable Long idGame) {
-        return null;
+    	 return commentService.findAllByGame(idGame);
     }
     
     @PostMapping("/game")
