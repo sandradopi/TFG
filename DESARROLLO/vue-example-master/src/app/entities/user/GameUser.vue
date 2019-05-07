@@ -1,5 +1,5 @@
 <template>
-  <div class="content"> 
+  <div class="content" v-if="user && user.login"> 
       <h1 class="title"> Perfil Público</h1>  
     	<div class="profile1">
     		<div class="botones">

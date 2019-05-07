@@ -1,5 +1,5 @@
 <template>
-  <div class="content"> 
+  <div class="content" v-if="loading"> 
    
      <b-btn class="button" @click="guardar()"><span>Guardar</span></b-btn> 
       <h1 class="title">Resultado Partido</h1> 
@@ -147,7 +147,7 @@ export default {
     },
   
 	jugadoresJuego(){
-		  HTTP.get(`players/${this.$route.params.id}`) 
+		  return HTTP.get(`players/${this.$route.params.id}`) 
 		          .then(response => { this.players = response.data
 		                 return response })
 		          .then(this.DividirEnEquipos)
@@ -158,7 +158,7 @@ export default {
 
 	prepararInfo(){
 		 this.loading=true;
-
+     return;
 	 },
 
 	 DividirEnEquipos(){

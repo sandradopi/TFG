@@ -1,5 +1,5 @@
 <template>
-  <div class="content"> 
+  <div class="content" v-if="loading"> 
     <b-modal
         id="modalPrevent"
         ref="modal"
@@ -93,7 +93,6 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Weather from '../../entities/user/Weather'
-
 export default {
   components: { Multiselect, Weather},
   data() {
@@ -112,8 +111,8 @@ export default {
       playersB:[],
       completado:false,
       controlButton:false,
+      loading:false
       
-
     }
   },
   watch: {
@@ -122,20 +121,17 @@ export default {
   },
  
   created() { //se va a lanzar siempre en una clase de componentes
-
     this.fetchData()
   },
-
   methods: {
     fetchData() {
       this.playersA=[];
       this.playersB=[];
-
+      this.loading=false;
       if(this.$route.params.bol==true){
         this.controlButton=true;
         this.$swal('Aviso', "Estamos a la espera de que el creador rellene los resultados", 'info');
       }
-
        HTTP.get(`games/${this.$route.params.id}`) 
           .then(response => { this.game = response.data
                  return response })
@@ -162,10 +158,12 @@ export default {
           .catch(err => { this.error = err.message})
     },
     getNotifications(){
+       this.loading=true;
        return HTTP.get(`users/notifications/${this.WhatLogin()}/${this.game.idGame}`) 
           .then(response => {this.notification = response.data
                 return response })
           .catch(err => { this.error = err.message})
+
     },
     comprobarApuntamiento(){
         for ( var i = 0; i < this.players.length; i ++){
@@ -173,11 +171,13 @@ export default {
             this.bol=true;
           }
        }
+       return true;
     },
     comprobarCompleto(){
       if((this.bol==false) && (this.players.length== this.game.maxPlayers)){
         this.completado=true;
        }
+       return true;
     },
     listarPorEquipos(){
         for ( var i = 0; i < this.players.length; i ++){
@@ -187,12 +187,11 @@ export default {
           this.playersB.push(this.players[i])
          }
        }
+       return true;
     },
     clearName() {
         this.equipo = "";
-
       },
-
       handleOk(evt) {
         // Prevent modal from closing
         evt.preventDefault()
@@ -210,9 +209,7 @@ export default {
       },
       handleSubmit() {
         this.apuntarse();
-
       },
-
     confirmacion(){
        this.clearName()
         this.$nextTick(() => {
@@ -221,7 +218,6 @@ export default {
       })
         this.fetchData();
     }, 
-
     apuntarse(){
       this.playerG.equipo=this.equipo[0];
       this.playerG.player=this.jugador;
@@ -232,25 +228,19 @@ export default {
           .then(this._successHandler1)
           .then(this.confirmacion)
           .catch(this._errorHandler)
-
-
     },
-
     desapuntarse(){
        for ( var i = 0; i < this.players.length; i ++){
           if(this.players[i].player.login==this.WhatLogin()){
             this.idPlayer=this.players[i].idPlayer;
           }
-
        }
       HTTP.delete(`players/${this.idPlayer}`)
          .then(response => { this.bol = false
                  return response })
           .then(this._successHandler2)
           .catch(this._errorHandler)
-
     },
-
      alertDisplay() {
         this.$swal("¿Estás seguro de querer borrar este partido? Podrían estar apuntados a él varios jugadores", {
           dangerMode: true,
@@ -267,14 +257,11 @@ export default {
         })
     
   },
-
     notificar(){
       HTTP.put(`users/notifications/${this.WhatLogin()}/${this.game.idGame}/${this.notification}`)
           .then(this._successHandler3)
           .catch(this._errorHandler2)
-
     },
-
     desnotificar(){
       HTTP.put(`users/notifications/${this.WhatLogin()}/${this.game.idGame}/${this.notification}`)
           .then(this._successHandler4)
@@ -297,7 +284,6 @@ export default {
       this.$swal('Notificaciones activadas', 'Se le notificará de cualquier cambio en este partido', 'success')
       this.fetchData()
     },
-
     _successHandler4(response) {
       this.notification=false;
       this.$swal('Notificaciones desactivadas', 'No se le notificará de cualquier cambio en este partido en adelante', 'success')
@@ -306,13 +292,11 @@ export default {
       WhatLogin() {
       return auth.user.login
     },
-
    
     _errorHandler(err) {
       this.error = err.response.data.message
        this.$swal('Lo sentimos...', 'El partido ya tiene cubierto su cupo máximo de participantes', 'error')
     },
-
     _errorHandler2(err) {
       this.error = err.response.data.message
       
@@ -347,7 +331,6 @@ export default {
     height:66%;
     border-radius: 6px;
 }
-
 .title{
     font-family: 'Lato', sans-serif;
     margin-left:40%;
@@ -358,14 +341,12 @@ export default {
     margin-bottom:30px;
     color:#fb887c;
   }
-
   .title1{
     font-family: 'Lato', sans-serif;
     font-size: 30px;
     font-weight: 200;
     margin-bottom:30px;
   }
-
  div.message {
   
   padding: 2%;
@@ -376,13 +357,8 @@ export default {
   height:72%;
   margin-left:20px;
   margin-top:20px;
-
-
 }
-
-
 div.message.information{background: #fb887c;}
-
 div.message2 {
   
   padding: 2%;
@@ -395,12 +371,8 @@ div.message2 {
   margin-left:20px;
   margin-top:20px;
   overflow: scroll;
-
 }
-
-
 div.message2.information{background: #17a2b8;}
-
 .button, .button1, .button3 , .button2, .button22, .button31, .button32{
   display: inline-block;
   border-radius: 4px;
@@ -415,16 +387,13 @@ div.message2.information{background: #17a2b8;}
   cursor: pointer;
   margin: 5px;
   float:right;
-
 }
-
 .button span, .button2 span, .button1 span, .button3 span{
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
-
 .button span:after ,.button2 span:after , .button1 span:after, .button3 span:after{
   content: '\00bb';
   position: absolute;
@@ -433,11 +402,9 @@ div.message2.information{background: #17a2b8;}
   right: -20px;
   transition: 0.5s;
 }
-
 .button:hover span, .button1:hover span, .button3:hover span, .button2:hover span{
   padding-right: 20px;
 }
-
 .button:hover span:after, .button1:hover span:after, .button3:hover span:after, .button2:hover span:after{
   opacity: 1;
   right: 0;
@@ -454,27 +421,21 @@ div.message2.information{background: #17a2b8;}
    width: 150px;
    
  }
-
  .button2, .button22, .button32{
   float:left;
   width:6%;
   margin-left:20px;
-
  }
-
  .button22, .button32{
     background-color: green;
     width:6%;
  }
-
  .button31{
     background-color: green;
  }
-
   .button32{
     background-color: grey;
  }
-
  .user{
     width: 90%;
     background-color:#17a2b8;
@@ -482,27 +443,21 @@ div.message2.information{background: #17a2b8;}
     height:120px;
     overflow: scroll;
     margin-left:10px;
-
  }
-
 .foto{
     margin-top:5px;
     float:left;
     border-radius:10px;
     
  }
-
  .bloque{
   display:inline-block; 
   float:left;
  }
-
-
  .info{
   color:white;
   margin-left:20px;
  }
-
 .formulario{
   color:#17a2b8;
 }
@@ -510,22 +465,18 @@ div.message2.information{background: #17a2b8;}
   float:right;
   margin-right:20px;
 }
-
 .equipoA{
   float:left;
    margin-left:20px;
 }
-
 fieldset {
     border: none;
     margin: 0 2px;
     padding: .35em .625em .75em;
 }
-
 .jugadores{
   color:grey;
 }
-
 .swal-title {
     color: rgba(0,0,0,.65);
     font-weight: 500px;
@@ -538,7 +489,6 @@ fieldset {
     text-align: center;
     margin-bottom: 0;
 }
-
 .w3-large{
   margin-left:13px;
 }

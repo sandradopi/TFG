@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-     <div class="float-right">
+     <div class="float-right" v-if="user && user.login">
         <b-btn class="button1" :to="{ name: 'UserUpdate', params: { id: this.user.login, boleano:this.bol}}" @click="Editado()"><span>Editar</span></b-btn> 
     </div>
     <div class="equipo">

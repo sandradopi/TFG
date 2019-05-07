@@ -1,16 +1,17 @@
 <template>
-  <div class="content"> 
+  <div class="content" v-if="loading"> 
    
      <b-btn class="button" @click="guardar()"><span>Guardar</span></b-btn> 
       <h1 class="title">Resultado Partido</h1> 
 
       <div class="information message" >
         <h2 class="title1"> Información</h2>  
-        <h6 >Creador: {{this.game.creator.name}} {{this.game.creator.surname1}} {{this.game.creator.surname2}}</h6>
-        <h6>Deporte: {{this.game.sport.type}}</h6>
-        <h6>Ubicación: {{this.game.location.name}}</h6>
-        <h6>Horario: {{custom(this.game.timeStart)}}-{{custom(this.game.timeEnd)}}</h6>
-        <h6>Fecha: {{this.game.date}}</h6>
+        <h6>
+          Creador: {{game.creator.name}} {{game.creator.surname1}} {{game.creator.surname2}}</h6>
+        <h6>Deporte: {{game.sport.type}}</h6>
+        <h6>Ubicación: {{game.location.name}}</h6>
+        <h6>Horario: {{custom(game.timeStart)}}-{{custom(game.timeEnd)}}</h6>
+        <h6>Fecha: {{game.date}}</h6>
       </div>
       <div class="information message2">
        
@@ -20,7 +21,7 @@
 	 <b-form-group>
 	<div class="info">
 	<span class="w3-large">Sets Equipo A:</span><br>
-    <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
+    <div class="bloque" v-for=" playerG in playersA" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
      <div class="conj">	
      <span class="w3-large">{{playerG.player.login}}</span><br>
@@ -59,7 +60,7 @@
 	<span class="w3-large">--------------------------------------------------------------------------------------------------------------</span><br>
 	</br>
   <span class="w3-large">Sets Equipo B:</span><br>
-    <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
+    <div class="bloque" v-for=" playerG in playersB" :key="playerG.idPlayer">
      <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
      <div class="conj">	
               <span class="w3-large">{{playerG.player.login}}</span><br>
@@ -122,7 +123,8 @@ export default {
     	setsA:[],
     	setsB:[],
     	resultado:{},
-    	error:''
+    	error:'',
+      loading: false
    
 
 
@@ -146,6 +148,7 @@ export default {
   methods: {
     fetchData() {
     	 this.game={}
+       this.loading=false;
     	 HTTP.get(`games/${this.$route.params.id}`) 
           .then(response => { this.game = response.data
                  return response })
@@ -176,6 +179,8 @@ export default {
     	 		this.playersB.push(this.players[i])
     	 	}
     	 }
+       this.loading=true;
+       return true;
 
 	 },
   

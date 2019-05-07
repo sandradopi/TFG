@@ -121,9 +121,12 @@ export default {
 
     },
     ChangeDateSelect(date){
+      console.log(date)
       this.game.date=date.dateInicio;
       this.game.timeStart=date.startHour;
       this.game.timeEnd=date.startEnd;
+      this.$forceUpdate()
+
 
 
     },
