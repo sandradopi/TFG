@@ -217,10 +217,11 @@ div.message1.information{background: #17a2b8;}
   margin-left:20px;
 }
 
-div.message2[data-v-0a49c1] {
+div.message2 {
     width: 100%;
     margin-right: 0;
     box-shadow: none;
+    height:60%;
     
 }
 

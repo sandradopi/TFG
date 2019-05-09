@@ -35,6 +35,9 @@ public class UserMessageDTO {
     private NormalUserDTO fromUser;
     @NotNull
     private NormalUserDTO toUser;
+    @NotNull
+	private Boolean viewed;
+	
 
 
 
@@ -47,6 +50,7 @@ public class UserMessageDTO {
 		this.contentComment = comment.getContentComment();
 		this.date = comment.getDate();
 		this.fromUser =  new NormalUserDTO(comment.getFromUser());
+		
 
 	}
 
@@ -89,6 +93,14 @@ public class UserMessageDTO {
 
 	public void setToUser(NormalUserDTO toUser) {
 		this.toUser = toUser;
+	}
+
+	public Boolean getViewed() {
+		return viewed;
+	}
+
+	public void setViewed(Boolean viewed) {
+		this.viewed = viewed;
 	}
 
 	

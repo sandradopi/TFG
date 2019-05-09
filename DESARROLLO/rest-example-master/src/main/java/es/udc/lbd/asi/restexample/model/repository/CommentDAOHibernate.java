@@ -14,6 +14,7 @@ import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
+import es.udc.lbd.asi.restexample.model.domain.UserMessage;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.repository.util.GenericDAOHibernate;
 
@@ -31,7 +32,15 @@ public class CommentDAOHibernate extends GenericDAOHibernate implements CommentD
 		return getSession().createQuery("select c from Comment c inner join c.gameComment g where g.idGame = :idGame order by c.date ").setParameter("idGame", idGame).list();
 	}
 
+	@Override
+	public List<UserMessage> findAllUserFromUser(Long idUserTo,Long idUserFrom ) {
+		return getSession().createQuery("select c from Comment c inner join c.fromUser g inner join c.toUser u where ((g.idUser = :idUserFrom) AND (u.idUser= :idUserTo)) order by c.date ").setParameter("idUserTo", idUserTo).setParameter("idUserFrom", idUserFrom).list();
+	}
 	
+	@Override
+	public List<UserMessage> findAllUser(String login ) {
+		return getSession().createQuery("select c from Comment c inner join c.fromUser g where g.login = :login  order by c.date ").setParameter("login", login).list();
+	}
 
 
 	

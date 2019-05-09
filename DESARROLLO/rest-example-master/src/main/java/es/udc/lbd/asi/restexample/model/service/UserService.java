@@ -248,7 +248,6 @@ public class UserService implements UserServiceInterface{
 	   	 return userTransformado;
 	   }
 
-  		@PreAuthorize("hasAuthority('ADMIN')")
 		@Override
 		public List<UserDTO> findAll() {
 			 return userDAO.findAll().stream().map(user -> new UserDTO(user)).collect(Collectors.toList());}

@@ -22,11 +22,14 @@
           </div>
         </b-btn>
     </div>
-    <div class="w3-container" v-for="comentario in this.comentariosGame" >
+    <div class="w3-container" v-for="comentario in this.comentariosGame" :key="comentario.idComent">
         <b-btn class="w3-bar" v-if="comentario!=null">
-           <div class="w3-bar-item">
-              <span class="w3-large">{{comentario.contentComment}}</span><br>
-          </div>
+
+         <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+         <div class="conj">
+          <span class="w3-large">{{comentario.fromUser.name}} {{comentario.fromUser.surname1}} {{comentario.fromUser.surname2}}</span><br>
+          <span class="rectangulo">{{comentario.contentComment}}</span>
+        </div>
         </b-btn>
     </div>
   </div>
@@ -233,7 +236,9 @@ export default {
 
 <style scoped lang="scss">
 
-
+.conj{
+  text-align:left !important;
+}
 div.message2 {
   overflow: scroll;
   padding: 10px;
@@ -258,7 +263,7 @@ div.message2 {
 
 ul.w3-ul.w3-card-4{
    border-radius: 25px;
-    background: white;
+   background: white;
 
 }
 
@@ -296,4 +301,6 @@ ul.w3-ul.w3-card-4{
     margin-right: 20px;
     margin-top: 40px;
 }
+
+
 </style>

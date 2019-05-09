@@ -66,7 +66,15 @@ public class CommentService implements CommentServiceInterface{
 	     @Transactional(readOnly = false)
 	     @Override
 		 public UserMessageDTO saveComment(UserMessageDTO user){
-	    	  return null;
+	    	 LocalDateTime ahora = LocalDateTime.now();
+	    	 UserMessage userMess =new UserMessage();
+	    	 userMess.setContentComment(user.getContentComment());
+	    	 userMess.setDate(ahora);
+	    	 userMess.setToUser((userDAO.findByLoginNormal(user.getToUser().getLogin())));
+	    	 userMess.setFromUser((userDAO.findByLoginNormal(user.getFromUser().getLogin())));
+	    	 userMess.setViewed(false);
+	    	 commentDAO.save(userMess);
+	    	 return new UserMessageDTO(userMess);
 			         
 	    	 
 	     }
@@ -82,15 +90,39 @@ public class CommentService implements CommentServiceInterface{
 	       gameMen.setGameComment(gameDAO.findById(game.getGameComment().getIdGame()));
 	       commentDAO.save(gameMen);
 	       return new GameMessageDTO(gameMen);
-		         
-		     
-
 	         
 	     }
-
+	     
+	     @Override
 		public List<GameMessageDTO> findAllByGame(Long idGame) {
 			return commentDAO.findAllByGame(idGame).stream().map(game -> new GameMessageDTO(game)).collect(Collectors.toList());
 		}
+	    @Override
+		public List<UserMessageDTO> findAllUserFromUser(Long idUserFrom, Long idUserTo) {
+			return commentDAO.findAllUserFromUser(idUserFrom,idUserTo).stream().map(user -> new UserMessageDTO(user)).collect(Collectors.toList());
+		}
+	    
+	    @Transactional(readOnly = false)
+	    @Override
+		public List<UserMessageDTO> updateAllMessState(Long idUserFrom, Long idUserTo) {
+	    	List<UserMessage> mensajesUserVSUser=commentDAO.findAllUserFromUser(idUserFrom,idUserTo);
+	    	 for(UserMessage a: mensajesUserVSUser){
+	    		a.setViewed(true);
+	    		commentDAO.save(a);
+	    	 }
+	    	 return mensajesUserVSUser.stream().map(user -> new UserMessageDTO(user)).collect(Collectors.toList());
+		}
+
+		public List<NormalUserDTO> findAllUser(String login) {
+			List<UserMessage> mensaje=commentDAO.findAllUser(login);
+			List<NormalUser> destinatarios= new ArrayList();
+			for(UserMessage a: mensaje){
+				destinatarios.add(a.getToUser());
+			}
+			return destinatarios.stream().map(user -> new NormalUserDTO(user)).collect(Collectors.toList());
+		}
+			
+		
 	     
 	    
 

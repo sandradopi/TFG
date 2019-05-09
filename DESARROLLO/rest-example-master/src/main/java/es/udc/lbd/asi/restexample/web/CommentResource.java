@@ -63,7 +63,19 @@ public class CommentResource {
         return commentService.saveComment(commentUser);
     }
     
-
+    @GetMapping("/user/{idUserFrom}/{idUserTo}")
+    public List<UserMessageDTO> findAllUserFromUser(@PathVariable Long idUserFrom, @PathVariable Long idUserTo) {
+    	 return commentService.findAllUserFromUser(idUserFrom,idUserTo);
+    }
+    @GetMapping("/user/{login}")
+    public List<NormalUserDTO> findAllUserMessage(@PathVariable String login) {
+    	 return commentService.findAllUser(login);
+    }
+    
+    @PutMapping("/user/{idUserFrom}/{idUserTo}")
+    public List<UserMessageDTO> update(@PathVariable Long idUserFrom, @PathVariable Long idUserTo){
+        return commentService.updateAllMessState(idUserFrom,idUserTo);
+    }
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {
         if (errors.hasErrors()) {

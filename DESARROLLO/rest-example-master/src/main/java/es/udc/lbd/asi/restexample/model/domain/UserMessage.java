@@ -27,7 +27,8 @@ public class UserMessage extends Comment{
     @JoinColumn (name = "idUserTo")
     @NotNull
     private NormalUser toUser;
-
+	@NotNull
+	private Boolean viewed;
 	
 	
 	
@@ -39,6 +40,7 @@ public class UserMessage extends Comment{
 	public UserMessage(@NotEmpty String content, @NotNull LocalDateTime date, @NotNull NormalUser fromUser, @NotNull NormalUser toUser) {
 		super(content, date, fromUser);
 		this.toUser = toUser;
+		
 	}
 
 
@@ -55,9 +57,19 @@ public class UserMessage extends Comment{
 		this.toUser = toUser;
 	}
 
-	
-	
 
+	public Boolean getViewed() {
+		return viewed;
+	}
+
+
+	public void setViewed(Boolean viewed) {
+		this.viewed = viewed;
+	}
+
+	
+	
+	
 
 
 

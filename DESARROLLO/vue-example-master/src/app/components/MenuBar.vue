@@ -2,6 +2,67 @@
   <div>
   <b-navbar toggleable="md" variant="info">
   <b-modal
+        class="formulario"
+        id="modalPrevent3"
+        ref="modalPrevent3"
+        title="Mensajes Directos"
+        ok-title="Mensajes Directos"
+        ok-only 
+        ok-variant="outline-secondary" 
+        @ok="handleOk3">
+        <form @submit.stop.prevent="handleSubmit">
+         
+             <div class="emptyMesDiv" v-if="messages.length==0">
+                <h5 class="emptyMessage">No tiene mensajes en su buzón de entrada</h5>
+             <div>
+               <b-form-group>
+             <div class="informationmessage2" v-if="messages.length!=0">
+             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
+             <div class="w3-container" v-for=" mes in this.messages" :key="mes.idUser">
+             <b-btn class="w3-bar" @click="confirmacion(game)">
+               <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="w3-bar-item">
+                <span class="w3-large">{{mes.name}}{{mes.surname1}}{{mes.surname2}}</span><br>
+              </div>
+            </b-btn>
+          </div>
+            </div>
+        </b-form-group>
+      </form>
+      </b-modal>
+
+       <b-modal
+        class="formulario"
+        id="modalPrevent4"
+        ref="modal4"
+        title="Mensaje nuevo"
+        ok-title="Siguiente"
+        ok-only 
+        ok-variant="outline-secondary" 
+        @ok="handleOk4">
+        <form @submit.stop.prevent="handleSubmit">
+        <b-form-group>
+          <div>
+            <multiselect 
+                v-model="usuarioMessages" 
+                :options="users"
+                :multiple="false"
+                :preserve-search="false"
+                :close-on-select="true" 
+                :show-labels="false"
+                placeholder="Enviar a..."
+                :custom-label="nameCustom"
+                >
+
+              </multiselect>
+               <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+  
+          </div>
+        </b-form-group>
+      </form>
+      </b-modal>
+
+  <b-modal
         id="modalPrevent2"
         ref="modal2"
         class="formulario"
@@ -25,12 +86,12 @@
                 <span class="w3-large">{{game.location.name}}</span><br>
                 <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
               </div>
-          </b-btn>
-    </div>
-  </div>
-          </b-form-group>
-        </form>
-      </b-modal>
+            </b-btn>
+          </div>
+            </div>
+        </b-form-group>
+      </form>
+    </b-modal>
       <b-modal
         class="formulario"
         id="modal3"
@@ -105,8 +166,13 @@
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item exact v-if="isLogged" @click="logout()" :to="{ name: ''}">Cerrar Sesión</b-dropdown-item>
             </b-nav-item-dropdown>
+
              <b-btn class="button" v-b-modal.modalPrevent2 @click="controlGamesModal(true)" v-if="isLogged && !isAdmin && this.gamesResult.length>0"><div>{{this.gamesResult.length}}</div><font-awesome-icon icon="exclamation-circle"style="font-size:35px;"/></b-btn>
+
               <b-btn class="button" v-b-modal.modalPrevent2  @click="controlGamesModal(false)"v-if="isLogged && !isAdmin && this.gamesValor.length>0"><div>{{this.gamesValor.length}}</div><font-awesome-icon icon="bell"style="font-size:35px;"/></b-btn>
+
+               <b-btn class="button" v-b-modal.modalPrevent3 v-if="isLogged && !isAdmin"><div>{{messages.length}}</div><font-awesome-icon icon="envelope"style="font-size:35px;"/></b-btn>
+
          </b-navbar-nav>
        </b-collapse>
     </b-navbar>
@@ -131,7 +197,10 @@ data() {
       playersChange:null,
       gameSelect:null,
       playersBefore:null,
-      equiposJugadores:[]
+      equiposJugadores:[],
+      messages:[],
+      usuarioMessages:null,
+      users:[]
 
      
     }
@@ -169,13 +238,23 @@ data() {
                 .then(response => { this.gamesResult= response.data
                       return response })
                 .then(this.pendingValoration)
+                .then(this.messagesUser)
                 .catch(err => { this.error = err.message})
               }
+        HTTP.get('users')
+            .then(response => { this.users = response.data })
+            .catch(err => { this.error = err.message})
     },
 
     pendingValoration(){
-       HTTP.get(`users/${this.WhatLogin1()}/valoration`) 
+       return HTTP.get(`users/${this.WhatLogin1()}/valoration`) 
                 .then(response => { this.gamesValor= response.data
+                      return response })
+                .catch(err => { this.error = err.message})
+    },
+    messagesUser(){
+       return HTTP.get(`comments/user/${this.WhatLogin1()}`) 
+                .then(response => { this.messages= response.data
                       return response })
                 .catch(err => { this.error = err.message})
     },
@@ -201,6 +280,14 @@ data() {
       handleOk(evt) {
       
       },
+      handleOk3(evt) {
+         this.$refs.modal4.show();
+      
+      },
+       handleOk4(evt) {
+        
+      
+      },
       updateTeams(){
         var promises=[];
       for ( var i = 0; i < this.playersChange.length; i ++){
@@ -214,6 +301,9 @@ data() {
         return Promise.all(promises);
 
      },
+     nameCustom({ name, surname1, surname2 }) {
+      return `${name +" "+ surname1 +" "+surname2 } `
+    },
       handleOk1(evt) {
        evt.preventDefault()
        var bol=false;
@@ -284,6 +374,21 @@ data() {
 }
 </script>
 <style scoped lang="scss">
+.emptyMesDiv{
+  width:100%;
+}
+.emptyMessage{
+ 
+    margin-top: 10%;
+    text-align: center;
+
+}
+
+.buttonModal{
+  float:right;
+  background:#17a2b8;
+  border-color:#17a2b8;
+}
 .hello{
   font-size: 25px;
   text-align: center;
@@ -340,6 +445,9 @@ fieldset {
 
   color:#17a2b8;
   
+}
+.ml-auto {
+    margin-right: 10px;
 }
 .informationmessage2{
   height:200px;
