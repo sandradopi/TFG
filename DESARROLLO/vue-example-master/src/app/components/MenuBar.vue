@@ -240,10 +240,10 @@ data() {
                 .then(this.pendingValoration)
                 .then(this.messagesUser)
                 .catch(err => { this.error = err.message})
-              }
+             
         HTTP.get('users')
             .then(response => { this.users = response.data })
-            .catch(err => { this.error = err.message})
+            .catch(err => { this.error = err.message}) }
     },
 
     pendingValoration(){
@@ -253,6 +253,7 @@ data() {
                 .catch(err => { this.error = err.message})
     },
     messagesUser(){
+      
        return HTTP.get(`comments/user/${this.WhatLogin1()}`) 
                 .then(response => { this.messages= response.data
                       return response })
