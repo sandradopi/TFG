@@ -291,6 +291,8 @@ data() {
       this.$router.push({ name: 'Home' })
     },
     fetchData(){
+      this.usuarioMessages=null
+      this.newMensaje=""
       if(this.isLogged){
        HTTP.get(`users/${this.WhatLogin1()}/pendingResult`) 
                 .then(response => { this.gamesResult= response.data
@@ -335,13 +337,15 @@ data() {
       return auth.user.login
     },
      clearName() {
-        this.usuarioMessages=null
-        this.newMensaje=""
+        
       },
+
       handleOk(evt) {
       
       },
       handleOk3(evt) {
+        this.usuarioMessages=null
+         this.newMensaje=""
          this.$refs.modal4.show();
       
       },
@@ -377,6 +381,8 @@ data() {
       
       },
       irAMensajesUsuario(usuario){
+         this.usuarioMessages=null
+         this.newMensaje=""
         this.usuarioMessages=usuario;
          HTTP.get(`comments/user/${this.WhatLogin1()}/${this.usuarioMessages.login}`) 
                 .then(response => { this.mensajesUsuario= response.data
