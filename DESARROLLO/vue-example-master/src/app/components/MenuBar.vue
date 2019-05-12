@@ -303,7 +303,18 @@ data() {
              
         HTTP.get('users')
             .then(response => { this.users = response.data })
+            .then(this.filtarLogueado)
             .catch(err => { this.error = err.message}) }
+    },
+    filtarLogueado(){
+       for ( var x = 0; x < this.users.length; x ++){
+          if(this.users[x].login==this.WhatLogin1()){
+            console.log("entre")
+            this.users.splice(x,1);
+          }
+         
+        
+       }
     },
 
     pendingValoration(){
@@ -317,8 +328,18 @@ data() {
                 .then(response => { this.messages= response.data
                       console.log(this.messages)
                       return response })
+                .then(this.filtarLogueado1)
                 .catch(err => { this.error = err.message})
        
+    },
+     filtarLogueado1(){
+       for ( var x = 0; x < this.messages.length; x ++){
+          if(this.messages[x].login==this.WhatLogin1()){
+            this.messages.splice(x,1);
+          }
+         
+        
+       }
     },
 
     controlGamesModal(bol){
@@ -594,7 +615,7 @@ textarea.form-control {
 }
 .conj2{
   width:20px;
-  width:70%;
+  width:90%;
   margin-top:20px;
 }
 .rectangulo2{

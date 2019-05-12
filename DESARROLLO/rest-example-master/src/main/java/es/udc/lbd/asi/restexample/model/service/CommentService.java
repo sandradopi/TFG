@@ -118,6 +118,7 @@ public class CommentService implements CommentServiceInterface{
 			List<NormalUser> destinatarios= new ArrayList();
 			for(UserMessage a: mensaje){
 				destinatarios.add(a.getToUser());
+				destinatarios.add(a.getFromUser());
 			}
 			
 			return destinatarios.stream().map(user -> new NormalUserDTO(user)).collect(Collectors.toList());
