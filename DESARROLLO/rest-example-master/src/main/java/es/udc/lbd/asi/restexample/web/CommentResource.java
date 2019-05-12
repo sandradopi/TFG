@@ -69,6 +69,7 @@ public class CommentResource {
     }
     @GetMapping("/user/{login}")
     public List<NormalUserDTO> findAllUserMessage(@PathVariable String login) {
+
     	 return commentService.findAllUser(login);
     }
     
