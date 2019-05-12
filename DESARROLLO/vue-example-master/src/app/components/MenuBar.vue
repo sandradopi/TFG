@@ -409,10 +409,8 @@ data() {
                 .catch(err => { this.error = err.message})
       },
       recargarModal(){
-
-         this.usuarioMessages=null
          this.newMensaje=""
-         this.fetchData();
+        
 
       },
       updateTeams(){
