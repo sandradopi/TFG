@@ -99,7 +99,8 @@ public class CommentService implements CommentServiceInterface{
 		}
 	    @Override
 		public List<UserMessageDTO> findAllUserFromUser(String UserFrom, String UserTo) {
-			return commentDAO.findAllUserFromUser(UserFrom,UserTo).stream().map(user -> new UserMessageDTO(user)).collect(Collectors.toList());
+	    	List<UserMessageDTO> mensajes= commentDAO.findAllUserFromUser(UserFrom,UserTo).stream().map(user -> new UserMessageDTO(user)).collect(Collectors.toList());
+			 return mensajes;
 		}
 	    
 	    @Transactional(readOnly = false)
@@ -122,6 +123,11 @@ public class CommentService implements CommentServiceInterface{
 			}
 			
 			return destinatarios.stream().map(user -> new NormalUserDTO(user)).collect(Collectors.toList());
+		}
+
+		@Override
+		public Long findAllToMe(String login) {
+			return commentDAO.findAllToMe(login);
 		}
 			
 		

@@ -21,6 +21,7 @@ public interface CommentServiceInterface {
 	public List<UserMessageDTO> findAllUserFromUser(String UserFrom, String UserTo);
 	public List<UserMessageDTO> updateAllMessState(String UserFrom, String UserTo);
 	public List<NormalUserDTO> findAllUser(String login);
+	public Long findAllToMe(String login);
 
    
 

@@ -17,7 +17,8 @@ public interface CommentDAO {
     public void save(Comment game);//usado
     public List<Comment> findAllByGame(Long idGame);
     public List<UserMessage> findAllUserFromUser(String UserTo,String UserFrom ) ;
-	List<UserMessage> findAllUser(String login);
+	public List<UserMessage> findAllUser(String login);
+	public Long findAllToMe(String login) ;
     
 
 	

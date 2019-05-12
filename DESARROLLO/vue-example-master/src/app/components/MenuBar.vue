@@ -223,7 +223,7 @@
 
               <b-btn class="button" v-b-modal.modalPrevent2  @click="controlGamesModal(false)"v-if="isLogged && !isAdmin && this.gamesValor.length>0"><div>{{this.gamesValor.length}}</div><font-awesome-icon icon="bell"style="font-size:35px;"/></b-btn>
 
-               <b-btn class="button" v-b-modal.modalPrevent3 v-if="isLogged && !isAdmin"><div>{{messages.length}}</div><font-awesome-icon icon="envelope"style="font-size:35px;"/></b-btn>
+               <b-btn class="button" v-b-modal.modalPrevent3 v-if="isLogged && !isAdmin"><div>{{countMessages}}</div><font-awesome-icon icon="envelope"style="font-size:35px;"/></b-btn>
 
          </b-navbar-nav>
        </b-collapse>
@@ -258,7 +258,8 @@ data() {
       newMensaje:'',
       comentario:{},
       userFrom:{},
-      userTo:{}
+      userTo:{},
+      countMessages:0
 
      
     }
@@ -299,6 +300,7 @@ data() {
                       return response })
                 .then(this.pendingValoration)
                 .then(this.messagesUser)
+                .then(this.mostrarMensajesParaMi)
                 .catch(err => { this.error = err.message})
              
         HTTP.get('users')
@@ -331,6 +333,12 @@ data() {
                 .then(this.filtarLogueado1)
                 .catch(err => { this.error = err.message})
        
+    },
+    mostrarMensajesParaMi(){
+       return HTTP.get(`comments/user/countMessages/${this.WhatLogin1()}`) 
+                .then(response => { this.countMessages= response.data    
+                      return response })
+                .catch(err => { this.error = err.message})
     },
      filtarLogueado1(){
        for ( var x = 0; x < this.messages.length; x ++){
@@ -596,8 +604,9 @@ fieldset {
     margin-right: 10px;
 }
 .informationmessage2{
-  height:200px;
+  height:230px;
   overflow: scroll;
+
 }
 textarea.form-control {
     height: auto;
@@ -626,5 +635,9 @@ textarea.form-control {
 .rectangulo1{
   font-size:0.9em;
    color: #17a2b8;
+}
+.w3-container, .w3-panel {
+    padding: 0.01em 16px;
+    margin-bottom: 5px;
 }
 </style>

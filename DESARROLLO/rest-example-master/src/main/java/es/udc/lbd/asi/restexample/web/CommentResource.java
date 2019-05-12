@@ -86,6 +86,11 @@ public class CommentResource {
     	 return userMessages2;
     }
     
+    @GetMapping("/user/countMessages/{login}")
+    public Long findAllMessagesNotViewd(@PathVariable String login) {
+    	 return  commentService.findAllToMe(login);
+    }
+    
     @PutMapping("/user/{idUserFrom}/{idUserTo}")
     public List<UserMessageDTO> update(@PathVariable String UserFrom, @PathVariable String UserTo){
         return commentService.updateAllMessState(UserFrom,UserTo);

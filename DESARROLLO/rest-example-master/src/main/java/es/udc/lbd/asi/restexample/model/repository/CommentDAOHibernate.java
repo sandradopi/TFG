@@ -42,6 +42,11 @@ public class CommentDAOHibernate extends GenericDAOHibernate implements CommentD
 		return getSession().createQuery("select c from Comment c inner join c.fromUser g inner join c.toUser u  where ((g.login = :login OR u.login= :login) AND c.gameComment=null)  order by c.date ").setParameter("login", login).list();
 	}
 
+	@Override
+	public Long findAllToMe(String login) {
+		return (Long) getSession().createQuery("select count(*) from Comment c inner join c.toUser u where u.login = :login AND c.viewed=false  ").setParameter("login", login).uniqueResult();
+	}
+
 
 	
 	
