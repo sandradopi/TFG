@@ -27,7 +27,6 @@ public class UserMessage extends Comment{
     @JoinColumn (name = "idUserTo")
     @NotNull
     private NormalUser toUser;
-	@NotNull
 	private Boolean viewed;
 	
 	

@@ -33,13 +33,13 @@ public class CommentDAOHibernate extends GenericDAOHibernate implements CommentD
 	}
 
 	@Override
-	public List<UserMessage> findAllUserFromUser(Long idUserTo,Long idUserFrom ) {
-		return getSession().createQuery("select c from Comment c inner join c.fromUser g inner join c.toUser u where ((g.idUser = :idUserFrom) AND (u.idUser= :idUserTo) AND (c.gameComment=null)) order by c.date ").setParameter("idUserTo", idUserTo).setParameter("idUserFrom", idUserFrom).list();
+	public List<UserMessage> findAllUserFromUser(String UserTo,String UserFrom ) {
+		return getSession().createQuery("select c from Comment c inner join c.fromUser g inner join c.toUser u where (((g.login = :UserFrom) AND (u.login= :UserTo)) OR((g.login = :UserTo) AND (u.login= :UserFrom))) AND (c.gameComment=null) order by c.date ").setParameter("UserTo", UserTo).setParameter("UserFrom", UserFrom).list();
 	}
 	
 	@Override
 	public List<UserMessage> findAllUser(String login ) {
-		return getSession().createQuery("select c from Comment c inner join c.fromUser g where (g.login = :login AND c.gameComment=null)  order by c.date ").setParameter("login", login).list();
+		return getSession().createQuery("select c from Comment c inner join c.fromUser g inner join c.toUser u  where ((g.login = :login OR u.login= :login) AND c.gameComment=null)  order by c.date ").setParameter("login", login).list();
 	}
 
 

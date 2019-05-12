@@ -2,7 +2,11 @@ package es.udc.lbd.asi.restexample.web;
 
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -63,19 +67,28 @@ public class CommentResource {
         return commentService.saveComment(commentUser);
     }
     
-    @GetMapping("/user/{idUserFrom}/{idUserTo}")
-    public List<UserMessageDTO> findAllUserFromUser(@PathVariable Long idUserFrom, @PathVariable Long idUserTo) {
-    	 return commentService.findAllUserFromUser(idUserFrom,idUserTo);
+    @GetMapping("/user/{UserFrom}/{UserTo}")
+    public List<UserMessageDTO> findAllUserFromUser(@PathVariable String UserFrom, @PathVariable String UserTo) {
+    	 return commentService.findAllUserFromUser(UserFrom,UserTo);
     }
     @GetMapping("/user/{login}")
     public List<NormalUserDTO> findAllUserMessage(@PathVariable String login) {
-
-    	 return commentService.findAllUser(login);
+    	 List<NormalUserDTO> userMessages= commentService.findAllUser(login);
+    	 List<NormalUserDTO> userMessages2= new ArrayList();
+    	 Map<Long,NormalUserDTO> mapUsers=new HashMap<Long, NormalUserDTO>(userMessages.size());
+			for(NormalUserDTO g : userMessages) {
+				mapUsers.put(g.getIdUser(), g);
+			}
+			for(Entry<Long, NormalUserDTO> g : mapUsers.entrySet()) {
+				userMessages2.add(g.getValue());
+				
+				}
+    	 return userMessages2;
     }
     
     @PutMapping("/user/{idUserFrom}/{idUserTo}")
-    public List<UserMessageDTO> update(@PathVariable Long idUserFrom, @PathVariable Long idUserTo){
-        return commentService.updateAllMessState(idUserFrom,idUserTo);
+    public List<UserMessageDTO> update(@PathVariable String UserFrom, @PathVariable String UserTo){
+        return commentService.updateAllMessState(UserFrom,UserTo);
     }
     
     private void errorHandler(Errors errors) throws RequestBodyNotValidException {

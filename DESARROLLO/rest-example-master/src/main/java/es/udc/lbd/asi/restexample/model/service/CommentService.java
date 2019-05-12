@@ -98,14 +98,14 @@ public class CommentService implements CommentServiceInterface{
 			return commentDAO.findAllByGame(idGame).stream().map(game -> new GameMessageDTO(game)).collect(Collectors.toList());
 		}
 	    @Override
-		public List<UserMessageDTO> findAllUserFromUser(Long idUserFrom, Long idUserTo) {
-			return commentDAO.findAllUserFromUser(idUserFrom,idUserTo).stream().map(user -> new UserMessageDTO(user)).collect(Collectors.toList());
+		public List<UserMessageDTO> findAllUserFromUser(String UserFrom, String UserTo) {
+			return commentDAO.findAllUserFromUser(UserFrom,UserTo).stream().map(user -> new UserMessageDTO(user)).collect(Collectors.toList());
 		}
 	    
 	    @Transactional(readOnly = false)
 	    @Override
-		public List<UserMessageDTO> updateAllMessState(Long idUserFrom, Long idUserTo) {
-	    	List<UserMessage> mensajesUserVSUser=commentDAO.findAllUserFromUser(idUserFrom,idUserTo);
+		public List<UserMessageDTO> updateAllMessState(String UserFrom, String UserTo) {
+	    	List<UserMessage> mensajesUserVSUser=commentDAO.findAllUserFromUser(UserFrom,UserTo);
 	    	 for(UserMessage a: mensajesUserVSUser){
 	    		a.setViewed(true);
 	    		commentDAO.save(a);

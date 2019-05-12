@@ -18,8 +18,8 @@ public interface CommentServiceInterface {
     public UserMessageDTO saveComment(UserMessageDTO user);
     public GameMessageDTO saveComment(GameMessageDTO game);
     public List<GameMessageDTO> findAllByGame(Long idGame);
-	public List<UserMessageDTO> findAllUserFromUser(Long idUserFrom, Long idUserTo);
-	public List<UserMessageDTO> updateAllMessState(Long idUserFrom, Long idUserTo);
+	public List<UserMessageDTO> findAllUserFromUser(String UserFrom, String UserTo);
+	public List<UserMessageDTO> updateAllMessState(String UserFrom, String UserTo);
 	public List<NormalUserDTO> findAllUser(String login);
 
    

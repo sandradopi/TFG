@@ -1,6 +1,55 @@
 <template>
   <div>
   <b-navbar toggleable="md" variant="info">
+   <b-modal
+        v-if="mensajesUsuario"
+        class="formulario"
+        id="modal5"
+        ref="modal5"
+        :title=this.titulo1
+        ok-title="Enviar"
+        ok-only 
+        ok-variant="outline-success" 
+        @shown="clearName">
+        <form @submit.stop.prevent="handleSubmit">
+          <b-form-group>
+             <b-form-group>
+             <div class="informationmessage2" v-if="mensajesUsuario.length!=0">
+             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
+             <div class="w3-container" v-for=" mes in this.mensajesUsuario" :key="mes.idComment">
+             <b-btn class="w3-bar" >
+             <div class="conj">
+              <span class="rectangulo1">{{mes.fromUser.name}} {{mes.fromUser.surname1}} {{mes.fromUser.surname2}}</span><br>
+              <span class="rectangulo">{{mes.contentComment}}</span>
+        </div>
+            </b-btn>
+          </div>
+            </div>
+        </b-form-group>
+       
+         </b-form-group>
+      </form>
+      <div slot="modal-footer" class="w-100">
+        <b-form-textarea
+              id="textarea"
+              class="textarea"
+              v-model="newMensaje"
+              placeholder="Mensaje"
+              rows="3"
+              max-rows="6"
+            ></b-form-textarea>
+        <b-button
+          variant="outline-success"
+          size="sm"
+          class="float-right buttonFooter"
+          @click="crearMensajeUsuario"
+        >
+          Enviar
+        </b-button>
+      </div>
+      
+      </b-modal>
+
   <b-modal
         class="formulario"
         id="modalPrevent3"
@@ -9,20 +58,22 @@
         ok-title="Mensajes Directos"
         ok-only 
         ok-variant="outline-secondary" 
-        @ok="handleOk3">
+        @ok="handleOk3"
+        @shown="clearName">
         <form @submit.stop.prevent="handleSubmit">
-         
+          <b-form-group>
              <div class="emptyMesDiv" v-if="messages.length==0">
                 <h5 class="emptyMessage">No tiene mensajes en su buzón de entrada</h5>
              <div>
-               <b-form-group>
-             <div class="informationmessage2" v-if="messages.length!=0">
+          </b-form-group>
+               <b-form-group v-if="messages.length!=0">
+             <div class="informationmessage2" >
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" mes in this.messages" :key="mes.idUser">
-             <b-btn class="w3-bar" @click="confirmacion(game)">
+             <b-btn class="w3-bar" @click="irAMensajesUsuario(mes)">
                <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-              <div class="w3-bar-item">
-                <span class="w3-large">{{mes.name}}{{mes.surname1}}{{mes.surname2}}</span><br>
+              <div class="conj2">
+              <span class="rectangulo2">{{mes.name}} {{mes.surname1}} {{mes.surname2}}</span><br>
               </div>
             </b-btn>
           </div>
@@ -33,13 +84,14 @@
 
        <b-modal
         class="formulario"
-        id="modalPrevent4"
+        id="modal4"
         ref="modal4"
         title="Mensaje nuevo"
         ok-title="Siguiente"
         ok-only 
         ok-variant="outline-secondary" 
-        @ok="handleOk4">
+        @ok="handleOk4"
+        @shown="clearName">
         <form @submit.stop.prevent="handleSubmit">
         <b-form-group>
           <div>
@@ -200,7 +252,13 @@ data() {
       equiposJugadores:[],
       messages:[],
       usuarioMessages:null,
-      users:[]
+      users:[],
+      titulo1:'',
+      mensajesUsuario:null,
+      newMensaje:'',
+      comentario:{},
+      userFrom:{},
+      userTo:{}
 
      
     }
@@ -253,11 +311,12 @@ data() {
                 .catch(err => { this.error = err.message})
     },
     messagesUser(){
-      
        return HTTP.get(`comments/user/${this.WhatLogin1()}`) 
                 .then(response => { this.messages= response.data
+                      console.log(this.messages)
                       return response })
                 .catch(err => { this.error = err.message})
+       
     },
 
     controlGamesModal(bol){
@@ -276,7 +335,8 @@ data() {
       return auth.user.login
     },
      clearName() {
-        
+        this.usuarioMessages=null
+        this.newMensaje=""
       },
       handleOk(evt) {
       
@@ -286,8 +346,68 @@ data() {
       
       },
        handleOk4(evt) {
+        if (!this.usuarioMessages) {
+          evt.preventDefault()
+           this.$swal('Alerta!', "Seleccione un destinatario", 'error')
+         }else{
+           HTTP.get(`comments/user/${this.WhatLogin1()}/${this.usuarioMessages.login}`) 
+                .then(response => { this.mensajesUsuario= response.data
+                      return response })
+                .then(this.accionesDeModales)
+                .catch(err => { this.error = err.message})
+         }
+          
+      },
+      accionesDeModales(){
+
+         this.titulo1=this.usuarioMessages.name + " "+ this.usuarioMessages.surname1+" "+this.usuarioMessages.surname2;
+          this.$refs.modal4.hide();
+          this.$refs.modal5.show();
+
+      },
+      crearMensajeUsuario() {
+         HTTP.get(`users/${this.WhatLogin1()}`) 
+          .then(response => { this.userFrom = response.data
+                 return response })
+          .then(this.traerUsuarioTo)
+          .then(this.enviarMensaje)
+          .catch(err => { this.error = err.message})
+
         
       
+      },
+      irAMensajesUsuario(usuario){
+        this.usuarioMessages=usuario;
+         HTTP.get(`comments/user/${this.WhatLogin1()}/${this.usuarioMessages.login}`) 
+                .then(response => { this.mensajesUsuario= response.data
+                  this.$refs.modalPrevent3.hide();
+                      return response })
+                .then(this.accionesDeModales)
+                .catch(err => { this.error = err.message})
+      },
+      traerUsuarioTo(){
+
+          return HTTP.get(`users/${this.usuarioMessages.login}`) 
+          .then(response => { this.userTo = response.data
+                 return response })
+          .catch(err => { this.error = err.message})
+
+      },
+      enviarMensaje(){
+        this.comentario.contentComment=this.newMensaje;
+        this.comentario.fromUser=this.userFrom;
+        this.comentario.toUser=this.userTo;
+        console.log(this.comentario)
+         HTTP.post(`comments/user`,this.comentario) 
+                .then(this.recargarModal)
+                .catch(err => { this.error = err.message})
+      },
+      recargarModal(){
+
+         this.usuarioMessages=null
+         this.newMensaje=""
+         this.fetchData();
+
       },
       updateTeams(){
         var promises=[];
@@ -453,5 +573,33 @@ fieldset {
 .informationmessage2{
   height:200px;
   overflow: scroll;
+}
+textarea.form-control {
+    height: auto;
+    float: left;
+    width: 80%;
+}
+.buttonFooter{
+  margin-top:15px;
+}
+.conj{
+  text-align:left !important;
+}
+.rectangulo{
+  font-size:0.8em;
+}
+.conj2{
+  width:20px;
+  width:70%;
+  margin-top:20px;
+}
+.rectangulo2{
+  font-size:1.0em;
+  color: #17a2b8;
+  
+}
+.rectangulo1{
+  font-size:0.9em;
+   color: #17a2b8;
 }
 </style>

@@ -35,7 +35,6 @@ public class UserMessageDTO {
     private NormalUserDTO fromUser;
     @NotNull
     private NormalUserDTO toUser;
-    @NotNull
 	private Boolean viewed;
 	
 
