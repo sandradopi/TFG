@@ -89,6 +89,8 @@ public class UserService implements UserServiceInterface{
 	  List<Player> jugadoresValoradosBien= new ArrayList<>();
 	  List<GameDTO> recomendados=new ArrayList<>();
 	  List<GameDTO> recomendadosLimpia=new ArrayList<>();
+	  List<GameDTO> recomendadosLimpia1=new ArrayList<>();
+	  List<GameDTO> recomendadosLimpia2=new ArrayList<>();
 	  List<RecomendacionDTO> recomendadosFinal= new ArrayList<RecomendacionDTO>();
 	  int[] sports = new int[sportDAO.countSports().intValue()];    
 	  int[] locations = new int[locationDAO.countLocations().intValue()];    
@@ -131,9 +133,7 @@ public class UserService implements UserServiceInterface{
 			
 	  //Recomendar partido por el deporte que más juega
 			 for(Game game:jugados){
-					sports[game.getSport().getIdSport().intValue()]= sports[game.getSport().getIdSport().intValue()]+1;
-				
-					
+					sports[game.getSport().getIdSport().intValue()]= (sports[game.getSport().getIdSport().intValue()]+1);
 				  }
 			 	
 				  Integer iNumeroMayor = sports[1];
@@ -147,21 +147,38 @@ public class UserService implements UserServiceInterface{
 						   iPosicion = x;
 						} 
 				  }
-				
 				  List<GameDTO> gamesDeportes= gameDAO.findAllSport(iPosicion.longValue()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+				  
+				  for (int x=1;x<sports.length;x++){
+						
+					  if (sports[x]==iNumeroMayor){
+						  iPosicion = x;
+						  List<GameDTO> gamesDeportesSame= gameDAO.findAllSport(iPosicion.longValue()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+						  gamesDeportes.addAll(gamesDeportesSame);
+						} 
+				  }
+				  Map<Long,GameDTO> mapGamesSport=new HashMap<Long, GameDTO>(gamesDeportes.size());
+					for(GameDTO g : gamesDeportes) {
+						mapGamesSport.put(g.getIdGame(), g);
+					}
+					for(Entry<Long, GameDTO> g : mapGamesSport.entrySet()) {
+						recomendadosLimpia1.add(g.getValue());
+						
+						}
+				
 				  RecomendacionDTO recomendacion1=new RecomendacionDTO();
 				  recomendacion1.setMensaje("Por que te gusta este Deporte");
-				  recomendacion1.setGames(gamesDeportes);
+				  recomendacion1.setGames(recomendadosLimpia1);
 				  recomendadosFinal.add(1, recomendacion1);
 				  
 				//Recomendar partido por la ubicacion donde  más juega
 					 for(Game game:jugados){
-						 locations[game.getLocation().getIdLocation().intValue()]= locations[game.getLocation().getIdLocation().intValue()]+1;
+						 locations[game.getLocation().getIdLocation().intValue()]= (locations[game.getLocation().getIdLocation().intValue()]+1);
 						
 						  }
 					
 					 	
-						  Integer iNumeroMayorL = sports[1];
+						  Integer iNumeroMayorL = locations[1];
 						  Integer iPosicionL = 0;
 						  
 						  for (int x=1;x<locations.length;x++){
@@ -171,11 +188,28 @@ public class UserService implements UserServiceInterface{
 								} 
 						  }
 						
-						  
 						  List<GameDTO> gamesLocations= gameDAO.findAllLocation(iPosicionL.longValue()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+						  
+						  for (int x=1;x<locations.length;x++){
+								
+							  if (locations[x]==iNumeroMayor){
+								  iPosicion = x;
+								  List<GameDTO> gamesLocationsSame= gameDAO.findAllLocation(iPosicion.longValue()).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+								  gamesLocations.addAll(gamesLocationsSame);
+								} 
+						  }
+						  Map<Long,GameDTO> mapGamesLocations=new HashMap<Long, GameDTO>(gamesLocations.size());
+							for(GameDTO g : gamesLocations) {
+								mapGamesLocations.put(g.getIdGame(), g);
+							}
+							for(Entry<Long, GameDTO> g : mapGamesLocations.entrySet()) {
+								recomendadosLimpia2.add(g.getValue());
+								
+								}
+						  
 						  RecomendacionDTO recomendacion2=new RecomendacionDTO();
 						  recomendacion2.setMensaje("Por que te gusta esta ubicación");
-						  recomendacion2.setGames(gamesLocations);
+						  recomendacion2.setGames(recomendadosLimpia2);
 						  recomendadosFinal.add(2, recomendacion2);
 				 
 				  

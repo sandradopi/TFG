@@ -225,7 +225,7 @@ public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseExc
 	  	  throw new RequiredFieldsException("El número mínimo de jugadores del evento es un campo requerido");
 	   }
 	 
-	if (gameDAO.findColapso(game.getDate(), game.getTimeStart(), game.getTimeEnd()) > 0) {
+	if (gameDAO.findColapso(game.getDate(), game.getTimeStart(), game.getTimeEnd(),game.getLocation().getIdLocation()) > 0) {
         throw new GameColapseException("Su partido se solapa con otro previamente creado, visualice el calendario para ver las fechas y horas libres.");
    }
 	

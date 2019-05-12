@@ -1,5 +1,5 @@
 <template>
-  <div class="content"> 
+  <div class="content" v-if="loading"> 
     <b-modal
         class="formulario"
         id="modalPrevent"
@@ -135,6 +135,7 @@ export default {
       usuario:{},
       posicion:0,
       bolComment:[],
+      loading:false
 
      
 
@@ -205,7 +206,7 @@ export default {
        for(var i = 0; i < this.players.length; i ++){
           this.bolComment[this.players[i].idPlayer]=false;
        }
-       
+       this.loading=true;
      
 
 	 },

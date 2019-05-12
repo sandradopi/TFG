@@ -2,7 +2,7 @@
   <div class="content" v-if="loading"> 
     <b-modal
         id="modalPrevent"
-        ref="modal"
+        ref="modal2"
         size="lg"
         ok-only no-stacking>
         <Weather v-bind:location="this.game.location"></Weather>
@@ -11,7 +11,7 @@
     <b-modal
         class="formulario"
         id="modalPrevent1"
-        ref="modal"
+        ref="modal1"
         title="Filtros"
         
         @ok="handleOk"
@@ -216,7 +216,7 @@ export default {
        this.clearName()
         this.$nextTick(() => {
           // Wrapped in $nextTick to ensure DOM is rendered before closing
-        this.$refs.modal.hide();
+        //this.$refs.modal1.hide();
       })
         this.fetchData();
     }, 

@@ -28,7 +28,7 @@ public interface GameDAO {
 	 public List<Game> findAllLocation(Long idLocation);
 	 public List<Game> findAllSport(Long idSport);
 	 public List<Game> findAllFiltros(List<String> sport, String user,Integer sportEv, Integer userEv);
-	 public Long findColapso(LocalDate date, LocalTime timeStart, LocalTime timeEnd);
+	 public Long findColapso(LocalDate date, LocalTime timeStart, LocalTime timeEnd, Long idLocation);
 	 public List<Game> findAllTomorrow(LocalDate data);
 	 public List<Long> findByAgeRange(Double min, Double max, Double emin, Double emax);
 	 public List<Game> findAllLocationSport(Long idLocation, Long idSport);

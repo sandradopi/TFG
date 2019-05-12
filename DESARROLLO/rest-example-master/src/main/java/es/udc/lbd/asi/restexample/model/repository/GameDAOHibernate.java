@@ -35,8 +35,8 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 	}
 	
 	@Override
-	public Long findColapso(LocalDate date, LocalTime timeStart, LocalTime timeEnd) {
-		 return (Long) getSession().createQuery("select count(*) from Game g where (g.date= :date AND ((g.timeStart BETWEEN :timeStart AND :timeEnd) OR (g.timeEnd BETWEEN :timeStart AND :timeEnd)))").setParameter("date", date).setParameter("timeStart", timeStart).setParameter("timeEnd", timeEnd).uniqueResult();
+	public Long findColapso(LocalDate date, LocalTime timeStart, LocalTime timeEnd, Long idLocation) {
+		 return (Long) getSession().createQuery("select count(*) from Game g inner join g.location l where (g.date= :date AND l.idLocation= :idLocation AND ((g.timeStart BETWEEN :timeStart AND :timeEnd) OR (g.timeEnd BETWEEN :timeStart AND :timeEnd)))").setParameter("date", date).setParameter("timeStart", timeStart).setParameter("timeEnd", timeEnd).setParameter("idLocation", idLocation).uniqueResult();
 	}
 	
 	

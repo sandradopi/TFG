@@ -197,7 +197,9 @@ export default {
         var f=new Date();
         var cad=f.getHours()+":"+f.getMinutes()+":"+f.getSeconds(); 
         var n = f.toISOString().substring(0,10);
-       if((game.date<n)|| (game.date ==n && game.timeStart<cad)){
+        console.log(game.date+" "+n)
+        console.log(game.timeStart+" "+cad)
+       if((game.date<n)|| (game.date==n && game.timeStart<cad)){
          if(game.result==null){
           this.$router.replace({ name: 'GameDetail', params: { id:game.idGame, bol:true,back:true}})
         }else{
@@ -209,7 +211,7 @@ export default {
         
       }else{
 
-        this.$router.replace({ name: 'GameDetail', params: { id:game.idGame,back:true}})
+        this.$router.replace({ name: 'GameDetail', params: { id:game.idGame,bol:false,back:true}})
       }
       
     }
