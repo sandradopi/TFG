@@ -99,8 +99,15 @@ public class CommentService implements CommentServiceInterface{
 		}
 	    @Override
 		public List<UserMessageDTO> findAllUserFromUser(String UserFrom, String UserTo) {
-	    	List<UserMessageDTO> mensajes= commentDAO.findAllUserFromUser(UserFrom,UserTo).stream().map(user -> new UserMessageDTO(user)).collect(Collectors.toList());
-			 return mensajes;
+	    	List<UserMessage> mensajes= commentDAO.findAllUserFromUser(UserFrom,UserTo);
+	    	List<UserMessageDTO> mensajesConvertidos= new ArrayList();
+	    	for(UserMessage a: mensajes){
+	    		UserMessageDTO mensajedto =new UserMessageDTO(a);
+	    		mensajedto.setToUser(new NormalUserDTO());
+	    		mensajedto.setViewed(a.getViewed());
+	    		mensajesConvertidos.add(mensajedto);
+			}
+			 return mensajesConvertidos;
 		}
 	    
 	    @Transactional(readOnly = false)

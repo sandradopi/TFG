@@ -311,7 +311,6 @@ data() {
     filtarLogueado(){
        for ( var x = 0; x < this.users.length; x ++){
           if(this.users[x].login==this.WhatLogin1()){
-            console.log("entre")
             this.users.splice(x,1);
           }
          
