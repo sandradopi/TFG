@@ -87,7 +87,10 @@
              <b-btn class="w3-bar" @click="irAMensajesUsuario(mes.fromUser)">
                <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
               <div class="conj2">
-              <span class="rectangulo2">{{mes.fromUser.name}} {{mes.fromUser.surname1}} {{mes.fromUser.surname2}}</span><br>
+              <h5 class="rectangulo2">{{mes.fromUser.name}} {{mes.fromUser.surname1}} {{mes.fromUser.surname2}}</h5><br>
+              <div class="circulo" v-if="mes.countMessagesNotViewed>0">
+                <h5 class="countMessagesNotViewed" >{{mes.countMessagesNotViewed}}</h5><br>
+              </div>
               </div>
             </b-btn>
           </div>
@@ -667,15 +670,13 @@ textarea.form-control {
 .rectangulo{
   font-size:0.8em;
 }
-.conj2{
-  width:20px;
-  width:90%;
-  margin-top:20px;
-}
-.rectangulo2{
-  font-size:1.0em;
-  color: #17a2b8;
-  
+
+.rectangulo2 {
+    font-size: 1.0em;
+    color: #17a2b8;
+    width: 60%;
+    float: left;
+    margin-top: 7%;
 }
 .rectangulo1{
   font-size:0.9em;
@@ -692,6 +693,21 @@ textarea.form-control {
 
 .button_back{
   float:left;
+}
+
+.circulo {
+    background-color: #17a2b8;
+    -moz-border-radius: 200px 200px 200px 200px;
+    -webkit-border-radius: 200px 200px 200px 200px;
+    width: 9%;
+    height: 35px;
+    float: right;
+}
+
+.countMessagesNotViewed {
+    color: white;
+    margin: 0;
+    margin-top: 7px;
 }
 
 </style>
