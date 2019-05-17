@@ -31,13 +31,11 @@ public class SocialFriendShipDTO {
 
 	
 	private Long idSocial;
-	@NotNull
 	private LocalDateTime lastUpdate;
     @NotNull
     private NormalUserDTO userFrom;
     @NotNull
     private NormalUserDTO userTo;
-    @NotNull
 	private Boolean notification;
 	
 

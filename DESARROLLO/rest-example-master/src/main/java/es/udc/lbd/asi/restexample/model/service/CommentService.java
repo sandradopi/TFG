@@ -130,7 +130,7 @@ public class CommentService implements CommentServiceInterface{
 				destinatarios.add(a.getToUser());
 				destinatarios.add(a.getFromUser());
 			}
-			System.out.println("RICOTA"+destinatarios.size());
+		
 			 List<NormalUser> userMessages2= new ArrayList();
 	    	 Map<Long,NormalUser> mapUsers=new HashMap<Long, NormalUser>(destinatarios.size());
 				for(NormalUser g : destinatarios) {
@@ -140,7 +140,7 @@ public class CommentService implements CommentServiceInterface{
 					userMessages2.add(g.getValue());
 					
 					}
-			System.out.println("RICOTA"+userMessages2.size());
+			
 			List<UserMessageCountDTO> destinatariosCount= new ArrayList();
 			for(NormalUser a: userMessages2){
 				UserMessageCountDTO destinatario =new UserMessageCountDTO(a);

@@ -37,12 +37,12 @@ public class SocialRelationShip {
 	private LocalDateTime lastUpdate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "idUser",insertable=false, updatable=false)
+    @JoinColumn (name = "idUserfROM")
     @NotNull
     private NormalUser userFrom;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn (name = "idUser",insertable=false, updatable=false)
+    @JoinColumn (name = "idUserTo")
     @NotNull
     private NormalUser userTo;
 	
@@ -52,10 +52,9 @@ public class SocialRelationShip {
     }
 
 
-	public SocialRelationShip(Long idSocial, @NotNull LocalDateTime lastUpdate, @NotNull NormalUser userFrom,
+	public SocialRelationShip(@NotNull LocalDateTime lastUpdate, @NotNull NormalUser userFrom,
 			@NotNull NormalUser userTo) {
 		super();
-		this.idSocial = idSocial;
 		this.lastUpdate = lastUpdate;
 		this.userFrom = userFrom;
 		this.userTo = userTo;

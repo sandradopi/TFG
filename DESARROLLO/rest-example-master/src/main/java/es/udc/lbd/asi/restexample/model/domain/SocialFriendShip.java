@@ -23,9 +23,9 @@ public class SocialFriendShip extends SocialRelationShip{
 	}
 
 	
-	public SocialFriendShip(Long idSocial, @NotNull LocalDateTime lastUpdate, @NotNull NormalUser userFrom,
+	public SocialFriendShip( @NotNull LocalDateTime lastUpdate, @NotNull NormalUser userFrom,
 			@NotNull NormalUser userTo) {
-		super(idSocial, lastUpdate, userFrom, userTo);
+		super( lastUpdate, userFrom, userTo);
 		this.notification=notification;
 	}
 

@@ -26,6 +26,7 @@ import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.PlayerValoration;
 import es.udc.lbd.asi.restexample.model.domain.SocialBlock;
 import es.udc.lbd.asi.restexample.model.domain.SocialFriendShip;
+import es.udc.lbd.asi.restexample.model.domain.SocialRelationShip;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 import es.udc.lbd.asi.restexample.model.domain.UserMessage;
@@ -51,6 +52,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SocialBlockDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SocialFriendShipDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SocialRelationShipDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserMessageDTO;
@@ -71,12 +73,14 @@ public class SocialRelationShipService implements SocialRelationShipServiceInter
  	   LocalDateTime ahora = LocalDateTime.now();
  	   SocialFriendShip socialship =new SocialFriendShip();
  	   socialship.setLastUpdate(ahora);
- 	   socialship.setNotification(social.getNotification());
+ 	   socialship.setNotification(false);
  	   socialship.setUserFrom(userDAO.findByLoginNormal(social.getUserFrom().getLogin()));
  	   socialship.setUserTo(userDAO.findByLoginNormal(social.getUserTo().getLogin()));
+ 	   socialRelationShipDAO.save(socialship);
+ 	   return new SocialFriendShipDTO(socialship);
  	   
 
-	   return new SocialFriendShipDTO(socialship);
+	  
 		         
  	 
   }
@@ -84,18 +88,41 @@ public class SocialRelationShipService implements SocialRelationShipServiceInter
   @Transactional(readOnly = false)
   @Override
   public SocialBlockDTO save(SocialBlockDTO social){
-	 LocalDateTime ahora = LocalDateTime.now();
+	  //SI LE SIGUE TIENES QUE ELIMINAR SU AMISTAD 
+	  SocialFriendShip friendsShip= socialRelationShipDAO.findByLoginsFriend(social.getUserFrom().getLogin(), social.getUserTo().getLogin());
+	  if(friendsShip!=null){
+		  socialRelationShipDAO.deleteById(social.getUserFrom().getLogin(), social.getUserTo().getLogin(),true);
+	  }
+	   LocalDateTime ahora = LocalDateTime.now();
 	   SocialBlock block =new SocialBlock();
 	   block.setLastUpdate(ahora);
 	   block.setUserFrom(userDAO.findByLoginNormal(social.getUserFrom().getLogin()));
 	   block.setUserTo(userDAO.findByLoginNormal(social.getUserTo().getLogin()));
-	  
-    return new SocialBlockDTO(block);
+	   socialRelationShipDAO.save(block);
+ 	   return new SocialBlockDTO(block);
 	         
 	     
 
       
   }
+  @Transactional(readOnly = false)
+  @Override
+  public void delete(String loginFrom, String loginTo, Boolean typeRelation) {
+	  socialRelationShipDAO.deleteById(loginFrom, loginTo,typeRelation);
+	
+}
+
+@Override
+public SocialFriendShipDTO findAllUserFromUser(String loginFrom, String loginTo) {
+	try{
+		
+		return new SocialFriendShipDTO(socialRelationShipDAO.findByLoginsFriend(loginFrom, loginTo));
+		
+	}catch(Exception e){
+		return null;
+	}
+	
+}
   
 
 	     

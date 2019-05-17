@@ -17,9 +17,9 @@ public class SocialBlock extends SocialRelationShip{
 		super();
 	}
 
-	public SocialBlock(Long idSocial, @NotNull LocalDateTime lastUpdate, @NotNull NormalUser userFrom,
+	public SocialBlock( @NotNull LocalDateTime lastUpdate, @NotNull NormalUser userFrom,
 			@NotNull NormalUser userTo) {
-		super(idSocial, lastUpdate, userFrom, userTo);
+		super(lastUpdate, userFrom, userTo);
 		
 	}
 

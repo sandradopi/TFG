@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +31,15 @@ import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.CommentService;
+import es.udc.lbd.asi.restexample.model.service.SocialRelationShipService;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameMessageDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SocialBlockDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SocialFriendShipDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserMessageCountDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserMessageDTO;
@@ -45,48 +50,36 @@ import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
 
 
 @RestController
-@RequestMapping("/api/comments")
-public class CommentResource {
+@RequestMapping("/api/social")
+public class SocialResource {
 
     @Autowired
-    private CommentService commentService;
+    private SocialRelationShipService socialService;
 
   
-    @GetMapping("/game/{idGame}")
-    public List<GameMessageDTO> findAllByGame(@PathVariable Long idGame) {
-    	 return commentService.findAllByGame(idGame);
+    @GetMapping("/{loginFrom}/{loginTo}")
+    public SocialFriendShipDTO findARelation(@PathVariable String loginFrom, @PathVariable String loginTo) {
+    	return socialService.findAllUserFromUser(loginFrom, loginTo);
     }
     
-    @PostMapping("/game")
-    public GameMessageDTO save(@RequestBody @Valid GameMessageDTO commentGame)  { 
-        return commentService.saveComment(commentGame);
+    @PostMapping("/friendShip")
+    public SocialFriendShipDTO save(@RequestBody @Valid SocialFriendShipDTO socialFriend){
+
+        return socialService.save(socialFriend);
     }
-    @PostMapping("/user")
-    public UserMessageDTO save(@RequestBody @Valid UserMessageDTO commentUser)  {
-        return commentService.saveComment(commentUser);
-    }
-    
-    @GetMapping("/user/{UserFrom}/{UserTo}")
-    public List<UserMessageDTO> findAllUserFromUser(@PathVariable String UserFrom, @PathVariable String UserTo) {
-    	 return commentService.findAllUserFromUser(UserFrom,UserTo);
-    }
-    @GetMapping("/user/{login}")
-    public List<UserMessageCountDTO> findAllUserMessage(@PathVariable String login) {
-    	 List<UserMessageCountDTO> userMessages= commentService.findAllUser(login);
-    	
-    	 return userMessages;
+    @PostMapping("/block")
+    public SocialBlockDTO save(@RequestBody @Valid SocialBlockDTO socialFriend){
+        return socialService.save(socialFriend);
     }
     
-    @GetMapping("/user/countMessages/{login}")
-    public Long findAllMessagesNotViewd(@PathVariable String login) {
-    	 return  commentService.findAllToMe(login);
+    @DeleteMapping("/friendShip/{loginFrom}/{loginTo}/{typeRelation}")
+    public void deleteRelationShip(@PathVariable String loginFrom,@PathVariable String loginTo,@PathVariable Boolean typeRelation)  {
+    	socialService.delete(loginFrom,loginTo,typeRelation);
     }
     
-    @PutMapping("/user/{UserFrom}/{UserTo}")
-    public List<UserMessageDTO> update(@PathVariable String UserFrom, @PathVariable String UserTo){
-        return commentService.updateAllMessState(UserFrom,UserTo);
-    }
+   
+
     
-  
+    
     
 }

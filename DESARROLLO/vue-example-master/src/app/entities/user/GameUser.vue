@@ -20,7 +20,10 @@
 			      </div>
 
 
-			      <div class="profile__edit"><b-btn class="profile__button" :to="{ name: 'UserUpdate', params: { id:this.user.login,boleano:this.bol}}" @click="Editado()">Editar Perfil</b-btn ></div>
+			      <div class="profile__edit"v-if="this.user.login==WhatLogin()" ><b-btn class="profile__button" :to="{ name: 'UserUpdate', params: { id:this.user.login,boleano:this.bol}}" @click="Editado()">Editar Perfil</b-btn ></div>
+            <div class="profile__edit"v-if="this.user.login!=WhatLogin() && !this.friend"><b-btn class="profile__button1" variant="outline-success" @click="empezarASeguir()">Seguir</b-btn ></div>
+
+            <div class="profile__edit"v-if="this.user.login!=WhatLogin()&& this.friend" ><b-btn class="profile__button2"  @click="dejarDeSeguir()">Siguiendo</b-btn ></div>
 			    </div>
           <star-rating class="star" v-model="this.user.experience" v-bind:star-size="25" :read-only="true"></star-rating></p>
 			    <div class="profile__stats">
@@ -72,7 +75,10 @@ export default {
       tipo:'proximo',
       bol:false,
       recomendado:false,
-      typeR:''
+      typeR:'',
+      socialShip:{},
+      userMe:{},
+      friend:{}
     }
   },
   watch: {
@@ -89,10 +95,19 @@ export default {
   methods: {
     fetchData() {
       this.recomendado=false;
+      if(this.$route.params.id!=this.WhatLogin()){
+        HTTP.get(`social/${this.WhatLogin()}/${this.$route.params.id}`) 
+          .then(response => { this.friend = response.data
+                 return response })
+          .catch(err => { this.error = err.message})
+
+      }
      HTTP.get(`users/${this.$route.params.id}`) 
           .then(response => { this.user = response.data
                  return response })
           .catch(err => { this.error = err.message})
+
+
 
     },
     reloadRecomendations(type){
@@ -123,6 +138,21 @@ export default {
     		this.tipo='comentarios';
       }
     },
+    empezarASeguir(){
+       HTTP.get(`users/${this.WhatLogin()}`) 
+          .then(response => { this.userMe = response.data
+                 return response })
+          .then(this.crearAmistad)
+          .catch(err => { this.error = err.message})
+   
+
+    },
+    dejarDeSeguir(){
+      HTTP.delete(`social/friendShip/${this.WhatLogin()}/${this.user.login}/true`) 
+                    .then(this.fetchData)
+                    .catch(this._errorHandler)
+
+    },
    
     _successHandler(response) {
       this.fetchData()
@@ -136,6 +166,14 @@ export default {
     },
      WhatLogin() {
       return auth.user.login
+    },
+     crearAmistad() {
+
+      this.socialShip.userFrom=this.userMe;
+      this.socialShip.userTo=this.user;
+      HTTP.post(`social/friendShip`, this.socialShip) 
+                    .then(this.fetchData)
+                    .catch(this._errorHandler)
     },
     
     _errorHandler(err) {
@@ -207,38 +245,42 @@ export default {
 
 
 }
-.profile__account {
-  align-self: center;
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-
-}
-
 
 
 
 .profile__button {
   border-radius: 40px;
   color: white;
-  display: block;
   font-family: "Montserrat", sans-serif;
   font-size: 13px;
   padding: 10px;
-  text-align: center;
   text-decoration: none;
   transition: ease-in-out 250ms background, ease-in-out 250ms color;
-   background: #17a2b8;
-   margin-bottom:20px;
-   border:none;
+  background: #17a2b8;
+  border:none;
+  width:100%;
 }
 
 
+.profile__button1 {
+  border-radius: 40px;
+  width:100%;
+  
+}
+
+.profile__button2{
+  border-radius: 40px;
+  width:100%;
+  background-color:#28a645;
+  border:none;
+  
+}
 
 .profile__button:hover {
   background: #fb887c;
   color: white;
 }
+
 .profile__edit {
   flex: none;
   margin-left: 30px;
@@ -247,6 +289,8 @@ export default {
 .profile__header {
   display: flex;
   height:35px;
+  margin-top:10px;
+    margin-left:10px;
 
 }
 
@@ -306,6 +350,10 @@ export default {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   font-size: 14px;
+  float:left;
+
+
+
   
 }
 
@@ -314,6 +362,10 @@ export default {
   font-family: "Montserrat", sans-serif;
   font-weight: 300;
   font-size: 13px;
+  float:right;
+
+
+
 }
 .profile__value {
   font-family: "Montserrat", sans-serif;
@@ -384,7 +436,8 @@ div.message2.information{background: #fb887c;}
 }
 
 .star{
-  margin-left:40px;
+  margin-left:10px;
+  
 
 }
 

@@ -11,6 +11,8 @@ import es.udc.lbd.asi.restexample.model.domain.Comment;
 import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
+import es.udc.lbd.asi.restexample.model.domain.SocialBlock;
+import es.udc.lbd.asi.restexample.model.domain.SocialFriendShip;
 import es.udc.lbd.asi.restexample.model.domain.SocialRelationShip;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
@@ -26,10 +28,28 @@ public class SocialRelationShipDAOHibernate extends GenericDAOHibernate implemen
 		
 	}
 
-	
+	@Override
+	public SocialFriendShip findByLoginsFriend(String loginFrom,String loginTo) {
+		 return (SocialFriendShip) getSession().createQuery("select g from SocialFriendShip g inner join g.userFrom u inner join g.userTo t where u.login = :loginFrom AND t.login = :loginTo ").setParameter("loginFrom", loginFrom).setParameter("loginTo", loginTo).uniqueResult();
+	}
+	@Override
+	public SocialBlock findByLoginsBlock(String loginFrom,String loginTo) {
+		 return (SocialBlock) getSession().createQuery("select g from SocialBlock g inner join g.userFrom u inner join g.userTo t where u.login = :loginFrom AND t.login = :loginTo ").setParameter("loginFrom", loginFrom).setParameter("loginTo", loginTo).uniqueResult();
+	}
 
 
+	@Override
+	public void deleteById(String loginFrom, String loginTo, Boolean type) {
+		if(type==true){
+			System.out.print("gustavo"+loginFrom);
+			System.out.print("gustavo1"+loginTo);
+			System.out.print(findByLoginsFriend(loginFrom,loginTo).getIdSocial());
+			 getSession().delete(findByLoginsFriend(loginFrom,loginTo));
+			
+		}else{
+		 getSession().delete(findByLoginsBlock(loginFrom,loginTo));
+		 }
+		
+	}
 	
-	
-
 }
