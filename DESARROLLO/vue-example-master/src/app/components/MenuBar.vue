@@ -11,9 +11,22 @@
         ok-only 
         ok-variant="outline-success" 
         @shown="clearName">
+        <div slot="modal-header" class="w-100">
+         <h5 class="modal-tittle">{{this.titulo1}}</h5>
+        <b-button
+          variant="outline-secondary"
+          size="sm"
+          class="button_back"
+          @click="backModal"
+        ><font-awesome-icon icon="arrow-left"style="font-size:20px;"/>
+        </b-button>
+      </div>
         <form @submit.stop.prevent="handleSubmit">
+          
           <b-form-group>
+         
              <b-form-group>
+
              <div class="informationmessage2" v-if="mensajesUsuario.length!=0">
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" mes in this.mensajesUsuario" :key="mes.idComment">
@@ -60,6 +73,7 @@
         ok-variant="outline-secondary" 
         @ok="handleOk3"
         @shown="clearName">
+       
         <form @submit.stop.prevent="handleSubmit">
           <b-form-group>
              <div class="emptyMesDiv" v-if="messages.length==0">
@@ -70,10 +84,10 @@
              <div class="informationmessage2" >
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" mes in this.messages" :key="mes.idUser">
-             <b-btn class="w3-bar" @click="irAMensajesUsuario(mes)">
+             <b-btn class="w3-bar" @click="irAMensajesUsuario(mes.fromUser)">
                <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
               <div class="conj2">
-              <span class="rectangulo2">{{mes.name}} {{mes.surname1}} {{mes.surname2}}</span><br>
+              <span class="rectangulo2">{{mes.fromUser.name}} {{mes.fromUser.surname1}} {{mes.fromUser.surname2}}</span><br>
               </div>
             </b-btn>
           </div>
@@ -92,6 +106,17 @@
         ok-variant="outline-secondary" 
         @ok="handleOk4"
         @shown="clearName">
+         <div slot="modal-header" class="w-100">
+         <h5 class="modal-tittle">Mensajes Nuevos</h5>
+
+        <b-button
+          variant="outline-secondary"
+          size="sm"
+          class="button_back"
+          @click="backModal1"
+        ><font-awesome-icon icon="arrow-left"style="font-size:20px;"/>
+        </b-button>
+      </div>
         <form @submit.stop.prevent="handleSubmit">
         <b-form-group>
           <div>
@@ -223,7 +248,7 @@
 
               <b-btn class="button" v-b-modal.modalPrevent2  @click="controlGamesModal(false)"v-if="isLogged && !isAdmin && this.gamesValor.length>0"><div>{{this.gamesValor.length}}</div><font-awesome-icon icon="bell"style="font-size:35px;"/></b-btn>
 
-               <b-btn class="button" v-b-modal.modalPrevent3 v-if="isLogged && !isAdmin"><div>{{countMessages}}</div><font-awesome-icon icon="envelope"style="font-size:35px;"/></b-btn>
+               <b-btn class="button" v-b-modal.modalPrevent3 @click="messagesUser()"v-if="isLogged && !isAdmin"><div>{{countMessages}}</div><font-awesome-icon icon="envelope"style="font-size:35px;"/></b-btn>
 
          </b-navbar-nav>
        </b-collapse>
@@ -299,11 +324,10 @@ data() {
                 .then(response => { this.gamesResult= response.data
                       return response })
                 .then(this.pendingValoration)
-                .then(this.messagesUser)
                 .then(this.mostrarMensajesParaMi)
                 .catch(err => { this.error = err.message})
              
-        HTTP.get('users')
+        HTTP.get(`users/normal`)
             .then(response => { this.users = response.data })
             .then(this.filtarLogueado)
             .catch(err => { this.error = err.message}) }
@@ -327,7 +351,6 @@ data() {
     messagesUser(){
        return HTTP.get(`comments/user/${this.WhatLogin1()}`) 
                 .then(response => { this.messages= response.data
-                      console.log(this.messages)
                       return response })
                 .then(this.filtarLogueado1)
                 .catch(err => { this.error = err.message})
@@ -341,7 +364,7 @@ data() {
     },
      filtarLogueado1(){
        for ( var x = 0; x < this.messages.length; x ++){
-          if(this.messages[x].login==this.WhatLogin1()){
+          if(this.messages[x].fromUser.login==this.WhatLogin1()){
             this.messages.splice(x,1);
           }
          
@@ -408,6 +431,12 @@ data() {
         
       
       },
+      actualizarEstadoMensajes(){
+        HTTP.put(`comments/user/${this.usuarioMessages.login}/${this.WhatLogin1()}`) 
+                .then(this.mostrarMensajesParaMi)
+                .catch(err => { this.error = err.message})
+
+      },
       irAMensajesUsuario(usuario){
          this.usuarioMessages=null
          this.newMensaje=""
@@ -417,6 +446,7 @@ data() {
                   this.$refs.modalPrevent3.hide();
                       return response })
                 .then(this.accionesDeModales)
+                .then(this.actualizarEstadoMensajes)
                 .catch(err => { this.error = err.message})
       },
       traerUsuarioTo(){
@@ -431,14 +461,16 @@ data() {
         this.comentario.contentComment=this.newMensaje;
         this.comentario.fromUser=this.userFrom;
         this.comentario.toUser=this.userTo;
-        console.log(this.comentario)
          HTTP.post(`comments/user`,this.comentario) 
                 .then(this.recargarModal)
                 .catch(err => { this.error = err.message})
       },
       recargarModal(){
          this.newMensaje=""
-        
+          HTTP.get(`comments/user/${this.WhatLogin1()}/${this.userTo.login}`) 
+                .then(response => { this.mensajesUsuario= response.data
+                      return response })
+         
 
       },
       updateTeams(){
@@ -523,6 +555,20 @@ data() {
       custom(hora){
       return hora.substring(0,5)
     },
+    backModal(){
+      this.$refs.modal5.hide()
+      this.$refs.modal4.show()
+
+    },
+    backModal1(){
+      this.$refs.modal4.hide()
+      this.messagesUser();
+      this.$refs.modalPrevent3.show()
+      
+      
+
+    },
+    
   }
 }
 </script>
@@ -639,4 +685,13 @@ textarea.form-control {
     padding: 0.01em 16px;
     margin-bottom: 5px;
 }
+
+.modal-tittle{
+  float:right;
+}
+
+.button_back{
+  float:left;
+}
+
 </style>

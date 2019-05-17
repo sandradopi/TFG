@@ -58,7 +58,7 @@
       <b-btn class="button" v-if="this.bol==false && this.completado==false && this.controlButton==false" v-b-modal.modalPrevent1><span>Apuntarse</span></b-btn> 
       <b-btn class="button1" v-if="this.bol==true && this.controlButton==false" @click="desapuntarse()"><span>Desapuntarse</span></b-btn> 
       <b-btn class="button31" v-if="this.completado==true && this.controlButton==false" ><span>Completo</span></b-btn> 
-      <b-btn class="button32" @click="back()"><font-awesome-icon icon="backward"style="font-size:30px;"/></b-btn>
+      <b-btn class="button32" @click="back()"><font-awesome-icon icon="arrow-left"style="font-size:30px;"/></b-btn>
       <b-btn class="button2" v-if="this.controlButton==false" v-b-modal.modalPrevent><font-awesome-icon icon="cloud"style="font-size:30px;"/></b-btn>
       <b-btn class="button22" v-if="this.notification==false && this.controlButton==false" @click="notificar()"><font-awesome-icon icon="bell"style="font-size:30px;"/></b-btn>
       <b-btn class="button22" v-if="this.notification==true && this.controlButton==false" @click="desnotificar()"><font-awesome-icon icon="bell-slash"style="font-size:30px;"/></b-btn>

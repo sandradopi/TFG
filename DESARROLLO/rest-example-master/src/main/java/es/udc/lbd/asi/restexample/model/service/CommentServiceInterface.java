@@ -10,6 +10,7 @@ import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.service.dto.GameMessageDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.UserMessageCountDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserMessageDTO;
 
 
@@ -20,7 +21,7 @@ public interface CommentServiceInterface {
     public List<GameMessageDTO> findAllByGame(Long idGame);
 	public List<UserMessageDTO> findAllUserFromUser(String UserFrom, String UserTo);
 	public List<UserMessageDTO> updateAllMessState(String UserFrom, String UserTo);
-	public List<NormalUserDTO> findAllUser(String login);
+	public List<UserMessageCountDTO> findAllUser(String login);
 	public Long findAllToMe(String login);
 
    

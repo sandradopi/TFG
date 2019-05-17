@@ -4,7 +4,7 @@
     <div class="float-right">
       <b-btn class="button"
         variant="primary"
-        @click="back()"><span>Atrás</span></b-btn>
+        @click="back()"><span><font-awesome-icon icon="arrow-left"style="font-size:20px;"/></span></b-btn>
       <b-btn class="button1"
         variant="success"
         @click="save()"><span>Guardar</span></b-btn>
@@ -426,7 +426,7 @@ export default {
       if(this.$route.params.id != null){
         if (this.checkForm1() == true) {
 
-              HTTP.put(`users/${this.$route.params.id.idUser}`,this.user)
+              HTTP.put(`users/${this.user.idUser}`,this.user)
               .then(this._successHandler)
               .catch(this._errorHandler)
 
@@ -531,14 +531,14 @@ export default {
 
 }
 
-.button span, .button1 span {
+ .button1 span {
   cursor: pointer;
   display: inline-block;
   position: relative;
   transition: 0.5s;
 }
 
-.button span:after , .button1 span:after{
+ .button1 span:after{
   content: '\00bb';
   position: absolute;
   opacity: 0;
@@ -547,7 +547,7 @@ export default {
   transition: 0.5s;
 }
 
-.button:hover span,.button1:hover span {
+.button1:hover span {
   padding-right: 20px;
 }
 

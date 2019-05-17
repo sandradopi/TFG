@@ -48,6 +48,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.UserMessageCountDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserMessageDTO;
 import es.udc.lbd.asi.restexample.security.SecurityUtils;
 
@@ -120,16 +121,34 @@ public class CommentService implements CommentServiceInterface{
 	    	 }
 	    	 return mensajesUserVSUser.stream().map(user -> new UserMessageDTO(user)).collect(Collectors.toList());
 		}
-
-		public List<NormalUserDTO> findAllUser(String login) {
+	    
+	    @Override
+		public List<UserMessageCountDTO> findAllUser(String login) {
 			List<UserMessage> mensaje=commentDAO.findAllUser(login);
 			List<NormalUser> destinatarios= new ArrayList();
 			for(UserMessage a: mensaje){
 				destinatarios.add(a.getToUser());
 				destinatarios.add(a.getFromUser());
 			}
+			System.out.println("RICOTA"+destinatarios.size());
+			 List<NormalUser> userMessages2= new ArrayList();
+	    	 Map<Long,NormalUser> mapUsers=new HashMap<Long, NormalUser>(destinatarios.size());
+				for(NormalUser g : destinatarios) {
+					mapUsers.put(g.getIdUser(), g);
+				}
+				for(Entry<Long, NormalUser> g : mapUsers.entrySet()) {
+					userMessages2.add(g.getValue());
+					
+					}
+			System.out.println("RICOTA"+userMessages2.size());
+			List<UserMessageCountDTO> destinatariosCount= new ArrayList();
+			for(NormalUser a: userMessages2){
+				UserMessageCountDTO destinatario =new UserMessageCountDTO(a);
+				destinatario.setCountMessagesNotViewed(commentDAO.findAllToMe(login,a.getLogin()));
+				destinatariosCount.add(destinatario);
+			}
 			
-			return destinatarios.stream().map(user -> new NormalUserDTO(user)).collect(Collectors.toList());
+			return destinatariosCount;
 		}
 
 		@Override

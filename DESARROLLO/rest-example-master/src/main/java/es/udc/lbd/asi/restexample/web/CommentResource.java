@@ -36,6 +36,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.UserMessageCountDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserMessageDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
 import es.udc.lbd.asi.restexample.web.exception.InstanceNotFoundExceptionHIB;
@@ -72,18 +73,10 @@ public class CommentResource {
     	 return commentService.findAllUserFromUser(UserFrom,UserTo);
     }
     @GetMapping("/user/{login}")
-    public List<NormalUserDTO> findAllUserMessage(@PathVariable String login) {
-    	 List<NormalUserDTO> userMessages= commentService.findAllUser(login);
-    	 List<NormalUserDTO> userMessages2= new ArrayList();
-    	 Map<Long,NormalUserDTO> mapUsers=new HashMap<Long, NormalUserDTO>(userMessages.size());
-			for(NormalUserDTO g : userMessages) {
-				mapUsers.put(g.getIdUser(), g);
-			}
-			for(Entry<Long, NormalUserDTO> g : mapUsers.entrySet()) {
-				userMessages2.add(g.getValue());
-				
-				}
-    	 return userMessages2;
+    public List<UserMessageCountDTO> findAllUserMessage(@PathVariable String login) {
+    	 List<UserMessageCountDTO> userMessages= commentService.findAllUser(login);
+    	
+    	 return userMessages;
     }
     
     @GetMapping("/user/countMessages/{login}")
@@ -91,7 +84,7 @@ public class CommentResource {
     	 return  commentService.findAllToMe(login);
     }
     
-    @PutMapping("/user/{idUserFrom}/{idUserTo}")
+    @PutMapping("/user/{UserFrom}/{UserTo}")
     public List<UserMessageDTO> update(@PathVariable String UserFrom, @PathVariable String UserTo){
         return commentService.updateAllMessState(UserFrom,UserTo);
     }

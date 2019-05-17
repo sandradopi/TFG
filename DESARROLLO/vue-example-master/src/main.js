@@ -29,9 +29,10 @@ import BootstrapVue from 'bootstrap-vue'
 Vue.use(BootstrapVue)
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faEnvelope,faPlus,faSearch,faBackward, faMinusSquare , faBrain, faSlidersH, faCheck,faCalendarAlt,faMapMarkedAlt, faCloud, faBell, faBellSlash, faExclamationCircle, faFutbol, faCommentDots, faBasketballBall} from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft,faEnvelope,faPlus,faSearch,faBackward, faMinusSquare , faBrain, faSlidersH, faCheck,faCalendarAlt,faMapMarkedAlt, faCloud, faBell, faBellSlash, faExclamationCircle, faFutbol, faCommentDots, faBasketballBall} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faPlus)
+library.add(faArrowLeft)
 library.add(faEnvelope)
 library.add(faSearch)
 library.add(faBackward)
