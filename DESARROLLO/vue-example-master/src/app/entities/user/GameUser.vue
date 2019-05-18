@@ -153,6 +153,7 @@ export default {
 
     
   },
+  
  
   created() { //se va a lanzar siempre en una clase de componente
     this.fetchData()

@@ -10,6 +10,7 @@
     <MenuBar>
       <!-- -->
     </MenuBar>
+
     <router-view class="content">
       <!-- -->
     </router-view>
@@ -43,6 +44,7 @@
 <script>
 import auth from './common/auth'
 import MenuBar from './components/MenuBar'
+import { HTTP } from './common/http-common'
 
 
 export default {
@@ -53,10 +55,16 @@ export default {
        // enlazamos el objeto donde vamos a guardar los datos de autenticación
        // de esta forma se activa el data-binding y los podemos usar como
        // propiedades públicas en los componentes
-       storeAuth: auth
+       storeAuth: auth,
+      
+      
      }
   
-   }
+   },
+   
+    
+    
+   
 }
 </script>
 
@@ -165,6 +173,11 @@ export default {
   }
 
 }
-
+.search{
+  width:10%;
+  float:right;
+  margin-right:1%;
+  margin-top:1%;
+}
    
 </style>

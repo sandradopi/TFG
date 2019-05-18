@@ -232,10 +232,28 @@
           
 
           <b-navbar-nav class="ml-auto">
+           <b-nav-item  v-if="isLogged">
+            <multiselect 
+                v-model="usuarioSearch" 
+                :options="this.users"
+                :multiple="false"
+                :searchable="true" 
+                :preserve-search="true"
+                :close-on-select="true" 
+                :show-labels="false"
+                @close="selectOnSelect()"
+                placeholder="Buscar en PLAY2GETHER"
+                :custom-label="nameCustom"
+                >
+               <span slot="noResult">Usuario no encontrado</span>
+            </multiselect>
+               <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+             </b-nav-item>
             <b-nav-item
                 v-if="!isLogged"
                 :to="{ name: 'Login' }"
                 exact>Login</b-nav-item>
+           
 
             <b-nav-item-dropdown v-if="isLogged || isAdmin" text="Conectado" variant="primary" class="m-2"> 
               <b-dropdown-item disabled> {{loggedUser}}</b-dropdown-item>
@@ -287,6 +305,7 @@ data() {
       comentario:{},
       userFrom:{},
       userTo:{},
+      usuarioSearch:null,
       countMessages:0
 
      
@@ -344,6 +363,12 @@ data() {
         
        }
     },
+     selectOnSelect(){
+      if(this.usuarioSearch!=null){
+        this.$router.replace({ name: 'GameUser', params: { id: this.usuarioSearch.login}})
+        this.usuarioSearch=[]
+      }
+    },
 
     pendingValoration(){
        return HTTP.get(`users/${this.WhatLogin1()}/valoration`) 
@@ -386,6 +411,7 @@ data() {
         this.titulo="Rellenar resultado finales"
       }
     },
+
  
     WhatLogin1() {
       return auth.user.login
@@ -708,6 +734,10 @@ textarea.form-control {
     color: white;
     margin: 0;
     margin-top: 7px;
+}
+.search{
+  color:white;
+  float:right;
 }
 
 </style>
