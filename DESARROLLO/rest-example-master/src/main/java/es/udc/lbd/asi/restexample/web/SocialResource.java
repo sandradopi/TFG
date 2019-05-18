@@ -62,9 +62,13 @@ public class SocialResource {
     	return socialService.findAllUserFromUser(loginFrom, loginTo);
     }
     
+    @GetMapping("follow/{login}/{type}")
+    public List<SocialFriendShipDTO> findRelations(@PathVariable String login,@PathVariable Boolean type) {
+    	return socialService.findAllUser(login,type);
+    }
+    
     @PostMapping("/friendShip")
     public SocialFriendShipDTO save(@RequestBody @Valid SocialFriendShipDTO socialFriend){
-
         return socialService.save(socialFriend);
     }
     @PostMapping("/block")

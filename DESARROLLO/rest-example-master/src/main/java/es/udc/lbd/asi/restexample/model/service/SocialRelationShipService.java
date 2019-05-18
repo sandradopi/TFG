@@ -123,6 +123,15 @@ public SocialFriendShipDTO findAllUserFromUser(String loginFrom, String loginTo)
 	}
 	
 }
+@Override
+public List<SocialFriendShipDTO> findAllUser(String login, Boolean type) {
+	if(type==true){//Seguidos
+		return socialRelationShipDAO.findByLoginFollowers(login).stream().map(social -> new SocialFriendShipDTO(social)).collect(Collectors.toList());
+	}else{//Seguidores
+		return socialRelationShipDAO.findByLoginFollowed(login).stream().map(social -> new SocialFriendShipDTO(social)).collect(Collectors.toList());
+	}
+	
+}
   
 
 	     

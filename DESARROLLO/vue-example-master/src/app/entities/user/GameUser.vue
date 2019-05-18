@@ -1,5 +1,63 @@
 <template>
   <div class="content" v-if="user && user.login"> 
+    <b-modal
+        class="formulario"
+        id="modalPrevent8"
+        ref="modalPrevent8"
+        title="Seguidos"
+        ok-title="Cancelar"
+        ok-only 
+        ok-variant="outline-secondary" 
+       >
+          <b-form-group>
+             <div class="emptyMesDiv" v-if="relations.length==0">
+                <li class="emptyMessage">No tienes a ningún amigo agregado</li>
+             <div>
+          </b-form-group>
+          <b-form-group v-if="relations.length!=0">
+             <div class="informationmessage2" >
+             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
+             <div class="w3-container" v-for=" mes in this.relations" :key="mes.idUser">
+             <b-btn class="w3-bar" @click="goPageFiend(mes)">
+               <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="conj2">
+              <h5 class="rectangulo2">{{mes.userTo.name}} {{mes.userTo.surname1}} {{mes.userTo.surname2}}</h5><br>
+              </div>
+            </b-btn>
+          </div>
+            </div>
+        </b-form-group>
+      </b-modal>
+       <b-modal
+        class="formulario"
+        id="modalPrevent9"
+        ref="modalPrevent9"
+        title="Seguidores"
+        ok-title="Cancelar"
+        ok-only 
+        ok-variant="outline-secondary" 
+       >
+          <b-form-group>
+             <div class="emptyMesDiv" v-if="relationsToMe.length==0">
+                <li class="emptyMessage">Nadie te tiene aún guardado como amigo</li>
+             <div>
+          </b-form-group>
+          <b-form-group v-if="relationsToMe.length!=0">
+             <div class="informationmessage2" >
+             <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
+             <div class="w3-container" v-for=" mes in this.relationsToMe" :key="mes.idUser">
+             <b-btn class="w3-bar" @click="goPageFiend(mes)">
+               <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="conj2">
+              <h5 class="rectangulo2">{{mes.userTo.name}} {{mes.userTo.surname1}} {{mes.userTo.surname2}}</h5><br>
+              </div>
+            </b-btn>
+          </div>
+            </div>
+        </b-form-group>
+
+      </b-modal>
+
       <h1 class="title"> Perfil Público</h1>  
     	<div class="profile1">
     		<div class="botones">
@@ -10,6 +68,8 @@
       			<b-btn class="b1" @click="TipoPatidos('comentarios')">Comentarios</b-btn>
     		</div>
 	   </div>
+     
+
     	<div class="layout">
 			  <div class="profile">
 			    <div class="profile__picture"><img src="http://i.pravatar.cc/250?img=41"/></div>
@@ -30,17 +90,21 @@
 
 			      <div class="profile__stat1">
 			        <div class="profile__icon profile__icon--gold"><i class="fas fa-wallet"></i></div>
-			        <div class="profile__value">47
+			        <button class="profile__value" v-b-modal.modalPrevent9>
+                <span v-if="!this.relationsToMe">0</span>
+                <span v-if="this.relationsToMe">{{this.relationsToMe.length}}</span>
 			          <div class="profile__key">Seguidores</div>
-			        </div>
+			        </button>
 			      </div>
 			      <div class="profile__stat1">
 			        <div class="profile__icon profile__icon--blue"><i class="fas fa-signal"></i></div>
-			        <div class="profile__value">357
+			        <button class="profile__value" v-b-modal.modalPrevent8>
+                <span v-if="!this.relations">0</span>
+                <span v-if="this.relations">{{this.relations.length}}</span>
 			          <div class="profile__key">Seguidos</div>
-			        </div>
+			        </button>
 			      </div>
-			      <div class="profile__stat">
+			      <div class="profile__stat" >
 			        <div class="profile__icon profile__icon--pink"><i class="fas fa-heart"></i></div>
 			        <div class="profile__value">{{this.user.experience}}/5
 			          <div class="profile__key">Experiencia</div>
@@ -78,7 +142,9 @@ export default {
       typeR:'',
       socialShip:{},
       userMe:{},
-      friend:{}
+      friend:{},
+      relations:[],
+      relationsToMe:[]
     }
   },
   watch: {
@@ -102,12 +168,29 @@ export default {
           .catch(err => { this.error = err.message})
 
       }
+
      HTTP.get(`users/${this.$route.params.id}`) 
           .then(response => { this.user = response.data
                  return response })
+          .then(this.getRelationShipsMe)
+          .then(this.getRelationShipsTo)
           .catch(err => { this.error = err.message})
 
 
+
+    },
+    getRelationShipsMe(){
+       return HTTP.get(`social/follow/${this.$route.params.id}/true`) 
+          .then(response => { this.relations = response.data
+                 return response })
+          .catch(err => { this.error = err.message})
+
+    },
+     getRelationShipsTo(){
+       return HTTP.get(`social/follow/${this.$route.params.id}/false`) 
+          .then(response => { this.relationsToMe = response.data
+                 return response })
+          .catch(err => { this.error = err.message})
 
     },
     reloadRecomendations(type){
@@ -152,6 +235,10 @@ export default {
                     .then(this.fetchData)
                     .catch(this._errorHandler)
 
+    },
+    goPageFiend(mes){
+       this.$refs.modalPrevent8.hide()
+       this.$router.replace({ name: 'GameUser', params: { id: mes.userTo.login}})
     },
    
     _successHandler(response) {
@@ -372,6 +459,14 @@ export default {
   font-size: 18px;
   font-weight: 700;
   text-align: center;
+  background-color:white;
+  border:none;
+  color:black;
+}
+.profile__value:hover , .profile__value:active {
+  background-color:white;
+  border:none;
+  color:black;
 }
 
 
@@ -439,6 +534,35 @@ div.message2.information{background: #fb887c;}
   margin-left:10px;
   
 
+}
+.formulario{
+
+  color:#17a2b8;
+  
+}
+.w3-container, .w3-panel {
+    padding: 0.01em 16px;
+    margin-bottom: 5px;
+}
+.rectangulo2 {
+    font-size: 1.0em;
+    color: #17a2b8;
+    width: 60%;
+    float: left;
+    margin-top: 7%;
+}
+.w3-bar{
+   border-radius: 25px;
+    background: white;
+    color: #6c757d;
+    margin-top:10px;
+    border-color:white;
+    box-shadow:0 2px 5px rgba(0,0,0,.3);
+}
+fieldset {
+    border: 1px solid #c0c0c000 !important;
+    margin: 0 2px;
+    padding: .35em .625em .75em;
 }
 
 </style>

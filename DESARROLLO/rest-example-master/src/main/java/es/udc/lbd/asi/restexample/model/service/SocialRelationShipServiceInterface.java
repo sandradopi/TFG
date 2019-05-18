@@ -20,6 +20,7 @@ public interface SocialRelationShipServiceInterface {
 	 public SocialBlockDTO save(SocialBlockDTO game);
 	 public void delete(String loginFrom, String loginTo, Boolean typeRelation);
 	 public SocialFriendShipDTO findAllUserFromUser(String loginTo,String loginFrom );
+	 public List<SocialFriendShipDTO> findAllUser(String login, Boolean type);
 
 
 }

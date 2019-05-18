@@ -17,6 +17,8 @@ public interface SocialRelationShipDAO {
    
     public void save(SocialRelationShip socialRelationShip);
 	public SocialFriendShip findByLoginsFriend(String loginFrom,String loginTo) ;
+	public List<SocialFriendShip> findByLoginFollowed(String login) ;
+	public List<SocialFriendShip> findByLoginFollowers(String login) ;
 	public SocialBlock findByLoginsBlock(String loginFrom,String loginTo) ;
 	public void deleteById(String loginFrom,String loginTo, Boolean type);
     

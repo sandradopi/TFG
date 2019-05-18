@@ -41,8 +41,7 @@ public class SocialRelationShipDAOHibernate extends GenericDAOHibernate implemen
 	@Override
 	public void deleteById(String loginFrom, String loginTo, Boolean type) {
 		if(type==true){
-			System.out.print("gustavo"+loginFrom);
-			System.out.print("gustavo1"+loginTo);
+			
 			System.out.print(findByLoginsFriend(loginFrom,loginTo).getIdSocial());
 			 getSession().delete(findByLoginsFriend(loginFrom,loginTo));
 			
@@ -50,6 +49,15 @@ public class SocialRelationShipDAOHibernate extends GenericDAOHibernate implemen
 		 getSession().delete(findByLoginsBlock(loginFrom,loginTo));
 		 }
 		
+	}
+
+	@Override
+	public List<SocialFriendShip> findByLoginFollowers(String login) {
+		 return getSession().createQuery("select g from SocialFriendShip g inner join g.userFrom u  where u.login = :login ").setParameter("login", login).list();
+	}
+	@Override
+	public List<SocialFriendShip> findByLoginFollowed(String login) {
+		 return getSession().createQuery("select g from SocialFriendShip g inner join g.userTo u  where u.login = :login ").setParameter("login", login).list();
 	}
 	
 }
