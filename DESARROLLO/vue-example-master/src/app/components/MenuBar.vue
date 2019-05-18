@@ -364,9 +364,9 @@ data() {
        }
     },
      selectOnSelect(){
-      if(this.usuarioSearch!=null){
+      if(this.usuarioSearch){
         this.$router.replace({ name: 'GameUser', params: { id: this.usuarioSearch.login}})
-        this.usuarioSearch=[]
+        this.usuarioSearch=null
       }
     },
 
