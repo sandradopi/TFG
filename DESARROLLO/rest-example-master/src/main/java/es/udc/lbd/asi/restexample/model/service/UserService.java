@@ -1,6 +1,7 @@
 package es.udc.lbd.asi.restexample.model.service;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,6 +23,8 @@ import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Player;
 import es.udc.lbd.asi.restexample.model.domain.PlayerValoration;
+import es.udc.lbd.asi.restexample.model.domain.SocialFriendShip;
+import es.udc.lbd.asi.restexample.model.domain.SocialRelationShip;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 import es.udc.lbd.asi.restexample.model.domain.User_;
@@ -34,9 +37,11 @@ import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerValorationDAO;
+import es.udc.lbd.asi.restexample.model.repository.SocialRelationShipDAO;
 import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
+import es.udc.lbd.asi.restexample.model.service.dto.ActivitiesDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
@@ -64,6 +69,8 @@ public class UserService implements UserServiceInterface{
   private PlayerValorationDAO playerValorationDAO;
   @Autowired
   private LocationDAO locationDAO;
+  @Autowired
+  private SocialRelationShipDAO socialDAO;
   
   
   @Autowired
@@ -475,6 +482,30 @@ public class UserService implements UserServiceInterface{
 			  
 
 		  }
+		@PreAuthorize("hasAuthority('USER')")
+		@Override
+		public List<ActivitiesDTO> findActivities(String login) {
+			List<ActivitiesDTO> actividades= new ArrayList();
+			List<SocialFriendShip> followed=socialDAO.findByLoginFollowers(login);
+			if(followed.size()>0){
+			List<String> friends=new ArrayList();
+			for(SocialFriendShip friend:followed){
+				friends.add(friend.getUserTo().getLogin());
+			}
+			List<GameDTO> gamesCreatedByFriends=gameDAO.findAllFriends(friends).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+
+			for(GameDTO game:gamesCreatedByFriends){
+				ActivitiesDTO actividad= new ActivitiesDTO(userDAO.findByLoginNormal(game.getCreator().getLogin()));
+				LocalDateTime localDateTime =LocalDateTime.of(game.getDate().getYear(),game.getDate().getMonth(),game.getDate().getDayOfMonth(),game.getTimeStart().getHour(),game.getTimeStart().getMinute());
+				actividad.setDate(localDateTime);
+				actividad.setIdActivities(game.getIdGame());
+				actividad.setAction("Ha creado un partido de "+game.getSport().getType());
+				actividades.add(actividad);
+				
+			}
+			}
+			return actividades;
+		}
 
 	
 

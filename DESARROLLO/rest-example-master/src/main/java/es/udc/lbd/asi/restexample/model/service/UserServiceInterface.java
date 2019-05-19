@@ -12,6 +12,7 @@ import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
+import es.udc.lbd.asi.restexample.model.service.dto.ActivitiesDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
@@ -36,6 +37,7 @@ public interface UserServiceInterface {
 	public List<GameDTO>findByCreatorResultado(String login);
 	public List<GameDTO>findByValoration(String login);
 	public List<String> findComentarios(String login);
+	public List<ActivitiesDTO> findActivities(String login);
 
   
 

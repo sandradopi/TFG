@@ -20,6 +20,7 @@ import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.UserService;
+import es.udc.lbd.asi.restexample.model.service.dto.ActivitiesDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
@@ -94,6 +95,10 @@ public class UserResource {
     public List<String> findAllComentarios(@PathVariable String login){
     	 List<String> comentarios = userService.findComentarios(login);
     	return comentarios;
+    }
+    @GetMapping("/activities/{login}")
+    public List<ActivitiesDTO> findAllActivities(@PathVariable String login){
+    	return  userService.findActivities(login);
     }
     
     

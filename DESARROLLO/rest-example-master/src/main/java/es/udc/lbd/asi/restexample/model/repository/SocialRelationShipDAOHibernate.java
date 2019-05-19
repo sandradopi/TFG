@@ -51,11 +51,11 @@ public class SocialRelationShipDAOHibernate extends GenericDAOHibernate implemen
 		
 	}
 
-	@Override
+	@Override//La gente que sigo yo, en userto están mis seguidos
 	public List<SocialFriendShip> findByLoginFollowers(String login) {
 		 return getSession().createQuery("select g from SocialFriendShip g inner join g.userFrom u  where u.login = :login ").setParameter("login", login).list();
 	}
-	@Override
+	@Override//La gente que me sigue a mi, en userFrom están mis seguidores
 	public List<SocialFriendShip> findByLoginFollowed(String login) {
 		 return getSession().createQuery("select g from SocialFriendShip g inner join g.userTo u  where u.login = :login ").setParameter("login", login).list();
 	}

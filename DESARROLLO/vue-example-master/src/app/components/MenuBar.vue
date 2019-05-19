@@ -222,6 +222,11 @@
                  v-if="!isAdmin"
                 :to="{ name: 'Game' }"
                 exact>Partidos</b-nav-item> 
+
+             <b-nav-item
+                 v-if="!isAdmin && isLogged"
+                :to="{ name: 'ActivitiesFollowed' }"
+                exact>Actividades</b-nav-item> 
                
 
             <b-nav-item

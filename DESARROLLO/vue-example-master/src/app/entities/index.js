@@ -20,7 +20,8 @@ import TennisResult from './user/TennisResult'
 import ValorationGame from './user/ValorationGame'
 import Recomendations from './user/Recomendations'
 import CommentGame from './user/CommentGame'
+import ActivitiesFollowed from './user/ActivitiesFollowed'
 
 
 
-export {CommentGame,Recomendations,TennisResult,TennisForm,Calendar,ValorationGame,FutbolResult,Mapa,FutbolForm,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}
+export {ActivitiesFollowed,CommentGame,Recomendations,TennisResult,TennisForm,Calendar,ValorationGame,FutbolResult,Mapa,FutbolForm,Weather,UserDetail,GameDetail, GameList,Game,GameUser,LocalizacionesDetail,UserList,DeportesDetail,Deportes,DeportesForm,Registro, GameCreate}

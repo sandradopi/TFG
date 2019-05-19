@@ -91,6 +91,11 @@ public class GameDAOHibernate extends GenericDAOHibernate implements GameDAO {
 		return getSession().createQuery("select  g.idGame from Player p inner join p.player u inner join p.game g group by g.idGame having (AVG(YEAR(current_date)-YEAR(u.birthday)) BETWEEN :min AND :max) AND(AVG(u.experience)  BETWEEN :emin AND :emax) ").setParameter("min", min).setParameter("max", max).setParameter("emin", emin).setParameter("emax", emax).list();
 	}
 
+	@Override
+	public List<Game> findAllFriends(List<String> friends) {
+		return getSession().createQuery("select g from Game g inner join g.creator u  where (u.login in (:friends)) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameterList("friends", friends).list();
+	}
+
 	
 
 

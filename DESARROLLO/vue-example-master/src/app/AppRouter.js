@@ -2,7 +2,7 @@ import VueRouter from 'vue-router'
 import Vue from 'vue'
 import auth from './common/auth'
 import { Home, Login, NotFound,Registro } from './components'
-import {CommentGame,Recomendations,TennisResult,FutbolResult,TennisForm,ValorationGame,Calendar,Weather,Mapa,FutbolForm,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
+import {ActivitiesFollowed,CommentGame,Recomendations,TennisResult,FutbolResult,TennisForm,ValorationGame,Calendar,Weather,Mapa,FutbolForm,UserDetail,Game,UserList,Deportes,DeportesDetail,DeportesForm, LocalizacionesDetail, GameCreate,GameDetail,GameUser,GameList} from './entities'
 
 const routes = [
   { name: 'Home', path: '/', component: Home, meta: { public: true } },
@@ -31,6 +31,7 @@ const routes = [
   { name: 'Game', path: '/games', component: Game,meta: { authority: 'USER' }},
   { name: 'Weather', path: '/games/weather', component: Weather,meta: { authority: 'USER' }},
   { name: 'Calendar', path: '/games/calendar', component: Calendar,meta: { authority: 'USER' }},
+  { name: 'ActivitiesFollowed', path: '/activities/followed', component: ActivitiesFollowed,meta: { authority: 'USER' }},
   { path: '*', component: NotFound, meta: { public: true }},
 
 ]

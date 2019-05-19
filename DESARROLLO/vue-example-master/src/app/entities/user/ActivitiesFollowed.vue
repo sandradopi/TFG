@@ -1,0 +1,112 @@
+<template>
+  <div class="content"> 
+   
+      <h1 class="title">Actividades</h1>  
+      <div class="information message2">
+        {{this.activities}}
+      </div>
+  </div>
+</template>
+
+<script>
+import { HTTP } from '../../common/http-common' 
+import auth from '../../common/auth'
+import Vue from 'vue'
+import Multiselect from 'vue-multiselect'
+import Weather from '../../entities/user/Weather'
+export default {
+  components: { Multiselect, Weather},
+  data() {
+    return {
+    activities:[]
+      
+    }
+  },
+  watch: {
+    '$route': 'fetchData',
+    
+  },
+ 
+  created() { //se va a lanzar siempre en una clase de componentes
+    this.fetchData()
+  },
+  methods: {
+    fetchData() {
+        HTTP.get(`users/activities/${this.WhatLogin()}`) 
+          .then(response => { this.activities = response.data
+                 return response })
+          .catch(err => { this.error = err.message})
+   
+     
+    },
+    
+   
+    _successHandler4(response) {
+      this.fetchData()
+    },
+      WhatLogin() {
+      return auth.user.login
+    },
+   
+    },
+    _errorHandler(err) {
+      this.error = err.response.data.message
+      
+    },
+    
+    back() {
+      this.$router.go(-1)
+    },
+  
+}
+</script>
+
+<style scoped lang="scss">
+.content{
+    width: 82%;
+    background: #f3f3f3;
+    padding: 1em;
+    border-radius: 3px;
+    margin-top:50px;
+    font-family: 'Lato', sans-serif;
+    margin:0;
+    margin-left:120px;
+    margin-top:50px;
+    margin-bottom:59px;
+    height:66%;
+    border-radius: 6px;
+}
+.title{
+    font-family: 'Lato', sans-serif;
+    margin-left:40%;
+    font-size: 30px;
+    font-weight: 200;
+    color: #17a2b8;
+    margin-top:20px;
+    margin-bottom:30px;
+    color:#fb887c;
+  }
+  .title1{
+    font-family: 'Lato', sans-serif;
+    font-size: 30px;
+    font-weight: 200;
+    margin-bottom:30px;
+  }
+ 
+div.message2 {
+  
+  padding: 2%;
+  padding-left: 20px;
+  box-shadow:0 2px 5px rgba(0,0,0,.3);
+  background: #fff;
+  width:80%;
+  float:left;
+  height:72%;
+  margin-left:10%;
+  margin-top:20px;
+  overflow: scroll;
+}
+div.message2.information{background: #17a2b8;}
+
+
+</style>
