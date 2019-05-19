@@ -84,6 +84,11 @@
             <div class="profile__edit"v-if="this.user.login!=WhatLogin() && !this.friend"><b-btn class="profile__button1" variant="outline-success" @click="empezarASeguir()">Seguir</b-btn ></div>
 
             <div class="profile__edit"v-if="this.user.login!=WhatLogin()&& this.friend" ><b-btn class="profile__button2"  @click="dejarDeSeguir()">Siguiendo</b-btn ></div>
+
+            <div class="profile__edit1"v-if="this.user.login!=WhatLogin()&& this.friend && this.friend.notification==false" ><b-btn class="profile__button4" variant="outline-warning"  @click="notificarAmigo()"><font-awesome-icon icon="bell"style="font-size:25px;"/></b-btn ></div>
+
+             <div class="profile__edit1"v-if="this.user.login!=WhatLogin() && this.friend && this.friend.notification==true" ><b-btn class="profile__button5" variant="outline-warning"  @click="desnotificarAmigo()"><font-awesome-icon icon="bell"style="font-size:25px;"/></b-btn ></div>
+
 			    </div>
           <star-rating class="star" v-model="this.user.experience" v-bind:star-size="25" :read-only="true"></star-rating></p>
 			    <div class="profile__stats">
@@ -263,6 +268,18 @@ export default {
                     .then(this.fetchData)
                     .catch(this._errorHandler)
     },
+    notificarAmigo(){
+       HTTP.put(`social/${this.WhatLogin()}/${this.user.login}/true`) 
+                    .then(this.fetchData)
+                    .catch(this._errorHandler)
+
+    },
+    desnotificarAmigo(){
+       HTTP.put(`social/${this.WhatLogin()}/${this.user.login}/false`) 
+                    .then(this.fetchData)
+                    .catch(this._errorHandler)
+
+    },
     
     _errorHandler(err) {
       this.error = err.response.data.message
@@ -310,7 +327,7 @@ export default {
     box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.17);
     padding: 20px 10px 10px 10px;
     position: relative;
-    width: 410px;
+    width: 420px;
     color: black;
     float:left;
     margin-left:20px;
@@ -334,7 +351,13 @@ export default {
 
 }
 
-
+.profile__button4{
+  border-radius:40px;
+}
+.profile__button4:hover{
+  border-radius:40px;
+  color:white;
+}
 
 .profile__button {
   border-radius: 40px;
@@ -381,7 +404,14 @@ export default {
     margin-left:10px;
 
 }
-
+.profile__button5{
+  background-color:#ffc107;
+  color:white;
+  border-radius:40px;
+}
+.profile__edit1{
+  margin-left:10px;
+}
 
 .profile__key {
   font-family: "Montserrat", sans-serif;

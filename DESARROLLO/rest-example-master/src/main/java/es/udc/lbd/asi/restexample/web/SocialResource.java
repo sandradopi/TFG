@@ -76,6 +76,12 @@ public class SocialResource {
         return socialService.save(socialFriend);
     }
     
+    @PutMapping("/{loginFrom}/{loginTo}/{notification}")
+    public SocialFriendShipDTO update(@PathVariable String loginFrom, @PathVariable String loginTo,@PathVariable Boolean notification){
+           
+        return socialService.update(loginFrom,loginTo,notification);
+    }
+    
     @DeleteMapping("/friendShip/{loginFrom}/{loginTo}/{typeRelation}")
     public void deleteRelationShip(@PathVariable String loginFrom,@PathVariable String loginTo,@PathVariable Boolean typeRelation)  {
     	socialService.delete(loginFrom,loginTo,typeRelation);
