@@ -21,7 +21,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 
 public interface GameServiceInterface {
 	  public List<GameDTO> findAll();
-	  public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException;
+	  public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException, AddressException, MessagingException;
 	  public void deleteById(Long idGame) throws AddressException, MessagingException, ParseException;
 	  public List<GameDTO> findAllFiltros(String sport, String user, String edad,String dificultad);
 	  public GameDTO findById(Long idGame);

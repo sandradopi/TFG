@@ -61,10 +61,10 @@
       <h1 class="title"> Perfil Público</h1>  
     	<div class="profile1">
     		<div class="botones">
-      	  	<b-btn class="b1" @click="TipoPatidos('proximo')">Próximos Partidos</b-btn>
-      			<b-btn class="b1" @click="TipoPatidos('organizados')">Partidos Organizados</b-btn>
-      			<b-btn class="b1" v-if="this.user.login==WhatLogin()"@click="TipoPatidos('jugados')">Partidos Jugados</b-btn>
-      			<b-btn class="b1" v-if="this.user.login==WhatLogin()"@click="TipoPatidos('recomendados')">Partidos Recomendados</b-btn>
+      	  	<b-btn class="b1" @click="TipoPatidos('proximo')">Próximos</b-btn>
+      			<b-btn class="b1" @click="TipoPatidos('organizados')">Organizados</b-btn>
+      			<b-btn class="b1" v-if="this.user.login==WhatLogin()"@click="TipoPatidos('jugados')">Jugados</b-btn>
+      			<b-btn class="b1" v-if="this.user.login==WhatLogin()"@click="TipoPatidos('recomendados')">Recomendados</b-btn>
       			<b-btn class="b1" @click="TipoPatidos('comentarios')">Comentarios</b-btn>
     		</div>
 	   </div>
@@ -305,6 +305,12 @@ export default {
   color:white;
 
 }
+.b1{
+
+  margin-left:40px;
+
+
+}
 
 
 @keyframes slideUp {
@@ -327,7 +333,7 @@ export default {
     box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.17);
     padding: 20px 10px 10px 10px;
     position: relative;
-    width: 420px;
+    width: 457px;
     color: black;
     float:left;
     margin-left:20px;
@@ -339,7 +345,7 @@ export default {
 .profile1{
 	 background:#17a2b8;
     position: relative;
-    width: 63%;
+    width: 57%;
     height:38px;
     color: black;
     float:right;
@@ -536,7 +542,7 @@ div.message2 {
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
   background: #fff;
-  width:63%;
+  width:57%;
   height:70%;
   margin-right:21.5px;
   float:right;

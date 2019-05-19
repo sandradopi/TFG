@@ -123,7 +123,7 @@ div.message2 {
     font-size:2em;
     position: absolute;
     top: 48%;
-    left: 47%;
+    left: 51.7%;
     transform: translate(-50%, -50%);
     bottom:40%;
     height:3%;
@@ -134,7 +134,7 @@ div.message2 {
 font-size:2em;
     position: absolute;
     top: 48%;
-    left: 64%;
+    left: 67%;
     transform: translate(-50%, -50%);
     bottom:40%;
     height:3%;
@@ -145,7 +145,7 @@ font-size:2em;
 font-size:2em;
     position: absolute;
     top: 48%;
-    left: 80.5%;
+    left: 82%;
     transform: translate(-50%, -50%);
     bottom:40%;
     height:3%;

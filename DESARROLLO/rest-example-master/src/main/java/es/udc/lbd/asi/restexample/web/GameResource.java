@@ -79,7 +79,7 @@ public class GameResource {
     
     
     @PostMapping
-    public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException {
+    public GameDTO save(@RequestBody @Valid GameDTO game, Errors errors) throws RequestBodyNotValidException, RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException, AddressException, MessagingException {
         errorHandler(errors); 
         return gameService.save(game);
     }

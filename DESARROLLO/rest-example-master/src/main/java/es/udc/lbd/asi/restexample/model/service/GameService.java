@@ -177,7 +177,7 @@ public List<GameDTO> findAllFiltros(String sport, String user, String edad, Stri
 @PreAuthorize("hasAuthority('USER')")
 @Transactional(readOnly = false)
 @Override
-public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException{
+public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseException, ParseException, EventBeforeDayException, AddressException, MessagingException{
 	
 	  
 	
@@ -232,10 +232,12 @@ public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseExc
 	Game bdGame = new Game(game.getDate(),game.getTimeStart(), game.getTimeEnd(),game.getMaxPlayers(),
 			game.getMinPlayers());
 	
+	
+
+	
 	Sport sport= sportDAO.findById(game.getSport().getIdSport());
 	Location location= locationDAO.findById(game.getLocation().getIdLocation());
 	NormalUser user= userDAO.findByLoginNormal(game.getCreator().getLogin());
-	
 		
  
 	bdGame.setSport(sport);
@@ -243,6 +245,11 @@ public GameDTO save(GameDTO game) throws RequiredFieldsException, GameColapseExc
 	bdGame.setCreator(user);
 	
 	gameDAO.save(bdGame);
+	
+	String mensaje="el usuario "+user.getName() +" "+user.getSurname1()+ " "+user.getSurname2()+" acaba de crear un partido"
+			+ " de "+sport.getType()+ " que tendrá lugar en "+location.getName()+ " el día "+bdGame.getDate()+ " a las "+
+			bdGame.getTimeStart();
+	notificationTask.reportCurrentTime(bdGame.getIdGame(), mensaje,false,true,null);
     return new GameDTO(bdGame);
 }
 @Override
@@ -264,7 +271,7 @@ public void deleteById(Long idGame) throws AddressException, MessagingException,
 	List<Player> players= playerDAO.findAllByGame(idGame);
 	String mensaje="El partido ha sido cancelado por motivos personales del creador o por que no ha llegado "
 			+ "al mínimo de personas requeridas para poderse llevar a cabo. Sentimos las molestias...";
-	notificationTask.reportCurrentTime(idGame, mensaje,true);
+	notificationTask.reportCurrentTime(idGame, mensaje,true,false,null);
 	
 	if(players.size()>0){
 		for(Player a:players){

@@ -136,7 +136,7 @@ public List<SocialFriendShipDTO> findAllUser(String login, Boolean type) {
 @Override
 public SocialFriendShipDTO update(String loginFrom, String loginTo, Boolean notification) {
 	SocialFriendShip social= socialRelationShipDAO.findByLoginsFriend(loginFrom, loginTo);
-	System.out.print("SOFIAMARIA"+notification);
+	
 	social.setNotification(notification);
 	socialRelationShipDAO.save(social);
 	return new SocialFriendShipDTO(social);

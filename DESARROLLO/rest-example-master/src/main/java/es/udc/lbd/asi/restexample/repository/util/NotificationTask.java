@@ -31,8 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Player;
+import es.udc.lbd.asi.restexample.model.domain.SocialFriendShip;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
+import es.udc.lbd.asi.restexample.model.repository.SocialRelationShipDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.GameService;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
@@ -49,6 +51,8 @@ public class NotificationTask {
 	GameDAO gameDAO;
 	@Autowired
 	PlayerDAO playerDAO;
+	@Autowired
+	SocialRelationShipDAO socialDAO;
 	
 	private Properties properties = new Properties();
 	private Session session;
@@ -64,12 +68,14 @@ public class NotificationTask {
 	}
 	
 	//Para avisar cuando alguien se apunta, se desapunta y se elimina el partido
-    public void reportCurrentTime(Long idGame, String mensaje, Boolean bol) throws AddressException, MessagingException, ParseException {
+    public void reportCurrentTime(Long idGame, String mensaje, Boolean bol, Boolean friendShipRelation, Long idPlayer) throws AddressException, MessagingException, ParseException {
     	init();
     	Game partido=gameDAO.findById(idGame);
     	List<NormalUser> usuarios =userDAO.findAllNoAdmin();
     	List<NormalUser> notificados= new ArrayList();
     	List<NormalUser> playersGame= new ArrayList();
+    	List<NormalUser> friendsNotifications= new ArrayList();
+    	List<SocialFriendShip> friends=new ArrayList();
     	List<NormalUser> usuariosAavisar= new ArrayList();
     	for(NormalUser user: usuarios){
     		Set<Game> games= user.getNotifications();
@@ -86,8 +92,26 @@ public class NotificationTask {
     					playersGame.add(player.getPlayer());
     			
     		}
+    		notificados.addAll(playersGame);
     	}
-    	notificados.addAll(playersGame);
+    	if(friendShipRelation==true){//Amigos marcados como notificados
+    		if(idPlayer==null){//Para avisar que creo partido
+    		Game game=gameDAO.findById(idGame);
+    		friends=socialDAO.findByLoginFollowed(game.getCreator().getLogin());
+    		}else{//Para avisar que se apunto a un partido
+    			Player apuntado=playerDAO.findById(idPlayer);
+    			friends=socialDAO.findByLoginFollowed(apuntado.getPlayer().getLogin());
+    		}
+    		for(SocialFriendShip friend:friends){
+    			if(friend.getNotification()==true){
+    			friendsNotifications.add(friend.getUserFrom());
+    			}
+		
+    		}
+    		notificados.addAll(friendsNotifications);
+    		
+    	}
+    	
     	 Map<Long,NormalUser> mapUser=new HashMap<Long, NormalUser>(notificados.size());
 			for(NormalUser g : notificados) {
 				mapUser.put(g.getIdUser(), g);
@@ -103,9 +127,12 @@ public class NotificationTask {
 			    	    		message.setFrom(new InternetAddress("marsusanez@gmail.com"));
 			    				message.addRecipient(Message.RecipientType.TO, new InternetAddress(usuario.getEmail()));
 			    				message.setSubject("Se han producido cambios en su partido!");
+			    				if(friendShipRelation==true && idPlayer==null){
+			    					message.setText("Hola Señor/Señora "+usuario.getName()+".\n" +"Este email es para comunicarle que "+mensaje +"\n"+"\n"+ "Espero que esta información te haya sido de utilidad, un saludo de tu app preferida: Play2Gether <3");
+			    				}else{
 			    				message.setText("Hola Señor/Señora "+usuario.getName()+".\n" +"Este email es para comunicarle que se han producido cambios en su partido"
 			    				+" que iba a tener lugar en "+ partido.getLocation().getName() +" el día "+ partido.getDate()+ " a la hora "+ partido.getTimeStart()+ ". "+"\n"+
-			    				"El cambio que se ha producido es el siguiente: "+mensaje +"\n"+"\n"+ "Espero que esta información te haya sido de utilidad, un saludo de tu app preferida: Play2Gether <3");
+			    				"El cambio que se ha producido es el siguiente: "+mensaje +"\n"+"\n"+ "Espero que esta información te haya sido de utilidad, un saludo de tu app preferida: Play2Gether <3");}
 			    				Transport t = session.getTransport("smtp");
 			    				t.connect("marsusanez@gmail.com","asiasi2018");
 			    				t.sendMessage(message, message.getAllRecipients());
