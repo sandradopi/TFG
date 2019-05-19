@@ -20,6 +20,8 @@ public interface CommentDAO {
 	public List<UserMessage> findAllUser(String login);
 	public Long findAllToMe(String login) ;
 	public Long findAllToMe(String loginTo, String loginFrom) ;
+	public List<GameMessage> findAllByGameFriends(List<String> friends);
+	public Game getGameComment(Long idComment);
 
 	
    

@@ -53,7 +53,10 @@ public class PlayerDAOHibernate extends GenericDAOHibernate implements PlayerDAO
 	}
 
 	
-	
+	@Override
+	public List<Player> findAllFriends(List<String> friends) {
+		return getSession().createQuery("select p from Player p inner join p.game g inner join p.player u where (u.login in (:friends)) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameterList("friends", friends).list();
+	}
 
 	
 	

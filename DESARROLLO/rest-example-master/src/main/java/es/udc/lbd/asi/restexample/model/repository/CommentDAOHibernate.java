@@ -52,7 +52,15 @@ public class CommentDAOHibernate extends GenericDAOHibernate implements CommentD
 		return (Long) getSession().createQuery("select count(*) from Comment c inner join c.toUser u inner join c.fromUser g where ((u.login = :loginTo) AND  (g.login = :loginFrom) AND (c.viewed=false))  ").setParameter("loginTo", loginTo).setParameter("loginFrom", loginFrom).uniqueResult();
 	}
 
-
+	@Override
+	public List<GameMessage> findAllByGameFriends(List<String> friends) {
+		return getSession().createQuery("select c from Comment c inner join c.gameComment g inner join c.fromUser u where (u.login in (:friends)) AND ((g.date > current_date) OR (g.date = current_date AND g.timeStart >= current_time))").setParameter("friends", friends).list();
+	}
+	
+	@Override
+	public Game getGameComment(Long idComment) {
+		return (Game) getSession().createQuery("select g from Comment c inner join c.gameComment g where c.idComent = :idComment").setParameter("idComment", idComment).uniqueResult();
+	}
 	
 	
 

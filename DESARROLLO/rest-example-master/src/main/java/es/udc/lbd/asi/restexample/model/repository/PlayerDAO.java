@@ -17,5 +17,6 @@ public interface PlayerDAO {
 	 public List<Player> findAllByGame(Long idGame);
 	 public Long findAllByGameCount(Long idGame);
 	 public Player findPlayerGame(String login,Long idGame);
+	 public List<Player> findAllFriends(List<String> friends);
 	 
 }

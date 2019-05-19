@@ -27,17 +27,31 @@ import es.udc.lbd.asi.restexample.model.domain.PlayerValoration;
 public class ActivitiesDTO {
 
 	@NotNull
-	private Long idActivities; //Si hace referencia a la creacion de un juego idGame, para apuntarse un juego idPlayer y para comentario idComment
+	private Long idActivities; //Guardariamos el idGame, ya que es la creacion de un juego, comentar en un juego o apuntarse a un juego
 	@NotEmpty
 	private String action;
 	@NotNull
 	private LocalDateTime date;
     @NotNull
     private NormalUserDTO friend;
+    @NotNull
+    private Boolean comment;//Es un booleano para saber si se trata de que un amigo añadio un comentario, ya que en ese caso no iriamos a GameDetail, si no a la pantalla de comentarios de ese juego
 
 
 
-    public ActivitiesDTO(NormalUser user) {
+    public Boolean getComment() {
+		return comment;
+	}
+
+
+
+	public void setComment(Boolean comment) {
+		this.comment = comment;
+	}
+
+
+
+	public ActivitiesDTO(NormalUser user) {
     	this.friend= new NormalUserDTO(user);
 	}
 

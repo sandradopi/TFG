@@ -33,6 +33,7 @@ import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
+import es.udc.lbd.asi.restexample.model.repository.CommentDAO;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
@@ -43,7 +44,9 @@ import es.udc.lbd.asi.restexample.model.repository.TeamDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.ActivitiesDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.CommentDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.GameMessageDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
@@ -71,6 +74,8 @@ public class UserService implements UserServiceInterface{
   private LocationDAO locationDAO;
   @Autowired
   private SocialRelationShipDAO socialDAO;
+  @Autowired
+  private CommentDAO commentDAO;
   
   
   @Autowired
@@ -499,11 +504,37 @@ public class UserService implements UserServiceInterface{
 				LocalDateTime localDateTime =LocalDateTime.of(game.getDate().getYear(),game.getDate().getMonth(),game.getDate().getDayOfMonth(),game.getTimeStart().getHour(),game.getTimeStart().getMinute());
 				actividad.setDate(localDateTime);
 				actividad.setIdActivities(game.getIdGame());
-				actividad.setAction("Ha creado un partido de "+game.getSport().getType());
+				actividad.setAction("Ha creado un partido");
+				actividad.setComment(false);
 				actividades.add(actividad);
 				
 			}
+			
+			List<PlayerDTO> playerCreatedByFriends=playerDAO.findAllFriends(friends).stream().map(player -> new PlayerDTO(player)).collect(Collectors.toList());
+			for(PlayerDTO player:playerCreatedByFriends){
+				ActivitiesDTO actividad= new ActivitiesDTO(userDAO.findByLoginNormal(player.getPlayer().getLogin()));
+				LocalDateTime localDateTime =LocalDateTime.of(player.getGame().getDate().getYear(),player.getGame().getDate().getMonth(),player.getGame().getDate().getDayOfMonth(),player.getGame().getTimeStart().getHour(),player.getGame().getTimeStart().getMinute());
+				actividad.setDate(localDateTime);
+				actividad.setIdActivities(player.getGame().getIdGame());
+				actividad.setAction("Se ha apuntado a un partido");
+				actividad.setComment(false);
+				actividades.add(actividad);
+				
 			}
+			
+			List<GameMessageDTO> commentCreatedByFriends=commentDAO.findAllByGameFriends(friends).stream().map(comment -> new GameMessageDTO(comment)).collect(Collectors.toList());
+			for(GameMessageDTO comment:commentCreatedByFriends){
+				Game game=commentDAO.getGameComment(comment.getIdComent());
+				ActivitiesDTO actividad= new ActivitiesDTO(userDAO.findByLoginNormal(comment.getFromUser().getLogin()));
+				LocalDateTime localDateTime =LocalDateTime.of(game.getDate().getYear(),game.getDate().getMonth(),game.getDate().getDayOfMonth(),game.getTimeStart().getHour(),game.getTimeStart().getMinute());
+				actividad.setDate(localDateTime);
+				actividad.setIdActivities(game.getIdGame());
+				actividad.setAction("Ha comentado en el partido");
+				actividad.setComment(true);
+				actividades.add(actividad);
+				
+			}
+		 }
 			return actividades;
 		}
 
