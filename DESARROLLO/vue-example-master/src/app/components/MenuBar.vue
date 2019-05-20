@@ -29,10 +29,10 @@
 
              <div class="informationmessage2" v-if="mensajesUsuario.length!=0">
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
-             <div class="w3-container" v-for=" mes in this.mensajesUsuario" :key="mes.idComment">
+             <div v-bind:class="{ w3container: mes.fromUser.login==WhatLogin1(), w3container1:mes.fromUser.login!=WhatLogin1()}" v-for=" mes in this.mensajesUsuario" :key="mes.idComment">
              <b-btn class="w3-bar" >
              <div class="conj">
-              <span class="rectangulo1">{{mes.fromUser.name}} {{mes.fromUser.surname1}} {{mes.fromUser.surname2}}</span><br>
+              <span v-bind:class="{ rectangulo1: mes.fromUser.login==WhatLogin1(), rectangulo3:mes.fromUser.login!=WhatLogin1()}">{{mes.fromUser.name}} {{mes.fromUser.surname1}} {{mes.fromUser.surname2}}</span><br>
               <span class="rectangulo">{{mes.contentComment}}</span>
         </div>
             </b-btn>
@@ -713,9 +713,22 @@ textarea.form-control {
   font-size:0.9em;
    color: #17a2b8;
 }
-.w3-container, .w3-panel {
+.rectangulo3{
+   font-size:0.9em;
+   color: #fb887c;
+
+}
+.w3container, .w3-panel {
     padding: 0.01em 16px;
     margin-bottom: 5px;
+    width:60%;
+
+}
+.w3container1{
+   padding: 0.01em 16px;
+   margin-bottom: 5px;
+   width:60%;
+  float:right;
 }
 
 .modal-tittle{

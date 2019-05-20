@@ -1,7 +1,7 @@
 <template>
   <div class="content"> 
    
-     <b-btn class="button32" @click="back()"><font-awesome-icon icon="backward"style="font-size:30px;"/></b-btn>
+     <b-btn class="button32" @click="back()"><font-awesome-icon icon="arrow-left"style="font-size:30px;"/></b-btn>
       <h1 class="title">Foro del Partido</h1> 
       <div class="information message" v-if="loading==true">
       	<h6 >Creador: {{game.creator.name}} {{game.creator.surname1}} {{game.creator.surname2}}</h6>

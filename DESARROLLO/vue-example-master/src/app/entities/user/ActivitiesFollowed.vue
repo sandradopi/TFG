@@ -4,6 +4,7 @@
       <h1 class="title">Actividades</h1>  
       <div class="information message2">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <li v-if="this.activities.length==0">No hay actividades en su tablón</li>
         <div class="w3-container" v-for=" activity in this.activities">
           <b-btn class="w3-bar" @click="verDetalleActividad(activity)">
               <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
