@@ -3,6 +3,7 @@ package es.udc.lbd.asi.restexample.model.service;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -535,6 +536,8 @@ public class UserService implements UserServiceInterface{
 				
 			}
 		 }
+			Collections.sort(actividades, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+			
 			return actividades;
 		}
 

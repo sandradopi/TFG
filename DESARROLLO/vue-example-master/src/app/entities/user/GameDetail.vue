@@ -310,6 +310,8 @@ export default {
       if(this.$route.params.back==true){
       
         this.$router.replace({ name: 'GameUser', params: { id:this.WhatLogin()}})
+      }else if(this.$route.params.activity==true){
+        this.$router.replace({ name: 'ActivitiesFollowed'})
       }else{
        
       this.$router.go(-1)}

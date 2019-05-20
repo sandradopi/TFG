@@ -11,7 +11,6 @@
                 
     >
 
-
      <b-carousel-slide caption="¿Qué es PLAY2GETHER?">
         <img slot="img" class="d-block img-fluid w-100" 
              src="padel.png">

@@ -3,7 +3,18 @@
    
       <h1 class="title">Actividades</h1>  
       <div class="information message2">
-        {{this.activities}}
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <div class="w3-container" v-for=" activity in this.activities">
+          <b-btn class="w3-bar" @click="verDetalleActividad(activity)">
+              <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <div class="conj">
+                <span class="w3-large">{{activity.friend.name}} {{activity.friend.surname1}} {{activity.friend.surname2}}</span><br>
+                <span class="rectangulo">{{activity.action}} ({{customDate(activity.date)}})</span>
+              </div>
+          </b-btn>
+         </div>
+
+       
       </div>
   </div>
 </template>
@@ -38,6 +49,20 @@ export default {
           .catch(err => { this.error = err.message})
    
      
+    },
+    verDetalleActividad(activity){
+      if(activity.comment==false){
+      this.$router.replace({ name: 'GameDetail', params: { id:activity.idActivities,bol:false,back:false,activity:true}})
+    }else{
+       this.$router.replace({ name: 'CommentGame', params: { id:activity.idActivities}})
+    }
+
+    },
+     customDate(date){
+      return date.substring(0,10)
+    },
+     customHour(hour){
+      return hour.substring(12,16)
     },
     
    
@@ -107,6 +132,17 @@ div.message2 {
   overflow: scroll;
 }
 div.message2.information{background: #17a2b8;}
+.w3-bar{
+    border-radius: 25px;
+    background: white;
+    color: #6c757d;
+    margin-top:10px;
+    border-color:white;
+    box-shadow:0 2px 5px rgba(0,0,0,.3);
 
+}
+.conj{
+  text-align:left !important;
+}
 
 </style>

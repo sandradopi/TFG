@@ -2,6 +2,7 @@ package es.udc.lbd.asi.restexample.model.service.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Comparator;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -101,8 +102,9 @@ public class ActivitiesDTO {
 
 	public void setFriend(NormalUserDTO friend) {
 		this.friend = friend;
-	} 
-    
+	}
+
+
 	
 
 	
