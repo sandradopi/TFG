@@ -206,7 +206,20 @@
           placeholder="Introduce la contraseña"/>
       </b-form-group>
 
-      
+
+      <b-form-group
+        label="Foto de perfil: "
+        label-for="perfil">
+
+        <div v-if="!file">
+
+          <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+        </div>
+        <div v-else>
+          <img :src="loaded" />
+          <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Eliminar</b-btn>
+        </div>
+      </b-form-group>
 
     </div>
   
@@ -223,13 +236,15 @@
 import { HTTP } from '../common/http-common'
 import auth from '../common/auth'
 import Multiselect from 'vue-multiselect'
+import PictureInput from 'vue-picture-input'
+import FormDataPost from '../common/upload'
 import Vue from 'vue'
 export default {
   mounted(){
   
 
   },
-  components: {  Multiselect},
+  components: {  Multiselect,PictureInput},
   data() {
     return {
       user: {},
@@ -244,7 +259,9 @@ export default {
       bol:false,
       name:null,
       deporte:null,
-      equipo:null
+      equipo:null,
+      file: '',
+      loaded: '',
     }
 
   },
@@ -267,6 +284,29 @@ export default {
      }
     
       
+     },
+     onFileChange(e){
+      var files = e.target.files || e.dataTransfer.files; //OBJECT FILE para cuando se añade o se arrastra
+      if (!files.length)
+        return;
+      this.createImage(files[0]);
+      this.file = files[0];
+
+     },
+    createImage(file) {
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        vm.loaded = e.target.result;//contenido del fichero
+      };
+      reader.readAsDataURL(file);// result contiene  la información como una URL representando la información del archivo como una cadena de caracteres codificados en base64.
+    },
+     removeImage(e){
+      this.file = '';
+  
+
      },
       clearName() {
         this.equipo = ''
@@ -576,4 +616,15 @@ export default {
     margin: 0 2px;
     padding: .35em .625em .75em;
 }
+
+#botonEliminaImagen {
+    background-color: red;
+    font-size: 13px;
+    margin-left: 10px;
+    border: none;
+}
+
+
+
+
 </style>

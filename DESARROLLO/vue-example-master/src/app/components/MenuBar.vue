@@ -34,7 +34,7 @@
              <div class="conj">
               <span v-bind:class="{ rectangulo1: mes.fromUser.login==WhatLogin1(), rectangulo3:mes.fromUser.login!=WhatLogin1()}">{{mes.fromUser.name}} {{mes.fromUser.surname1}} {{mes.fromUser.surname2}}</span><br>
               <span class="rectangulo">{{mes.contentComment}}</span>
-        </div>
+            </div>
             </b-btn>
           </div>
             </div>
@@ -697,9 +697,12 @@ textarea.form-control {
 }
 .conj{
   text-align:left !important;
+  width:100%;
+
 }
 .rectangulo{
   font-size:0.8em;
+  word-wrap:break-word;
 }
 
 .rectangulo2 {
@@ -711,17 +714,22 @@ textarea.form-control {
 }
 .rectangulo1{
   font-size:0.9em;
-   color: #17a2b8;
+  color: #17a2b8;
+  margin-left: 3%;
 }
 .rectangulo3{
    font-size:0.9em;
    color: #fb887c;
+   margin-left: 3%;
 
 }
 .w3container, .w3-panel {
     padding: 0.01em 16px;
     margin-bottom: 5px;
     width:60%;
+    white-space: pre-wrap;
+    break-word:break-wrap;
+
 
 }
 .w3container1{
@@ -729,6 +737,8 @@ textarea.form-control {
    margin-bottom: 5px;
    width:60%;
   float:right;
+  white-space: pre-wrap;
+  break-word:break-wrap;
 }
 
 .modal-tittle{
