@@ -9,6 +9,7 @@ package es.udc.lbd.asi.restexample.config;
      private String clientHost;
      private String jwtSecretKey;
      private Long jwtValidity;
+     private String resourcePath;
 
      
      public String getClientHost() {
@@ -33,4 +34,11 @@ package es.udc.lbd.asi.restexample.config;
      public void setJwtValidity(Long jwtValidity) {
          this.jwtValidity = jwtValidity;
      }
+     public String getResourcePath() {
+ 		return resourcePath;
+ 	}
+
+ 	public void setResourcePath(String resourcePath) {
+ 		this.resourcePath = resourcePath;
+ 	}
  }

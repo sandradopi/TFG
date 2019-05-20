@@ -462,6 +462,26 @@ export default {
         return true;
       }
     },
+    submitFile(){
+      if (this.file != ''){
+        let formData = new FormData();//Vamos a enviar los datos con la misma codificación del formulario, se establece en "multipart/form-data".
+        formData.append('file', this.file, this.user.login + ".jpg");
+
+        this.user.rutaImagen = this.user.login  + ".jpg";
+
+        HTTP.post('users/uploadFile',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+          )
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+      }
+    },
     save() {
       if(this.$route.params.id != null){
         if (this.checkForm1() == true) {
@@ -477,7 +497,7 @@ export default {
       }else{
       
        if (this.checkForm() == true) {
-    
+          this.submitFile();
           return HTTP.post('register', this.user)
           .then(this.userLogin)
           .catch(this._errorHandler)
@@ -624,7 +644,11 @@ export default {
     border: none;
 }
 
-
+img {
+  width: 30%;
+  display: block;
+  margin-bottom: 10px;
+}
 
 
 </style>

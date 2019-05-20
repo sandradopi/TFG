@@ -7,14 +7,18 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
@@ -126,6 +130,12 @@ public class UserResource {
     @DeleteMapping("/{idUser}")
     public void delete(@PathVariable Long idUser) throws InstanceNotFoundExceptionHIB, SportDeleteException{
         userService.deleteById(idUser);
+    }
+    
+    @PostMapping(value = "/uploadFile")
+    public void loadImage(@RequestParam("file") MultipartFile file, ModelMap modelMap) throws Exception {
+        modelMap.addAttribute("file", file);
+        userService.store(file);
     }
     
     

@@ -1,5 +1,11 @@
 package es.udc.lbd.asi.restexample.model.service;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,11 +19,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import es.udc.lbd.asi.restexample.config.Properties;
 import es.udc.lbd.asi.restexample.model.domain.AdminUser;
 import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
@@ -77,11 +89,25 @@ public class UserService implements UserServiceInterface{
   private SocialRelationShipDAO socialDAO;
   @Autowired
   private CommentDAO commentDAO;
+  @Autowired
+  private Properties properties;    
+  private Path location;
   
   
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  @PostConstruct
+  public void initUserService() {
+      this.location = Paths.get(properties.getResourcePath());
+      try {
+          Files.createDirectories(this.location);
+      } catch (IOException e) {
+          // TODO Auto-generated catch block
+          e.printStackTrace();
+      }
+  }
+  
   @PreAuthorize("hasAuthority('USER')")
 	@Override
 	public List<GameDTO> findGamesPlayed(String login) {
@@ -542,7 +568,30 @@ public class UserService implements UserServiceInterface{
 		}
 
 	
+		  public void store(MultipartFile file) throws Exception {
+		        String filename = StringUtils.cleanPath(file.getOriginalFilename()); //Return the original filename in the client's filesystem.
 
+		        try {
+		            if (file.isEmpty()) {
+		                throw new Exception("Error al almacenar la foto " + filename);
+		            }
+		            if (filename.contains("..")) {
+		                throw new Exception(
+		                        "Cannot store file with relative path outside current directory "
+		                                + filename);
+		            }
+		            try (InputStream inputStream = file.getInputStream()) { //This method returns he input stream connected to the normal output of the subprocess.
+		                Files.copy(inputStream, this.location.resolve(filename),
+		                    StandardCopyOption.REPLACE_EXISTING);
+		            }
+		        }
+		        catch (Exception e) {
+		            throw new Exception("Failed to store file " + filename, e);
+		        }
+		    }
+		   
+		    
+			
 		
    
 

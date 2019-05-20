@@ -30,6 +30,8 @@ public class NormalUser extends User_ {
 	@Column(name="experience")
 	private Integer experience;
 	
+	@Column(name="rutaImagen")
+	private String rutaImagen;
 	
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
@@ -75,6 +77,15 @@ public class NormalUser extends User_ {
 
 	public String getCity() {
 		return city;
+	}
+
+	
+	public String getRutaImagen() {
+		return rutaImagen;
+	}
+
+	public void setRutaImagen(String rutaImagen) {
+		this.rutaImagen = rutaImagen;
 	}
 
 	public void setCity(String city) {

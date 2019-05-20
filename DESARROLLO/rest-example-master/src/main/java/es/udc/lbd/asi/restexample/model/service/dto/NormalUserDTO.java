@@ -48,6 +48,7 @@ public class NormalUserDTO {
 	
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
+	private String rutaImagen;
 	
     private Set<TeamDTO> juego = new HashSet<TeamDTO>();
 	private Set<TeamDTO> favoritos = new HashSet<TeamDTO>();
@@ -67,11 +68,22 @@ public class NormalUserDTO {
 		this.surname2=user.getSurname2();
 		
 		
+		
 	}
 
 	
 	
 	
+
+
+	public String getRutaImagen() {
+		return rutaImagen;
+	}
+
+
+	public void setRutaImagen(String rutaImagen) {
+		this.rutaImagen = rutaImagen;
+	}
 
 
 	public Set<GameDTO> getNotifications() {

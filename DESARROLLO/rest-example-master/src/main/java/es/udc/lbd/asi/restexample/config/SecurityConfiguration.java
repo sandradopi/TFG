@@ -88,7 +88,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
         .antMatchers("/api/authenticate").permitAll()
         .antMatchers(HttpMethod.POST, "/api/register").permitAll()
-        .antMatchers(HttpMethod.GET, "/api/movies/**").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/users/uploadFile").permitAll()
         .antMatchers("/**").authenticated()
     .and()
         .apply(securityConfigurerAdapter());;
