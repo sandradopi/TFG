@@ -158,10 +158,7 @@
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
              <b-btn class="w3-bar" @click="confirmacion(game)">
-               <img v-if="game.sport.type=='Futbol'"src="../entities/user/futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
-               <img v-if="game.sport.type=='Tennis'"src="../entities/user/ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
-               <img v-if="game.sport.type=='Paddel'"src="../entities/user/paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
-               <img v-if="game.sport.type=='Baloncesto'"src="../entities/user/bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
+               <img v-bind:src="getImagenSport(game.sport.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px"></img>
               <div class="w3-bar-item">
                 <span class="w3-large">{{game.location.name}}</span><br>
                 <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
@@ -564,6 +561,10 @@ data() {
     getImagen(path){
       return baseURL + "users/imagenes/" + path;
     },
+     getImagenSport(path){
+      return baseURL + "sports/imagenes/" + path;
+    },
+   
     copyTeams(){
       for ( var i = 0; i < this.playersChange.length; i ++){
           this.equiposJugadores.push(this.playersChange[i].equipo)

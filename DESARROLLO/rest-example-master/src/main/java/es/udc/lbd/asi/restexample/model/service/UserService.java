@@ -66,6 +66,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.GameMessageDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SocialFriendShipDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.security.SecurityUtils;
@@ -568,6 +569,12 @@ public class UserService implements UserServiceInterface{
 			}
 		 }
 			Collections.sort(actividades, (o1, o2) -> o1.getDate().compareTo(o2.getDate()));
+			
+			for(ActivitiesDTO usuario:actividades){
+				NormalUser Userfrom = userDAO.findByLoginNormal(usuario.getFriend().getLogin());
+				usuario.getFriend().setRutaImagen(Userfrom.getRutaImagen());
+				
+			}
 			
 			return actividades;
 		}

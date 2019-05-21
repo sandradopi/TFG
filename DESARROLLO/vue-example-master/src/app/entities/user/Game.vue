@@ -90,10 +90,7 @@
        <div class="scroll">
    		 <div class="w3-container" v-for=" game in this.gamesLoc" :key="game.idGame">
        		 <b-btn class="w3-bar" :to="{ name: 'GameDetail', params: { id: game.idGame}}">
-          	 <img v-if="game.sport.type=='Futbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-          	 <img v-if="game.sport.type=='Tennis'"src="ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-          	 <img v-if="game.sport.type=='Paddel'"src="paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-           	<img v-if="game.sport.type=='Baloncesto'"src="bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+          	 <img v-bind:src="getImagenSport(game.sport.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
            	<div class="w3-bar-item">
               <span class="w3-large">{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span><br>
               <span>Creador: {{game.creator.name}} {{game.creator.surname1}} {{game.creator.surname2}}</span>
@@ -139,6 +136,7 @@ import Vue from 'vue'
 import L from 'leaflet'
 import Multiselect from 'vue-multiselect'
 import Calendar from '../../entities/user/Calendar'
+import { baseURL } from '../../common/http-common'
 
 
 
@@ -255,6 +253,9 @@ export default {
      this.fetchData().then(() => {this.confirmación()});
       
 
+    },
+      getImagenSport(path){
+      return baseURL + "sports/imagenes/" + path;
     },
 
 

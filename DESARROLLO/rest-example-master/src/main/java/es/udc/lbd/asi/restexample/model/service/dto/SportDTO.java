@@ -18,6 +18,7 @@ public class SportDTO {
 	private String componenteEntrada;
 	private String componenteVisualizacion;
 	private Set<LocationDTO> locations = new HashSet<LocationDTO>();
+	private String rutaImagen;
 	
 	public SportDTO(Sport sport) {
 		this.idSport = sport.getIdSport();
@@ -27,6 +28,7 @@ public class SportDTO {
 		 for(Location a: sport.getLocations()){
         	 this.locations.add(new LocationDTO(a));
          }
+		 this.rutaImagen=sport.getRutaImagen();
 	}
 
 	public SportDTO() {
@@ -70,6 +72,14 @@ public class SportDTO {
 
 	public void setLocations(Set<LocationDTO> locations) {
 		this.locations = locations;
+	}
+
+	public String getRutaImagen() {
+		return rutaImagen;
+	}
+
+	public void setRutaImagen(String rutaImagen) {
+		this.rutaImagen = rutaImagen;
 	}
 
 	

@@ -10,6 +10,7 @@ package es.udc.lbd.asi.restexample.config;
      private String jwtSecretKey;
      private Long jwtValidity;
      private String resourcePath;
+     private String resourcePathSport;
 
      
      public String getClientHost() {
@@ -41,4 +42,13 @@ package es.udc.lbd.asi.restexample.config;
  	public void setResourcePath(String resourcePath) {
  		this.resourcePath = resourcePath;
  	}
+
+	public String getResourcePathSport() {
+		return resourcePathSport;
+	}
+
+	public void setResourcePathSport(String resourcePathSport) {
+		this.resourcePathSport = resourcePathSport;
+	}
+ 	
  }

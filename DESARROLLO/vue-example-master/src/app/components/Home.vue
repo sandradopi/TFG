@@ -88,10 +88,8 @@
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
              <div class="w3-container" v-for=" game in this.games" :key="game.idGame">
              <b-btn class="w3-bar" @click="confirmacion(game)">
-               <img v-if="game.sport.type=='Futbol'"src="../entities/user/futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-               <img v-if="game.sport.type=='Tennis'"src="../entities/user/ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-               <img v-if="game.sport.type=='Paddel'"src="../entities/user/paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-               <img v-if="game.sport.type=='Baloncesto'"src="../entities/user/bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-bind:src="getImagenSport(game.sport.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               
               <div class="w3-bar-item">
                 <span class="w3-large">{{game.location.name}}</span><br>
                 <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
@@ -111,6 +109,7 @@ import { HTTP } from '../common/http-common'
 import auth from '../common/auth'
 import Swal from 'sweetalert2';
 import Multiselect from 'vue-multiselect'
+import { baseURL } from '../common/http-common'
 
 
 
@@ -149,6 +148,9 @@ export default {
 
 
     }, 
+    getImagenSport(path){
+      return baseURL + "sports/imagenes/" + path;
+    },
      updateTeams(){
         var promises=[];
       for ( var i = 0; i < this.playersChange.length; i ++){

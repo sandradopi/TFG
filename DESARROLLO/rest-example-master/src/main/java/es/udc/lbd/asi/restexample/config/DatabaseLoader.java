@@ -95,10 +95,10 @@ public class DatabaseLoader {
     locationsBaloncesto.add(location1);
     locationsPaddel.add(location3);
     
-    Sport sport1=new Sport("Futbol",null,null,locationsFutbol);
-    Sport sport2= new Sport("Tennis",null,null,locationsTennis);
-    Sport sport3= new Sport("Baloncesto",null,null,locationsBaloncesto);
-    Sport sport4 =new Sport("Paddel",null,null,locationsPaddel);
+    Sport sport1=new Sport("Futbol",null,null,locationsFutbol,"Futbol.png");
+    Sport sport2= new Sport("Tennis",null,null,locationsTennis,"Tennis.png");
+    Sport sport3= new Sport("Baloncesto",null,null,locationsBaloncesto,"Baloncesto.png");
+    Sport sport4 =new Sport("Paddel",null,null,locationsPaddel,"Paddel.png");
     sportService.save(sport1);
     sportService.save(sport2);
     sportService.save(sport3);

@@ -7,7 +7,7 @@
         <li v-if="this.activities.length==0">No hay actividades en su tablón</li>
         <div class="w3-container" v-for=" activity in this.activities">
           <b-btn class="w3-bar" @click="verDetalleActividad(activity)">
-              <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+              <img v-bind:src="getImagen(activity.friend.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
               <div class="conj">
                 <span class="w3-large">{{activity.friend.name}} {{activity.friend.surname1}} {{activity.friend.surname2}}</span><br>
                 <span class="rectangulo">{{activity.action}} ({{customDate(activity.date)}})</span>
@@ -26,6 +26,7 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Weather from '../../entities/user/Weather'
+import { baseURL } from '../../common/http-common'
 export default {
   components: { Multiselect, Weather},
   data() {
@@ -64,6 +65,9 @@ export default {
     },
      customHour(hour){
       return hour.substring(12,16)
+    },
+    getImagen(path){
+      return baseURL + "users/imagenes/" + path;
     },
     
    

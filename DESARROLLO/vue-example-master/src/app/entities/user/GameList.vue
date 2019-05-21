@@ -3,10 +3,8 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <div class="w3-container" v-for=" (game,index) in this.games" :key="game.idGame">
         <b-btn class="w3-bar" @click="verDetallePartido(game)">
-           <img v-if="game.sport.type=='Futbol'"src="futbol.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-           <img v-if="game.sport.type=='Tennis'"src="ten.jpg" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-           <img v-if="game.sport.type=='Paddel'"src="paddel.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
-           <img v-if="game.sport.type=='Baloncesto'"src="bal1.png" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+          
+           <img v-bind:src="getImagenSport(game.sport.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
            <div class="w3-bar-item">
               <span class="w3-large">{{game.location.name}}</span><br>
               <span>{{game.date}} ({{custom(game.timeStart)}}-{{custom(game.timeEnd)}})</span>
@@ -219,6 +217,9 @@ export default {
       }
       
     }
+    },
+     getImagenSport(path){
+      return baseURL + "sports/imagenes/" + path;
     },
     
      WhatLogin() {

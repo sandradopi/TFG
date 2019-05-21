@@ -26,6 +26,8 @@ public class Sport {
 	@Column(unique = true)
 	@NotEmpty
 	private String type;
+	@Column(name="rutaImagen")
+	private String rutaImagen;
 	
 	
 	@Column(name = "componenteEntrada")
@@ -49,11 +51,12 @@ public class Sport {
 	}
 	
 	public Sport(@NotEmpty String type, String componenteEntrada,
-			 String componenteVisualizacion, @NotNull Set<Location> location) {
+			 String componenteVisualizacion, @NotNull Set<Location> location,String rutaImagen) {
 		this.type = type;
 		this.componenteEntrada = componenteEntrada;
 		this.componenteVisualizacion = componenteVisualizacion;
 		this.locations=location;
+		this.rutaImagen=rutaImagen;
 	}
 	
 	public Sport(@NotEmpty String type, String componenteEntrada,
@@ -114,6 +117,14 @@ public class Sport {
 
 	public void setComponenteVisualizacion(String componenteVisualizacion) {
 		this.componenteVisualizacion = componenteVisualizacion;
+	}
+
+	public String getRutaImagen() {
+		return rutaImagen;
+	}
+
+	public void setRutaImagen(String rutaImagen) {
+		this.rutaImagen = rutaImagen;
 	}
 
 	

@@ -76,7 +76,7 @@
 			    <div class="profile__header">
 			      <div class="profile__account">
 			        <h4 class="profile__username">{{this.user.name}} {{this.user.surname1}} {{this.user.surname2}} </h4>
-			        <h4 class="profile__username1"> ({{this.user.city}})</h4>
+			        <h4 class="profile__username1" v-if="this.user.city"> ({{this.user.city}})</h4>
 			      </div>
 
 
