@@ -72,7 +72,7 @@
 
     	<div class="layout">
 			  <div class="profile">
-			    <div class="profile__picture"><img src="http://i.pravatar.cc/250?img=41"/></div>
+			    <div class="profile__picture"><img v-bind:src="getImagen()"/></div>
 			    <div class="profile__header">
 			      <div class="profile__account">
 			        <h4 class="profile__username">{{this.user.name}} {{this.user.surname1}} {{this.user.surname2}} </h4>
@@ -132,6 +132,8 @@ import Vue from 'vue'
 import GameList from '../../entities/user/GameList'
 import Recomendations from '../../entities/user/Recomendations'
 import StarRating from 'vue-star-rating'
+import { baseURL } from '../../common/http-common'
+
 
 
 export default {
@@ -178,12 +180,16 @@ export default {
      HTTP.get(`users/${this.$route.params.id}`) 
           .then(response => { this.user = response.data
                  return response })
+          .then(this.getImagen)
           .then(this.getRelationShipsMe)
           .then(this.getRelationShipsTo)
           .catch(err => { this.error = err.message})
 
 
 
+    },
+    getImagen(){
+      return baseURL + "users/imagenes/" + this.user.rutaImagen;
     },
     getRelationShipsMe(){
        return HTTP.get(`social/follow/${this.$route.params.id}/true`) 

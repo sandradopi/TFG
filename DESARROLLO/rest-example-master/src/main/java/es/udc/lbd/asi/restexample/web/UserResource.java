@@ -1,12 +1,16 @@
 package es.udc.lbd.asi.restexample.web;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -136,6 +141,18 @@ public class UserResource {
     public void loadImage(@RequestParam("file") MultipartFile file, ModelMap modelMap) throws Exception {
         modelMap.addAttribute("file", file);
         userService.store(file);
+    }
+    
+    @GetMapping(value ="/imagenes/{login}")
+    public Resource getImage(@PathVariable String login) {
+        try {
+			return userService.getImageAsResource(login);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+		}
+		return null;
+    
+        
     }
     
     

@@ -70,11 +70,11 @@ public class DatabaseLoader {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
     	
-    userService.registerUser("pepe","pepe@pepe.com", "pepe", true,"Pepe", "Lopez","Fernandez", "Madrid", sdf.parse("1997-01-24"));
-    userService.registerUser("maria","maria@maria.com","maria",true,"Maria","Aira", "Del Valle", "Barcelona", sdf.parse("1999-11-15"));
-    userService.registerUser("laura", "guajndos@gmail.com","laura", false,"Laura", "Insua","Regueiro","Bilbao", sdf.parse("1960-12-18"));
-    userService.registerUser("sandra","vicfic23@gmail.com","sandra", false,"Sandra","Dopico","Cantarero","A Coruña", sdf.parse("1997-08-20"));
-    userService.registerUser("lucas", "sandra111@outlook.com","lucas", false,"Lucas", "Vazquez", "Lorenzo","Madrid", sdf.parse("2003-03-17"));
+    userService.registerUser("pepe","pepe@pepe.com", "pepe", true,"Pepe", "Lopez","Fernandez", "Madrid", sdf.parse("1997-01-24"),null);
+    userService.registerUser("maria","maria@maria.com","maria",true,"Maria","Aira", "Del Valle", "Barcelona", sdf.parse("1999-11-15"),null);
+    userService.registerUser("laura", "guajndos@gmail.com","laura", false,"Laura", "Insua","Regueiro","Bilbao", sdf.parse("1960-12-18"),"laura.jpg");
+    userService.registerUser("sandra","vicfic23@gmail.com","sandra", false,"Sandra","Dopico","Cantarero","A Coruña", sdf.parse("1997-08-20"),"sandra.jpg");
+    userService.registerUser("lucas", "sandra111@outlook.com","lucas", false,"Lucas", "Vazquez", "Lorenzo","Madrid", sdf.parse("2003-03-17"),"lucas.jpg");
   
     Location location1=new Location("Parque de Oza", new Double(43.350538),new Double(-8.401573));
     Location location2=new Location("Bastiagueiro",  new Double(43.340167),new Double(-8.35426));

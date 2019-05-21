@@ -16,6 +16,8 @@ Vue.component('v-select', vSelect)
 import FullCalendar from 'vue-full-calendar';
 Vue.use(FullCalendar);
 
+import VueAuthImage from 'vue-auth-image';
+Vue.use(VueAuthImage);
 
 import { Icon } from "leaflet"
 delete Icon.Default.prototype._getIconUrl

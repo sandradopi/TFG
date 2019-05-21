@@ -2,6 +2,7 @@ package es.udc.lbd.asi.restexample.model.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,6 +23,8 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -300,6 +303,7 @@ public class UserService implements UserServiceInterface{
 		   	 userTransformado.setBirthday(usuarioDevuelto.getBirthday());
 		   	 userTransformado.setCity(usuarioDevuelto.getCity());
 		   	 userTransformado.setExperience(usuarioDevuelto.getExperience());
+		   	 userTransformado.setRutaImagen(usuarioDevuelto.getRutaImagen());
 		   	
 		   	 
 		   	 userTransformado.getFavoritos().clear();
@@ -333,7 +337,7 @@ public class UserService implements UserServiceInterface{
   		
 	     @Transactional(readOnly = false)
 	     @Override
-		 public void registerUser(String login, String email,String password, String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect {
+		 public void registerUser(String login, String email,String password, String name, String surname1, String surname2, String city, Date birthday, String rutaImagen) throws UserLoginEmailExistsException, ParseException, RequiredFieldsException, PasswordTooShort, EmailIncorrect {
 	    
 	    	     String emailPattern = "^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@" +
 	    	    	      "[a-z0-9-]+(\\.[a-z0-9-]+)*(\\.[a-z]{2,4})$";
@@ -382,12 +386,12 @@ public class UserService implements UserServiceInterface{
 		        	throw new PasswordTooShort("La contraseña es muy corta, minimo 4 digitos");
 		        }
 
-	    	     registerUser(login,email, password, false, name, surname1, surname2, city,birthday);
+	    	     registerUser(login,email, password, false, name, surname1, surname2, city,birthday,rutaImagen);
 	     }
 	     
 	     @Transactional(readOnly = false)
 	     @Override
-	     public void registerUser(String login,String email,String password, boolean isAdmin,  String name, String surname1, String surname2, String city, Date birthday) throws UserLoginEmailExistsException, RequiredFieldsException, PasswordTooShort {
+	     public void registerUser(String login,String email,String password, boolean isAdmin,  String name, String surname1, String surname2, String city, Date birthday,String rutaImagen) throws UserLoginEmailExistsException, RequiredFieldsException, PasswordTooShort {
 	       
 	        
 	         String encryptedPassword = passwordEncoder.encode(password);
@@ -415,6 +419,7 @@ public class UserService implements UserServiceInterface{
 		         user.setBirthday(birthday);
 		         user.setCity(city);
 		         user.setExperience(0);
+		         user.setRutaImagen(rutaImagen);
 		         userDAO.save(user);
 		         }
 
@@ -589,6 +594,25 @@ public class UserService implements UserServiceInterface{
 		            throw new Exception("Failed to store file " + filename, e);
 		        }
 		    }
+		  
+		  
+		    public Resource getImageAsResource(String fileName) throws Exception {
+		        try {
+		            Path file =location.resolve(fileName);
+		            Resource resource = new UrlResource(file.toUri());
+		            if (resource.exists() || resource.isReadable()) {
+		                return resource;
+		            }
+		            else {
+		                throw new Exception(
+		                        "Could not read file: " + fileName);
+		 
+		            }
+		        }
+		        catch (MalformedURLException e) {
+		            throw new Exception("Could not read file: " + fileName, e);
+		        }
+		    }   
 		   
 		    
 			
