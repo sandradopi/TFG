@@ -19,7 +19,7 @@
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" mes in this.relations" :key="mes.idUser">
              <b-btn class="w3-bar" @click="goPageFiend(mes)">
-               <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-bind:src="getImagen(mes.userTo.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
               <div class="conj2">
               <h5 class="rectangulo2">{{mes.userTo.name}} {{mes.userTo.surname1}} {{mes.userTo.surname2}}</h5><br>
               </div>
@@ -47,7 +47,7 @@
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" mes in this.relationsToMe" :key="mes.idUser">
              <b-btn class="w3-bar" @click="goPageFiend(mes)">
-               <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-bind:src="getImagen(mes.userFrom.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
               <div class="conj2">
               <h5 class="rectangulo2">{{mes.userFrom.name}} {{mes.userFrom.surname1}} {{mes.userFrom.surname2}}</h5><br>
               </div>
@@ -72,7 +72,7 @@
 
     	<div class="layout">
 			  <div class="profile">
-			    <div class="profile__picture"><img v-bind:src="getImagen()"/></div>
+			    <div class="profile__picture"><img v-bind:src="getImagen(this.user.rutaImagen)"/></div>
 			    <div class="profile__header">
 			      <div class="profile__account">
 			        <h4 class="profile__username">{{this.user.name}} {{this.user.surname1}} {{this.user.surname2}} </h4>
@@ -188,8 +188,8 @@ export default {
 
 
     },
-    getImagen(){
-      return baseURL + "users/imagenes/" + this.user.rutaImagen;
+    getImagen(path){
+      return baseURL + "users/imagenes/" + path;
     },
     getRelationShipsMe(){
        return HTTP.get(`social/follow/${this.$route.params.id}/true`) 

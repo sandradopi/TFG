@@ -126,9 +126,26 @@ public SocialFriendShipDTO findAllUserFromUser(String loginFrom, String loginTo)
 @Override
 public List<SocialFriendShipDTO> findAllUser(String login, Boolean type) {
 	if(type==true){//Seguidos
-		return socialRelationShipDAO.findByLoginFollowers(login).stream().map(social -> new SocialFriendShipDTO(social)).collect(Collectors.toList());
+		List<SocialFriendShipDTO> sociaFollowers= socialRelationShipDAO.findByLoginFollowers(login).stream().map(social1 -> new SocialFriendShipDTO(social1)).collect(Collectors.toList());;
+		for(SocialFriendShipDTO usuario:sociaFollowers){
+			NormalUser Userfrom = userDAO.findByLoginNormal(usuario.getUserFrom().getLogin());
+			NormalUser Userto = userDAO.findByLoginNormal(usuario.getUserTo().getLogin());
+			usuario.getUserFrom().setRutaImagen(Userfrom.getRutaImagen());
+			usuario.getUserTo().setRutaImagen(Userto.getRutaImagen());
+			
+		}
+		return sociaFollowers;
 	}else{//Seguidores
-		return socialRelationShipDAO.findByLoginFollowed(login).stream().map(social -> new SocialFriendShipDTO(social)).collect(Collectors.toList());
+		List<SocialFriendShipDTO> socialFollowed= socialRelationShipDAO.findByLoginFollowed(login).stream().map(social1 -> new SocialFriendShipDTO(social1)).collect(Collectors.toList());;
+		
+		for(SocialFriendShipDTO usuario:socialFollowed){
+			NormalUser Userfrom = userDAO.findByLoginNormal(usuario.getUserFrom().getLogin());
+			NormalUser Userto = userDAO.findByLoginNormal(usuario.getUserTo().getLogin());
+			usuario.getUserFrom().setRutaImagen(Userfrom.getRutaImagen());
+			usuario.getUserTo().setRutaImagen(Userto.getRutaImagen());
+			
+		}
+		return socialFollowed;
 	}
 	
 }
