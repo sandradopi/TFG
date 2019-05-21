@@ -51,7 +51,7 @@
 	<span class="w3-large" v-if="this.game.sport.type=='Futbol'">Goles Jugadores A:</span><br>
   <span class="w3-large" v-if="this.game.sport.type=='Baloncesto'">Puntos Jugadores A:</span><br>
     <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
+     <img class="foto" v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
      <div class="conj">	
               <span class="w3-large">{{playerG.player.login}}</span><br>
                  <b-form-input
@@ -69,7 +69,7 @@
  <span class="w3-large" v-if="this.game.sport.type=='Futbol'">Goles Jugadores B:</span><br>
   <span class="w3-large" v-if="this.game.sport.type=='Baloncesto'">Puntos Jugadores B:</span><br>
     <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
+     <img class="foto" v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
      <div class="conj">	
               <span class="w3-large">{{playerG.player.login}}</span><br>
                  <b-form-input
@@ -94,6 +94,7 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Weather from '../../entities/user/Weather'
+import { baseURL } from '../../common/http-common'
 
 export default {
   components: { Multiselect, Weather},
@@ -172,6 +173,9 @@ export default {
     	 }
 
 	 },
+   getImagen(path){
+      return baseURL + "users/imagenes/" + path;
+    },
   
      _successHandler(response) {
       this.$router.replace({ name: 'Game'})

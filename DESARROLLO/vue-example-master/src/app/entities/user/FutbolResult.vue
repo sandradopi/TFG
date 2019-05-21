@@ -1,6 +1,6 @@
 <template>
   <div class="content"> 
-   <b-btn class="button32" @click="back()"><font-awesome-icon icon="backward"style="font-size:30px;"/></b-btn>
+   <b-btn class="button32" @click="back()"><font-awesome-icon icon="arrow-left"style="font-size:30px;"/></b-btn>
      
       <h1 class="title">Partido Finalizado</h1> 
 
@@ -36,7 +36,9 @@
       <div class="info">
       <h2 class="title2"> Equipo A</h2>  
         <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
-         <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:75px">
+          <b-btn class="buttonUser":to="{ name: 'GameUser', params: { id: playerG.player.login}}">
+         <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:75px">
+         </b-btn>
           <h6 class="w3-large">{{playerG.player.login}}</h6>
         </div>
 
@@ -44,7 +46,9 @@
      
       <h2 class="title2"> Equipo B</h2>  
         <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
-         <img class="foto"src="http://i.pravatar.cc/250?img=48" class="foto" style="width:75px">
+          <b-btn class="buttonUser":to="{ name: 'GameUser', params: { id: playerG.player.login}}">
+         <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:75px">
+          </b-btn>
           <h6 class="w3-large">{{playerG.player.login}}</h6>
         </div>
       </div>
@@ -61,6 +65,7 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Weather from '../../entities/user/Weather'
+import { baseURL } from '../../common/http-common'
 
 export default {
   components: { Multiselect, Weather},
@@ -119,6 +124,10 @@ export default {
 
 
    },
+     getImagen(path){
+      return baseURL + "users/imagenes/" + path;
+    },
+  
 
 
 
@@ -162,7 +171,7 @@ export default {
     },
 
     back() {
-      this.$router.go(-1)
+       this.$router.replace({ name: 'GameUser', params: { id:this.WhatLogin()}})
     },
     
     _errorHandler(err) {
@@ -188,9 +197,13 @@ export default {
     margin-left:120px;
     margin-top:50px;
     margin-bottom:50px;
-    height:66%;
+    height:70%;
     border-radius: 6px;
 }
+.buttonUser{
+  background-color:#17a2b8;
+  border-color:#17a2b8;
+ }
 
 .title{
     font-family: 'Lato', sans-serif;

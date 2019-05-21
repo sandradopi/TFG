@@ -46,6 +46,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.GameMessageDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SocialFriendShipDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserMessageCountDTO;
@@ -96,7 +97,13 @@ public class CommentService implements CommentServiceInterface{
 	     
 	     @Override
 		public List<GameMessageDTO> findAllByGame(Long idGame) {
-			return commentDAO.findAllByGame(idGame).stream().map(game -> new GameMessageDTO(game)).collect(Collectors.toList());
+	    	 List<GameMessageDTO> messages= commentDAO.findAllByGame(idGame).stream().map(game -> new GameMessageDTO(game)).collect(Collectors.toList());
+	    	 for(GameMessageDTO usuario:messages){
+	 			NormalUser Userfrom = userDAO.findByLoginNormal(usuario.getFromUser().getLogin());
+	 			usuario.getFromUser().setRutaImagen(Userfrom.getRutaImagen());
+	 			
+	 		}
+	    	 return messages;
 		}
 	    @Override
 		public List<UserMessageDTO> findAllUserFromUser(String UserFrom, String UserTo) {
@@ -146,6 +153,11 @@ public class CommentService implements CommentServiceInterface{
 				UserMessageCountDTO destinatario =new UserMessageCountDTO(a);
 				destinatario.setCountMessagesNotViewed(commentDAO.findAllToMe(login,a.getLogin()));
 				destinatariosCount.add(destinatario);
+			}
+			for(UserMessageCountDTO usuario:destinatariosCount){
+				NormalUser Userfrom = userDAO.findByLoginNormal(usuario.getFromUser().getLogin());
+				usuario.getFromUser().setRutaImagen(Userfrom.getRutaImagen());
+				
 			}
 			
 			return destinatariosCount;

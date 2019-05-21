@@ -22,7 +22,7 @@
 	<div class="info">
 	<span class="w3-large">Sets Equipo A:</span><br>
     <div class="bloque" v-for=" playerG in playersA" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
+     <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
      <div class="conj">	
      <span class="w3-large">{{playerG.player.login}}</span><br>
             <b-form-group class="conj1">
@@ -61,7 +61,7 @@
 	</br>
   <span class="w3-large">Sets Equipo B:</span><br>
     <div class="bloque" v-for=" playerG in playersB" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
+     <img class="foto" v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
      <div class="conj">	
               <span class="w3-large">{{playerG.player.login}}</span><br>
                 <b-form-group class="conj1">
@@ -107,6 +107,7 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Weather from '../../entities/user/Weather'
+import { baseURL } from '../../common/http-common'
 
 export default {
   components: { Multiselect, Weather},
@@ -167,6 +168,9 @@ export default {
 
 
 	 },
+   getImagen(path){
+      return baseURL + "users/imagenes/" + path;
+    },
 
 	
 

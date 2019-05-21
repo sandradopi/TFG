@@ -79,7 +79,7 @@
         <h2 class="title1"> Participantes</h2>  
         <div class="bloque" v-for=" playerG in this.players" :key="playerG.idPlayer">
            <b-btn class="user" :to="{ name: 'GameUser', params: { id: playerG.player.login}}">
-             <img src="http://i.pravatar.cc/250?img=41" class="foto" style="width:85px">
+             <img v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:85px">
           </b-btn>
           <div class="info">
               <span class="w3-large">{{playerG.player.login}}</span><br>
@@ -95,6 +95,7 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Weather from '../../entities/user/Weather'
+import { baseURL } from '../../common/http-common'
 export default {
   components: { Multiselect, Weather},
   data() {
@@ -149,6 +150,9 @@ export default {
           .then(response => {this.jugador = response.data
                 return response })
           .catch(err => { this.error = err.message})
+    },
+     getImagen(path){
+      return baseURL + "users/imagenes/" + path;
     },
     getPlayers(){
       return HTTP.get(`players/${this.game.idGame}`) 

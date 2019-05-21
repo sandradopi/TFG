@@ -30,6 +30,7 @@ import es.udc.lbd.asi.restexample.model.repository.SportDAO;
 
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.SocialFriendShipDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
 import es.udc.lbd.asi.restexample.repository.util.NotificationTask;
 
@@ -88,7 +89,13 @@ public PlayerDTO save(PlayerDTO player) throws MaxPlayersException, AddressExcep
 }
 @Override
 public List<PlayerDTO> findAllByGame(Long idGame) {
-	return playerDAO.findAllByGame(idGame).stream().map(player -> new PlayerDTO(player)).collect(Collectors.toList());
+	List<PlayerDTO> players= playerDAO.findAllByGame(idGame).stream().map(player -> new PlayerDTO(player)).collect(Collectors.toList());
+	for(PlayerDTO usuario:players){
+		NormalUser user = userDAO.findByLoginNormal(usuario.getPlayer().getLogin());
+		usuario.getPlayer().setRutaImagen(user.getRutaImagen());
+		
+	}
+	return players;
 }
 @Override
 public PlayerDTO findPlayer(Long idGame, String login) {

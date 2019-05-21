@@ -55,7 +55,7 @@
 	<div class="info">
 	<span class="w3-large">Valoraciones Jugadores A:</span><br>
     <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=41" class="foto" style="width:60px">
+     <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
      <div class="conj">	
        <b-btn class="button2" v-if="bolComment[playerG.idPlayer]==false"@click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
        <b-btn class="button25" v-if="bolComment[playerG.idPlayer]==true"><font-awesome-icon icon="check"style="font-size:30px;"/></b-btn>
@@ -77,7 +77,7 @@
 	</br>
   <span class="w3-large">Valoraciones Jugadores B:</span><br>
      <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
-     <img class="foto"src="http://i.pravatar.cc/250?img=40" class="foto" style="width:60px">
+     <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
      <div class="conj">	
        <b-btn class="button2" v-if="bolComment[playerG.idPlayer]==false"@click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
         <b-btn class="button25" v-if="bolComment[playerG.idPlayer]==true"><font-awesome-icon icon="check"style="font-size:30px;"/></b-btn>
@@ -106,6 +106,7 @@ import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
 import Weather from '../../entities/user/Weather'
+import { baseURL } from '../../common/http-common'
 
 export default {
   components: { Multiselect, Weather},
@@ -173,6 +174,10 @@ export default {
     	    	
       
     },
+    getImagen(path){
+      return baseURL + "users/imagenes/" + path;
+    },
+
 
   
 	jugadoresJuego(){

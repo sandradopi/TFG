@@ -85,7 +85,7 @@
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" mes in this.messages" :key="mes.idUser">
              <b-btn class="w3-bar" @click="irAMensajesUsuario(mes.fromUser)">
-               <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+               <img v-bind:src="getImagen(mes.fromUser.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
               <div class="conj2">
               <h5 class="rectangulo2">{{mes.fromUser.name}} {{mes.fromUser.surname1}} {{mes.fromUser.surname2}}</h5><br>
               <div class="circulo" v-if="mes.countMessagesNotViewed>0">
@@ -286,6 +286,7 @@
 import auth from '../common/auth'
 import { HTTP } from '../common/http-common'
 import Multiselect from 'vue-multiselect'
+import { baseURL } from '../common/http-common'
 export default {
 components: { Multiselect},
 data() {
@@ -560,6 +561,9 @@ data() {
 
        
     }, 
+    getImagen(path){
+      return baseURL + "users/imagenes/" + path;
+    },
     copyTeams(){
       for ( var i = 0; i < this.playersChange.length; i ++){
           this.equiposJugadores.push(this.playersChange[i].equipo)

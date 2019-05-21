@@ -25,7 +25,7 @@
     <div class="w3-container" v-for="comentario in this.comentariosGame" :key="comentario.idComent">
         <b-btn class="w3-bar" v-if="comentario!=null">
 
-         <img src="http://i.pravatar.cc/250?img=41" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
+         <img v-bind:src="getImagen(comentario.fromUser.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
          <div class="conj">
           <span class="w3-large">{{comentario.fromUser.name}} {{comentario.fromUser.surname1}} {{comentario.fromUser.surname2}}</span><br>
           <span class="rectangulo">{{comentario.contentComment}}</span>
@@ -40,6 +40,7 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import vueCustomScrollbar from 'vue-custom-scrollbar'
+import { baseURL } from '../../common/http-common'
 
 
 
@@ -125,6 +126,9 @@ export default {
                   .then(this.unionGamesRecomendados)
       }
 
+    },
+     getImagen(path){
+      return baseURL + "users/imagenes/" + path;
     },
     unionGamesRecomendados(){ 
 
