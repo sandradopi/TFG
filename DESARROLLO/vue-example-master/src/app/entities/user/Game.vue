@@ -79,7 +79,7 @@
 
   <div class="conjunto">
 
-  <Calendar class="calendario" v-if="this.calendar==true" ></Calendar>
+  <Calendar class="calendario" v-if="this.calendar==true" v-bind:select="false" ></Calendar>
 
 	<div id="mymap" class="mymap" v-show="this.calendar==false"></div>
 

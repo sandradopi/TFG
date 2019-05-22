@@ -133,17 +133,19 @@ export default {
   },
   watch: {
 
-    '$route.params.id':'fetchData',
+    '$route':'fetchData',
 
 
 
 
     
   },
+
  
   created() { //se va a lanzar siempre en una clase de componentes
     this.fetchData()
   },
+
 
 
   methods: {

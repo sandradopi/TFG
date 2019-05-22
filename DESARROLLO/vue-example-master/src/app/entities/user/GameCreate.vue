@@ -1,7 +1,7 @@
 <template>
   <div class="evento">
 
-    <Calendar v-bind:filterLocation="this.filterLocation" class="calendario" @SelectDate="ChangeDateSelect"></Calendar>
+    <Calendar v-bind:filterLocation="this.filterLocation"v-bind:select="true" class="calendario" @SelectDate="ChangeDateSelect"></Calendar>
     <b-modal
         id="modalPrevent"
         ref="modal"

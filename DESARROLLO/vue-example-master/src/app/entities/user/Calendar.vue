@@ -24,6 +24,7 @@ export default {
   name: 'app',
   props:{
     filterLocation:null,
+    select:null
     
   },
 
@@ -33,8 +34,8 @@ export default {
       game:{},
       events: [],
       config: {
-        
-        
+        selectable:this.select,
+        unselectAuto:false,
         eventClick: (event) => {
            for ( var i = 0; i < this.games.length; i ++){
               if(this.games[i].idGame==event.id){

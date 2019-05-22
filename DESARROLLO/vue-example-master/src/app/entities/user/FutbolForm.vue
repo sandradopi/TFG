@@ -120,7 +120,7 @@ export default {
   },
   watch: {
 
-    '$route.params.id':'fetchData',
+    '$route':'fetchData',
 
 
 
@@ -135,6 +135,7 @@ export default {
 
   methods: {
     fetchData() {
+       this.$forceUpdate();
     	 this.game={}
     	 this.loading=false;
     	 HTTP.get(`games/${this.$route.params.id}`) 

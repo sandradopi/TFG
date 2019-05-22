@@ -47,6 +47,7 @@
               id="textarea"
               class="textarea"
               v-model="newMensaje"
+              v-on:keyup.enter="crearMensajeUsuario"
               placeholder="Mensaje"
               rows="3"
               max-rows="6"
@@ -570,7 +571,7 @@ data() {
       for ( var i = 0; i < this.playersChange.length; i ++){
           this.equiposJugadores.push(this.playersChange[i].equipo)
         }
-        console.log(this.equiposJugadores)
+
         this.$refs.modal3.show()
 
     },
