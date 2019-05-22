@@ -340,12 +340,14 @@ export default {
 
 .inp{
 	 margin-top:50px;
+   margin-left:10px;
 }
 
 h1 {
   color: #3a3a3a;
   text-align: center;
   margin: 1em 0;
+  margin-top:15%;
 }
 
 .horario{

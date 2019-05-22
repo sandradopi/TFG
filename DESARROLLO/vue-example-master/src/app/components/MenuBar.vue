@@ -234,7 +234,7 @@
           
 
           <b-navbar-nav class="ml-auto">
-           <b-nav-item  v-if="isLogged">
+           <b-nav-item  v-if="isLogged && !isAdmin">
             <multiselect 
                 v-model="usuarioSearch" 
                 :options="this.users"
@@ -351,11 +351,12 @@ data() {
                 .then(this.pendingValoration)
                 .then(this.mostrarMensajesParaMi)
                 .catch(err => { this.error = err.message})
-             
+     if(!this.isAdmin){        
         HTTP.get(`users/normal`)
             .then(response => { this.users = response.data })
             .then(this.filtarLogueado)
             .catch(err => { this.error = err.message}) }
+          }
     },
     filtarLogueado(){
        for ( var x = 0; x < this.users.length; x ++){

@@ -23,8 +23,24 @@
         <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
         <input type='text' class="searchButton" placeholder='Nombre del componente de entrada' v-model="sport.componenteEntrada" autofocus required >
         <input type='text' class="searchButton" placeholder='Nombre del componente de visualización' v-model="sport.componenteVisualizacion" autofocus required >
+
+         <b-form-group
+        label="Icono del deporte: "
+        label-for="perfil">
+        <div v-if="!file">
+          <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+        </div>
+        <div v-else>
+          <img :src="loaded" />
+          <img v-if="sport.rutaImagen"v-bind:src="getImagen(this.sport.rutaImagen)" />
+          <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Eliminar</b-btn>
+        </div>
+
+      </b-form-group>
+      <div class="buttonsActions">
         <button class="guardar"@click="guardar()"> Guardar</button>
         <button @click="hide"> Cancelar </button> 
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +50,9 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+import { baseURL } from '../../common/http-common'
+import PictureInput from 'vue-picture-input'
+import FormDataPost from '../../common/upload'
 
 
 
@@ -51,7 +70,9 @@ export default {
       sports:null,
       loc:[],
       typeSport:null,
-      fallo:false
+      fallo:false,
+      file: '',
+      loaded: '',
     }
   },
   watch: {
@@ -87,21 +108,73 @@ export default {
       this.$emit('Cerrar');
 
     },
+
+    recogerFoto(){
+      this.file=this.getImagen();
+    },
+    
+     onFileChange(e){
+      var files = e.target.files || e.dataTransfer.files; //OBJECT FILE para cuando se añade o se arrastra
+      if (!files.length)
+        return;
+      this.createImage(files[0]);
+      this.file = files[0];
+
+     },
+    createImage(file) {
+      var image = new Image();
+      var reader = new FileReader();
+      var vm = this;
+
+      reader.onload = (e) => {
+        vm.loaded = e.target.result;//contenido del fichero
+      };
+      reader.readAsDataURL(file);// result contiene  la información como una URL representando la información del archivo como una cadena de caracteres codificados en base64.
+    },
+     removeImage(e){
+      this.user.rutaImagen='';
+      this.file = '';
+  
+
+     },
+      submitFile(){
+      if (this.file != ''){
+        let formData = new FormData();//Vamos a enviar los datos con la misma codificación del formulario, se establece en "multipart/form-data".
+        formData.append('file', this.file, this.sport.type + ".jpg");
+
+        this.sport.rutaImagen = this.sport.type  + ".jpg";
+
+        HTTP.post('sports/uploadFile',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+          )
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+
+      }
+    },
     guardar(){
       if(this.idDeporte){//ACTUALIZAR
           if(this.sport.type != ''){
+            this.submitFile();
               HTTP.put(`sports/${this.idDeporte}`,this.sport)
                       .then(this._successHandler)
-                      .catch(this._errorHandler)
+                      .catch(err => { this.error = err.message})
           }else{
                this.$swal('Alerta!', this.error, 'error')
           }
 
       }else{//CREAR
         if(this.checkForm()==true){
+          this.submitFile();
             HTTP.post('sports',this.sport)
                     .then(this._successHandler)
-                    .catch(this._errorHandler)
+                    .catch(err => { this.error = err.message})
          }else{
            this.$swal('Alerta!', this.error, 'error')
         }
@@ -118,10 +191,16 @@ export default {
         this.error="Introduzca un nombre para el deporte"
         return false;
       }
+      if(this.file == ''){
+        this.error= "Porfavor elija una foto de icono para el deporte "
+        return false;
+      }
 
       if (this.sport.type || this.sport.type && this.spot.locations) {
         return true;
       }
+       
+
 
     },
 
@@ -181,10 +260,9 @@ div.message.information{background: #fb887c;}
 
 .guardar{
   width: 47%;
-  float:left;
+  float:right;
   background: #fff;
   padding: 0.6em; 
-  margin-top: 15%;
   margin-bottom: 0.25em;
   border-radius: 5px;
   border: 0.1px solid #f3f3f3;
@@ -201,7 +279,7 @@ div.message.information{background: #fb887c;}
   float:left;
   background: #fff;
   padding: 0.6em; 
-  margin-top: 15%;
+
   margin-bottom: 0.25em;
   border-radius: 5px;
   border: 0.1px solid #f3f3f3;
@@ -235,5 +313,30 @@ div.message.information{background: #fb887c;}
     line-height: normal;
     text-align: center;
     margin-bottom: 0;
+}
+img {
+  width: 30%;
+  display: block;
+  margin-bottom: 10px;
+}
+#botonEliminaImagen {
+    background-color: red;
+    border: none;
+    display: inline-block;
+    border-radius: 4px;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 13px;
+    padding: 5px;
+    width: 80px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+
+}
+
+.buttonsActions{
+margin-top:17%;
 }
 </style>

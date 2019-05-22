@@ -108,6 +108,7 @@ public SportDTO save(SportDTO sport) throws SportExistsException, RequiredFields
 	bdSport.setLocations(l);
 	bdSport.setComponenteEntrada(sport.getComponenteEntrada());
 	bdSport.setComponenteVisualizacion(sport.getComponenteVisualizacion());
+	bdSport.setRutaImagen(sport.getRutaImagen());
 	sportDAO.save(bdSport);
     return new SportDTO(bdSport);
 }

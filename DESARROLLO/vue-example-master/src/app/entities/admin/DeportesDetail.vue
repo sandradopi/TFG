@@ -3,7 +3,9 @@
     <div v-if="bol"class="information message">
       <button @click="hide"> X </button> 
       <div>   
+        <img v-bind:src="getImagenSport(this.sport.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small iconStyle" style="width:40px"></img>
           <h2>{{this.sport.type}}</h2>
+           
           <br>
 
           <h5>Ubicaciones:</h5>
@@ -25,6 +27,7 @@ import { HTTP } from '../../common/http-common'
 import auth from '../../common/auth'
 import Vue from 'vue'
 import Multiselect from 'vue-multiselect'
+import { baseURL } from '../../common/http-common'
 
 
 
@@ -69,6 +72,9 @@ export default {
     hide(){
       this.bol=false;
       this.$emit('Cerrar',false);
+    },
+     getImagenSport(path){
+      return baseURL + "sports/imagenes/" + path;
     },
 
     editar(){
@@ -247,4 +253,9 @@ td {
     margin-bottom: 0;
 }
 
+.iconStyle{
+  float:left;
+  margin-right:10px;
+
+}
 </style>
