@@ -32,7 +32,7 @@
         </div>
         <div v-else>
           <img :src="loaded" />
-          <img v-if="sport.rutaImagen"v-bind:src="getImagen(this.sport.rutaImagen)" />
+          <img v-if="this.sport.rutaImagen"v-bind:src="getImagen(this.sport.rutaImagen)" />
           <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Eliminar</b-btn>
         </div>
 
@@ -91,6 +91,7 @@ export default {
           HTTP.get(`sports/${this.idDeporte}`)
                   .then(response => {this.sport = response.data 
                         return response })
+                  .then(this.recogerFoto)
                   .then(response => {this.typeSport = response.data.type})
                   .catch(err => this.error = err.message)
       }else{
@@ -102,6 +103,7 @@ export default {
               .catch(err => { this.error = err.message})
     
     },
+
 
     hide(){
       this.bol=false;
@@ -132,17 +134,20 @@ export default {
       reader.readAsDataURL(file);// result contiene  la información como una URL representando la información del archivo como una cadena de caracteres codificados en base64.
     },
      removeImage(e){
-      this.user.rutaImagen='';
+      this.sport.rutaImagen='';
       this.file = '';
   
 
      },
+      getImagen(path){
+      return baseURL + "sports/imagenes/" + path;
+    },
       submitFile(){
       if (this.file != ''){
         let formData = new FormData();//Vamos a enviar los datos con la misma codificación del formulario, se establece en "multipart/form-data".
-        formData.append('file', this.file, this.sport.type + ".jpg");
+        formData.append('file', this.file, this.sport.type + ".png");
 
-        this.sport.rutaImagen = this.sport.type  + ".jpg";
+        this.sport.rutaImagen = this.sport.type  + ".png";
 
         HTTP.post('sports/uploadFile',
           formData,
@@ -160,14 +165,17 @@ export default {
     },
     guardar(){
       if(this.idDeporte){//ACTUALIZAR
-          if(this.sport.type != ''){
+         
+        if(this.checkForm()==true){
             this.submitFile();
               HTTP.put(`sports/${this.idDeporte}`,this.sport)
                       .then(this._successHandler)
                       .catch(err => { this.error = err.message})
-          }else{
-               this.$swal('Alerta!', this.error, 'error')
-          }
+           }else{
+            this.$swal('Alerta!', this.error, 'error')
+           }
+         
+          
 
       }else{//CREAR
         if(this.checkForm()==true){
