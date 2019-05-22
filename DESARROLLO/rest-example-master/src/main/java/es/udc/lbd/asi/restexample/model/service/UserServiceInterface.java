@@ -38,6 +38,7 @@ public interface UserServiceInterface {
 	public List<GameDTO>findByValoration(String login);
 	public List<String> findComentarios(String login);
 	public List<ActivitiesDTO> findActivities(String login);
+	public NormalUserDTO updatePassword(String login, String password);
 
   
 

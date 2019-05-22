@@ -84,6 +84,21 @@
             placeholder="Ciudad de residencia"></multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
       </b-form-group>
+      <b-form-group
+        label="Foto de perfil: "
+        label-for="perfil">
+
+        <div v-if="!file">
+
+          <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
+        </div>
+        <div v-else>
+          <img :src="loaded" />
+          <img v-if="this.user.rutaImagen"v-bind:src="getImagen(this.user.rutaImagen)" />
+          <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Eliminar</b-btn>
+        </div>
+      </b-form-group>
+
 
      
    
@@ -91,6 +106,22 @@
    
 <hr class="linea">
  <div class="web">
+  <b-modal
+        id="modalPrevent1"
+        ref="modal1"
+        title="Nueva Contraseña"
+        @ok="handleOk1"
+        @shown="clearName1">
+
+        <form @submit.stop.prevent="handleSubmit">
+          <b-form-group>
+               <b-form-input type="password" placeholder="Introduce la nueva contraseña" v-model="passwordNew" />
+          </b-form-group>
+          <b-form-group>
+            <b-form-input type="password" placeholder="Repite la contraseña" v-model="passwordNew1" />
+          </b-form-group>
+        </form>
+      </b-modal>
 
        <b-form-group
         label="Email: *"
@@ -103,6 +134,20 @@
           required
           placeholder="Introduce el email"/>
       </b-form-group>
+
+       <b-form-group
+        label="Contraseña: *"
+        label-for="contraseña" v-if="this.$route.params.id != null">
+        <b-form-input
+          id="passwordChange"
+          v-model="password"
+          type="password"
+          autocomplete="off"
+          required
+          placeholder="Introduce la contraseña"/></b-form-input>
+          <b-btn variant="outline-secondary" v-b-modal.modalPrevent1 ><span>Cambiar Contraseña</span></b-btn>
+      </b-form-group>
+       
 
 <div class="equipos" v-if="this.$route.params.boleano!=null">
       <b-form-group v-if="this.$route.params.boleano!=null"
@@ -149,7 +194,7 @@
             >
       </multiselect>
       <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
-      <b-btn class="button2" variant="success" v-b-modal.modalPrevent ><span>Añadir Equipo</span></b-btn>
+      <b-btn class="button2" variant="outline-success" v-b-modal.modalPrevent ><span>Añadir Equipo</span></b-btn>
 
       <b-modal
         id="modalPrevent"
@@ -207,21 +252,7 @@
       </b-form-group>
 
 
-      <b-form-group
-        label="Foto de perfil: "
-        label-for="perfil">
-
-        <div v-if="!file">
-
-          <input class="inputfile" type="file" id="file" ref="file" @change="onFileChange"/>
-        </div>
-        <div v-else>
-          <img :src="loaded" />
-          <img v-if="this.user.rutaImagen"v-bind:src="getImagen(this.user.rutaImagen)" />
-          <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Eliminar</b-btn>
-        </div>
-      </b-form-group>
-
+      
     </div>
   
  
@@ -264,6 +295,9 @@ export default {
       equipo:null,
       file: '',
       loaded: '',
+      password:'**********',
+      passwordNew:'',
+      passwordNew1:''
     }
 
   },
@@ -293,6 +327,27 @@ export default {
     },
     recogerFoto(){
       this.file=this.getImagen();
+    },
+    handleOk1(evt){
+      evt.preventDefault()
+    
+      if(this.passwordNew!=this.passwordNew1){
+         this.$swal('Alerta!', "Las contraseñas no coinciden!", 'error')
+      }else if(this.passwordNew==''||this.passwordNew1==''){
+        this.$swal('Alerta!', "Rellene ambos campos!", 'error')
+      }else{
+         HTTP.put(`users/${this.WhatLogin()}/${this.passwordNew}`)
+              .then(this._successHandler1)
+              .catch(this._errorHandler)
+        
+
+      }
+
+    },
+    clearName1(){
+      this.passwordNew1=''
+      this.passwordNew=''
+      
     },
     
      onFileChange(e){
@@ -537,6 +592,15 @@ export default {
       this.$swal('Guardado', 'Los cambios se han guardado correctamente', 'success')
       this.$router.replace({ name: 'UserDetail', params: { id: this.user.login}})
     },
+    _successHandler1(response){
+      this.$swal('Guardado', 'Se ha actualizado correctamente la contraseña', 'success')
+      this.clearName()
+      this.$nextTick(() => {
+          // Wrapped in $nextTick to ensure DOM is rendered before closing
+          this.$refs.modal1.hide()
+        })
+
+    },
       _errorHandler(err) {
       this.error = err.response.data.message
       this.notification()
@@ -556,12 +620,12 @@ export default {
     margin-top:100px;
   }
   .all{
-    margin-bottom:4%;
+    margin-bottom:9%;
   }
 
   .linea{
   border-left: 6px solid #17a2b8;
-  height: 410px;
+  height: 470px;
   position: absolute;
   left: 50%;
 
@@ -666,5 +730,10 @@ img {
   margin-bottom: 10px;
 }
 
+#passwordChange{
+    float: left;
+    width: 44%;
+    margin-right:10px;
+}
 
 </style>

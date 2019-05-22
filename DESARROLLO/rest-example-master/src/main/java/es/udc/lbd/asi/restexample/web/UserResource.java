@@ -120,6 +120,10 @@ public class UserResource {
         }
         return userService.update(user);
     }
+    @PutMapping("/{login}/{password}")
+    public NormalUserDTO updatePassword(@PathVariable String login, @PathVariable String password) {
+        return userService.updatePassword(login,password);
+    }
     
     @PutMapping("/notifications/{login}/{idGame}/{bool}")
     public NormalUserDTO updateNotifications(@PathVariable String login,@PathVariable Long idGame, @PathVariable Boolean bool) {

@@ -619,7 +619,18 @@ public class UserService implements UserServiceInterface{
 		        catch (MalformedURLException e) {
 		            throw new Exception("Could not read file: " + fileName, e);
 		        }
-		    }   
+		    }
+		    
+		    @PreAuthorize("hasAuthority('USER')")
+			@Transactional(readOnly = false)
+			@Override
+			public NormalUserDTO updatePassword(String login, String password) {
+				NormalUser usuario = userDAO.findByLoginNormal(login);
+				 String encryptedPassword = passwordEncoder.encode(password);
+				 usuario.setPassword(encryptedPassword);
+				 userDAO.save(usuario);
+				 return new NormalUserDTO(usuario);
+			}   
 		   
 		    
 			

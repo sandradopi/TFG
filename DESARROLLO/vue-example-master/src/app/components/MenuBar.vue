@@ -217,7 +217,7 @@
                 exact>Localizaciones</b-nav-item> 
 
             <b-nav-item
-                 v-if="!isAdmin"
+                 v-if="isLogged && !isAdmin"
                 :to="{ name: 'Game' }"
                 exact>Partidos</b-nav-item> 
 
