@@ -24,7 +24,6 @@ export default {
   name: 'app',
   props:{
     filterLocation:null,
-    filterSport:null,
     
   },
 
@@ -84,14 +83,14 @@ export default {
   methods: {
     fetchData(){
       this.events=[];
-      if(this.filterSport==null && this.filterLocation==null){
+      if(this.filterLocation==null){
       HTTP.get('games')
                   .then(response => { this.games = response.data
                         return response.data})
                   .then(this.crearEventos)
                   .catch(err => { this.error = err.message})
       }else{
-         HTTP.get(`games/sportsLocation/${this.filterSport}/${this.filterLocation}`) 
+         HTTP.get(`games/locations/${this.filterLocation}`) 
             .then(response => { this.games = response.data
                   return response })
              .then(this.crearEventos)

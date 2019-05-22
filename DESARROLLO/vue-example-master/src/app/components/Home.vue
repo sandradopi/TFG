@@ -197,11 +197,7 @@ export default {
     }, 
     ChangePage(){
        this.equiposJugadores=[]
-       if(this.gameSelect.sport.type=="Futbol"||this.gameSelect.sport.type=='Baloncesto'){
-          this.$router.replace({ name: 'FutbolForm', params: { id:this.gameSelect.idGame}})
-        }else if(this.gameSelect.sport.type=="Tennis"|| this.gameSelect.sport.type=='Paddel'){
-          this.$router.replace({ name: 'TennisForm', params: { id:this.gameSelect.idGame}})
-        }
+        this.$router.replace({ name: this.gameSelect.sport.componenteEntrada, params: { id:this.gameSelect.idGame}})
 
     },
 

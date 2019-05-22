@@ -187,10 +187,7 @@ export default {
         if(game.result==null){
           this.$router.replace({ name: 'GameDetail', params: { id:game.idGame, bol:true,back:true}})
         }else{
-          if(game.sport.type=='Futbol'|| game.sport.type=='Baloncesto'){
-              this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
-            }else if (game.sport.type=='Tennis'||game.sport.type=='Paddel'){
-              this.$router.replace({ name: 'TennisResult', params: { id:game.idGame}})}
+          this.$router.replace({ name: game.sport.componenteVisualizacion, params: { id:game.idGame}})
             }
 
        
@@ -205,11 +202,8 @@ export default {
          if(game.result==null){
           this.$router.replace({ name: 'GameDetail', params: { id:game.idGame, bol:true,back:true}})
         }else{
-          if(game.sport.type=='Futbol'|| game.sport.type=='Baloncesto'){
-              this.$router.replace({ name: 'FutbolResult', params: { id:game.idGame}})
-            }else if (game.sport.type=='Tennis'|| game.sport.type=='Paddel'){
-              this.$router.replace({ name: 'TennisResult', params: { id:game.idGame}})}
-            }
+          this.$router.replace({ name: game.sport.componenteVisualizacion, params: { id:game.idGame}})
+        }
         
       }else{
 

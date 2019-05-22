@@ -264,7 +264,7 @@ export default {
 
      _successHandler(response) {
       this.$swal('Listo!', "Sus resultados han sido añadidos correctamente", 'success')
-      this.$router.replace({ name: 'FutbolResult', params: { id:this.game.idGame}})
+      this.$router.replace({ name: this.game.sport.componenteVisualizacion, params: { id:this.game.idGame}})
     },
    
       WhatLogin() {

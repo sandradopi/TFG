@@ -358,11 +358,7 @@ export default {
       if(this.game.result==null){
         this.$router.replace({ name: 'GameDetail', params: { id:this.game.idGame, bol:true}})
       }else{
-      if(this.game.sport.type=="Futbol"|| this.game.sport.type=='Baloncesto'){
-          this.$router.replace({ name: 'FutbolResult', params: { id:this.game.idGame}})
-        }else if(this.game.sport.type=="Tennis"|| this.game.sport.type=='Paddel'){
-          this.$router.replace({ name: 'TennisResult', params: { id:this.game.idGame}})
-        }
+      this.$router.replace({ name: this.game.sport.componenteVisualizacion, params: { id:this.game.idGame}})
     }
     },
    

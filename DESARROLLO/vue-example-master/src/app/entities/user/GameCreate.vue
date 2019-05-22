@@ -1,7 +1,7 @@
 <template>
   <div class="evento">
 
-    <Calendar v-bind:filterLocation="this.filterLocation" v-bind:filterSport="this.filterSport"class="calendario" @SelectDate="ChangeDateSelect"></Calendar>
+    <Calendar v-bind:filterLocation="this.filterLocation" class="calendario" @SelectDate="ChangeDateSelect"></Calendar>
     <b-modal
         id="modalPrevent"
         ref="modal"
@@ -75,7 +75,6 @@ export default {
      showModal:false,
      error:"",
      filterLocation:null,
-     filterSport:null
     }
   },
   watch: {
@@ -99,7 +98,7 @@ export default {
     selectOn(){
       this.bol=false     
       if(this.game.sport!=null){
-      this.filterSport=this.game.sport.idSport;
+     
 		  this.bol=true;
   	 	HTTP.get(`locations/filter/${this.game.sport.idSport}`) 
 		        .then(response => { this.alllocations = response.data
@@ -109,7 +108,7 @@ export default {
                                 })
             .catch(err => { this.error = err.message})
      }else{
-       this.filterSport=null;
+      
        this.filterLocation=null;
      }
 		
