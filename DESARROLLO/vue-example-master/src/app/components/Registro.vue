@@ -217,6 +217,7 @@
         </div>
         <div v-else>
           <img :src="loaded" />
+          <img v-if="this.user.rutaImagen"v-bind:src="getImagen(this.user.rutaImagen)" />
           <b-btn id="botonEliminaImagen" variant="danger" @click="removeImage">Eliminar</b-btn>
         </div>
       </b-form-group>
@@ -238,6 +239,7 @@ import auth from '../common/auth'
 import Multiselect from 'vue-multiselect'
 import PictureInput from 'vue-picture-input'
 import FormDataPost from '../common/upload'
+import { baseURL } from '../common/http-common'
 import Vue from 'vue'
 export default {
   mounted(){
@@ -276,6 +278,7 @@ export default {
        HTTP.get(`users/${this.$route.params.id}`) 
           .then(response => { this.user = response.data
                  return response })
+          .then(this.recogerFoto)
           .then(this.getTeams)
           .then(this.getSports)
           .catch(err => { this.error = err.message})
@@ -285,6 +288,13 @@ export default {
     
       
      },
+      getImagen(path){
+      return baseURL + "users/imagenes/" + path;
+    },
+    recogerFoto(){
+      this.file=this.getImagen();
+    },
+    
      onFileChange(e){
       var files = e.target.files || e.dataTransfer.files; //OBJECT FILE para cuando se añade o se arrastra
       if (!files.length)
@@ -304,6 +314,7 @@ export default {
       reader.readAsDataURL(file);// result contiene  la información como una URL representando la información del archivo como una cadena de caracteres codificados en base64.
     },
      removeImage(e){
+      this.user.rutaImagen='';
       this.file = '';
   
 
@@ -454,6 +465,10 @@ export default {
         this.errors= "El segundo apellido es un campo obligatorio. "
         return false;
       }
+      if(this.file == ''){
+        this.errors= "Porfavor elija una foto para su perfil "
+        return false;
+      }
 
 
       
@@ -487,6 +502,7 @@ export default {
         if (this.checkForm1() == true) {
 
               HTTP.put(`users/${this.user.idUser}`,this.user)
+              .then( this.submitFile)
               .then(this._successHandler)
               .catch(this._errorHandler)
 

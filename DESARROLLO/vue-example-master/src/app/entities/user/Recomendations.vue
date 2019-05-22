@@ -5,15 +5,15 @@
     <!-- start unordered list -->  
     <ul> 
        <div>
-          <li><a @click="touch('jugadores')"><img src="friends1.jpg" /></a></li> 
+          <li><a @click="touch('jugadores')"><img src="resources/friends1.jpg" /></a></li> 
           <h1 class="txt">Jugadores</h1>
        </div>
         <div>
-         <li><a @click="touch('localizaciones')"><img src="location.jpg" /></a></li>   
+         <li><a @click="touch('localizaciones')"><img src="resources/location.jpg" /></a></li>   
          <h1 class="txt1">Localizaciones</h1>
        </div>
         <div>
-          <li><a @click="touch('deportes')"><img src="sport2.jpg" /></a></li>   
+          <li><a @click="touch('deportes')"><img src="resources/sport2.jpg" /></a></li>   
           <h1 class="txt2">Deportes</h1>
        
        </div>
