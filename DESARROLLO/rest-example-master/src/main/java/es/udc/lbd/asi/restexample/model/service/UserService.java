@@ -579,7 +579,7 @@ public class UserService implements UserServiceInterface{
 			return actividades;
 		}
 
-	
+		 @Override
 		  public void store(MultipartFile file) throws Exception {
 		        String filename = StringUtils.cleanPath(file.getOriginalFilename()); //Return the original filename in the client's filesystem.
 
@@ -602,7 +602,7 @@ public class UserService implements UserServiceInterface{
 		        }
 		    }
 		  
-		  
+		 @Override
 		    public Resource getImageAsResource(String fileName) throws Exception {
 		        try {
 		            Path file =location.resolve(fileName);

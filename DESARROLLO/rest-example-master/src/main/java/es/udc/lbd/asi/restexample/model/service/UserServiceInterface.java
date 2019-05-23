@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
+
 import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
@@ -39,6 +42,8 @@ public interface UserServiceInterface {
 	public List<String> findComentarios(String login);
 	public List<ActivitiesDTO> findActivities(String login);
 	public NormalUserDTO updatePassword(String login, String password);
+	public Resource getImageAsResource(String fileName) throws Exception;
+	public void store(MultipartFile file) throws Exception;
 
   
 

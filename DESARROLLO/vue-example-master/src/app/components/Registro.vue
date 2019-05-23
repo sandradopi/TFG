@@ -297,7 +297,8 @@ export default {
       loaded: '',
       password:'**********',
       passwordNew:'',
-      passwordNew1:''
+      passwordNew1:'',
+      fileChange:false
     }
 
   },
@@ -356,6 +357,7 @@ export default {
         return;
       this.createImage(files[0]);
       this.file = files[0];
+      this.fileChange=true;
 
      },
     createImage(file) {
@@ -484,6 +486,10 @@ export default {
         this.errors= "El segundo apellido es un campo obligatorio. "
         return false;
       }
+      if(this.file == ''){
+        this.errors= "Porfavor elija una foto para su perfil "
+        return false;
+      }
       
 
 
@@ -533,7 +539,7 @@ export default {
       }
     },
     submitFile(){
-      if (this.file != ''){
+      if (this.file != '' && this.fileChange==true){
         let formData = new FormData();//Vamos a enviar los datos con la misma codificación del formulario, se establece en "multipart/form-data".
         formData.append('file', this.file, this.user.login + ".jpg");
 
@@ -568,6 +574,7 @@ export default {
       }else{
       
        if (this.checkForm() == true) {
+        console.log(this.user)
           this.submitFile();
           return HTTP.post('register', this.user)
           .then(this.userLogin)

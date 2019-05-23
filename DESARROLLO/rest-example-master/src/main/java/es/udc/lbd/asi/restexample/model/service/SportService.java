@@ -208,6 +208,7 @@ public void deleteById(Long idSport) throws SportDeleteException {
 	
 	
 }
+@Override
 public void store(MultipartFile file) throws Exception {
     String filename = StringUtils.cleanPath(file.getOriginalFilename()); //Return the original filename in the client's filesystem.
 
@@ -230,7 +231,7 @@ public void store(MultipartFile file) throws Exception {
     }
 }
 
-
+@Override
 public Resource getImageAsResource(String fileName) throws Exception {
     try {
         Path file =location.resolve(fileName);

@@ -59,12 +59,12 @@ public class PlayerResource {
     }
     
     @GetMapping("/{idGame}/{login}")
-    public PlayerDTO findPlayer(@PathVariable Long idGame, @PathVariable String login) {
+    public PlayerDTO findPlayerInAGame(@PathVariable Long idGame, @PathVariable String login) {
     	return playerService.findPlayer(idGame,login);
     }
     
     @GetMapping("findPlayer/{idPlayer}")
-    public PlayerDTO findPlayer(@PathVariable Long idPlayer) {
+    public PlayerDTO findOne(@PathVariable Long idPlayer) {
     	return playerService.findPlayerByPlayer(idPlayer);
     }
     
@@ -75,7 +75,7 @@ public class PlayerResource {
     }
     
     @PutMapping("/{idPlayer}/{valorationGame}")
-    public PlayerDTO update(@PathVariable Long idPlayer, @PathVariable Long valorationGame){
+    public PlayerDTO updateValorationGame(@PathVariable Long idPlayer, @PathVariable Long valorationGame){
            
         return playerService.update(idPlayer,valorationGame);
     }

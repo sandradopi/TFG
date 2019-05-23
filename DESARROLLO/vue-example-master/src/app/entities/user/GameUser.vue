@@ -18,7 +18,7 @@
              <div class="informationmessage2" >
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" mes in this.relations" :key="mes.idUser">
-             <b-btn class="w3-bar" @click="goPageFiend(mes)">
+             <b-btn class="w3-bar" @click="goPageFiend(mes.userTo)">
                <img v-bind:src="getImagen(mes.userTo.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
               <div class="conj2">
               <h5 class="rectangulo2">{{mes.userTo.name}} {{mes.userTo.surname1}} {{mes.userTo.surname2}}</h5><br>
@@ -46,7 +46,7 @@
              <div class="informationmessage2" >
              <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"></link>
              <div class="w3-container" v-for=" mes in this.relationsToMe" :key="mes.idUser">
-             <b-btn class="w3-bar" @click="goPageFiend(mes)">
+             <b-btn class="w3-bar" @click="goPageFiend(mes.userFrom)">
                <img v-bind:src="getImagen(mes.userFrom.rutaImagen)" class="w3-bar-item w3-circle w3-hide-small" style="width:85px">
               <div class="conj2">
               <h5 class="rectangulo2">{{mes.userFrom.name}} {{mes.userFrom.surname1}} {{mes.userFrom.surname2}}</h5><br>
@@ -250,7 +250,8 @@ export default {
     },
     goPageFiend(mes){
        this.$refs.modalPrevent8.hide()
-       this.$router.replace({ name: 'GameUser', params: { id: mes.userTo.login}})
+       this.$refs.modalPrevent9.hide()
+       this.$router.replace({ name: 'GameUser', params: { id: mes.login}})
     },
    
     _successHandler(response) {

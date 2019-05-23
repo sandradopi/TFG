@@ -16,7 +16,7 @@
      <div class="w3-container" v-for="comentario in this.comentarios" >
         <b-btn class="w3-bar" v-if="comentario!=null">
            <div class="w3-bar-item">
-              <span class="w3-large">{{comentario}}</span><br>
+              <span >{{comentario}}</span><br>
           </div>
         </b-btn>
     </div>

@@ -88,7 +88,6 @@ public class SocialRelationShipService implements SocialRelationShipServiceInter
   @Transactional(readOnly = false)
   @Override
   public SocialBlockDTO save(SocialBlockDTO social){
-	  //SI LE SIGUE TIENES QUE ELIMINAR SU AMISTAD 
 	  SocialFriendShip friendsShip= socialRelationShipDAO.findByLoginsFriend(social.getUserFrom().getLogin(), social.getUserTo().getLogin());
 	  if(friendsShip!=null){
 		  socialRelationShipDAO.deleteById(social.getUserFrom().getLogin(), social.getUserTo().getLogin(),true);
