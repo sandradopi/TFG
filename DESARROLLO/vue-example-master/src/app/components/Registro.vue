@@ -44,7 +44,7 @@
           type="text"
           autocomplete="off"
           required
-          placeholder="Introduce el primer apellido"/>
+          placeholder="Primer apellido"/>
       </b-form-group>
 
       <b-form-group
@@ -57,7 +57,7 @@
           type="text"
           autocomplete="off"
           required
-          placeholder="Introduce el segundo apellido"/>
+          placeholder="Segundo apellido"/>
       </b-form-group>
        </b-form-group>
 

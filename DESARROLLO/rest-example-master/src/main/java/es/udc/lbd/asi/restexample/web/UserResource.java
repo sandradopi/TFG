@@ -3,9 +3,12 @@ package es.udc.lbd.asi.restexample.web;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
@@ -89,7 +92,7 @@ public class UserResource {
     }
     
     @GetMapping("/{login}/pendingResult")
-    public List<GameDTO> findAllGamePendingResult(@PathVariable String login){
+    public List<GameDTO> findAllGamePendingResult(@PathVariable String login) throws AddressException, MessagingException, ParseException{
     	 List<GameDTO> games = userService.findByCreatorResultado(login);
     	return games;
     }

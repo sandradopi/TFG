@@ -21,6 +21,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -69,6 +71,7 @@ import es.udc.lbd.asi.restexample.model.service.dto.RecomendacionDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SocialFriendShipDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.TeamDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
+import es.udc.lbd.asi.restexample.repository.util.NotificationTask;
 import es.udc.lbd.asi.restexample.security.SecurityUtils;
 
 @Service
@@ -96,6 +99,8 @@ public class UserService implements UserServiceInterface{
   @Autowired
   private Properties properties;    
   private Path location;
+  @Autowired
+  private NotificationTask notificationTask;
   
   
   @Autowired
@@ -260,16 +265,33 @@ public class UserService implements UserServiceInterface{
 	  return recomendadosFinal;
 	  }
   
+  @PreAuthorize("hasAuthority('USER')")
+  @Transactional(readOnly = false)
   @Override
-	public List<GameDTO> findByCreatorResultado(String login) {
-		return userDAO.findByCreatorResultado(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());		
+	public List<GameDTO> findByCreatorResultado(String login) throws AddressException, MessagingException, ParseException {
+	  List<GameDTO> games=userDAO.findByCreatorResultado(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+	  for (GameDTO game:games){
+		  List<Player> players= playerDAO.findAllByGame(game.getIdGame());
+		  if(players.size()<game.getMinPlayers()){
+			 String mensaje="El partido ha sido cancelado por que no ha llegado "
+						+ "al mínimo de personas requeridas para poderse llevar a cabo. Sentimos las molestias...";
+			notificationTask.reportCurrentTime(game.getIdGame(), mensaje,true,false,null);
+			  for(Player player:players){
+				  playerDAO.deleteById(player.getIdPlayer());
+			  }
+				
+			  gameDAO.deleteById(game.getIdGame());
+		  }
+	  } 
+	  List<GameDTO> gamesCheck=userDAO.findByCreatorResultado(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
+		 return gamesCheck;
 	}
-  
+  @PreAuthorize("hasAuthority('USER')")
   @Override
 	public List<String> findComentarios(String login) {
 		return userDAO.findComentarios(login);
 	}
-  
+  @PreAuthorize("hasAuthority('USER')")
   @Override
  	public List<GameDTO> findByValoration(String login) {
 	  List<GameDTO> games= userDAO.findAllGamesPlayedValoration(login).stream().map(game -> new GameDTO(game)).collect(Collectors.toList());
@@ -449,7 +471,7 @@ public class UserService implements UserServiceInterface{
 	         }
 	         return null;
 	     }
-
+	    @PreAuthorize("hasAuthority('USER')")
 		@Transactional(readOnly = false)
 		@Override
 		public NormalUserDTO update(NormalUserDTO user) throws UserLoginEmailExistsException {	

@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.validation.Valid;
 
 import org.springframework.core.io.Resource;
@@ -37,7 +39,7 @@ public interface UserServiceInterface {
 	public List<UserDTO> findAllNoAdmin();
 	public NormalUserDTO updateNotification(String login, Long idGame, Boolean bool);
 	public Boolean getNotification(String login, Long idGame);
-	public List<GameDTO>findByCreatorResultado(String login);
+	public List<GameDTO>findByCreatorResultado(String login) throws AddressException, MessagingException, ParseException;
 	public List<GameDTO>findByValoration(String login);
 	public List<String> findComentarios(String login);
 	public List<ActivitiesDTO> findActivities(String login);
