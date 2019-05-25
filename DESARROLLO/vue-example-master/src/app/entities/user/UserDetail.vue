@@ -103,9 +103,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.user{
-  margin-bottom:7%;
-}
+
 
 .datosUsuario{
   width: 30%;
@@ -115,16 +113,15 @@ export default {
   font-family: 'Lato', sans-serif;
   margin:0;
   margin-left:120px;
-  margin-top:70px;
   height:80%;
   float:left;
+  margin-top:3%;
 
 
 
   }
 
   .equipo{
-  margin-top:70px;
   float:right;
   padding: 1em;
   width: 40%;
@@ -133,6 +130,7 @@ export default {
   font-family: 'Lato', sans-serif;
   margin-right:60px;
   height:80%;
+  margin-top:3%;
 
   }
 

@@ -391,8 +391,8 @@ export default {
     font-family: 'Lato', sans-serif;
     margin:0;
     margin-left:120px;
-   margin-top:100px;
-    margin-bottom:50px;
+    margin-top:3%;
+    margin-bottom:4%;
     height:70%;
     border-radius: 6px;
 }
@@ -403,9 +403,8 @@ export default {
     font-size: 30px;
     font-weight: 200;
     color: #17a2b8;
-    margin-top:20px;
-    margin-bottom:30px;
     color:#fb887c;
+    margin-top:4%;
   }
 
   .title1{
@@ -429,7 +428,7 @@ export default {
   background: #fff;
   width:30%;
   float:left;
-  height:43%;
+  height:55%;
   margin-left:20px;
   margin-top:20px;
 

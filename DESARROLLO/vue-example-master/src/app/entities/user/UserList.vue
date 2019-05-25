@@ -90,18 +90,14 @@ export default {
     *list-style: decimal; 
     font: 15px 'trebuchet MS', 'lucida sans';
     padding: 0;
-    margin-top: 6%;
     text-shadow: 0 1px 0 rgba(255,255,255,.5);
     margin-left:5%;
     width:35%;
-    margin-top:100px;
 
 
 
 }
-.user{
-  margin-bottom:3%
-}
+
 
 #lista2 ol {
     margin: 0 0 0 2em; 

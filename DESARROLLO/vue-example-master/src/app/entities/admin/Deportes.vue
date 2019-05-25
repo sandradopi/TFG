@@ -139,7 +139,6 @@ div#shopping-list{
   font-family: 'Lato', sans-serif;
   margin:0;
   margin-left:120px;
-  margin-top:100px;
   border-radius: 6px;
 
 

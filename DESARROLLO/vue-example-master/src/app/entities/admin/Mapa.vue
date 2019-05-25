@@ -248,11 +248,10 @@ export default {
 #mymap {
 	margin-left:60px;
 	margin-top:30px;
-  margin-bottom:30px;
-    position: relative;
-    padding: 0;
-    width: 50%;
-    height: 500px;
+  position: relative;
+  padding: 0;
+  width: 50%;
+  height: 500px;
 }
 
 
@@ -333,7 +332,7 @@ export default {
 	float:right;
 	background: #f3f3f3;
 	width:40%;
-	height:90%;
+	height:89%;
 	border-radius: 6px;
 
 }
@@ -371,9 +370,6 @@ h1 {
   margin-left:12%;
   margin-top:10px;
 }
-.loc{
-   margin-top:70px;
-  margin-bottom:6%
-}
+
 
 </style>

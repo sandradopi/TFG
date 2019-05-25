@@ -33,9 +33,11 @@
           placeholder="Introduce el nombre"/>
       </b-form-group>
 
+      <b-form-group>
       <b-form-group
         label="Primer Apellido: *"
-        label-for="apellido1">
+        label-for="apellido1"
+        class="labelsurname1">
         <b-form-input
           id="surname1"
           v-model="user.surname1"
@@ -47,7 +49,8 @@
 
       <b-form-group
         label="Segundo Apellido: *"
-        label-for="apellido2">
+        label-for="apellido2"
+        class="labelsurname1">
         <b-form-input
           id="surname2"
           v-model="user.surname2"
@@ -56,7 +59,7 @@
           required
           placeholder="Introduce el segundo apellido"/>
       </b-form-group>
-
+       </b-form-group>
 
 
        <b-form-group
@@ -145,7 +148,7 @@
           autocomplete="off"
           required
           placeholder="Introduce la contraseña"/></b-form-input>
-          <b-btn variant="outline-secondary" v-b-modal.modalPrevent1 ><span>Cambiar Contraseña</span></b-btn>
+          <b-btn class="changePassword"variant="outline-secondary" v-b-modal.modalPrevent1 ><span>Modificar</span></b-btn>
       </b-form-group>
        
 
@@ -624,15 +627,12 @@ export default {
   }
   .titulo{
     margin-left:22px;
-    margin-top:100px;
   }
-  .all{
-    margin-bottom:9%;
-  }
+
 
   .linea{
   border-left: 6px solid #17a2b8;
-  height: 470px;
+  height: 40%;
   position: absolute;
   left: 50%;
 
@@ -640,7 +640,6 @@ export default {
   }
 
   .formulario{
-  margin-top:4%;
   margin-bottom:37%;
   width:60%;
   margin-left:20%;
@@ -710,7 +709,8 @@ export default {
 
  .button2{
   margin-top:20px;
-  margin-left:90px;
+   margin-left: 50%;
+  transform: translateX(-50%);
  }
 
  .equipos{
@@ -727,8 +727,9 @@ export default {
 #botonEliminaImagen {
     background-color: red;
     font-size: 13px;
-    margin-left: 10px;
     border: none;
+    margin-left: 15%;
+  transform: translateX(-50%);
 }
 
 img {
@@ -741,6 +742,33 @@ img {
     float: left;
     width: 44%;
     margin-right:10px;
+}
+.changePassword{
+  width:50%;
+}
+#surname1{
+  width:90%;
+  float:left;
+}
+
+#surname2{
+  width:90%;
+  float:left;
+}
+.form-group{
+    border: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom:3%;
+}
+.labelsurname1{
+  width:50%;
+  float:left;
+}
+.labelsurname2{
+
+  width:50%;
+  float:left;
 }
 
 </style>

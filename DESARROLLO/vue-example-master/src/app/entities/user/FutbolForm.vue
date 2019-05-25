@@ -64,7 +64,7 @@
 		      </div>
     </div>
 	</br>
-  <span class="w3-large">--------------------------------------------------------------------------------------------------------------</span><br>
+  <span class="w3-large"></span><br>
 	</br>
  <span class="w3-large" v-if="this.game.sport.type=='Futbol'">Goles Jugadores B:</span><br>
   <span class="w3-large" v-if="this.game.sport.type=='Baloncesto'">Puntos Jugadores B:</span><br>
@@ -474,9 +474,10 @@ fieldset {
   right: 0;
 }
 
-.bloque3{
-	float:right;
-	margin-right:550px;
+.bloque3[data-v-e1c34a] {
+    margin-left: 3%;
+    width: 50%;
+    float: left;
 }
 
 .bloque2{

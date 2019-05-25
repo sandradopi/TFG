@@ -20,20 +20,6 @@
 
         <h3>PLAY<span>2</span>GETHER</h3>
 
-        <p class="footer-links">
-          <a href="#">Iniciar Sesión</a>
-          ·
-          <a href="#">Partidos</a>
-          ·
-          <a href="Home">Sobre Nosotros</a>
-          .
-          <a href="#">Contacto</a>
-          ·
-          <a href="#">Politica de Privacidad</a>
-           .
-          <a href="#">Licencias</a>
-          
-        </p>
        
         <p class="footer-company-name">PLAY2GETHER &copy; 2019</p>
       </div>
@@ -105,6 +91,8 @@ export default {
       width: 100%;
       font: bold 16px sans-serif;
       padding: 20px 40px;
+      height:10%;
+      
 
   }
 

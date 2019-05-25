@@ -397,20 +397,18 @@ export default {
     position: relative;
     padding: 0;
     width: 49%;
-    height: 500px;
+    height: 450px;
     float:left;
 
 }
 
-.game{
-   margin-bottom:8%;
-}
+
 div.message2 {
   padding: 10px;
   padding-left: 20px;
   box-shadow:0 2px 5px rgba(0,0,0,.3);
   width:40%;
-  height:500px;
+  height:450px;
   margin-top:20px;
   float:right;
   background: #AFC7A9;

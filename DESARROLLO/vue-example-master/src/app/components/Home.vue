@@ -1,5 +1,7 @@
 <template>
   <div class="car">
+   <div class="responsive">
+    </div>
     <b-carousel id="carousel1"
                 style="text-shadow: 1px 1px 2px #333;"
                 controls
@@ -43,7 +45,9 @@
           Simplemente tienes que registrarte, introducir tus datos personales y empezar a disfrutar de nuestra Página Web organizando eventos o formando parte de ellos!
         </p>
       </b-carousel-slide>
+     
     </b-carousel>
+ 
     <b-modal
         class="formulario"
         id="modal3"
@@ -236,14 +240,18 @@ export default {
 
 <style scoped lang="scss">
 
-.car { 
-  width:65%;
+#carousel1 { 
+  width:66%;
   margin-left: auto;
   margin-right: auto;
-  margin-top:90px;
-  margin-bottom:5%;
- 
+
+    
 }
+
+ .responsive{
+  height:6%;
+ }
+
 fieldset {
     border: none;
     
@@ -264,5 +272,6 @@ fieldset {
   height:200px;
   overflow: scroll;
 }
+
 
 </style>

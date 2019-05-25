@@ -57,7 +57,7 @@
 
     </div>
 	</br>
-	<span class="w3-large">--------------------------------------------------------------------------------------------------------------</span><br>
+	<span class="w3-large"></span><br>
 	</br>
   <span class="w3-large">Sets Equipo B:</span><br>
     <div class="bloque" v-for=" playerG in playersB" :key="playerG.idPlayer">

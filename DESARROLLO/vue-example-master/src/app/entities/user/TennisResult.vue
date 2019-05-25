@@ -7,7 +7,7 @@
 
       <div class="information message" v-if="loading==true">
         <h2 class="title1"> Resultado: {{this.resultado.equipoA.setsGanados}} - {{this.resultado.equipoB.setsGanados}}</h2>  
-         <h5>-------------------------------------------------</h5>  
+      
         <h6>Deporte: {{this.game.sport.type}}</h6>
         <h6>Ubicación: {{this.game.location.name}}</h6>
         <h6>Fecha: {{this.game.date}}</h6>
@@ -15,9 +15,9 @@
           
       </div>
      
-       <div class="information message2" v-if="loading==true">
      
-      <table class="tabla">
+     
+      <table class="tabla" v-if="loading==true">
         <tbody>
           <tr>
           </tr>
@@ -51,7 +51,7 @@
           </tr>
         </tbody>
       </table>
-      </div>
+   
 
 
        </div>
@@ -192,14 +192,13 @@ export default {
     background: #f3f3f3;
     padding: 1em;
     border-radius: 3px;
-    margin-top:50px;
     font-family: 'Lato', sans-serif;
     margin:0;
     margin-left:120px;
-    margin-top:50px;
-    margin-bottom:50px;
-    height:70%;
+    margin-bottom:2.5%;
+    height:74%;
     border-radius: 6px;
+    margin-top:3%;
 }
 
 .title{
@@ -208,17 +207,14 @@ export default {
     font-size: 30px;
     font-weight: 200;
     color: #17a2b8;
-    margin-top:20px;
     margin-bottom:30px;
     color:#fb887c;
   }
 
   .title1{
     font-family: 'Lato', sans-serif;
-    font-size: 30px;
+    font-size: 29px;
     font-weight: 200;
- 
-    margin-left:40px;
   }
 
     .title2{
@@ -270,18 +266,12 @@ div.message.information{background: #fb887c;}
 div.message2 {
   
  
-  box-shadow:0 2px 5px rgba(0,0,0,.3);
-  background: #fff;
-  width:65%;
-  float:left;
-  height:77%;
-  margin-left:20px;
 
 
 }
 
 
-div.message2.information{background: #17a2b8;}
+div.message2.information{}
 
 
 
@@ -399,7 +389,13 @@ fieldset {
 
 .tabla{
   width:100%;
-  font-size: 2.8em;
+  font-size: 2.3em;
+  box-shadow:0 2px 5px rgba(0,0,0,.3);
+  background: #fff;
+  width:65%;
+  float:left;
+  margin-left:20px;
+  background: #17a2b8;
   
  
 }
@@ -408,7 +404,7 @@ fieldset {
 }
 
 th, td {
-  padding: 20px;
+  padding: 8px;
   text-align: left;
   border: white 5px solid;
 

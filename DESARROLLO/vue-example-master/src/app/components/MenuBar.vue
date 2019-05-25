@@ -250,7 +250,7 @@
                 >
                <span slot="noResult">Usuario no encontrado</span>
             </multiselect>
-               <link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
+               
              </b-nav-item>
             <b-nav-item
                 v-if="!isLogged"
@@ -267,6 +267,9 @@
                 <b-dropdown-divider></b-dropdown-divider>
                 <b-dropdown-item exact v-if="isLogged" @click="logout()" :to="{ name: ''}">Cerrar Sesión</b-dropdown-item>
             </b-nav-item-dropdown>
+             <b-nav-item v-if="isAdmin" text="" variant="primary" class="m-2">  </b-nav-item>
+              <b-nav-item v-if="isAdmin" text="" variant="primary" class="m-2">  </b-nav-item>
+               <b-nav-item v-if="isLogged && !isAdmin" text="" variant="primary" class="m-2">  </b-nav-item>
 
              <b-btn class="button" v-b-modal.modalPrevent2 @click="controlGamesModal(true)" v-if="isLogged && !isAdmin && this.gamesResult.length>0"><div>{{this.gamesResult.length}}</div><font-awesome-icon icon="exclamation-circle"style="font-size:35px;"/></b-btn>
 
@@ -772,5 +775,6 @@ textarea.form-control {
   color:white;
   float:right;
 }
+
 
 </style>

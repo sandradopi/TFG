@@ -1,6 +1,7 @@
 <template>
   <div>
-         
+     <div class="responsive">
+    </div>    
     <form @submit.prevent="userLogin">
     <div class= "formulario">
       <div class ="contenido" align="middle">
@@ -75,10 +76,9 @@ export default {
 <style scoped lang="scss">
 .formulario{
   width:40%;
-  padding:40px;
-  margin-left:30%;
   color:#17a2b8;
-  margin-top:160px;
+  margin-left: auto;
+  margin-right: auto;
 
 
 }
@@ -91,7 +91,7 @@ export default {
   color: #FFFFFF;
   text-align: center;
   font-size: 17px;
-  padding: 9px;
+  padding: 5px;
   width: 100px;
   transition: all 0.5s;
   cursor: pointer;
@@ -123,11 +123,11 @@ export default {
   opacity: 1;
   right: 0;
 }
-.registro{
-   margin-top:5%;
-   width:50%;
-   margin-left:120px;
-   margin-bottom:110px;
+.registro {
+    margin-top: 5%;
+    width: 43%;
+    margin-bottom: 110px;
+    margin-left:30%;
 }
 
 .button1{
@@ -141,6 +141,8 @@ export default {
   color:#17a2b8;
 
 }
-
+ .responsive{
+  height:20%;
+ }
 
 </style>

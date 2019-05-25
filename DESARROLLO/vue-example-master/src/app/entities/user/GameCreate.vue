@@ -249,7 +249,6 @@ export default {
   font-family: 'Lato', sans-serif;
   margin:0;
   margin-left:120px;
-  margin-top:80px;
   border-radius: 6px;
   height:90%;
   margin-bottom:20px;
@@ -263,9 +262,7 @@ export default {
     line-height: 1.5 !important;
 }
 
-.evento{
-  margin-bottom:7%;
-}
+
 
 .searchButton, {
   width: 100%;

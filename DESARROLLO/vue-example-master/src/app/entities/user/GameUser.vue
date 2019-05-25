@@ -307,17 +307,11 @@ export default {
 
 .b1,.b2,.b3{
   background:#17a2b8;
-  margin-left:10px;
   border:none;
   color:white;
 
 }
-.b1{
 
-  margin-left:40px;
-
-
-}
 
 
 @keyframes slideUp {
@@ -340,10 +334,9 @@ export default {
     box-shadow: 0 0 40px 0px rgba(0, 0, 0, 0.17);
     padding: 20px 10px 10px 10px;
     position: relative;
-    width: 457px;
+    width: 37%;
     color: black;
     float:left;
-    margin-left:20px;
 
    
 
@@ -407,7 +400,7 @@ export default {
 
 .profile__edit {
   flex: none;
-  margin-left: 30px;
+  margin-left: 10%;
   width: 100px;
 }
 .profile__header {
@@ -523,8 +516,8 @@ export default {
     font-family: 'Lato', sans-serif;
     margin:0;
     margin-left:30px;
-    margin-top:50px;
-    margin-bottom:59px;
+    margin-top:5%;
+    margin-bottom:5%;
     height:66%;
     border-radius: 6px;
 }

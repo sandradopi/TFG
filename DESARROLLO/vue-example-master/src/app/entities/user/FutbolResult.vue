@@ -7,7 +7,7 @@
 
       <div class="information message" v-if="loading==true">
         <h2 class="title1"> Resultado: {{this.resultado.equipoA.goles}} - {{this.resultado.equipoB.goles}}</h2> 
-         <h5>-------------------------------------------------</h5>  
+       
         <h6>Deporte: {{this.game.sport.type}}</h6>
         <h6>Ubicación: {{this.game.location.name}}</h6>
         <h6>Fecha: {{this.game.date}}</h6>
@@ -21,7 +21,6 @@
         <div class="hola" v-if="gol.goles>0 && game.sport.type=='Baloncesto'" v-for=" gol in this.resultado.equipoA.jugadoresA" :key="gol.id">
            <span class="title2">{{gol.goles}}&nbsp<font-awesome-icon icon="basketball-ball"style="font-size:20px;"/><h3></span>&nbsp&nbsp &nbsp{{gol.id}}
         </div>
-        <h5>-------------------------------------------------</h5> 
          <div class="hola" v-if="gol.goles>0 && game.sport.type=='Futbol'" v-for=" gol in this.resultado.equipoB.jugadoresB" :key="gol.id">
            <span class="title2">{{gol.goles}}&nbsp<font-awesome-icon icon="futbol"style="font-size:20px;"/><h3></span>&nbsp&nbsp &nbsp{{gol.id}}
         </div>
@@ -228,7 +227,6 @@ export default {
     font-size: 20px;
     font-weight: 200;
     text-align:center;
-    margin-top:20px;
   }
 
  div.message {
@@ -303,7 +301,6 @@ div.message2.information{background: #17a2b8;}
 
   height:60%;
   margin-right:25px;
-  margin-top:10px;
 
 
  }
@@ -315,9 +312,7 @@ div.message2.information{background: #17a2b8;}
 
 
  .info{
-  color:white;
-  margin-bottom:10px;
-  margin-top:30px;
+  color:white; 
   width:100%;
 
 
@@ -384,9 +379,9 @@ fieldset {
     background: #17a2b8;
     border-color: #17a2b8;
 }
-.w3-large{
-  margin-left:30px;
-  margin-bottom:20px;
+.w3-large[data-v-e2ee90] {
+    margin-left: 30%;
+    /* margin-bottom: 20px; */
 }
 #caja1 {
 border: solid 2px white;
