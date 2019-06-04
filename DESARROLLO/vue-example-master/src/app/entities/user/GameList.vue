@@ -121,59 +121,44 @@ export default {
           HTTP.get(`users/${this.WhatLogin()}/recomendados`) 
                 .then(response => { this.gamesRecomendados = response.data
                         return response.data})
-                  .then(this.unionGamesRecomendados)
+                .then(this.filterGamesRecomendados)
       }
 
     },
      getImagen(path){
       return baseURL + "users/imagenes/" + path;
     },
-    unionGamesRecomendados(){ 
+
+    filterGamesRecomendados(){ 
 
      var gameR=new Array();
      var msg=new Array();
-    if(this.gamesRecomendados.length>0){
-    if(this.typeR=='jugadores'){
-      for ( var x = 0; x < this.gamesRecomendados[0].games.length; x ++){
-         gameR.push(this.gamesRecomendados[0].games[x]);
-         msg.push(this.gamesRecomendados[0].mensaje);
-         
-        
-       }
-          this.games=gameR;
-          this.mensaje=msg;
-       
-     
-     
 
-
-      }else if(this.typeR=='deportes'){
-      for ( var x = 0; x < this.gamesRecomendados[1].games.length; x ++){
-         gameR.push(this.gamesRecomendados[1].games[x]);
-         msg.push(this.gamesRecomendados[1].mensaje);
-         
-        
-       }
-          this.games=gameR;
-          this.mensaje=msg;
-       
-      
-       }else if(this.typeR=='localizaciones'){
-      for ( var x = 0; x < this.gamesRecomendados[2].games.length; x ++){
-         gameR.push(this.gamesRecomendados[2].games[x]);
-         msg.push(this.gamesRecomendados[2].mensaje);
-         
-        
-       }
-          this.games=gameR;
-          this.mensaje=msg;
-       
-      }
-
-      }
-
-
-     
+      if(this.gamesRecomendados.length>0){
+        if(this.typeR=='jugadores'){
+          for ( var x = 0; x < this.gamesRecomendados[0].games.length; x ++){
+             gameR.push(this.gamesRecomendados[0].games[x]);
+             msg.push(this.gamesRecomendados[0].mensaje);
+           }
+              this.games=gameR;
+              this.mensaje=msg;
+        }else if(this.typeR=='deportes'){
+          for ( var x = 0; x < this.gamesRecomendados[1].games.length; x ++){
+             gameR.push(this.gamesRecomendados[1].games[x]);
+             msg.push(this.gamesRecomendados[1].mensaje);
+           }
+              this.games=gameR;
+              this.mensaje=msg;
+           
+        }else if(this.typeR=='localizaciones'){
+          for ( var x = 0; x < this.gamesRecomendados[2].games.length; x ++){
+             gameR.push(this.gamesRecomendados[2].games[x]);
+             msg.push(this.gamesRecomendados[2].mensaje);
+           }
+              this.games=gameR;
+              this.mensaje=msg;     
+          }
+        }
     },
 
     custom(hora){

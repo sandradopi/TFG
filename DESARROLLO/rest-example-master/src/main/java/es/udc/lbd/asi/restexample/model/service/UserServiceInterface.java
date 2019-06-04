@@ -18,6 +18,7 @@ import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.dto.ActivitiesDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.PlayerDTO;
@@ -46,6 +47,9 @@ public interface UserServiceInterface {
 	public NormalUserDTO updatePassword(String login, String password);
 	public Resource getImageAsResource(String fileName) throws Exception;
 	public void store(MultipartFile file) throws Exception;
+	public NormalUserDTO getCurrentUserWithoutAuthority();
+	public AdminUserDTO getCurrentUserWithAuthority();
+	public UserDTO getCurrentUserWithAuthorityUser();
 
   
 

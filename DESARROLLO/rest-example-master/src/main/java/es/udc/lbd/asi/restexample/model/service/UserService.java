@@ -448,7 +448,7 @@ public class UserService implements UserServiceInterface{
 
 	         
 	     }
-	     
+	     @Override
 	     public AdminUserDTO getCurrentUserWithAuthority() {
 	         String currentUserLogin = SecurityUtils.getCurrentUserLogin();
 	         if (currentUserLogin != null) {
@@ -456,7 +456,7 @@ public class UserService implements UserServiceInterface{
 	         }
 	         return null;
 	     }
-	     
+	     @Override
 	     public NormalUserDTO getCurrentUserWithoutAuthority() {
 	         String currentUserLogin = SecurityUtils.getCurrentUserLogin();
 	         if (currentUserLogin != null) {
@@ -464,6 +464,7 @@ public class UserService implements UserServiceInterface{
 	         }
 	         return null;
 	     }
+	     @Override
 	     public UserDTO getCurrentUserWithAuthorityUser() {
 	         String currentUserLogin = SecurityUtils.getCurrentUserLogin();
 	         if (currentUserLogin != null) {

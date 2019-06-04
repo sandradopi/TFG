@@ -279,7 +279,7 @@ export default {
       var ganadosB=0;
 
       for ( var i = 0; i < this.setsA.length; i ++){
-        if(this.setsA[i]> this.setsB){
+        if(this.setsA[i]> this.setsB[i]){
           ganadosA++;
         }else{
           ganadosB++;
