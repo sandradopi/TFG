@@ -332,7 +332,7 @@ export default {
 	float:right;
 	background: #f3f3f3;
 	width:40%;
-	height:89%;
+	height:500px;
 	border-radius: 6px;
 
 }

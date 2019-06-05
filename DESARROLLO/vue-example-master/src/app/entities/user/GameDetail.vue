@@ -336,7 +336,7 @@ export default {
     margin-left:120px;
     margin-top:50px;
     margin-bottom:59px;
-    height:66%;
+    height:71.5%;
     border-radius: 6px;
 }
 .title{
