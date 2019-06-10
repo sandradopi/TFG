@@ -348,7 +348,7 @@ data() {
     fetchData(){
       this.usuarioMessages=null
       this.newMensaje=""
-      if(this.isLogged){
+      if(this.isLogged && !this.isAdmin){
        HTTP.get(`users/${this.WhatLogin1()}/pendingResult`) 
                 .then(response => { this.gamesResult= response.data
                       return response })

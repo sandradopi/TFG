@@ -119,9 +119,9 @@ export default {
        }else if(this.tipo=='recomendados'){
          
           HTTP.get(`users/${this.WhatLogin()}/recomendados`) 
-                .then(response => { this.gamesRecomendados = response.data
-                        return response.data})
-                .then(this.filterGamesRecomendados)
+          .then(response => {this.gamesRecomendados = response.data 
+            return response.data})
+          .then(this.filterGamesRecomendados)
       }
 
     },

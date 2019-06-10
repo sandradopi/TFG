@@ -63,7 +63,7 @@ public class GameService implements GameServiceInterface{
   @Autowired
   private NotificationTask notificationTask;
 
-
+@PreAuthorize("hasAuthority('USER')")
 @Override
 public List<GameDTO> findAll() {
 	return gameDAO.findAll().stream().map(game -> new GameDTO(game)).collect(Collectors.toList());

@@ -292,6 +292,7 @@ export default {
     	equipoB.sets=this.setsB;
     	this.resultado.equipoA=equipoA;
     	this.resultado.equipoB=equipoB;
+      console.log(this.resultado)
 
     	 HTTP.put(`games/${this.game.idGame}`,this.resultado)
               .then(this._successHandler)

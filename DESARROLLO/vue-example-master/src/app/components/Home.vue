@@ -135,6 +135,17 @@ export default {
     '$route': 'fetchData',
     
   },
+   computed: {
+    isLogged() {
+      return auth.user.logged
+    },
+    loggedUser() {
+      return auth.user.logged ? `${auth.user.login} (${auth.user.authority})` : 'not logged'
+    },
+    isAdmin() {
+       return auth.isAdmin()
+     }
+  },
   created() { //se va a lanzar siempre en una clase de componentes
 
     this.fetchData()
@@ -142,7 +153,7 @@ export default {
 
   methods: {
     fetchData() {  
-      if(this.$route.params.id==true){
+      if(this.$route.params.id==true && !this.isAdmin){
          HTTP.get(`users/${this.WhatLogin()}/pendingResult`) 
                 .then(response => { this.games= response.data
                       return response })
