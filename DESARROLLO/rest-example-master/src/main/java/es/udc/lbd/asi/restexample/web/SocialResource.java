@@ -28,7 +28,7 @@ import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.EventBeforeDayException;
 import es.udc.lbd.asi.restexample.model.exception.GameColapseException;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
-import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
+import es.udc.lbd.asi.restexample.model.exception.DeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.CommentService;
 import es.udc.lbd.asi.restexample.model.service.SocialRelationShipService;

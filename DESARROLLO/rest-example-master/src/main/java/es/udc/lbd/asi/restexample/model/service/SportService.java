@@ -31,7 +31,7 @@ import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
-import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
+import es.udc.lbd.asi.restexample.model.exception.DeleteException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
@@ -144,11 +144,11 @@ public SportDTO update(SportDTO sport) throws SportExistsException, RequiredFiel
 @PreAuthorize("hasAuthority('ADMIN')")
 @Transactional(readOnly = false)
 @Override
-public void deleteById(Long idSport) throws SportDeleteException {
+public void deleteById(Long idSport) throws DeleteException {
 	Boolean bol=false;
 	Sport bdSport = sportDAO.findById(idSport);
 	if (gameDAO.findBySport(bdSport)!=0){
-		throw new SportDeleteException("Este deporte tiene asociados actualmente partidos");
+		throw new DeleteException("Este deporte tiene asociados actualmente partidos");
 	}
 
 		List<Team> team= teamDAO.findBySport(bdSport);

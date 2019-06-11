@@ -97,14 +97,14 @@ export default {
     _successHandler(response) {
       this.bol=false;
       this.$emit('Cerrar');
+      this.$swal('Eliminado', 'Se ha borrado correctamente el deporte', 'success')
 
     },
+   
 
     _errorHandler(err) {
       this.error = err.response.data.message
-        Vue.notify({
-               text: this.error,
-               type: 'error'})
+      this.$swal('Alerta', 'Este deporte tiene asociado actualmente partidos', 'error')
       
     },
     alertDisplay() {
@@ -113,7 +113,7 @@ export default {
           buttons: true
         }).then((result) => {
             if(result) {
-                this.$swal('Eliminado', 'Se ha borrado correctamente el deporte', 'success')
+              
                  HTTP.delete(`sports/${this.idDeporte}`)
                       .then(this._successHandler)
                        .catch(this._errorHandler)

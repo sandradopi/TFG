@@ -15,7 +15,7 @@ import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
-import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
+import es.udc.lbd.asi.restexample.model.exception.DeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.dto.ActivitiesDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.AdminUserDTO;
@@ -34,7 +34,7 @@ public interface UserServiceInterface {
 	public List<UserDTO> findAll();
 	public List<GameDTO> findGamesCreated(String login);
 	public List<RecomendacionDTO> findGamesRecomendados(String login);
-	public void deleteById(Long idUser) throws SportDeleteException;
+	public void deleteById(Long idUser) throws DeleteException;
 	public List<GameDTO> findGamesNext(String login);
 	public List<GameDTO> findGamesPlayed(String login);
 	public List<UserDTO> findAllNoAdmin();

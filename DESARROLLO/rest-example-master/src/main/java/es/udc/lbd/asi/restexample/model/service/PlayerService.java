@@ -21,7 +21,7 @@ import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.User_;
 import es.udc.lbd.asi.restexample.model.exception.EventBeforeDayException;
 import es.udc.lbd.asi.restexample.model.exception.MaxPlayersException;
-import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
+import es.udc.lbd.asi.restexample.model.exception.DeleteException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;

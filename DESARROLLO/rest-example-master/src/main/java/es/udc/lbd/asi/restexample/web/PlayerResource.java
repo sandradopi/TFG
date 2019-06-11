@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.exception.MaxPlayersException;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
-import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
+import es.udc.lbd.asi.restexample.model.exception.DeleteException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.service.GameService;

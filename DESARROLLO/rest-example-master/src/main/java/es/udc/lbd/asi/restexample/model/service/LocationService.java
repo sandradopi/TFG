@@ -15,7 +15,7 @@ import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
 import es.udc.lbd.asi.restexample.model.exception.LocationExistsException;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
-import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
+import es.udc.lbd.asi.restexample.model.exception.DeleteException;
 import es.udc.lbd.asi.restexample.model.exception.TeamExistsException;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
@@ -58,11 +58,11 @@ public LocationDTO findById(Long idLocation) {
 @PreAuthorize("hasAuthority('ADMIN')")
 @Transactional(readOnly = false)
 @Override
-public void deleteById(Long idLocation) throws SportDeleteException {
+public void deleteById(Long idLocation) throws DeleteException {
 	Location location=locationDAO.findById(idLocation);
 	
 	if (gameDAO.findByLocation(location)!=0){
-		throw new SportDeleteException("Esta localización tiene asociados actualmente partidos");
+		throw new DeleteException("Esta localización tiene asociados actualmente partidos");
 	}
 	
 	 for(Sport a: location.getSports()){

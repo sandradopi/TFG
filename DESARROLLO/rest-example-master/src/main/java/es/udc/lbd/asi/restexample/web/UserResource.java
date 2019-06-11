@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import es.udc.lbd.asi.restexample.model.domain.Sport;
-import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
+import es.udc.lbd.asi.restexample.model.exception.DeleteException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.service.dto.ActivitiesDTO;
@@ -140,7 +140,7 @@ public class UserResource {
     
 
     @DeleteMapping("/{idUser}")
-    public void delete(@PathVariable Long idUser) throws InstanceNotFoundExceptionHIB, SportDeleteException{
+    public void delete(@PathVariable Long idUser) throws InstanceNotFoundExceptionHIB, DeleteException{
         userService.deleteById(idUser);
     }
     
