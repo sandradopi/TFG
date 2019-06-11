@@ -13,6 +13,7 @@ import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,29 +23,18 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import es.udc.lbd.asi.restexample.model.domain.Game;
 import es.udc.lbd.asi.restexample.model.domain.Location;
-import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
-import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
-import es.udc.lbd.asi.restexample.model.exception.EmailIncorrect;
-import es.udc.lbd.asi.restexample.model.exception.EventBeforeDayException;
-import es.udc.lbd.asi.restexample.model.exception.GameColapseException;
 import es.udc.lbd.asi.restexample.model.exception.LocationExistsException;
-import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
+import es.udc.lbd.asi.restexample.model.exception.SportDeleteException;
 import es.udc.lbd.asi.restexample.model.exception.SportExistsException;
-import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
-import es.udc.lbd.asi.restexample.model.service.GameService;
 import es.udc.lbd.asi.restexample.model.service.LocationService;
 import es.udc.lbd.asi.restexample.model.service.SportService;
-import es.udc.lbd.asi.restexample.model.service.UserService;
-import es.udc.lbd.asi.restexample.model.service.dto.GameDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.LocationDTO;
-import es.udc.lbd.asi.restexample.model.service.dto.NormalUserDTO;
 import es.udc.lbd.asi.restexample.model.service.dto.SportDTO;
-import es.udc.lbd.asi.restexample.web.GameResource;
 
 
 
@@ -53,54 +43,183 @@ import es.udc.lbd.asi.restexample.web.GameResource;
 @WithMockUser(username = "admin", authorities = { "ADMIN", "USER" })
 public class TestPlay2Gether {
 
-	@Autowired
-	private  GameService gameService;
+
 	@Autowired
 	private  LocationService locationService;
-	@Autowired
-	private  UserService userService;
+	
 	@Autowired
 	private  SportService sportService;
+	
 	static final LocalDate FECHA = LocalDate.now();
     static final LocalTime HORA = LocalTime.now();
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 
-	@Test
-	public void testCompleto() {
-		try {
-			a_Test_Game();
-		} catch (UserLoginEmailExistsException | RequiredFieldsException | PasswordTooShort | EmailIncorrect
-				| LocationExistsException | SportExistsException | GameColapseException | EventBeforeDayException
-				| ParseException | MessagingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+	public void testCompleto() throws LocationExistsException, RequiredFieldsException {
+			a_Test_Location();
+			a_Test_Location_locationExist();
+			a_Test_Location_RequiredFieldsException();
+			a_Test_Sport();
+			
 		
 	}
 	
-	private void a_Test_Game() throws UserLoginEmailExistsException, RequiredFieldsException, PasswordTooShort, EmailIncorrect, ParseException, LocationExistsException, SportExistsException, AddressException, GameColapseException, EventBeforeDayException, MessagingException {
-		//Devolver el total de partidos
-		List<GameDTO>listaxeGamesFiltro= new ArrayList();
-		listaxeGamesFiltro= gameService.findAll();
-		assertEquals (4,listaxeGamesFiltro.size());
-		//Añadir un partido
-		Set <Location>locationsGolf = new <Location> HashSet();
-		Sport sport1=new Sport("Golf","GolfForm","GolfResult",locationsGolf,"Golf.png"); 
-		sportService.save(new SportDTO(sport1));
-		Location location1=new Location("Culleredo", new Double(46.350538),new Double(-8.451573));
-		locationService.save(new LocationDTO(location1));
-		NormalUser user1= new NormalUser("maria", "maria", "maria99@outlook.com", "Maria", "Aira", "Lorenzo",UserAuthority.USER,"Madrid",0,null,null,null);
-		userService.registerUser(user1.getLogin(),user1.getEmail(), user1.getPassword(),user1.getName(),user1.getSurname1(),user1.getSurname2(),user1.getCity(),user1.getBirthday(),"maria.jpg");
-		Game bdGame3 = new Game(FECHA.plusDays(4),HORA.minusHours(3), HORA.minusHours(2),new Long(4),new Long(2));	
-		bdGame3.setSport(sport1);
-		bdGame3.setLocation(location1);
-		bdGame3.setCreator(user1);
-		gameService.save(new GameDTO(bdGame3));
-		//Devolver el total de partidos
-		listaxeGamesFiltro= gameService.findAll();	
-		assertEquals (5,listaxeGamesFiltro.size());
+	///////////////////////////////////LOCATIONS///////////////////////////////////////////
+	@Test
+	public void a_Test_Location() {
+		//Devolver el total de localizaciones
+		List<LocationDTO>listaxeLocation= new ArrayList();
+		listaxeLocation= locationService.findAll();
+		assertEquals (3,listaxeLocation.size());
+		
+		//Crear Localización
+		 Location location1 = new Location("Culleredo",  new Double(46.301454),new Double(-4.373114));
+		 LocationDTO location1d = new LocationDTO(location1);
+		 try {
+			locationService.save(location1d);
+		} catch (LocationExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RequiredFieldsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		listaxeLocation= locationService.findAll();
+		assertEquals (4,listaxeLocation.size());
+		
+		//Recuperar una localizacion
+	    assertEquals (location1d.getLatitud(),locationService.findById(new Long(4)).getLatitud());
+	    assertEquals (location1d.getLongitud(),locationService.findById(new Long(4)).getLongitud());
+	    assertEquals (location1d.getName(),locationService.findById(new Long(4)).getName());
+	    
+	    //Recuperar una localizacion por deportes
+	    assertEquals (1,locationService.findAllSport(new Long(4)).size());
+	    assertEquals (2,locationService.findAllSport(new Long(1)).size());
+	    assertEquals (1,locationService.findAllSport(new Long(2)).size());
+	    assertEquals (1,locationService.findAllSport(new Long(3)).size());
+	    
+	    //Actualizar una localizacion
+	    LocationDTO locationForUpdate= locationService.findById(new Long(1));
+	    locationForUpdate.setName("Parque Oza");
+	    String NameUpdated =locationService.update(locationForUpdate).getName();
+	    assertEquals (locationService.findById(new Long(1)).getName(),NameUpdated);
+	    
+	  
+		//Borrar una localización
+	    try {
+			locationService.deleteById(new Long(4));
+		} catch (SportDeleteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    listaxeLocation= locationService.findAll();
+		assertEquals (3,listaxeLocation.size());
+	    
+		
+	}
+	
+	@Test(expected= LocationExistsException.class)
+	public void a_Test_Location_locationExist() throws LocationExistsException, RequiredFieldsException {
+		//Crear localización duplicada
+		 Location location2=new Location("Paddel Plus",  new Double(43.301454),new Double(-8.373114));
+		 LocationDTO location2d = new LocationDTO(location2);
+		 locationService.save(location2d);
+		
+		
+	}
+	
+	@Test(expected= RequiredFieldsException.class)
+	public void a_Test_Location_RequiredFieldsException() throws LocationExistsException, RequiredFieldsException {
+		//Crear localización duplicada
+	    Location location2= new Location(null, new Double(46.373774),new Double(-8.373114));
+		LocationDTO location2d = new LocationDTO(location2);
+	    locationService.save(location2d);
+		
+		
 	}
 
+	///////////////////////////////////SPORTS///////////////////////////////////////////
+
+	@Test
+	public void a_Test_Sport()  {
+		//Devolver el total de deportes
+		List<SportDTO>listaxeSport= new ArrayList();
+		listaxeSport= sportService.findAll();
+		assertEquals (4,listaxeSport.size());
+		
+		//Crear un Deporte
+		 Set <Location>locationsGolf = new <Location> HashSet();
+		 Sport sport1=new Sport("Golf","GolfForm","GolfResult",locationsGolf,"Golf.png");
+		 SportDTO sport1d= new SportDTO(sport1);
+		 try {
+			sportService.save(sport1d);
+		} catch (SportExistsException | RequiredFieldsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		 listaxeSport= sportService.findAll();
+		 assertEquals (5,listaxeSport.size());
+		 
+		//Buscar deporte
+		 assertEquals (sport1d.getType(),sportService.findById(new Long(5)).getType());
+		 assertEquals (sport1d.getComponenteEntrada(),sportService.findById(new Long(5)).getComponenteEntrada());
+		 assertEquals (sport1d.getComponenteVisualizacion(),sportService.findById(new Long(5)).getComponenteVisualizacion());
+		
+		 //Actualizar un deporte
+		 SportDTO sportForUpdate= sportService.findById(new Long(5));
+		 sportForUpdate.setType("GolfAdvanced");
+		 String NameUpdated = null;
+		try {
+			NameUpdated = sportService.update(sportForUpdate).getType();
+		} catch (SportExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (RequiredFieldsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		  assertEquals (sportService.findById(new Long(5)).getType(),NameUpdated);
+		  
+
+	   //Borrar una localización
+		
+		 try {
+			sportService.deleteById(new Long(5));
+		} catch (SportDeleteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 listaxeSport= sportService.findAll();
+		 assertEquals (4,listaxeSport.size()); 
+		 
+	}
+	
+	@Test(expected= SportExistsException.class)
+	public void a_Test_Sport_sportExist() throws SportExistsException, RequiredFieldsException  {
+		 List<SportDTO>listaxeSport= new ArrayList();
+		 Set <Location>locationsGolf = new <Location> HashSet();
+		 Sport sport1=new Sport("Tennis","GolfForm","GolfResult",locationsGolf,"Golf.png");
+		 SportDTO sport1d= new SportDTO(sport1);
+		 sportService.save(sport1d);
+		
+		
+		
+	}
+	
+	@Test(expected= RequiredFieldsException.class)
+	public void a_Test_Sport_RequiredFieldsException() throws SportExistsException, RequiredFieldsException  {
+		List<SportDTO>listaxeSport= new ArrayList();
+		 Set <Location>locationsGolf = new <Location> HashSet();
+		 Sport sport1=new Sport(null,"GolfForm","GolfResult",locationsGolf,"Golf.png");
+		 SportDTO sport1d= new SportDTO(sport1);
+		 sportService.save(sport1d);
+		
+		
+		
+	}
+	
+	
 	
 }
