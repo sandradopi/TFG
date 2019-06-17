@@ -16,17 +16,18 @@
       <div class="information message2">
        
 
-     <div class="formulario">
-		   
-	 <b-form-group>
+  <div class="formulario">
+	<b-form-group>
 	<div class="info">
-	<span class="w3-large">Sets Equipo A:</span><br>
+
+	  <span class="w3-large">Sets Equipo A:</span><br>
     <div class="bloque" v-for=" playerG in playersA" :key="playerG.idPlayer">
      <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
-     <div class="conj">	
-     <span class="w3-large">{{playerG.player.login}}</span><br>
-            <b-form-group class="conj1">
-                 <b-form-input
+      <div class="conj">	
+      <span class="w3-large">{{playerG.player.login}}</span><br>
+
+          <b-form-group class="conj1">
+            <b-form-input
 		          id="players"
 		          v-model="setsA[0]"
 		          type="text"
@@ -42,20 +43,18 @@
 		          required
 		          placeholder=""></b-form-input>
 
-		          <b-form-input
+		        <b-form-input
 		          id="players"
 		          v-model="setsA[2]"
 		          type="text"
 		          autocomplete="off"
 		          required
-		          placeholder=""></b-form-input>
-
-		         
+		          placeholder=""></b-form-input>     
 		    </b-form-group>
 
-	</div>
-
+	    </div>
     </div>
+
 	</br>
 	<span class="w3-large"></span><br>
 	</br>

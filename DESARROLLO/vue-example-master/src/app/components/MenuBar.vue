@@ -244,6 +244,7 @@
                 :preserve-search="true"
                 :close-on-select="true" 
                 :show-labels="false"
+                :optionsLimit="3"
                 @close="selectOnSelect()"
                 placeholder="Buscar en PLAY2GETHER"
                 :custom-label="nameCustom"
