@@ -529,11 +529,28 @@ data() {
       handleOk1(evt) {
        evt.preventDefault()
        var bol=false;
+       var equipoA=0;
+       var equipoB=0;
+
          for ( var i = 0; i < this.playersChange.length; i ++){
           if (!this.playersChange[i].equipo) {
            this.$swal('Alerta!', "Todos los jugadores han de estar en un equipo", 'error')
            bol=true;
           }
+          if (this.playersChange[i].equipo=='A') {
+           equipoA++;
+          }
+          if (this.playersChange[i].equipo=='B') {
+           equipoB++;
+          }
+        }
+        if(equipoA==this.playersChange.length){
+            this.$swal('Alerta!', "Todos los jugadores no pueden pertenecer al mismo equipo", 'error')
+            bol=true;
+        }
+         if(equipoB==this.playersChange.length){
+            this.$swal('Alerta!', "Todos los jugadores no pueden pertenecer al mismo equipo", 'error')
+            bol=true;
         }
         if(bol==false){
           this.updateTeams().then(() => {

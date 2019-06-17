@@ -58,11 +58,11 @@ public class CommentResource {
     }
     
     @PostMapping("/game")
-    public GameMessageDTO save(@RequestBody @Valid GameMessageDTO commentGame)  { 
+    public GameMessageDTO saveCommentGame(@RequestBody @Valid GameMessageDTO commentGame)  { 
         return commentService.saveComment(commentGame);
     }
     @PostMapping("/user")
-    public UserMessageDTO save(@RequestBody @Valid UserMessageDTO commentUser)  {
+    public UserMessageDTO saveMessageUser(@RequestBody @Valid UserMessageDTO commentUser)  {
         return commentService.saveComment(commentUser);
     }
     

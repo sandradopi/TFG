@@ -53,8 +53,8 @@
 
 
 	<div class="info">
-	<span class="w3-large">Valoraciones Jugadores A:</span><br>
-    <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
+	<span class="w3-large">Valoraciones Jugadores:</span><br>
+    <div class="bloque" v-for=" playerG in this.players" :key="playerG.idPlayer">
      <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
      <div class="conj">	
        <b-btn class="button2" v-if="bolComment[playerG.idPlayer]==false"@click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
@@ -75,24 +75,6 @@
     </div>
 	</br>
 	</br>
-  <span class="w3-large">Valoraciones Jugadores B:</span><br>
-     <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
-     <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
-     <div class="conj">	
-       <b-btn class="button2" v-if="bolComment[playerG.idPlayer]==false"@click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
-        <b-btn class="button25" v-if="bolComment[playerG.idPlayer]==true"><font-awesome-icon icon="check"style="font-size:30px;"/></b-btn>
-              <span class="w3-large1">{{playerG.player.login}}</span><br>
-            <multiselect 
-            class="multiselePla"
-            v-model="valorationPlayer[playerG.idPlayer]" 
-            @close="valorar(playerG.idPlayer)"
-            :options="optionsC" 
-            :searchable="true" 
-            :close-on-select="true" 
-            :show-labels="false" 
-            placeholder="Valoracion"></multiselect>
-		      </div>
-      </div>
      </b-form-group>
     </b-form>
 	 </div>

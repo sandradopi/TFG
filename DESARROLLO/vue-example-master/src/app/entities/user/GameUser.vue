@@ -251,6 +251,7 @@ export default {
     goPageFiend(mes){
        this.$refs.modalPrevent8.hide()
        this.$refs.modalPrevent9.hide()
+       this.tipo='proximo';
        this.$router.replace({ name: 'GameUser', params: { id: mes.login}})
     },
    

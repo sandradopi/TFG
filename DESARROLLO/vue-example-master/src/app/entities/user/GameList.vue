@@ -68,6 +68,7 @@ export default {
   watch: {
     '$route': 'fetchData',
      tipo: 'fetchData',
+     login: 'fetchData',
 
     
   },
@@ -83,7 +84,6 @@ export default {
   },
   methods: {
     fetchData() {
-
       this.games=null
       this.mensaje=null
       this.comentarios=null
@@ -128,6 +128,7 @@ export default {
      getImagen(path){
       return baseURL + "users/imagenes/" + path;
     },
+   
 
     filterGamesRecomendados(){ 
 
