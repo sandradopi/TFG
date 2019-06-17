@@ -195,31 +195,38 @@ export default {
 
     checkForm () {
      this.error='';
-	 if(this.setsA.length<2){
+     var longitudA=this.setsA.length;
+     var longitudB=this.setsB.length;
+          for ( var i = 0; i < this.setsB.length; i ++){
+            if(this.setsB[i]==''){
+              longitudB--;
+            }
+           }
+            for ( var i = 0; i < this.setsA.length; i ++){
+            if(this.setsA[i]==''){
+              longitudA--;
+            }
+           }
+
+      if(longitudA<2 && longitudB<2){
+        this.error="Revise los resutados, no se pudo jugar solo 1 set"
+        return false;
+      }
+	    if(longitudA<2){
       		this.error="Le falta por rellenar los resultados de algun set del equipo A"
         	return false;
        }
 
-      if(this.setsB.length<2){
+      if(longitudB<2){
       		this.error="Le falta por rellenar los resultados de algun set del equipo B"
         	return false;
        }
+        if(longitudB!=longitudA){
+             this.error="Revise los sets, un equipo tiene un set más que el otro"
+             return false;
+           }
 
-       if(this.setsB.length==2 && this.setsB.length==2){
-        if((this.setsA[0]>this.setsB[0] && this.setsA[1]<this.setsB[1]) || (this.setsA[0]<this.setsB[0] && this.setsA[1]>this.setsB[1])){
-          this.error="Revise los puntos se los sets, si solo jugaron 2 sets, ambos sets tuvieron que haber sido ganados por el mismo equipo"
-          return false;
-        }
-       }
-
-        if(this.setsB.length!=this.setsB.length){
-          this.error="Revise los sets, un equipo tiene un set más que el otro"
-          return false;
-        
-       }
-
-
-      for ( var i = 0; i < this.setsA.length; i ++){
+      for ( var i = 0; i < longitudA; i ++){
       	if(this.setsA[i]>7){
       		var set=i+1;
         	this.error="Revise los puntos del set "+set+" del equipo A, no pueden se superior a 7"
@@ -228,8 +235,6 @@ export default {
         }else if(this.setsA[i]==7){
         	var set=i+1;
         	if((7-this.setsB[i])>2){
-				console.log(this.setsB[i])
-        		console.log(7-this.setsB[i])
         		this.error="Revise los puntos del set "+set+" del equipo A y B, si se ha llegado a 7 puntos la diferencia con el equipo contrincante a de ser de 2 o 1 en caso de timeBreak"
         	return false;
 
@@ -239,11 +244,16 @@ export default {
         	this.error="Revise los puntos del set "+set+" del equipo A y B, ninguno a llegado a 6 puntos, los necesarios para acabar ese set"
         	return false;
 
+        
+      }else if((this.setsA[i]==6) && (this.setsB[i]==6)){
+          var set=i+1;
+         this.error="Revise los puntos del set "+set+" del equipo A y B, ambos han llegado a 6 puntos"
+          return false;
+
         }
       }
 
-       for ( var i = 0; i < this.setsB.length; i ++){
-       	
+       for ( var i = 0; i < longitudB; i ++){
         if(this.setsB[i]>7){
         	var set=i+1;
         	this.error="Revise los puntos del set "+set+" del equipo B, no pueden se superior a 7"
@@ -261,7 +271,21 @@ export default {
         	return false;
 
         }
+        else if((this.setsB[i]==6) && (this.setsA[i]==6)){
+          var set=i+1;
+          this.error="Revise los puntos del set "+set+" del equipo A y B, ambos han llegado a 6 puntos"
+          return false;
+
+        }
+
       }
+      if(longitudB==2 && longitudA==2){
+        if((this.setsA[0]>this.setsB[0] && this.setsA[1]<this.setsB[1]) || (this.setsA[0]<this.setsB[0] && this.setsA[1]>this.setsB[1])){
+          this.error="Revise los puntos se los sets, si solo jugaron 2 sets, ambos sets tuvieron que haber sido ganados por el mismo equipo"
+          return false;
+        }
+       }
+
 
       if(this.error.length==0){
       	return true;
