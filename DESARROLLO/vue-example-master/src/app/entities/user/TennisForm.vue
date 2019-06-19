@@ -149,7 +149,7 @@ export default {
 
   methods: {
     fetchData() {
-    	 this.game={}
+    	this.game={}
        this.loading=false;
     	 HTTP.get(`games/${this.$route.params.id}`) 
           .then(response => { this.game = response.data
@@ -161,6 +161,7 @@ export default {
     },
   
 	jugadoresJuego(){
+    this.players=[];
 		  HTTP.get(`players/${this.$route.params.id}`) 
 		          .then(response => { this.players = response.data
 		                 return response })
@@ -176,7 +177,8 @@ export default {
 	
 
 	 DividirEnEquipos(){
-
+    this.playersA=[];
+    this.playersB=[];
     	 for ( var i = 0; i < this.players.length; i ++){
     	 	if(this.players[i].equipo=='A'){
     	 		this.playersA.push(this.players[i])

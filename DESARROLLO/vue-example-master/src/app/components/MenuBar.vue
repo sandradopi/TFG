@@ -314,7 +314,8 @@ data() {
       userFrom:{},
       userTo:{},
       usuarioSearch:null,
-      countMessages:0
+      countMessages:0,
+      intentoJugador:0,
 
      
     }
@@ -597,6 +598,7 @@ data() {
 
     },
     ChangePage(){
+      this.intentoJugador++;
       this.equiposJugadores=[]
        this.$nextTick(() => {
           // Wrapped in $nextTick to ensure DOM is rendered before closing
@@ -604,8 +606,7 @@ data() {
 
       })
        if(this.bol==true){
-        
-          this.$router.replace({ name: this.gameSelect.sport.componenteEntrada, params: { id:this.gameSelect.idGame}})
+          this.$router.replace({ name: this.gameSelect.sport.componenteEntrada, params: { id:this.gameSelect.idGame, intento:this.intentoJugador}})
         
      }else{
           this.$router.replace({ name: 'ValorationGame', params: { id:this.gameSelect.idGame}})

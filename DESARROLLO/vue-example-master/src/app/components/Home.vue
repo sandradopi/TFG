@@ -212,7 +212,7 @@ export default {
     }, 
     ChangePage(){
        this.equiposJugadores=[]
-        this.$router.replace({ name: this.gameSelect.sport.componenteEntrada, params: { id:this.gameSelect.idGame}})
+        this.$router.replace({ name: this.gameSelect.sport.componenteEntrada, params: { id:this.gameSelect.idGame, intento:0}})
 
     },
 
