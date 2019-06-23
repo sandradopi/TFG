@@ -53,8 +53,8 @@
 
 
 	<div class="info">
-	<span class="w3-large">Valoraciones Jugadores:</span><br>
-    <div class="bloque" v-for=" playerG in this.players" :key="playerG.idPlayer">
+	<span class="w3-large">Valoraciones Jugadores A:</span><br>
+    <div class="bloque" v-for=" playerG in this.playersA" :key="playerG.idPlayer">
      <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
      <div class="conj">	
        <b-btn class="button2" v-if="bolComment[playerG.idPlayer]==false"@click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
@@ -78,6 +78,32 @@
      </b-form-group>
     </b-form>
 	 </div>
+    <div class="info">
+  <span class="w3-large">Valoraciones Jugadores B:</span><br>
+    <div class="bloque" v-for=" playerG in this.playersB" :key="playerG.idPlayer">
+     <img class="foto"v-bind:src="getImagen(playerG.player.rutaImagen)" class="foto" style="width:60px">
+     <div class="conj"> 
+       <b-btn class="button2" v-if="bolComment[playerG.idPlayer]==false"@click="activarModal(playerG.idPlayer)"><font-awesome-icon icon="comment-dots"style="font-size:30px;"/></b-btn>
+       <b-btn class="button25" v-if="bolComment[playerG.idPlayer]==true"><font-awesome-icon icon="check"style="font-size:30px;"/></b-btn>
+              <span class="w3-large1">{{playerG.player.login}}</span><br>
+
+          <multiselect 
+            class="multiselePla"
+            v-model="valorationPlayer[playerG.idPlayer]" 
+            @close="valorar(playerG.idPlayer)"
+            :options="optionsC" 
+            :searchable="true" 
+            :close-on-select="true" 
+            :show-labels="false" 
+            placeholder="Valoracion"></multiselect>
+           
+          </div>
+    </div>
+  </br>
+  </br>
+     </b-form-group>
+    </b-form>
+   </div>
   </div>
  </div>
 </template>
@@ -152,6 +178,7 @@ export default {
                  return response })
           .then(this.recuperarMyPlayer)
           .then(this.jugadoresJuego)
+          .then(this.dividirEnEqipos)
           .catch(err => { this.error = err.message})
     	    	
       
@@ -208,10 +235,12 @@ export default {
         }
       }
       if(bol==false){
+        console.log(id)
          valoracion.player=id;
          valoracion.valoration=this.valorationPlayer[id];
          valoracion.user=null;
          this.valoraciones.push(valoracion)
+        
         
      }
      
@@ -233,7 +262,6 @@ export default {
     guardar(){
       if(this.checkForm()==true){
     	 for ( var i = 0; i < this.valoraciones.length; i ++){
-        this.posicion;
          HTTP.get(`players/findPlayer/${this.valoraciones[i].player}`) 
               .then(response => {this.jugador = response.data
                     return response})
@@ -242,7 +270,6 @@ export default {
               .catch(err => { this.error = err.message})
 
        }
-
     	 HTTP.put(`players/${this.player.idPlayer}/${this.valorationGame}`)
               .then(this._successHandler)
               .catch(this._errorHandler)
@@ -251,14 +278,19 @@ export default {
       }
     	
     },
+   
     subirValoracion(){
+    var posi=0;
 
     this.valoraciones[this.posicion].user=this.usuario;
     this.valoraciones[this.posicion].player=this.jugador;
-    HTTP.post('playersValoration', this.valoraciones[this.posicion]) 
-          .then(this._successHandler)
-          .catch(this._errorHandler)
+    posi= this.posicion;
     this.posicion++;
+
+    return HTTP.post('playersValoration', this.valoraciones[posi]) 
+          .catch(this._errorHandler)
+   
+   
     },
    
     activarModal(id){
@@ -304,7 +336,6 @@ export default {
         var valoracion=new Object();
         var bol=false;
        for ( var i = 0; i < this.valoraciones.length; i ++){
-       
         if(this.valoraciones[i].player==this.login){
           bol=true;
           this.valoraciones[i].review=this.comment;

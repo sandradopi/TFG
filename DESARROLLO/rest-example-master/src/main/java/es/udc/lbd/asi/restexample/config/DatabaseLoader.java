@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.service.SportService;
 import es.udc.lbd.asi.restexample.model.service.UserService;
 import es.udc.lbd.asi.restexample.model.domain.Game;
+import es.udc.lbd.asi.restexample.model.domain.GameMessage;
 import es.udc.lbd.asi.restexample.model.domain.Location;
 import es.udc.lbd.asi.restexample.model.domain.NormalUser;
 import es.udc.lbd.asi.restexample.model.domain.Player;
@@ -28,9 +29,11 @@ import es.udc.lbd.asi.restexample.model.domain.PlayerValoration;
 import es.udc.lbd.asi.restexample.model.domain.SocialFriendShip;
 import es.udc.lbd.asi.restexample.model.domain.Sport;
 import es.udc.lbd.asi.restexample.model.domain.Team;
+import es.udc.lbd.asi.restexample.model.domain.UserMessage;
 import es.udc.lbd.asi.restexample.model.exception.PasswordTooShort;
 import es.udc.lbd.asi.restexample.model.exception.RequiredFieldsException;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginEmailExistsException;
+import es.udc.lbd.asi.restexample.model.repository.CommentDAO;
 import es.udc.lbd.asi.restexample.model.repository.GameDAO;
 import es.udc.lbd.asi.restexample.model.repository.LocationDAO;
 import es.udc.lbd.asi.restexample.model.repository.PlayerDAO;
@@ -77,6 +80,9 @@ public class DatabaseLoader {
     @Autowired
     private SocialRelationShipDAO socialDAO;
     
+    @Autowired
+    private CommentDAO commentDAO;
+    
     static final LocalDate FECHA = LocalDate.now();
     static final LocalTime HORA = LocalTime.now();
 
@@ -105,6 +111,8 @@ public class DatabaseLoader {
     userService.registerUser("laura", "guajndos@gmail.com","laura", false,"Laura", "Insua","Regueiro","Bilbao", sdf.parse("1960-12-18"),"laura.jpg");
     userService.registerUser("sandra","vicfic23@gmail.com","sandra", false,"Sandra","Dopico","Cantarero","A Coruña", sdf.parse("1997-08-20"),"sandra.jpg");
     userService.registerUser("lucas", "sandra111@outlook.com","lucas", false,"Lucas", "Vazquez", "Lorenzo","Madrid", sdf.parse("2003-03-17"),"lucas.jpg");
+    userService.registerUser("rosa", "rosa@outlook.com","rosa", false,"Rosa", "Donosti", "López","Bilbao", sdf.parse("1995-03-17"),"rosa.jpg");
+    
   
     Location location1=new Location("Parque de Oza", new Double(43.350538),new Double(-8.401573));
     Location location2=new Location("Bastiagueiro",  new Double(43.340167),new Double(-8.35426));
@@ -150,6 +158,36 @@ public class DatabaseLoader {
 	bdGame1.setCreator(userDAO.findByLoginNormal("sandra"));
 	gameDAO.save(bdGame1);
 	
+	Game bdGame44 = new Game(FECHA.minusDays(4),HORA.plusHours(2), HORA.plusHours(3),new Long(4),new Long(2));	
+	bdGame44.setSport(sport1);
+	bdGame44.setLocation(location2);
+	bdGame44.setCreator(userDAO.findByLoginNormal("sandra"));
+	gameDAO.save(bdGame44);
+	
+	Player bdPlayer11 = new Player("A");
+	bdPlayer11.setGame(bdGame44);
+	NormalUser playerUser11= (NormalUser) userDAO.findByLoginNormal("lucas");
+	bdPlayer11.setPlayer(playerUser11);
+	playerDAO.save(bdPlayer11);
+
+	Player bdPlayer12 = new Player("B");
+	bdPlayer12.setGame(bdGame44);
+	NormalUser playerUser12= (NormalUser) userDAO.findByLoginNormal("laura");
+	bdPlayer12.setPlayer(playerUser12);
+	playerDAO.save(bdPlayer12);
+	
+	Player bdPlayer122 = new Player("A");
+	bdPlayer122.setGame(bdGame44);
+	NormalUser playerUser122= (NormalUser) userDAO.findByLoginNormal("sandra");
+	bdPlayer122.setPlayer(playerUser122);
+	playerDAO.save(bdPlayer122);
+	
+	Player bdPlayer1223 = new Player("B");
+	bdPlayer1223.setGame(bdGame44);
+	NormalUser playerUser1223= (NormalUser) userDAO.findByLoginNormal("rosa");
+	bdPlayer1223.setPlayer(playerUser1223);
+	playerDAO.save(bdPlayer1223);
+		
 	Game bdGame2 = new Game(FECHA.minusDays(5),HORA.plusHours(1), HORA.plusHours(2),new Long(4),new Long(2));	
 	bdGame2.setSport(sport2);
 	bdGame2.setLocation(location2);
@@ -161,6 +199,12 @@ public class DatabaseLoader {
 	NormalUser playerUser= (NormalUser) userDAO.findByLoginNormal("lucas");
 	bdPlayer.setPlayer(playerUser);
 	playerDAO.save(bdPlayer);
+	
+	Player bdPlayer123 = new Player("A");
+	bdPlayer123.setGame(bdGame2);
+	NormalUser playerUser123= (NormalUser) userDAO.findByLoginNormal("rosa");
+	bdPlayer123.setPlayer(playerUser123);
+	playerDAO.save(bdPlayer123);
 
 	Player bdPlayer1 = new Player("B");
 	bdPlayer1.setGame(bdGame2);
@@ -250,6 +294,43 @@ public class DatabaseLoader {
 	socialship2.setUserFrom(playerUser6);
 	socialDAO.save(socialship2);
 	
+	 UserMessage userMess =new UserMessage();
+	 userMess.setContentComment("¿Hola Sandra, que tal estás?");
+	 userMess.setDate(LocalDateTime.now().minusMinutes(10));
+	 userMess.setToUser((userDAO.findByLoginNormal("sandra")));
+	 userMess.setFromUser((userDAO.findByLoginNormal("laura")));
+	 userMess.setViewed(true);
+	 commentDAO.save(userMess);
+	 
+	 UserMessage userMess1 =new UserMessage();
+	 userMess1.setContentComment("Bien!! Y tú?");
+	 userMess1.setDate(LocalDateTime.now().minusMinutes(9));
+	 userMess1.setToUser((userDAO.findByLoginNormal("laura")));
+	 userMess1.setFromUser((userDAO.findByLoginNormal("sandra")));
+	 userMess1.setViewed(true);
+	 commentDAO.save(userMess1);
+	 
+	 UserMessage userMess2 =new UserMessage();
+	 userMess2.setContentComment("Bien! Te cunto algo?");
+	 userMess2.setDate(LocalDateTime.now().minusMinutes(8));
+	 userMess2.setToUser((userDAO.findByLoginNormal("sandra")));
+	 userMess2.setFromUser((userDAO.findByLoginNormal("laura")));
+	 userMess2.setViewed(false);
+	 commentDAO.save(userMess2);
+	
+	 GameMessage gameMen =new GameMessage();
+     gameMen.setContentComment("Chicos que alguien traiga balón de repuesto!");
+     gameMen.setDate(LocalDateTime.now());
+     gameMen.setFromUser(userDAO.findByLoginNormal("sandra"));
+     gameMen.setGameComment(gameDAO.findById(new Long(6)));
+     commentDAO.save(gameMen);
+     
+     GameMessage gameMen2 =new GameMessage();
+     gameMen2.setContentComment("Llevad ropa de abrigo, va a hacer frio");
+     gameMen2.setDate(LocalDateTime.now());
+     gameMen2.setFromUser(userDAO.findByLoginNormal("laura"));
+     gameMen2.setGameComment(gameDAO.findById(new Long(6)));
+     commentDAO.save(gameMen2);
 	
     }
     
